@@ -1,6 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
+Project("{ADC02402-3846-901C-A39E-890F77C93E82}") = "Rustic Town", "Assembly-CSharp-firstpass-vs.csproj", "{A17B0213-DF2B-E46B-D459-2F9163EE3542}"
+EndProject
 Project("{ADC02402-3846-901C-A39E-890F77C93E82}") = "Rustic Town", "Assembly-CSharp-vs.csproj", "{423E119B-4B9F-7DCF-9335-D914461F7190}"
 EndProject
 Global
@@ -9,6 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A17B0213-DF2B-E46B-D459-2F9163EE3542}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A17B0213-DF2B-E46B-D459-2F9163EE3542}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A17B0213-DF2B-E46B-D459-2F9163EE3542}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A17B0213-DF2B-E46B-D459-2F9163EE3542}.Release|Any CPU.Build.0 = Release|Any CPU
 		{423E119B-4B9F-7DCF-9335-D914461F7190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{423E119B-4B9F-7DCF-9335-D914461F7190}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{423E119B-4B9F-7DCF-9335-D914461F7190}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -17,7 +23,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-				GlobalSection(MonoDevelopProperties) = preSolution
+							GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

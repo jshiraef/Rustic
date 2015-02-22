@@ -3,6 +3,9 @@ using System.Collections;
 
 public class PlayerControl : MonoBehaviour {
 
+	public bool interact = false;
+	public Transform lineStart, lineEnd;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -13,6 +16,13 @@ public class PlayerControl : MonoBehaviour {
 	void Update () 
 	{
 		Movement();
+		Raycasting ();
+	}
+
+	void Raycasting()
+	{
+		Debug.DrawLine (lineStart.position, lineEnd.position, Color.green);
+
 	}
 
 	void Movement()
