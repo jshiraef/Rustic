@@ -66,7 +66,7 @@ public class PlayerControl : MonoBehaviour {
 			this.direction = Direction.EAST;
 
 			transform.Translate (Vector2.right * 3f * Time.deltaTime);
-			transform.eulerAngles = new Vector2(0, 0); // this sets the rotation of the gameobject
+//			transform.eulerAngles = new Vector2(0, 0); // this sets the rotation of the gameobject
 
 		}
 
@@ -75,8 +75,8 @@ public class PlayerControl : MonoBehaviour {
 			anim.SetBool ("runReleased", false);
 			this.direction = Direction.WEST;
 
-			transform.Translate (Vector2.right * 3f * Time.deltaTime);
-			transform.eulerAngles = new Vector2(0, 180);  // this sets the rotation of the gamebject
+			transform.Translate (-Vector2.right * 3f * Time.deltaTime);
+//			transform.eulerAngles = new Vector2(0, 180);  // this sets the rotation of the gamebject
 		}
 
 		if (Input.GetAxisRaw ("Vertical") < 0) 
@@ -95,13 +95,18 @@ public class PlayerControl : MonoBehaviour {
 			transform.Translate (Vector2.up * 3f * Time.deltaTime);
 		}
 
+		if (Input.GetAxisRaw ("Horizontal") < 0 && Input.GetAxis ("Vertical") > .2f)
+		{
+			this.direction = Direction.NORTHWEST1;
+		}
+
 		if(Input.GetKeyDown (KeyCode.Space) && grounded == true)
 		{
 			rigidbody2D.AddForce(Vector2.up * 200f);
 		}
 
 		Debug.Log ("the player's direction is: " + this.direction);
-		Debug.Log ("the animator's 'Direction' int is " + anim.GetInteger("Direction"));
+		Debug.Log ("the vertical axis input is " + Input.GetAxis ("Vertical"));
 
 	}
 
