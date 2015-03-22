@@ -41,6 +41,10 @@ public class TestAxes : MonoBehaviour {
 		         + "PS4 Share Button: " + Input.GetButton ("PS4_Share") + "\n"
 		         + "PS4 Options Button: " + Input.GetButton ("PS4_Options") + "\n"
 		         + "PS4 PSN Button: " + Input.GetButton ("PS4_PSN") + "\n"
-		         + "PS4 Touch Button: " + Input.GetButton ("PS4_Touch") );
+		         + "PS4 Touch Button: " + Input.GetButton ("PS4_Touch") + "\n\n"
+
+		         + "PS4 Virtual Analog: " + Input.GetButton ("VirtualLeftAnalog")
+
+		         );
 	}
 }

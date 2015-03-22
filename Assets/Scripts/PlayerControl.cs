@@ -9,10 +9,12 @@ public class PlayerControl : MonoBehaviour {
 
 	RaycastHit2D whatIHit;
 
-	public float speed = 6.0f;
+	public float speed = 6.0f; 
 
 	public Direction direction;
+	public RunDirection runDirection;
 
+	public int animationCase;
 
 	Animator anim;
 
@@ -57,8 +59,8 @@ public class PlayerControl : MonoBehaviour {
 
 	void Movement()
 	{
-		anim.SetFloat ("speed", Mathf.Abs (Input.GetAxis ("Vertical")));
-		anim.SetFloat ("speed", Mathf.Abs (Input.GetAxis ("Horizontal")));
+		anim.SetFloat ("VerticalAnalogAxis", (Input.GetAxis ("Vertical")));
+		anim.SetFloat ("HorizontalAnalogAxis", (Input.GetAxis ("Horizontal")));
 
 		if (Input.GetAxisRaw ("Horizontal") > 0) {
 			anim.SetBool ("runReleased", false);
@@ -118,7 +120,6 @@ public class PlayerControl : MonoBehaviour {
 		}
 
 
-
 //		if ((Input.GetAxisRaw ("Horizontal") < 0 && Input.GetAxis ("Vertical") > .7f) || (Input.GetAxis("Vertical") > 0f && Input.GetAxis ("Horizontal") > -.8f && Input.GetAxis("Horizontal") < -.2f))
 //		{
 //			this.direction = Direction.NORTHWEST1;
@@ -145,6 +146,7 @@ public class PlayerControl : MonoBehaviour {
 
 	void animationSetter()
 	{
+
 		if(this.direction == Direction.SOUTHEAST330)
 		{
 			anim.SetInteger("Direction", 16);
@@ -228,10 +230,18 @@ public class PlayerControl : MonoBehaviour {
 //		Debug.Log ("the animator's direction int is" + anim.GetInteger ("Direction"));
 
 
-		if (Input.GetKeyUp (KeyCode.W) || Input.GetKeyUp (KeyCode.S) || Input.GetKeyUp (KeyCode.D) || Input.GetKeyUp (KeyCode.A))
+//		if (Input.GetKeyUp (KeyCode.W) || Input.GetKeyUp (KeyCode.S) || Input.GetKeyUp (KeyCode.D) || Input.GetKeyUp (KeyCode.A))
+//		{
+//			anim.SetBool ("runReleased", true);
+//		} 
+
+		if(Input.GetAxisRaw ("Vertical") == 0 && Input.GetAxisRaw ("Horizontal") == 0)
 		{
 			anim.SetBool ("runReleased", true);
-		} 
+		}
+
+
+		Debug.Log ("the current animation state is: " + anim.GetCurrentAnimatorStateInfo(0).nameHash);
 
 	
 	}
@@ -239,6 +249,18 @@ public class PlayerControl : MonoBehaviour {
 	public enum Direction
 	{
 		NORTH, SOUTH, EAST, WEST, NORTHEAST30, NORTHEAST50, NORTHEAST70, NORTHWEST110, NORTHWEST130, NORTHWEST150, SOUTHEAST290, SOUTHEAST310, SOUTHEAST330, SOUTHWEST210, SOUTHWEST230, SOUTHWEST250, NULL
+	}
+
+	public enum RunDirection
+	{
+		EAST,  
+		NORTHEAST20, NORTHEAST30, NORTHEAST40, NORTHEAST50, NORTHEAST60, NORTHEAST70, NORTHEAST80, 
+		NORTH, 
+		NORTHWEST110, NORTHWEST120, NORTHWEST130, NORTHWEST140, NORTHWEST150, NORTHWEST160, NORTHWEST170,
+		WEST,
+		SOUTHWEST200, SOUTHWEST210, SOUTHWEST220, SOUTHWEST230, SOUTHWEST240, SOUTHWEST250, SOUTHWEST260,
+		SOUTH,
+		SOUTHEAST290, SOUTHEAST300, SOUTHEAST310, SOUTHEAST320, SOUTHEAST330, SOUTHEAST340, SOUTHEAST350
 	}
 	
 }

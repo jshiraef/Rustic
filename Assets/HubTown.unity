@@ -3959,6 +3959,8 @@ MonoBehaviour:
   groundedEnd: {fileID: 898923955}
   speed: 6
   direction: 0
+  runDirection: 0
+  animationCase: 0
 --- !u!61 &1772974870
 BoxCollider2D:
   m_ObjectHideFlags: 0
