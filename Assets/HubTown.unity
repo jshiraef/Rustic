@@ -3954,12 +3954,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interact: 0
   grounded: 0
+  isRunning: 0
   lineStart: {fileID: 941897901}
   lineEnd: {fileID: 1076375210}
   groundedEnd: {fileID: 898923955}
   speed: 6
+  v: 0
+  h: 0
   direction: 0
   runDirection: 0
+  lastRecordedRunDirection: 0
   animationCase: 0
 --- !u!61 &1772974870
 BoxCollider2D:
