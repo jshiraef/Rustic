@@ -35,8 +35,8 @@ public class PlayerControl : MonoBehaviour {
 	{
 		Movement();
 		Raycasting ();
-		animationSetter ();
 		setRunDirection ();
+		animationSetter ();
 	}
 
 	void Raycasting()
@@ -72,85 +72,52 @@ public class PlayerControl : MonoBehaviour {
 		anim.SetFloat ("VerticalAnalogAxis", (Input.GetAxis ("Vertical")));
 		anim.SetFloat ("HorizontalAnalogAxis", (Input.GetAxis ("Horizontal")));
 
-		if (Input.GetAxis ("Horizontal") > 0)
+		if (Input.GetAxisRaw ("Horizontal") > 0)
 		{
 			isRunning = true;
 			anim.SetBool ("runReleased", false);
 			this.direction = Direction.EAST;
 
-			transform.Translate (Vector2.right * 3f * Time.deltaTime);
+			transform.Translate (Vector2.right * 2.6f * Time.deltaTime);
 			
 //			transform.eulerAngles = new Vector2(0, 0); // this sets the rotation of the gameobject
 
 		} 
 
 
-		if (Input.GetAxis ("Horizontal") < 0) 
+		if (Input.GetAxisRaw ("Horizontal") < 0) 
 		{
 			isRunning = true;
 			anim.SetBool ("runReleased", false);
 //			this.direction = Direction.WEST;
 
 
-			transform.Translate (-Vector2.right * 3f * Time.deltaTime);
+			transform.Translate (-Vector2.right * 2.6f * Time.deltaTime);
 //			transform.eulerAngles = new Vector2(0, 180);  // this sets the rotation of the gamebject
 		} 
 
 
-		if (Input.GetAxis ("Vertical") < 0) 
+		if (Input.GetAxisRaw ("Vertical") < 0) 
 		{
 			isRunning = true;
 			anim.SetBool ("runReleased", false);
 			this.direction = Direction.SOUTH;
 
-			transform.Translate (-Vector2.up * 3f * Time.deltaTime);
+			transform.Translate (-Vector2.up * 2.6f * Time.deltaTime);
 		} 
 
 
-		if (Input.GetAxis ("Vertical") > 0) 
+		if (Input.GetAxisRaw ("Vertical") > 0) 
 		{
 			isRunning = true;
 			anim.SetBool ("runReleased", false);
 			this.direction = Direction.NORTH;
 
 
-			transform.Translate (Vector2.up * 3f * Time.deltaTime);
+			transform.Translate (Vector2.up * 2.6f * Time.deltaTime);
 		} 
 
 		anim.SetBool ("isRunning", isRunning);
-
-//		Debug.Log ("the Horizontal GetAxis is: " + Input.GetAxis ("Horizontal"));
-
-		if (this.direction == Direction.SOUTH && Input.GetKeyUp (KeyCode.A) && Input.GetAxis ("Horizontal") < 0 && Input.GetAxis ("Horizontal") >= -0.2) 
-		{
-			Debug.Log ("this happened");
-			this.direction = Direction.SOUTHWEST250;
-		}
-
-		if (this.direction == Direction.SOUTH && Input.GetKeyUp (KeyCode.A) && Input.GetAxis ("Horizontal") < -0.2 && Input.GetAxis ("Horizontal") >= -0.4) 
-		{
-			Debug.Log ("SouthWest 230 degrees");
-			this.direction = Direction.SOUTHWEST230;
-		}
-
-		if (this.direction == Direction.SOUTH && Input.GetKeyUp (KeyCode.A) && Input.GetAxis ("Horizontal") < -0.4 && Input.GetAxis ("Horizontal") >= -0.7)  
-		{
-			Debug.Log ("SouthWest 210 degrees");
-			this.direction = Direction.SOUTHWEST210;
-		}
-
-		Debug.Log ("the isRunning bool is: " + isRunning);
-
-
-//		if ((Input.GetAxisRaw ("Horizontal") < 0 && Input.GetAxis ("Vertical") > .7f) || (Input.GetAxis("Vertical") > 0f && Input.GetAxis ("Horizontal") > -.8f && Input.GetAxis("Horizontal") < -.2f))
-//		{
-//			this.direction = Direction.NORTHWEST1;
-//		}
-//
-//		if(Input.GetAxis ("Horizontal") < 0f && Input.GetAxis ("Vertical") < 0.8f && Input.GetAxis("Vertical") > 0.3f)
-//		{
-//			this.direction = Direction.NORTHWEST2;
-//		}
 
 		if(Input.GetKeyDown (KeyCode.Space) && grounded == true)
 		{
@@ -167,87 +134,61 @@ public class PlayerControl : MonoBehaviour {
 	void animationSetter()
 	{
 
-		if(this.direction == Direction.SOUTHEAST330)
+		switch((int)this.direction)
 		{
-			anim.SetInteger("Direction", 16);
+		case 0:
+			anim.SetFloat("direction(float)", 0f);
+			break;
+		case 1:
+			anim.SetFloat("direction(float)", (1f/16f) + .01f);
+			break;
+		case 2:
+			anim.SetFloat("direction(float)", (2f/16f) + .01f);
+			break;
+		case 3:
+			anim.SetFloat("direction(float)", (3f/16f) + .01f);
+			break; 
+		case 4:
+			anim.SetFloat("direction(float)", (4f/16f) + .01f);
+			break;
+		case 5:
+			anim.SetFloat("direction(float)", (5f/16f) + .01f);
+			break;
+		case 6:
+			anim.SetFloat("direction(float)", (6f/16f) + .01f);
+			break;
+		case 7:
+			anim.SetFloat("direction(float)", (7f/16f) + .01f);
+			break;
+		case 8:
+			anim.SetFloat("direction(float)", (8f/16f) + .01f);
+			break;
+		case 9:
+			anim.SetFloat("direction(float)", (9f/16f) + .01f);
+			break;
+		case 10:
+			anim.SetFloat("direction(float)", (10f/16f) + .01f);
+			break;
+		case 11:
+			anim.SetFloat("direction(float)", (11f/16f) + .01f);
+			break;
+		case 12:
+			anim.SetFloat("direction(float)", (12f/16f) + .01f);
+			break;
+		case 13:
+			anim.SetFloat("direction(float)", (13f/16f) + .01f);
+			break;
+		case 14:
+			anim.SetFloat("direction(float)", (14f/16f) + .01f);
+			break;
+		case 15:
+			anim.SetFloat("direction(float)", (15f/16f) + .01f);
+			break;
 		}
-
-		if(this.direction == Direction.SOUTHEAST310)
-		{
-			anim.SetInteger("Direction", 15);
-		}
-
-		if(this.direction == Direction.SOUTHEAST290)
-		{
-			anim.SetInteger("Direction", 14);
-		}
-
-		if(this.direction == Direction.SOUTH)
-		{
-			anim.SetInteger("Direction", 13);
-		}
-
-		if (this.direction == Direction.SOUTHWEST250)
-		{
-			anim.SetInteger ("Direction", 12);
-		}
-
-		if (this.direction == Direction.SOUTHWEST230)
-		{
-			anim.SetInteger ("Direction", 11);
-		}
-
-		if (this.direction == Direction.SOUTHWEST210)
-		{
-			anim.SetInteger ("Direction", 10);
-		}
-
-		if (this.direction == Direction.WEST)
-		{
-			anim.SetInteger ("Direction", 9);
-		}
-
-		if (this.direction == Direction.NORTHWEST150)
-		{
-			anim.SetInteger ("Direction", 8);
-		}
-
-		if (this.direction == Direction.NORTHWEST130)
-		{
-			anim.SetInteger ("Direction", 7);
-		}
-
-		if (this.direction == Direction.NORTHWEST110)
-		{
-			anim.SetInteger ("Direction", 6);
-		}
-
-		if (this.direction == Direction.NORTH)
-		{
-			anim.SetInteger ("Direction", 5);
-		}
-
-		if (this.direction == Direction.NORTHEAST70)
-		{
-			anim.SetInteger ("Direction", 4);
-		}
-
-		if (this.direction == Direction.NORTHEAST50)
-		{
-			anim.SetInteger ("Direction", 3);
-		}
-
-		if (this.direction == Direction.NORTHEAST30)
-		{
-			anim.SetInteger ("Direction", 2);
-		}
-
-		if (this.direction == Direction.EAST)
-		{
-			anim.SetInteger ("Direction", 1);
-		}
-
-//		Debug.Log ("the animator's direction int is" + anim.GetInteger ("Direction"));
+		
+//		Debug.Log("the run direction is: " + this.runDirection);
+//		Debug.Log("the direction is: " + this.direction);
+//		Debug.Log ("the animator's direction float is: " + anim.GetFloat ("direction(float)"));
 
 
 //		if (Input.GetKeyUp (KeyCode.W) || Input.GetKeyUp (KeyCode.S) || Input.GetKeyUp (KeyCode.D) || Input.GetKeyUp (KeyCode.A))
@@ -443,10 +384,6 @@ public class PlayerControl : MonoBehaviour {
 		}
 
 
-
-
-
-
 		if (Input.GetAxis ("Vertical") == 0 && Input.GetAxis ("Horizontal") == 0) 
 		{
 			this.runDirection = RunDirection.NULL;
@@ -457,12 +394,114 @@ public class PlayerControl : MonoBehaviour {
 			lastRecordedRunDirection = this.runDirection;
 		}
 
+
+		// Set the direction by using the RunDirection
+		switch ((int)lastRecordedRunDirection)
+		{
+		case 0:
+			this.direction = Direction.EAST;
+			break;
+		case 1:
+			this.direction = Direction.NORTHEAST30;
+			break;
+		case 2:
+			this.direction = Direction.NORTHEAST30;
+			break;
+		case 3:
+			this.direction = Direction.NORTHEAST30;
+			break;
+		case 4:
+			this.direction = Direction.NORTHEAST50;
+			break;
+		case 5:
+			this.direction = Direction.NORTHEAST50;
+			break;
+		case 6:
+			this.direction = Direction.NORTHEAST70;
+			break;
+		case 7:
+			this.direction = Direction.NORTHEAST70;
+			break;
+		case 8:
+			this.direction = Direction.NORTH;
+			break;
+		case 9:
+			this.direction = Direction.NORTHWEST110;
+			break;
+		case 10:
+			this.direction = Direction.NORTHWEST110;
+			break;
+		case 11:
+			this.direction = Direction.NORTHWEST110;
+			break;
+		case 12:
+			this.direction = Direction.NORTHWEST130;
+			break;
+		case 13:
+			this.direction = Direction.NORTHWEST130;
+			break;
+		case 14: 
+			this.direction = Direction.NORTHWEST150;
+			break;
+		case 15:
+			this.direction = Direction.NORTHWEST150;
+			break;
+		case 16:
+			this.direction = Direction.WEST;
+			break;
+		case 17:
+			this.direction = Direction.SOUTHWEST210;
+			break;
+		case 18:
+			this.direction = Direction.SOUTHWEST230;
+			break;
+		case 19:
+			this.direction = Direction.SOUTHWEST230;
+			break;
+		case 20: 
+			this.direction = Direction.SOUTHWEST230;
+			break;
+		case 21:
+			this.direction = Direction.SOUTHWEST230;
+			break;
+		case 22:
+			this.direction = Direction.SOUTHWEST250;
+			break;
+		case 23:
+			this.direction = Direction.SOUTHWEST250;
+			break;
+		case 24:
+			this.direction = Direction.SOUTH;
+			break;
+		case 25:
+			this.direction = Direction.SOUTHEAST290;
+			break;
+		case 26:
+			this.direction = Direction.SOUTHEAST290;
+			break;
+		case 27:
+			this.direction = Direction.SOUTHEAST290;
+			break;
+		case 28:
+			this.direction = Direction.SOUTHEAST310;
+			break;
+		case 29:
+			this.direction = Direction.SOUTHEAST310;
+			break;
+		case 30:
+			this.direction = Direction.SOUTHEAST330;
+			break;
+		case 31:
+			this.direction = Direction.SOUTHEAST330;
+			break;
+		}
+
 //		Debug.Log ("the last-recorded Run Direction is: " + this.lastRecordedRunDirection);
 	}
 
 	public enum Direction
 	{
-		NORTH, SOUTH, EAST, WEST, NORTHEAST30, NORTHEAST50, NORTHEAST70, NORTHWEST110, NORTHWEST130, NORTHWEST150, SOUTHEAST290, SOUTHEAST310, SOUTHEAST330, SOUTHWEST210, SOUTHWEST230, SOUTHWEST250, NULL
+			EAST, NORTHEAST30, NORTHEAST50, NORTHEAST70, NORTH, NORTHWEST110, NORTHWEST130, NORTHWEST150, WEST, SOUTHWEST210, SOUTHWEST230, SOUTHWEST250, SOUTH, SOUTHEAST290, SOUTHEAST310, SOUTHEAST330, NULL
 	}
 
 	public enum RunDirection
