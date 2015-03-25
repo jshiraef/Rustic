@@ -384,10 +384,10 @@ public class PlayerControl : MonoBehaviour {
 		}
 
 
-		if (Input.GetAxis ("Vertical") == 0 && Input.GetAxis ("Horizontal") == 0) 
-		{
-			this.runDirection = RunDirection.NULL;
-		}
+//		if (Input.GetAxis ("Vertical") == 0 && Input.GetAxis ("Horizontal") == 0) 
+//		{
+//			this.runDirection = RunDirection.NULL;
+//		}
 
 		if (!(this.runDirection == RunDirection.NULL)) 
 		{
