@@ -26,8 +26,6 @@ public class RotateSlowly : MonoBehaviour
 	
 		light.transform.Rotate (0, (Mathf.Lerp (minRotation, maxRotation, Time.time)) * .0001f, 0);
 
-		
-		Debug.Log ("the time is: " + Time.time);
 	}
 }
 
