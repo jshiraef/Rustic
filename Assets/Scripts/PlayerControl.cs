@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerControl : MonoBehaviour {
+public class PlayerControl : MonoBehaviour 
+{
 
 	public bool interact = false;
 	public bool grounded = false;
 	public bool isRunning = false;
+	public bool lockPosition = false;
 	public Transform lineStart, lineEnd, groundedEnd;
 
 	RaycastHit2D whatIHit;
@@ -21,6 +23,10 @@ public class PlayerControl : MonoBehaviour {
 	public int animationCase;
 
 	Animator anim;
+	private bool shortFall = false;
+	private float shortFallCoolDown;
+
+	private GameObject player;
 
 	// Use this for initialization
 	void Start ()
@@ -28,6 +34,8 @@ public class PlayerControl : MonoBehaviour {
 		anim = GetComponent<Animator> ();
 
 		this.direction = Direction.NULL;
+
+		player = GameObject.Find ("player");
 	}
 	
 	// Update is called once per frame
@@ -37,6 +45,33 @@ public class PlayerControl : MonoBehaviour {
 		Raycasting ();
 		setRunDirection ();
 		animationSetter ();
+
+
+		if (shortFallCoolDown > 0)
+		{
+			shortFallCoolDown -= Time.deltaTime;
+		} 
+		else
+			{
+				shortFall = false;
+				lockPosition = false;
+				anim.SetBool ("shortFall", shortFall);
+				setNonKinematic();
+			}
+
+		// freeze position until animation is finished
+		if (this.anim.GetCurrentAnimatorStateInfo (0).IsName ("shortFallRecovery") || this.anim.GetCurrentAnimatorStateInfo(0).IsName("FallingDown"))
+		{
+			lockPosition = true;
+		} 
+			else 
+			{
+				lockPosition = false;
+			}
+
+
+	//	Debug.Log ("shortFall is: " + shortFall);
+	// Debug.Log ("the shortFallCoolDown is: " + shortFallCoolDown);
 	}
 
 	void Raycasting()
@@ -78,6 +113,7 @@ public class PlayerControl : MonoBehaviour {
 			anim.SetBool ("runReleased", false);
 			this.direction = Direction.EAST;
 
+			if(!lockPosition)
 			transform.Translate (Vector2.right * 2.6f * Time.deltaTime);
 			
 //			transform.eulerAngles = new Vector2(0, 0); // this sets the rotation of the gameobject
@@ -91,7 +127,7 @@ public class PlayerControl : MonoBehaviour {
 			anim.SetBool ("runReleased", false);
 //			this.direction = Direction.WEST;
 
-
+			if(!lockPosition)
 			transform.Translate (-Vector2.right * 2.6f * Time.deltaTime);
 //			transform.eulerAngles = new Vector2(0, 180);  // this sets the rotation of the gamebject
 		} 
@@ -103,6 +139,7 @@ public class PlayerControl : MonoBehaviour {
 			anim.SetBool ("runReleased", false);
 			this.direction = Direction.SOUTH;
 
+			if(!lockPosition)
 			transform.Translate (-Vector2.up * 2.6f * Time.deltaTime);
 		} 
 
@@ -113,7 +150,7 @@ public class PlayerControl : MonoBehaviour {
 			anim.SetBool ("runReleased", false);
 			this.direction = Direction.NORTH;
 
-
+			if(!lockPosition)
 			transform.Translate (Vector2.up * 2.6f * Time.deltaTime);
 		} 
 
@@ -123,6 +160,18 @@ public class PlayerControl : MonoBehaviour {
 		{
 			rigidbody2D.AddForce(Vector2.up * 200f);
 		}
+
+		if (shortFall) 
+		{
+			isRunning = false;
+			transform.Translate (-Vector2.up * 4f * Time.deltaTime);
+		} 
+			else 
+			{
+				anim.SetBool ("shortFall", false);
+			}
+
+		Debug.Log ("the shortfallCoolDown is: " + shortFallCoolDown);
 
 //		Debug.Log ("the player's direction is: " + this.direction);
 //		Debug.Log ("the vertical axis input is " + Input.GetAxis ("Vertical"));
@@ -497,6 +546,53 @@ public class PlayerControl : MonoBehaviour {
 		}
 
 //		Debug.Log ("the last-recorded Run Direction is: " + this.lastRecordedRunDirection);
+	}
+
+	void coolDownMaker(bool coolDownTrigger, float coolDown, int coolDownTime)
+	{
+		if (!coolDownTrigger)
+			return;
+
+		if (coolDownTrigger && coolDown <= 0) 
+		{
+			coolDownTime = (int)coolDown;
+		}
+
+		if (coolDown > 0)
+		{
+			coolDown -= Time.deltaTime;
+		}
+
+		if(coolDown <= 0)
+		{
+			coolDownTrigger = false;
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if(other.tag == "fallingLedge")
+		{
+			setShortFall ();
+		}
+	}
+
+	public void setShortFall()
+	{
+		shortFall = true;
+		shortFallCoolDown = .5f;
+		anim.SetBool ("shortFall", shortFall);
+		setKinematic ();
+	}
+
+	void setKinematic()
+	{
+		this.player.rigidbody2D.isKinematic = true;
+	}
+
+	void setNonKinematic()
+	{
+		this.player.rigidbody2D.isKinematic = false;
 	}
 
 	public enum Direction

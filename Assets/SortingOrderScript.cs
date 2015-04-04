@@ -7,7 +7,12 @@ public class SortingOrderScript : MonoBehaviour
 	public string currentLayerName;
 	public int sortingOrder = 0;
 	private SpriteRenderer sprite;
-	public GameObject player;
+	private GameObject player;
+
+
+	// This is the threshhold at which the player's position 
+	// will change the nearby objects sorting layer
+	public double threshold = 9.5;
 
 
 	// Use this for initialization
@@ -22,7 +27,7 @@ public class SortingOrderScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if (player.transform.position.y > -9.5) 
+		if (player.transform.position.y > -threshold) 
 		{
 //			sprite.sortingOrder = sortingOrder;
 			sprite.sortingLayerName = OverlapLayer;
@@ -30,7 +35,7 @@ public class SortingOrderScript : MonoBehaviour
 		else
 			sprite.sortingLayerName = currentLayerName;
 
-		Debug.Log ("the sprite's current sorting layer is" + sprite.sortingLayerName);
-		Debug.Log ("the player's x & y are" + player.transform.position.x + " , " + player.transform.position.y);
+//		Debug.Log ("the sprite's current sorting layer is" + sprite.sortingLayerName);
+//		Debug.Log ("the player's x & y are" + player.transform.position.x + " , " + player.transform.position.y);
 	}
 }
