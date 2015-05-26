@@ -8979,7 +8979,7 @@ MonoBehaviour:
   lineStart: {fileID: 941897901}
   lineEnd: {fileID: 1076375210}
   groundedEnd: {fileID: 898923955}
-  speed: 4
+  speed: 3
   v: 0
   h: 0
   direction: 0
@@ -9968,7 +9968,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -9987,7 +9987,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1983518987}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34.1300011, y: -11.3100004, z: -10}
+  m_LocalPosition: {x: 139, y: -81, z: -413}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
