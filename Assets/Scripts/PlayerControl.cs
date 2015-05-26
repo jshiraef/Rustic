@@ -114,7 +114,7 @@ public class PlayerControl : MonoBehaviour
 			this.direction = Direction.EAST;
 
 			if(!lockPosition)
-			transform.Translate (Vector2.right * 2.6f * Time.deltaTime);
+			transform.Translate (Vector2.right * speed * Time.deltaTime);
 			
 //			transform.eulerAngles = new Vector2(0, 0); // this sets the rotation of the gameobject
 
@@ -128,7 +128,7 @@ public class PlayerControl : MonoBehaviour
 //			this.direction = Direction.WEST;
 
 			if(!lockPosition)
-			transform.Translate (-Vector2.right * 2.6f * Time.deltaTime);
+			transform.Translate (-Vector2.right * speed * Time.deltaTime);
 //			transform.eulerAngles = new Vector2(0, 180);  // this sets the rotation of the gamebject
 		} 
 
@@ -140,7 +140,7 @@ public class PlayerControl : MonoBehaviour
 			this.direction = Direction.SOUTH;
 
 			if(!lockPosition)
-			transform.Translate (-Vector2.up * 2.6f * Time.deltaTime);
+			transform.Translate (-Vector2.up * speed * Time.deltaTime);
 		} 
 
 
@@ -151,7 +151,7 @@ public class PlayerControl : MonoBehaviour
 			this.direction = Direction.NORTH;
 
 			if(!lockPosition)
-			transform.Translate (Vector2.up * 2.6f * Time.deltaTime);
+			transform.Translate (Vector2.up * speed * Time.deltaTime);
 		} 
 
 		anim.SetBool ("isRunning", isRunning);
@@ -171,7 +171,7 @@ public class PlayerControl : MonoBehaviour
 				anim.SetBool ("shortFall", false);
 			}
 
-		Debug.Log ("the shortfallCoolDown is: " + shortFallCoolDown);
+//		Debug.Log ("the shortfallCoolDown is: " + shortFallCoolDown);
 
 //		Debug.Log ("the player's direction is: " + this.direction);
 //		Debug.Log ("the vertical axis input is " + Input.GetAxis ("Vertical"));
