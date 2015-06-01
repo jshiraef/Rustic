@@ -21,11 +21,6 @@ public class GuardBehavior : MonoBehaviour {
 	{
 		Raycasting ();
 		Behaviours ();
-		if (arrow.name.EndsWith ("marq")) {
-			Debug.Log ("this is happening");
-		} else {
-			Debug.Log ("It's not happening");
-		}
 	}
 
 	void Raycasting()

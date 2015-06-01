@@ -109,8 +109,13 @@ public class PlayerControl : MonoBehaviour
 
 		if (Input.GetAxisRaw ("Horizontal") > 0)
 		{
+			if(isRunning = false)
+			{
+				anim.StopPlayback ();
+			}
 			isRunning = true;
-			anim.SetBool ("runReleased", false);
+			anim.Play ("Running");
+
 			this.direction = Direction.EAST;
 
 			if(!lockPosition)
@@ -121,11 +126,17 @@ public class PlayerControl : MonoBehaviour
 		} 
 
 
+
 		if (Input.GetAxisRaw ("Horizontal") < 0) 
 		{
+			if(isRunning = false)
+			{
+				anim.StopPlayback ();
+			}
 			isRunning = true;
-			anim.SetBool ("runReleased", false);
-//			this.direction = Direction.WEST;
+			anim.Play ("Running");
+
+			this.direction = Direction.WEST;
 
 			if(!lockPosition)
 			transform.Translate (-Vector2.right * speed * Time.deltaTime);
@@ -135,8 +146,12 @@ public class PlayerControl : MonoBehaviour
 
 		if (Input.GetAxisRaw ("Vertical") < 0) 
 		{
+			if(isRunning = false)
+			{
+				anim.StopPlayback ();
+			}
 			isRunning = true;
-			anim.SetBool ("runReleased", false);
+			anim.Play ("Running");
 			this.direction = Direction.SOUTH;
 
 			if(!lockPosition)
@@ -146,8 +161,13 @@ public class PlayerControl : MonoBehaviour
 
 		if (Input.GetAxisRaw ("Vertical") > 0) 
 		{
+			if(isRunning = false)
+			{
+				anim.StopPlayback ();
+			}
 			isRunning = true;
-			anim.SetBool ("runReleased", false);
+			anim.Play ("Running");
+
 			this.direction = Direction.NORTH;
 
 			if(!lockPosition)
@@ -170,6 +190,11 @@ public class PlayerControl : MonoBehaviour
 			{
 				anim.SetBool ("shortFall", false);
 			}
+
+		if (Input.GetAxisRaw ("Horizontal") == 0 && Input.GetAxisRaw ("Vertical") == 0) 
+		{
+			anim.Play ("Idle");
+		}
 
 //		Debug.Log ("the shortfallCoolDown is: " + shortFallCoolDown);
 
