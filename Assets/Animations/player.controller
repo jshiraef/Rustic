@@ -1036,6 +1036,75 @@ BlendTree:
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 1
   m_BlendType: 0
+--- !u!206 &20667248
+BlendTree:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Blend Tree
+  m_Childs:
+  - m_Motion: {fileID: 7400000, guid: fc894654fb188cb49be2e84da9fdc36f, type: 2}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_IsAnim: 1
+    m_Mirror: 0
+  - m_Motion: {fileID: 7400000, guid: 35e159e5dd91b7e4aae2a0cbe74a1100, type: 2}
+    m_Threshold: .100000001
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_IsAnim: 1
+    m_Mirror: 0
+  - m_Motion: {fileID: 7400000, guid: c3260fecb0ee20a429affae78feae245, type: 2}
+    m_Threshold: .200000003
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_IsAnim: 1
+    m_Mirror: 0
+  - m_Motion: {fileID: 7400000, guid: 29314d2de7dc5964b9e308a77f90c56d, type: 2}
+    m_Threshold: .300000012
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_IsAnim: 1
+    m_Mirror: 0
+  - m_Motion: {fileID: 7400000, guid: 8813a9392d0c8b94cab685f8a0c35561, type: 2}
+    m_Threshold: .419999987
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_IsAnim: 1
+    m_Mirror: 0
+  - m_Motion: {fileID: 7400000, guid: 6a780c363b8f5c64e86e9ca8501885a7, type: 2}
+    m_Threshold: .600000024
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_IsAnim: 1
+    m_Mirror: 0
+  - m_Motion: {fileID: 7400000, guid: 37cdaa372258f0a4db777de0745a20e8, type: 2}
+    m_Threshold: .699999988
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_IsAnim: 1
+    m_Mirror: 0
+  - m_Motion: {fileID: 7400000, guid: 89feb8e1df352fd4b99e68e1b3bb285b, type: 2}
+    m_Threshold: .800000012
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_IsAnim: 1
+    m_Mirror: 0
+  m_BlendParameter: direction(float)
+  m_BlendParameterY: VerticalAnalogAxis
+  m_MinThreshold: 0
+  m_MaxThreshold: .800000012
+  m_UseAutomaticThresholds: 0
+  m_BlendType: 0
 --- !u!206 &20675264
 BlendTree:
   m_ObjectHideFlags: 3
@@ -1309,6 +1378,22 @@ Transition:
     m_ConditionEvent: runReleased
     m_EventTreshold: 0
     m_ExitTime: 0
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
+  m_CanTransitionToSelf: 0
+--- !u!1101 &110121196
+Transition:
+  serializedVersion: 2
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 0}
+  m_DstState: {fileID: 110245394}
+  m_TransitionDuration: .100000001
+  m_TransitionOffset: 0
+  m_Conditions: []
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
@@ -2481,6 +2566,21 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
+--- !u!1102 &110245394
+State:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: SwingScythe
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Motions:
+  - {fileID: 20667248}
+  m_ParentStateMachine: {fileID: 110707282}
+  m_Position: {x: 216, y: -48, z: 0}
+  m_IKOnFeet: 0
+  m_Mirror: 0
+  m_Tag: 
 --- !u!1102 &110248042
 State:
   m_ObjectHideFlags: 3
@@ -2624,6 +2724,21 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
+--- !u!1102 &110259254
+State:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: FullSwingScythe_South
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Motions:
+  - {fileID: 7400000, guid: e2d8f921bcea6364eb1efb44c33bc9d1, type: 2}
+  m_ParentStateMachine: {fileID: 110707282}
+  m_Position: {x: 132, y: 312, z: 0}
+  m_IKOnFeet: 0
+  m_Mirror: 0
+  m_Tag: 
 --- !u!1102 &110260920
 State:
   m_ObjectHideFlags: 3
@@ -2712,6 +2827,8 @@ StateMachine:
   - {fileID: 110280816}
   - {fileID: 110294822}
   - {fileID: 110221674}
+  - {fileID: 110259254}
+  - {fileID: 110245394}
   m_ChildStateMachine: []
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
@@ -2719,6 +2836,7 @@ StateMachine:
       first: {fileID: 0}
       second:
       - {fileID: 110187176}
+      - {fileID: 110121196}
     data:
       first: {fileID: 110260920}
       second:

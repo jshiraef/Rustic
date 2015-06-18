@@ -8,12 +8,16 @@ public class PlayerControl : MonoBehaviour
 	public bool grounded = false;
 	public bool isRunning = false;
 	public bool lockPosition = false;
+	public bool swinging = false;
+
 	public Transform lineStart, lineEnd, groundedEnd;
 
 	RaycastHit2D whatIHit;
 
 	public float speed = 6.0f; 
 	public float v, h;
+
+	private Vector2 NorthEast30;
 
 
 	public Direction direction;
@@ -28,6 +32,16 @@ public class PlayerControl : MonoBehaviour
 
 	private GameObject player;
 
+	// barrel variables (variables similar to these can help keep track of relations between player and world objects)
+	public GameObject[] barrels;
+	public Vector2 distanceToBarrel;
+	private GameObject nearestBarrel;
+	private float actualBarrelSeparation;
+
+	float barrelCooldown;
+	bool barrelSwitch;
+
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -36,15 +50,20 @@ public class PlayerControl : MonoBehaviour
 		this.direction = Direction.NULL;
 
 		player = GameObject.Find ("player");
+
+		nearestBarrel = GameObject.Find ("barrel");
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+	
 		Movement();
 		Raycasting ();
 		setRunDirection ();
 		animationSetter ();
+		checkDestructibleObjects ();
+		checkAttack ();
 
 
 		if (shortFallCoolDown > 0)
@@ -59,6 +78,12 @@ public class PlayerControl : MonoBehaviour
 				setNonKinematic();
 			}
 
+		if(barrelCooldown > 0)
+		{
+			barrelCooldown -= Time.deltaTime;
+		}
+		
+
 		// freeze position until animation is finished
 		if (this.anim.GetCurrentAnimatorStateInfo (0).IsName ("shortFallRecovery") || this.anim.GetCurrentAnimatorStateInfo(0).IsName("FallingDown"))
 		{
@@ -68,7 +93,6 @@ public class PlayerControl : MonoBehaviour
 			{
 				lockPosition = false;
 			}
-
 
 	//	Debug.Log ("shortFall is: " + shortFall);
 	// Debug.Log ("the shortFallCoolDown is: " + shortFallCoolDown);
@@ -109,69 +133,79 @@ public class PlayerControl : MonoBehaviour
 
 		if (Input.GetAxisRaw ("Horizontal") > 0)
 		{
-			if(isRunning = false)
+			if(isRunning == false)
 			{
 				anim.StopPlayback ();
 			}
-			isRunning = true;
-			anim.Play ("Running");
 
 			this.direction = Direction.EAST;
 
-			if(!lockPosition)
-			transform.Translate (Vector2.right * speed * Time.deltaTime);
+			if(!lockPosition && !swinging)
+			{
+				isRunning = true;
+				anim.Play ("Running");
+				transform.Translate (Vector2.right * speed * Time.deltaTime);
+			}
 			
 //			transform.eulerAngles = new Vector2(0, 0); // this sets the rotation of the gameobject
 
 		} 
 
 
-
 		if (Input.GetAxisRaw ("Horizontal") < 0) 
 		{
-			if(isRunning = false)
+			if(isRunning == false)
 			{
 				anim.StopPlayback ();
 			}
-			isRunning = true;
-			anim.Play ("Running");
 
 			this.direction = Direction.WEST;
 
-			if(!lockPosition)
-			transform.Translate (-Vector2.right * speed * Time.deltaTime);
+			if(!lockPosition && !swinging)
+			{
+				isRunning = true;
+				anim.Play ("Running");
+				transform.Translate (-Vector2.right * speed * Time.deltaTime);
+			}
+
 //			transform.eulerAngles = new Vector2(0, 180);  // this sets the rotation of the gamebject
 		} 
 
 
 		if (Input.GetAxisRaw ("Vertical") < 0) 
 		{
-			if(isRunning = false)
+			if(isRunning == false)
 			{
 				anim.StopPlayback ();
 			}
-			isRunning = true;
-			anim.Play ("Running");
+
 			this.direction = Direction.SOUTH;
 
-			if(!lockPosition)
-			transform.Translate (-Vector2.up * speed * Time.deltaTime);
+			if(!lockPosition && !swinging)
+			{
+				isRunning = true;
+				anim.Play ("Running");
+				transform.Translate (-Vector2.up * speed * Time.deltaTime);
+			}
 		} 
 
 
 		if (Input.GetAxisRaw ("Vertical") > 0) 
 		{
-			if(isRunning = false)
+			if(isRunning == false)
 			{
 				anim.StopPlayback ();
 			}
-			isRunning = true;
-			anim.Play ("Running");
+
 
 			this.direction = Direction.NORTH;
 
-			if(!lockPosition)
-			transform.Translate (Vector2.up * speed * Time.deltaTime);
+			if(!lockPosition && !swinging)
+			{
+				isRunning = true;
+				anim.Play ("Running");
+				transform.Translate (Vector2.up * speed * Time.deltaTime);
+			}
 		} 
 
 		anim.SetBool ("isRunning", isRunning);
@@ -193,16 +227,38 @@ public class PlayerControl : MonoBehaviour
 
 		if (Input.GetAxisRaw ("Horizontal") == 0 && Input.GetAxisRaw ("Vertical") == 0) 
 		{
+			if(!swinging)
+			{
 			anim.Play ("Idle");
+			}
 		}
 
-//		Debug.Log ("the shortfallCoolDown is: " + shortFallCoolDown);
+		if(swinging)
+		{
+			lockPosition = true;
+			isRunning = false;
+		}
+		
+		//		Debug.Log ("the shortfallCoolDown is: " + shortFallCoolDown);
 
 //		Debug.Log ("the player's direction is: " + this.direction);
 //		Debug.Log ("the vertical axis input is " + Input.GetAxis ("Vertical"));
 //		Debug.Log ("the horizontal axis input is " + Input.GetAxis ("Horizontal"));
 //		Debug.Log ("the direction is " + this.direction);
+	}
 
+	void checkAttack()
+	{
+		if (Input.GetButton ("PS4_Square")) {
+
+			swinging = true;
+		} else
+			swinging = false;
+
+		if(swinging)
+		{
+			anim.Play ("SwingScythe");
+		}
 	}
 
 	void animationSetter()
@@ -312,6 +368,8 @@ public class PlayerControl : MonoBehaviour
 			if (v > .1 && v < .2 || h > .75 && h < .87) 
 			{
 				this.runDirection = RunDirection.NORTHEAST30;
+//				NorthEast30 = new Vector2(.003f, .0021f);
+//				transform.Translate (NorthEast30);
 			}
 			
 			if (v > .2 && v < .3 || h > .65 && h < .75) 
@@ -571,6 +629,53 @@ public class PlayerControl : MonoBehaviour
 		}
 
 //		Debug.Log ("the last-recorded Run Direction is: " + this.lastRecordedRunDirection);
+	}
+
+	void checkDestructibleObjects()
+	{
+		barrels = GameObject.FindGameObjectsWithTag("barrel");
+
+		foreach (GameObject barrel in barrels) 
+		{
+			this.distanceToBarrel = new Vector2(barrel.transform.position.x - player.transform.position.x, barrel.transform.position.y - player.transform.position.y);
+
+			actualBarrelSeparation  = Mathf.Sqrt (distanceToBarrel.x * distanceToBarrel.x + distanceToBarrel.y * distanceToBarrel.y);
+
+			if(actualBarrelSeparation < 1.5)
+			{
+				if(!barrelSwitch)
+				{
+				barrelCooldown = 1f;
+				barrelSwitch = true;
+				}	
+
+				if(barrelCooldown <= 0)
+				{
+
+					Animator barrelAnimator = barrel.GetComponent<Animator>();
+
+					if(barrel.name.EndsWith ("1"))
+					{
+					barrelAnimator.Play ("barrelBreakParticle");
+					}
+					else{
+						barrelAnimator.Play ("barrelBreak");
+					}
+
+				}
+
+			}
+//			print ("the actual barrel separation" + actualBarrelSeparation);
+//			print ("the barrelCooldown is " + barrelCooldown);
+//			print ("the barrelSwitch is " + barrelSwitch);
+
+		}
+
+				if(barrelCooldown <= 0)
+				{
+						barrelSwitch = false;
+				}
+
 	}
 
 	void coolDownMaker(bool coolDownTrigger, float coolDown, int coolDownTime)
