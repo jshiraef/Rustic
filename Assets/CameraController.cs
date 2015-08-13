@@ -35,7 +35,7 @@ public class CameraController : MonoBehaviour {
 
 		if(Input.GetButton ("PS4_R1"))
 		{
-			camera.orthographicSize += .001f;
+			camera.orthographicSize += .002f;
 		}
 
 		if (Input.GetAxis ("PS4_R2") > 0) {

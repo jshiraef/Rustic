@@ -14,10 +14,10 @@ public class PlayerControl : MonoBehaviour
 
 	RaycastHit2D whatIHit;
 
-	public float speed = 6.0f; 
+	public float speed = 2f; 
 	public float v, h;
 
-	private Vector2 NorthEast30;
+	private Vector2 RunningMovement;
 
 
 	public Direction direction;
@@ -144,7 +144,7 @@ public class PlayerControl : MonoBehaviour
 			{
 				isRunning = true;
 				anim.Play ("Running");
-				transform.Translate (Vector2.right * speed * Time.deltaTime);
+//				transform.Translate (Vector2.right * speed * Time.deltaTime);
 			}
 			
 //			transform.eulerAngles = new Vector2(0, 0); // this sets the rotation of the gameobject
@@ -165,7 +165,7 @@ public class PlayerControl : MonoBehaviour
 			{
 				isRunning = true;
 				anim.Play ("Running");
-				transform.Translate (-Vector2.right * speed * Time.deltaTime);
+//			transform.Translate (-Vector2.right * speed * Time.deltaTime);
 			}
 
 //			transform.eulerAngles = new Vector2(0, 180);  // this sets the rotation of the gamebject
@@ -185,7 +185,7 @@ public class PlayerControl : MonoBehaviour
 			{
 				isRunning = true;
 				anim.Play ("Running");
-				transform.Translate (-Vector2.up * speed * Time.deltaTime);
+//			transform.Translate (-Vector2.up * speed * Time.deltaTime);
 			}
 		} 
 
@@ -204,7 +204,7 @@ public class PlayerControl : MonoBehaviour
 			{
 				isRunning = true;
 				anim.Play ("Running");
-				transform.Translate (Vector2.up * speed * Time.deltaTime);
+//				transform.Translate (Vector2.up * speed * Time.deltaTime);
 			}
 		} 
 
@@ -218,7 +218,7 @@ public class PlayerControl : MonoBehaviour
 		if (shortFall) 
 		{
 			isRunning = false;
-			transform.Translate (-Vector2.up * 4f * Time.deltaTime);
+//		transform.Translate (-Vector2.up * 4f * Time.deltaTime);
 		} 
 			else 
 			{
@@ -339,21 +339,34 @@ public class PlayerControl : MonoBehaviour
 		if (v == 1 && h == 0) 
 		{
 			this.runDirection = RunDirection.NORTH;
+
+			RunningMovement = new Vector2(0f, .00376f);
+			transform.Translate (RunningMovement * speed);
 		}
 		
 		if (v == -1 && h == 0) 
 		{
 			this.runDirection = RunDirection.SOUTH;
+
+			RunningMovement = new Vector2(0f, -.00376f);
+			transform.Translate (RunningMovement * speed);
 		}
 		
 		if (v == 0 && h == 1) 
 		{
 			this.runDirection = RunDirection.EAST;
+
+			RunningMovement = new Vector2(.00376f, 0f);
+			transform.Translate (RunningMovement * speed);
 		}
 		
 		if (v == 0 && h == -1) 
 		{
 			this.runDirection = RunDirection.WEST;
+
+			
+			RunningMovement = new Vector2(-.00376f, 0f);
+			transform.Translate (RunningMovement * speed);
 		}
 
 		// Set NorthEast
@@ -363,23 +376,34 @@ public class PlayerControl : MonoBehaviour
 			if (v > .01 && v < .1|| h > .87 && h < .95) 
 			{
 				this.runDirection = RunDirection.NORTHEAST20;
+
+//				RunningMovement = new Vector2(.0033f, .0015f);
+//				transform.Translate (RunningMovement);
 			}
 			
 			if (v > .1 && v < .2 || h > .75 && h < .87) 
 			{
 				this.runDirection = RunDirection.NORTHEAST30;
-//				NorthEast30 = new Vector2(.003f, .0021f);
-//				transform.Translate (NorthEast30);
+
+//				RunningMovement = new Vector2(.003f, .0021f);
+//				transform.Translate (RunningMovement);
 			}
 			
 			if (v > .2 && v < .3 || h > .65 && h < .75) 
 			{
 				this.runDirection = RunDirection.NORTHEAST40;
+				
+				RunningMovement = new Vector2(.0033f, .0018f);
+				transform.Translate (RunningMovement * speed);
+
+//				RunningMovement = new Vector2(.0025f, .0025f);
+//				transform.Translate (RunningMovement);
 			}
 			
 			if (v > .3 && v < .4 || h > .5 && h < .65) 
 			{
 				this.runDirection = RunDirection.NORTHEAST50;
+
 			}
 			
 			if (v > .4 && v < .55 || h > .35 && h < .5) 
@@ -463,6 +487,9 @@ public class PlayerControl : MonoBehaviour
 			if (v < -.5 && v > -.63 || h < -.38 && h > -.5) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST240;
+				
+				RunningMovement = new Vector2(-.0033f, -.0022f);
+				transform.Translate (RunningMovement * speed);
 			}
 
 			if (v < -.63 && v > -.75 || h < -.25 && h > -.38) 
@@ -628,7 +655,7 @@ public class PlayerControl : MonoBehaviour
 			break;
 		}
 
-//		Debug.Log ("the last-recorded Run Direction is: " + this.lastRecordedRunDirection);
+		Debug.Log ("the last-recorded Run Direction is: " + this.lastRecordedRunDirection);
 	}
 
 	void checkDestructibleObjects()
