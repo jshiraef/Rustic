@@ -14,7 +14,7 @@ public class PlayerControl : MonoBehaviour
 
 	RaycastHit2D whatIHit;
 
-	public float speed = 2f; 
+	public float speed = 1f; 
 	public float v, h;
 
 	private Vector2 RunningMovement;
@@ -340,24 +340,24 @@ public class PlayerControl : MonoBehaviour
 		{
 			this.runDirection = RunDirection.NORTH;
 
-			RunningMovement = new Vector2(0f, .00376f);
-			transform.Translate (RunningMovement * speed);
+			RunningMovement = new Vector2(0f, .0072f);
+			transform.Translate (RunningMovement);
 		}
 		
 		if (v == -1 && h == 0) 
 		{
 			this.runDirection = RunDirection.SOUTH;
 
-			RunningMovement = new Vector2(0f, -.00376f);
-			transform.Translate (RunningMovement * speed);
+			RunningMovement = new Vector2(0f, -.0072f);
+			transform.Translate (RunningMovement);
 		}
 		
 		if (v == 0 && h == 1) 
 		{
 			this.runDirection = RunDirection.EAST;
 
-			RunningMovement = new Vector2(.00376f, 0f);
-			transform.Translate (RunningMovement * speed);
+			RunningMovement = new Vector2(.0072f, 0f);
+			transform.Translate (RunningMovement);
 		}
 		
 		if (v == 0 && h == -1) 
@@ -365,141 +365,232 @@ public class PlayerControl : MonoBehaviour
 			this.runDirection = RunDirection.WEST;
 
 			
-			RunningMovement = new Vector2(-.00376f, 0f);
-			transform.Translate (RunningMovement * speed);
+			RunningMovement = new Vector2(-.0072f, 0f);
+			transform.Translate (RunningMovement);
 		}
 
 		// Set NorthEast
 		if (Input.GetAxis ("Vertical") > 0 && Input.GetAxis ("Horizontal") > 0) 
 		{
 
-			if (v > .01 && v < .1|| h > .87 && h < .95) 
+			if (v > 0 && v < .1|| h > .87 && h < .95) 
 			{
 				this.runDirection = RunDirection.NORTHEAST20;
 
-//				RunningMovement = new Vector2(.0033f, .0015f);
-//				transform.Translate (RunningMovement);
+				RunningMovement = new Vector2(.006762f, .00246f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northeast 20");
 			}
 			
 			if (v > .1 && v < .2 || h > .75 && h < .87) 
 			{
 				this.runDirection = RunDirection.NORTHEAST30;
 
-//				RunningMovement = new Vector2(.003f, .0021f);
-//				transform.Translate (RunningMovement);
+				RunningMovement = new Vector2(.00624f, .0036f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northeast 30");
 			}
 			
 			if (v > .2 && v < .3 || h > .65 && h < .75) 
 			{
 				this.runDirection = RunDirection.NORTHEAST40;
 				
-				RunningMovement = new Vector2(.0033f, .0018f);
-				transform.Translate (RunningMovement * speed);
-
-//				RunningMovement = new Vector2(.0025f, .0025f);
-//				transform.Translate (RunningMovement);
+				RunningMovement = new Vector2(.00552f, .004626f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northeast 40");
 			}
 			
 			if (v > .3 && v < .4 || h > .5 && h < .65) 
 			{
 				this.runDirection = RunDirection.NORTHEAST50;
 
+				RunningMovement = new Vector2(.004626f, .00552f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northheast 50");
+
 			}
 			
 			if (v > .4 && v < .55 || h > .35 && h < .5) 
 			{
 				this.runDirection = RunDirection.NORTHEAST60;
+
+				RunningMovement = new Vector2(.0036f, .00624f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northeast 60");
 			}
 			
 			if (v > .55 && v < .7 || h > .25 && h < .35) 
 			{
 				this.runDirection = RunDirection.NORTHEAST70;
+
+				RunningMovement = new Vector2(.00246f, .006768f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northeast 70");
 			}
 			
-			if (v > .7 && v < 85 || h > .1 && h < .25) 
+			if (v > .7 && v < .85 || h > 0 && h < .25) 
 			{
 				this.runDirection = RunDirection.NORTHEAST80;
+
+				RunningMovement = new Vector2(.001206f, .007086f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northeast 80");
 			}
 		}
 
 		// Set NorthWest
 		if (Input.GetAxis ("Vertical") > 0 && Input.GetAxis ("Horizontal") < 0) 
 		{
-			if (v < .95 && v > .85 || h < -.05 && h > -.15) 
+			if (v < 1 && v > .85 || h < 0 && h > -.15) 
 			{
 				this.runDirection = RunDirection.NORTHWEST110;
+
+				RunningMovement = new Vector2(-.00246f, .006768f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northwest 110");
 			}
 
 			if (v < .85 && v > .7 || h < -.15 && h > -.3) 
 			{
 				this.runDirection = RunDirection.NORTHWEST120;
+
+				RunningMovement = new Vector2(-.0036f, .00624f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northwest 120");
 			}
 
 			if (v < .7 && v > .55 || h < -.3 && h > -.45) 
 			{
 				this.runDirection = RunDirection.NORTHWEST130;
+
+				RunningMovement = new Vector2(-.004626f, .00552f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northhwest 130");
+
 			}
 
 			if (v < .55 && v > .42 || h < -.45 && h > -.58) 
 			{
 				this.runDirection = RunDirection.NORTHWEST140;
+
+				RunningMovement = new Vector2(-.00552f, .004626f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northwest 140");
 			}
 
 			if (v < .42 && v > .3 || h < -.58 && h > -.7) 
 			{
 				this.runDirection = RunDirection.NORTHWEST150;
+
+				RunningMovement = new Vector2(-.00624f, .0036f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northwest 150");
 			}
 
 			if (v < .3 && v > .2 || h < -.7 && h > -.8) 
 			{
 				this.runDirection = RunDirection.NORTHWEST160;
+
+				RunningMovement = new Vector2(-.006762f, .00246f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northeast 160");
 			}
 
-			if (v < .2 && v > .1 || h < -.8 && h > -.9) 
+			if (v < .2 && v > 0 || h < -.8 && h > -.9) 
 			{
 				this.runDirection = RunDirection.NORTHWEST170;
+
+				RunningMovement = new Vector2(-.007086f, .001206f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now northeast 170");
 			}
 		}
 
 		// Set SouthWest
 		if (Input.GetAxis ("Vertical") < 0 && Input.GetAxis ("Horizontal") < 0) 
 		{
-			if (v < -.05 && v > -.15 || h < -.85 && h > -.95) 
+			if (v < 0 && v > -.15 || h < -.85 && h > -.95) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST200;
+
+				RunningMovement = new Vector2(-.006768f, -.00246f);
+				transform.Translate (RunningMovement);
+
+				Debug.Log ("it is now southwest 200");
 			}
 
 			if (v < -.15 && v > -.25 || h < -.75 && h > -.85) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST210;
+
+				RunningMovement = new Vector2(-.00624f, -.0036f);
+				transform.Translate (RunningMovement);
+
+				Debug.Log ("it is now southwest 210");
 			}
 
 			if (v < -.25 && v > -.37 || h < -.63 && h > -.75) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST220;
+
+				RunningMovement = new Vector2(-.00552f, -.004626f);
+				transform.Translate (RunningMovement);
+
+				Debug.Log ("it is now southwest 220");
 			}
 
 			if (v < -.37 && v > -.5 || h < -.5 && h > -.63) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST230;
+
+				RunningMovement = new Vector2(-.004626f, -.00552f);
+				transform.Translate (RunningMovement);
+
+				Debug.Log ("it is now southwest 230");
 			}
 
 			if (v < -.5 && v > -.63 || h < -.38 && h > -.5) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST240;
 				
-				RunningMovement = new Vector2(-.0033f, -.0022f);
-				transform.Translate (RunningMovement * speed);
+				RunningMovement = new Vector2(-.0036f, -.00624f);
+				transform.Translate (RunningMovement);
+
+				Debug.Log ("it is now southwest 240");
 			}
 
 			if (v < -.63 && v > -.75 || h < -.25 && h > -.38) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST250;
+
+				RunningMovement = new Vector2(-.00246f, -.006762f);
+				transform.Translate (RunningMovement);
+
+				Debug.Log ("it is now southwest 250");
 			}
 
-			if (v < -.75 && v > -.87 || h < -.13 && h > -.25) 
+			if (v < -.75 && v > -.87 || h < 0 && h > -.25) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST260;
+
+				RunningMovement = new Vector2(-.001206f, -.007086f);
+				transform.Translate (RunningMovement);
+
+				Debug.Log ("it is now southwest 260");
 			}
 		}
 
@@ -509,36 +600,71 @@ public class PlayerControl : MonoBehaviour
 			if (v > -.95 && v < -.83 || h > .05 && h < .17) 
 			{
 				this.runDirection = RunDirection.SOUTHEAST290;
+
+				RunningMovement = new Vector2(.00246f, -.006768f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now southeast 290");
 			}
 
 			if (v > -.83 && v < -.7 || h > .17 && h < .3) 
 			{
 				this.runDirection = RunDirection.SOUTHEAST300;
+				
+				RunningMovement = new Vector2(.0036f, -.00624f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now southeast 300");
 			}
 
 			if (v > -.7 && v < -.58 || h > .3 && h < .42) 
 			{
 				this.runDirection = RunDirection.SOUTHEAST310;
+
+				RunningMovement = new Vector2(.004626f, -.00552f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now southeast 310");
 			}
 
 			if (v > -.58 && v < -.45 || h > .42 && h < .55) 
 			{
 				this.runDirection = RunDirection.SOUTHEAST320;
+
+				RunningMovement = new Vector2(.00552f, -.004626f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now southeast 320");
 			}
 
 			if (v > -.45 && v < -.32 || h > .55 && h < .67) 
 			{
 				this.runDirection = RunDirection.SOUTHEAST330;
+
+				RunningMovement = new Vector2(.00624f, -.0036f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now southeast 330");
 			}
 
 			if (v > -.32 && v < -.2 || h > .67 && h < .78) 
 			{
 				this.runDirection = RunDirection.SOUTHEAST340;
+
+				RunningMovement = new Vector2(.006762f, -.00246f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now southeast 340");
 			}
 
-			if (v > -.2 && v < -.1 || h > .78 && h < .9) 
+			if (v > -.2 && v < 0 || h > .78 && h < .9) 
 			{
 				this.runDirection = RunDirection.SOUTHEAST350;
+
+				RunningMovement = new Vector2(.007086f, -.001206f);
+				transform.Translate (RunningMovement);
+				
+				Debug.Log ("it is now southeast 350");
 			}
 		}
 
@@ -655,7 +781,7 @@ public class PlayerControl : MonoBehaviour
 			break;
 		}
 
-		Debug.Log ("the last-recorded Run Direction is: " + this.lastRecordedRunDirection);
+//		Debug.Log ("the last-recorded Run Direction is: " + this.lastRecordedRunDirection);
 	}
 
 	void checkDestructibleObjects()

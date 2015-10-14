@@ -15,7 +15,7 @@ public class TestAxes : MonoBehaviour {
 
 	void OnGUI()
 	{
-//		GUI.Box (new Rect (10, 10, 200, 900), 
+		GUI.Box (new Rect (10, 10, 200, 900), 
 //
 //		         "PS4 R1: " + Input.GetButton ("PS4_R1") + "\n"
 //		         + "PS4 L1: " + Input.GetButton ("PS4_L1") + "\n"
@@ -25,8 +25,8 @@ public class TestAxes : MonoBehaviour {
 //		         + "PS4 L3: " + Input.GetButton ("PS4_R3") + "\n\n"
 //
 //
-//		         + "Left Analog Horizontal: " + Input.GetAxis ("Horizontal") + "\n"
-//		         + "Left Analog Vertical: " + Input.GetAxis ("Vertical") + "\n"
+		         "Left Analog Horizontal: " + Input.GetAxis ("Horizontal") + "\n"
+		         + "Left Analog Vertical: " + Input.GetAxis ("Vertical") + "\n"
 //		         + "Right Analog Horizontal: " + Input.GetAxis ("PS4_RightAnalogHorizontal") + "\n"
 //		         + "Right Analog Vertical: " + Input.GetAxis ("PS4_RightAnalogVertical") + "\n\n"
 //
@@ -45,6 +45,6 @@ public class TestAxes : MonoBehaviour {
 //
 //		         + "PS4 Virtual Analog: " + Input.GetButton ("VirtualLeftAnalog")
 //
-//		         );
+		         );
 	}
 }
