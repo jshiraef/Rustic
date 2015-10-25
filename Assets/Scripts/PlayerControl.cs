@@ -212,7 +212,7 @@ public class PlayerControl : MonoBehaviour
 
 		if(Input.GetKeyDown (KeyCode.Space) && grounded == true)
 		{
-			rigidbody2D.AddForce(Vector2.up * 200f);
+			GetComponent<Rigidbody2D>().AddForce(Vector2.up * 200f);
 		}
 
 		if (shortFall) 
@@ -870,12 +870,12 @@ public class PlayerControl : MonoBehaviour
 
 	void setKinematic()
 	{
-		this.player.rigidbody2D.isKinematic = true;
+		this.player.GetComponent<Rigidbody2D>().isKinematic = true;
 	}
 
 	void setNonKinematic()
 	{
-		this.player.rigidbody2D.isKinematic = false;
+		this.player.GetComponent<Rigidbody2D>().isKinematic = false;
 	}
 
 	public enum Direction
