@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XInputDotNetPure;
 
 public class PlayerControl : MonoBehaviour 
 {
@@ -18,6 +19,7 @@ public class PlayerControl : MonoBehaviour
 	public float v, h;
 
 	private Vector2 RunningMovement;
+    private PlayerIndex playerIndex;
 
 
 	public Direction direction;
@@ -29,6 +31,9 @@ public class PlayerControl : MonoBehaviour
 	Animator anim;
 	private bool shortFall = false;
 	private float shortFallCoolDown;
+
+    private bool rumble = false;
+    private float rumbleCoolDown;
 
 	private GameObject player;
 
@@ -157,12 +162,29 @@ public class PlayerControl : MonoBehaviour
 
 		if (Input.GetAxisRaw ("Horizontal") < 0) 
 		{
+            rumble = true;
+
 			if(isRunning == false)
 			{
 				anim.StopPlayback ();
 			}
 
-			this.direction = Direction.WEST;
+            if (rumble && rumbleCoolDown <= 0)
+            {
+                GamePad.SetVibration(playerIndex, 0, 0);
+                rumbleCoolDown = 10;
+            }
+
+            if(rumbleCoolDown > 0)
+            {
+                rumbleCoolDown -= Time.deltaTime;
+            }
+
+           
+
+            Debug.Log("the rumble coolDown is: " + rumbleCoolDown);
+
+            this.direction = Direction.WEST;
 
 			if(!lockPosition && !swinging)
 			{
