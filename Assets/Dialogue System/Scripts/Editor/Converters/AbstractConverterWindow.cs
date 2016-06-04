@@ -303,7 +303,7 @@ namespace PixelCrushers.DialogueSystem {
 			if (database == null) {
 				Debug.LogError(string.Format("{0}: Couldn't create asset '{1}'.", DialogueDebug.Prefix, prefs.databaseFilename));
 			} else {
-				if (template == null) template = Template.FromEditorPrefs();
+				if (template == null) template = TemplateTools.LoadFromEditorPrefs();
 				CopySourceToDialogueDatabase(database);
 				TouchUpDialogueDatabase(database);
 				EditorUtility.SetDirty(database);

@@ -150,7 +150,7 @@ public class PlayerControl : MonoBehaviour
 				isRunning = true;
 				anim.Play ("Running");
 
-                transform.Translate(h * .02f, 0, 0);
+                transform.Translate(h * .015f, 0, 0);
 
                 //transform.Translate (Vector2.right * speed * Time.deltaTime);
             }
@@ -192,7 +192,7 @@ public class PlayerControl : MonoBehaviour
 				anim.Play ("Running");
 
                 
-                transform.Translate(h * .02f, 0, 0);
+                transform.Translate(h * .015f, 0, 0);
                 
 //			transform.Translate (-Vector2.right * speed * Time.deltaTime);
 			}
@@ -215,7 +215,7 @@ public class PlayerControl : MonoBehaviour
 				isRunning = true;
 				anim.Play ("Running");
 
-                transform.Translate(0, v * .02f, 0);
+                transform.Translate(0, v * .015f, 0);
 
                 //			transform.Translate (-Vector2.up * speed * Time.deltaTime);
             }
@@ -237,7 +237,7 @@ public class PlayerControl : MonoBehaviour
 				isRunning = true;
 				anim.Play ("Running");
 
-                transform.Translate(0, v * .02f, 0);
+                transform.Translate(0, v * .015f, 0);
 
                 //transform.Translate (Vector2.up * speed * Time.deltaTime);
             }

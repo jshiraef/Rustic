@@ -19,13 +19,13 @@ public class TestAxes : MonoBehaviour {
 //
 //		         "PS4 R1: " + Input.GetButton ("PS4_R1") + "\n"
 //		         + "PS4 L1: " + Input.GetButton ("PS4_L1") + "\n"
-//		         + "PS4 R2: " + Input.GetAxis ("PS4_R2") + "\n"
-//		         + "PS4 L2: " + Input.GetAxis ("PS4_L2") + "\n"
+		          "PS4 R2: " + Input.GetAxis ("PS4_R2") + "\n"
+		         + "PS4 L2: " + Input.GetAxis ("PS4_L2") + "\n"
 //		         + "PS4 R3: " + Input.GetButton ("PS4_L3") + "\n"
 //		         + "PS4 L3: " + Input.GetButton ("PS4_R3") + "\n\n"
 //
 //
-		         "Left Analog Horizontal: " + Input.GetAxis ("Horizontal") + "\n"
+		         + "Left Analog Horizontal: " + Input.GetAxis ("Horizontal") + "\n"
 		         + "Left Analog Vertical: " + Input.GetAxis ("Vertical") + "\n"
 //		         + "Right Analog Horizontal: " + Input.GetAxis ("PS4_RightAnalogHorizontal") + "\n"
 //		         + "Right Analog Vertical: " + Input.GetAxis ("PS4_RightAnalogVertical") + "\n\n"

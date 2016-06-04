@@ -72,7 +72,7 @@ namespace PixelCrushers.DialogueSystem {
 		}
 		
 		public override void SetActive(bool value) {
-			if (value == true) {
+			if (value == true || alwaysVisible) {
 				ShowPanel();
 			} else {
 				HidePanel();
