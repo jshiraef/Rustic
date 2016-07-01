@@ -10,6 +10,9 @@ public class PlayerControl : MonoBehaviour
 	public bool isRunning = false;
 	public bool lockPosition = false;
 	public bool swinging = false;
+    public bool rolling = false;
+
+    private float rollingCoolDown;
 
 	public Transform lineStart, lineEnd, groundedEnd;
 
@@ -145,7 +148,7 @@ public class PlayerControl : MonoBehaviour
 
 			this.direction = Direction.EAST;
 
-			if(!lockPosition && !swinging)
+			if(!lockPosition && !swinging && !rolling)
 			{
 				isRunning = true;
 				anim.Play ("Running");
@@ -186,7 +189,7 @@ public class PlayerControl : MonoBehaviour
 
             this.direction = Direction.WEST;
 
-			if(!lockPosition && !swinging)
+			if(!lockPosition && !swinging && !rolling)
 			{
 				isRunning = true;
 				anim.Play ("Running");
@@ -210,7 +213,7 @@ public class PlayerControl : MonoBehaviour
 
 			this.direction = Direction.SOUTH;
 
-			if(!lockPosition && !swinging)
+			if(!lockPosition && !swinging && !rolling)
 			{
 				isRunning = true;
 				anim.Play ("Running");
@@ -232,7 +235,7 @@ public class PlayerControl : MonoBehaviour
 
 			this.direction = Direction.NORTH;
 
-			if(!lockPosition && !swinging)
+			if(!lockPosition && !swinging && !rolling)
 			{
 				isRunning = true;
 				anim.Play ("Running");
@@ -262,7 +265,7 @@ public class PlayerControl : MonoBehaviour
 
 		if (Input.GetAxisRaw ("Horizontal") == 0 && Input.GetAxisRaw ("Vertical") == 0) 
 		{
-			if(!swinging)
+			if(!swinging && !rolling)
 			{
 			anim.Play ("Idle");
 			}
@@ -294,7 +297,33 @@ public class PlayerControl : MonoBehaviour
 		{
 			anim.Play ("SwingScythe");
 		}
-	}
+
+        if (Input.GetButton("PS4_Triangle"))
+        {
+            if (!rolling)
+            {
+                rollingCoolDown = .7f;
+            }
+            rolling = true;
+        }
+
+        if (rolling)
+        {
+            anim.Play("Rolling");
+
+            transform.Translate(.045f, 0, 0);
+        }
+
+        if (rollingCoolDown > 0)
+        {
+            rollingCoolDown -= Time.deltaTime;
+        }
+
+        if (rolling && rollingCoolDown <= 0)
+        {
+            rolling = false;
+        }
+    }
 
 	void animationSetter()
 	{
