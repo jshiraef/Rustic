@@ -5,6 +5,7 @@ public class CartController : MonoBehaviour {
 
     public bool isRunning;
     public bool isJumping;
+    public bool isIdle;
     public bool grounded;
     public bool interact = false;
     public bool lockPosition;
@@ -70,6 +71,8 @@ public class CartController : MonoBehaviour {
                 transform.Translate(h * .015f, 0, 0);
             }
 
+            isIdle = false;
+
         }
 
         if (Input.GetAxisRaw("Horizontal") < 0)
@@ -86,6 +89,8 @@ public class CartController : MonoBehaviour {
 
                 transform.Translate(h * .015f, 0, 0);
             }
+
+            isIdle = false;
         }
 
         if (Input.GetAxisRaw("Vertical") < 0)
@@ -106,6 +111,8 @@ public class CartController : MonoBehaviour {
 
                 transform.Translate(0, v * .015f, 0);
             }
+
+            isIdle = false;
         }
 
         if (Input.GetAxisRaw("Vertical") > 0)
@@ -127,6 +134,8 @@ public class CartController : MonoBehaviour {
 
                 transform.Translate(0, v * .015f, 0);
             }
+
+            isIdle = false;
         }
 
         // jumping stuff
@@ -139,6 +148,18 @@ public class CartController : MonoBehaviour {
             }
 
             isJumping = true;
+            isIdle = false;
+        }
+
+        if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+        {
+            if (!isJumping && !isIdle)
+            {               
+                    anim.Play("Idle02");
+
+                    isIdle = true;              
+            }
+           
         }
 
         if (isJumping)

@@ -2,108 +2,92 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
+  serializedVersion: 2
   tags:
-  - fallingLedge
-  - barrel
+  - wall
+  - fence
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
   - 
-  Builtin Layer 0: Default
-  Builtin Layer 1: TransparentFX
-  Builtin Layer 2: Ignore Raycast
-  Builtin Layer 3: 
-  Builtin Layer 4: Water
-  Builtin Layer 5: UI
-  Builtin Layer 6: 
-  Builtin Layer 7: 
-  User Layer 8: Player
-  User Layer 9: Guard
-  User Layer 10: 
-  User Layer 11: 
-  User Layer 12: 
-  User Layer 13: 
-  User Layer 14: 
-  User Layer 15: 
-  User Layer 16: 
-  User Layer 17: 
-  User Layer 18: 
-  User Layer 19: 
-  User Layer 20: 
-  User Layer 21: 
-  User Layer 22: 
-  User Layer 23: 
-  User Layer 24: 
-  User Layer 25: 
-  User Layer 26: 
-  User Layer 27: 
-  User Layer 28: 
-  User Layer 29: 
-  User Layer 30: 
-  User Layer 31: 
+  - Water
+  - UI
+  - 
+  - 
+  - Player
+  - Guard
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   m_SortingLayers:
   - name: Default
-    userID: 0
     uniqueID: 0
     locked: 0
   - name: 
-    userID: 1
     uniqueID: 3036935513
     locked: 0
   - name: 
-    userID: 2
     uniqueID: 2211431843
     locked: 0
   - name: 
-    userID: 3
     uniqueID: 1299359499
     locked: 0
   - name: MapChunkRow6
-    userID: 4
     uniqueID: 2857693337
     locked: 0
   - name: MapChunkOffsetRow6
-    userID: 5
     uniqueID: 3812932207
     locked: 0
   - name: MapChunkRow7
-    userID: 6
     uniqueID: 1408932477
     locked: 0
   - name: MapChunkOffsetRow7
-    userID: 7
     uniqueID: 2194322127
     locked: 0
   - name: MapChunkRow8
-    userID: 8
     uniqueID: 4283952605
     locked: 0
   - name: MapChunkOffsetRow8
-    userID: 9
     uniqueID: 848461619
     locked: 0
   - name: MapChunkRow9
-    userID: 10
     uniqueID: 467347917
     locked: 0
   - name: MapChunkOffsetRow9
-    userID: 11
     uniqueID: 2928722455
     locked: 0
   - name: MapChunkRow10
-    userID: 12
     uniqueID: 1700005565
     locked: 0
   - name: background
-    userID: 13
     uniqueID: 680401133
     locked: 0
   - name: foreground
-    userID: 14
     uniqueID: 3241445177
     locked: 0
   - name: Main
-    userID: 15
     uniqueID: 1210165365
     locked: 0
   - name: Overlap
-    userID: 16
     uniqueID: 3804726903
     locked: 0
