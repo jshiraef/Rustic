@@ -22,8 +22,8 @@ public class CameraController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		player = GameObject.Find ("HorseCart");
-//        player = GameObject.Find("player");
+//		player = GameObject.Find ("HorseCart");
+        player = GameObject.Find("player");
 
 		camera = GetComponent<Camera> ();
 
