@@ -15,7 +15,7 @@ public class Dialogue : MonoBehaviour
     public float TimeBetweenCharacters = 0.05f;
     public float CharacterRate = 0.5f;
 
-    public KeyCode DialogueInput = KeyCode.Space;
+ //   public KeyCode DialogueInput = KeyCode.Space;
 
     private bool _isStringBeingRevealed = false;
     private bool _isDialoguePlaying = false;
@@ -32,9 +32,6 @@ public class Dialogue : MonoBehaviour
         _textComponent = GetComponent<Text>();
         _textComponent.text = "";
 
-        dialoguePanel = GameObject.Find("Dialogue Panel");
-        dialoguePanel.SetActive(true);
-
     }
 
     // Update is called once per frame
@@ -42,13 +39,12 @@ public class Dialogue : MonoBehaviour
     {
         GameObject player = GameObject.Find("player");
         GameObject baker = GameObject.Find("baker");
-        
+
         if (Mathf.Abs(player.transform.position.x - baker.transform.position.x) < TRIGGER_DISTANCE
         && Mathf.Abs(player.transform.position.y - baker.transform.position.y) < TRIGGER_DISTANCE
-        && Input.GetKeyDown(DialogueInput))
+        && Input.GetButton("PS4_X"))
         {
-            dialoguePanel.SetActive(true);
-            Debug.Log("this should be happening");
+
 
             if (!_isDialoguePlaying)
             {
@@ -84,7 +80,7 @@ public class Dialogue : MonoBehaviour
 
         while (true)
         {
-            if (Input.GetKeyDown(DialogueInput))
+            if (Input.GetButton("PS4_X"))
             {
                 break;
             }
@@ -115,7 +111,7 @@ public class Dialogue : MonoBehaviour
 
             if (currentCharacterIndex < stringLength)
             {
-                if (Input.GetKey(DialogueInput))
+                if (Input.GetButton("PS4_X"))
                 {
                     yield return new WaitForSeconds(TimeBetweenCharacters * CharacterRate);
                 }
@@ -135,7 +131,7 @@ public class Dialogue : MonoBehaviour
 
         while (true)
         {
-            if (Input.GetKeyDown(DialogueInput))
+            if (Input.GetButton("PS4_X"))
             {
                 break;
             }
