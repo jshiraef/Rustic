@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Tester
-  m_Shader: {fileID: 4800000, guid: 900668e6e0511be429a9c447da72ee8c, type: 3}
+  m_Shader: {fileID: 4800000, guid: 3f55a3c4d9c867f45a02825db6d2e9f7, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: 1999
+  m_CustomRenderQueue: 2450
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -90,7 +90,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: 0.5
+        second: 0.78
       data:
         first:
           name: PixelSnap

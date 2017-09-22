@@ -131,6 +131,10 @@ Material:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _AlphaCutoff
+        second: 0.1
     m_Colors:
       data:
         first:

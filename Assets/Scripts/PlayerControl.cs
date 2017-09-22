@@ -58,7 +58,7 @@ public class PlayerControl : MonoBehaviour
 
 		player = GameObject.Find ("player");
 
-		nearestBarrel = GameObject.Find ("barrel");
+//		nearestBarrel = GameObject.Find ("barrel");
 	}
 	
 	// Update is called once per frame
