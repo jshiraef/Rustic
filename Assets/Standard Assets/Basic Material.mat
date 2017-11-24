@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Basic Material
-  m_Shader: {fileID: 4800000, guid: 951ebb4bb7fcba44b8af0865dbfeab5f, type: 3}
+  m_Shader: {fileID: 10753, guid: 0000000000000000e000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 3000
@@ -38,6 +38,22 @@ Material:
         first:
           name: PixelSnap
         second: 0
+      data:
+        first:
+          name: _ShakeDisplacement
+        second: 0.275
+      data:
+        first:
+          name: _ShakeTime
+        second: 0.496
+      data:
+        first:
+          name: _ShakeWindspeed
+        second: 0.555
+      data:
+        first:
+          name: _ShakeBending
+        second: 0.776
     m_Colors:
       data:
         first:
@@ -50,4 +66,4 @@ Material:
       data:
         first:
           name: _OccludedColor
-        second: {r: 0, g: 0, b: 0, a: 0.5}
+        second: {r: 0, g: 0, b: 0, a: 0.091}
