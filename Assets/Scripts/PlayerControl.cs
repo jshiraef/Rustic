@@ -13,6 +13,10 @@ public class PlayerControl : MonoBehaviour
     public bool rolling = false;
     public bool colliding = false;
 
+    Rigidbody2D body;
+    float moveForce;
+    float maxVelocity;
+
     private float rollingCoolDown;
 
 	public Transform lineStart, lineEnd, groundedEnd;
@@ -52,7 +56,10 @@ public class PlayerControl : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		anim = GetComponent<Animator> ();
+        body = GetComponent<Rigidbody2D>();
+        maxVelocity = 77f;
+
+        anim = GetComponent<Animator> ();
 
 		this.direction = Direction.NULL;
 
@@ -149,7 +156,22 @@ public class PlayerControl : MonoBehaviour
 		v = Input.GetAxis ("Vertical");
 		h = Input.GetAxis ("Horizontal");
 
-		isRunning = false;
+        // movement vectors are updated here
+        Vector3 position = transform.position;
+        Vector3 inputVelocity = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0).normalized;
+        float moveForce = Mathf.Max((maxVelocity - body.velocity.magnitude), 0);
+        if (inputVelocity.magnitude > 0.99f)
+        {
+            body.drag = 1;
+            body.AddForce(inputVelocity * moveForce * Time.deltaTime * 60);
+        }
+        else
+        {
+            body.drag = 4;
+        }
+
+
+        isRunning = false;
 
 		anim.SetFloat ("VerticalAnalogAxis", (Input.GetAxis ("Vertical")));
 		anim.SetFloat ("HorizontalAnalogAxis", (Input.GetAxis ("Horizontal")));
@@ -168,7 +190,7 @@ public class PlayerControl : MonoBehaviour
 				isRunning = true;
 				anim.Play ("Running");
 
-                transform.Translate(h * .015f, 0, 0);
+//                transform.Translate(h * .015f, 0, 0);
 
                 //transform.Translate (Vector2.right * speed * Time.deltaTime);
             }
@@ -194,7 +216,7 @@ public class PlayerControl : MonoBehaviour
 				anim.Play ("Running");
 
                 
-                transform.Translate(h * .015f, 0, 0);
+//                transform.Translate(h * .015f, 0, 0);
                 
 //			transform.Translate (-Vector2.right * speed * Time.deltaTime);
 			}
@@ -217,7 +239,7 @@ public class PlayerControl : MonoBehaviour
 				isRunning = true;
 				anim.Play ("Running");
 
-                transform.Translate(0, v * .015f, 0);
+ //               transform.Translate(0, v * .015f, 0);
 
                 //			transform.Translate (-Vector2.up * speed * Time.deltaTime);
             }
@@ -239,7 +261,7 @@ public class PlayerControl : MonoBehaviour
 				isRunning = true;
 				anim.Play ("Running");
 
-                transform.Translate(0, v * .015f, 0);
+ //               transform.Translate(0, v * .015f, 0);
 
                 //transform.Translate (Vector2.up * speed * Time.deltaTime);
             }

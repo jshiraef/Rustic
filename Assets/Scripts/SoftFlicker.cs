@@ -6,8 +6,8 @@ using System.Collections;
 public class SoftFlicker : MonoBehaviour 
 {
 
-	public float minIntensity = 0.25f;
-	public float maxIntensity = 1.5f;
+	public float minIntensity = .05f;
+	public float maxIntensity = 5f;
 
 	float random;
 
