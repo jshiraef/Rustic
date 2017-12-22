@@ -29,29 +29,27 @@ public class Dialogue : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GameObject player = GameObject.Find("player");
+        GameObject baker = GameObject.Find("baker");
+
         _textComponent = GetComponent<Text>();
         _textComponent.text = "";
+
+        HideStuff();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        GameObject player = GameObject.Find("player");
-        GameObject baker = GameObject.Find("baker");
 
-        if (Mathf.Abs(player.transform.position.x - baker.transform.position.x) < TRIGGER_DISTANCE
-        && Mathf.Abs(player.transform.position.y - baker.transform.position.y) < TRIGGER_DISTANCE
-        && Input.GetButton("PS4_X"))
+        if (Input.GetButton("PS4_X"))
         {
-
-
             if (!_isDialoguePlaying)
             {
                 _isDialoguePlaying = true;
                 StartCoroutine(StartDialogue());
             }
-
         }
 
     }
@@ -59,6 +57,8 @@ public class Dialogue : MonoBehaviour
     private IEnumerator StartDialogue()
     {
         int dialogueLength = DialogueStrings.Length;
+
+        //the current line number within the dialogue array
         int currentDialogueIndex = 0;
 
         while (currentDialogueIndex < dialogueLength || !_isStringBeingRevealed)
@@ -71,6 +71,7 @@ public class Dialogue : MonoBehaviour
                 if (currentDialogueIndex >= dialogueLength)
                 {
                     _isEndofDialogue = true;
+                    Debug.Log("You have reached the end of the dialogue array");
                 }
             }
 
@@ -80,7 +81,7 @@ public class Dialogue : MonoBehaviour
 
         while (true)
         {
-            if (Input.GetButton("PS4_X"))
+            if (Input.GetButtonDown("PS4_X"))
             {
                 break;
             }
@@ -98,6 +99,8 @@ public class Dialogue : MonoBehaviour
     private IEnumerator DisplayString(string stringToDisplay)
     {
         int stringLength = stringToDisplay.Length;
+
+        // the exact letter of the current line of dialogue
         int currentCharacterIndex = 0;
 
         HideStuff();
@@ -123,6 +126,10 @@ public class Dialogue : MonoBehaviour
 
             else
             {
+                if(_isEndofDialogue)
+                {
+                    Debug.Log("IT IS THE LAST LETTER OF THE LAST DIALOGUE ENTRY");
+                }
                 break;
             }
         }
@@ -131,7 +138,7 @@ public class Dialogue : MonoBehaviour
 
         while (true)
         {
-            if (Input.GetButton("PS4_X"))
+            if (Input.GetButtonDown("PS4_X"))
             {
                 break;
             }
