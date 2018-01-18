@@ -17,7 +17,7 @@ public class Barrel : MonoBehaviour {
 		anim = GetComponent<Animator> ();
 	}
 	
-	// Update is called once per frame
+	// Update is called once per fra v  me
 	void Update () {
 
 		if (hit) {
