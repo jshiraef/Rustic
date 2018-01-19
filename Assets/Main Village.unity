@@ -3861,6 +3861,11 @@ Prefab:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 21240274, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d12383eab11f67944ad775cc911ee640,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
   m_IsPrefabParent: 0

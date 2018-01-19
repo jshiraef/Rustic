@@ -8,6 +8,7 @@ public class PlayerControl : MonoBehaviour
 	public bool interact = false;
 	public bool grounded = false;
 	public bool isRunning = false;
+    public bool isWalking = false;
 	public bool lockPosition = false;
 	public bool swinging = false;
     public bool rolling = false;
@@ -171,10 +172,21 @@ public class PlayerControl : MonoBehaviour
         //}
 
 
+
         isRunning = false;
 
 		anim.SetFloat ("VerticalAnalogAxis", (Input.GetAxis ("Vertical")));
 		anim.SetFloat ("HorizontalAnalogAxis", (Input.GetAxis ("Horizontal")));
+
+        if (Input.GetAxisRaw("Vertical") > -.5f && Input.GetAxisRaw("Vertical") < .5f && Input.GetAxisRaw("Horizontal") > -.5f && Input.GetAxisRaw("Horizontal") < .5f)
+        {
+            if(!((h == 0) && (v == 0)))
+            {
+                isWalking = true;
+            }
+            
+        }
+        else isWalking = false;
 
 		if (Input.GetAxisRaw ("Horizontal") > 0)
 		{
@@ -187,10 +199,19 @@ public class PlayerControl : MonoBehaviour
 
 			if(!lockPosition && !swinging && !rolling)
 			{
-				isRunning = true;
-				anim.Play ("Running");
 
-                transform.Translate(h * .015f, 0, 0);
+                if(!isWalking)
+                {
+                    isRunning = true;
+                    anim.Play("Running");
+                }
+                else
+                {
+                    anim.Play("Walking");
+                }
+				
+
+                transform.Translate(h * .018f, 0, 0);
 
                 //transform.Translate (Vector2.right * speed * Time.deltaTime);
             }
@@ -212,11 +233,20 @@ public class PlayerControl : MonoBehaviour
 
 			if(!lockPosition && !swinging && !rolling)
 			{
-				isRunning = true;
-				anim.Play ("Running");
+
+                if(!isWalking)
+                {
+                    isRunning = true;
+                    anim.Play("Running");
+                }
+                else
+                {
+                    anim.Play("Walking");
+                }
+				
 
                 
-                transform.Translate(h * .015f, 0, 0);
+                transform.Translate(h * .018f, 0, 0);
                 
 //			transform.Translate (-Vector2.right * speed * Time.deltaTime);
 			}
@@ -236,10 +266,18 @@ public class PlayerControl : MonoBehaviour
 
 			if(!lockPosition && !swinging && !rolling)
 			{
-				isRunning = true;
-				anim.Play ("Running");
+                if(!isWalking)
+                {
+                    isRunning = true;
+                    anim.Play("Running");
+                }
+                else
+                {
+                    anim.Play("Walking");
+                }
+				
 
-                transform.Translate(0, v * .015f, 0);
+                transform.Translate(0, v * .018f, 0);
 
                 //			transform.Translate (-Vector2.up * speed * Time.deltaTime);
             }
@@ -258,10 +296,17 @@ public class PlayerControl : MonoBehaviour
 
 			if(!lockPosition && !swinging && !rolling)
 			{
-				isRunning = true;
-				anim.Play ("Running");
+                if (!isWalking)
+                {
+                    isRunning = true;
+                    anim.Play("Running");
+                }
+                else
+                {
+                    anim.Play("Walking");
+                }
 
-                transform.Translate(0, v * .015f, 0);
+                transform.Translate(0, v * .018f, 0);
 
                 //transform.Translate (Vector2.up * speed * Time.deltaTime);
             }
@@ -508,8 +553,9 @@ public class PlayerControl : MonoBehaviour
 		{
 			anim.SetBool ("runReleased", true);
 		}
-	
-	}
+//        else anim.SetBool("runReleased", false);
+
+    }
 
 	void setRunDirection()
 	{
@@ -528,13 +574,13 @@ public class PlayerControl : MonoBehaviour
 		if (v == 0 && h == 1) 
 		{
 			this.runDirection = RunDirection.EAST;
-            Debug.Log("East");
+
 		}
 		
 		if (v == 0 && h == -1) 
 		{
 			this.runDirection = RunDirection.WEST;
-            Debug.Log("West");
+
 		}
 
 		// Set NorthEast
@@ -546,28 +592,28 @@ public class PlayerControl : MonoBehaviour
 				this.runDirection = RunDirection.NORTHEAST20;
 
 				
-				Debug.Log ("it is now northeast 20");
+//				Debug.Log ("it is now northeast 20");
 			}
 			
 			if (v > .1 && v < .2 || h > .75 && h < .87) 
 			{
 				this.runDirection = RunDirection.NORTHEAST30;
 				
-				Debug.Log ("it is now northeast 30");
+//				Debug.Log ("it is now northeast 30");
 			}
 			
 			if (v > .2 && v < .3 || h > .65 && h < .75) 
 			{
 				this.runDirection = RunDirection.NORTHEAST40;
 				
-				Debug.Log ("it is now northeast 40");
+//				Debug.Log ("it is now northeast 40");
 			}
 			
 			if (v > .3 && v < .4 || h > .5 && h < .65) 
 			{
 				this.runDirection = RunDirection.NORTHEAST50;
 				
-				Debug.Log ("it is now northheast 50");
+//				Debug.Log ("it is now northheast 50");
 
 			}
 			
@@ -575,21 +621,21 @@ public class PlayerControl : MonoBehaviour
 			{
 				this.runDirection = RunDirection.NORTHEAST60;
 				
-				Debug.Log ("it is now northeast 60");
+//				Debug.Log ("it is now northeast 60");
 			}
 			
 			if (v > .55 && v < .7 || h > .25 && h < .35) 
 			{
 				this.runDirection = RunDirection.NORTHEAST70;
 
-				Debug.Log ("it is now northeast 70");
+//				Debug.Log ("it is now northeast 70");
 			}
 			
 			if (v > .7 && v < .85 || h > 0 && h < .25) 
 			{
 				this.runDirection = RunDirection.NORTHEAST80;
 				
-				Debug.Log ("it is now northeast 80");
+//				Debug.Log ("it is now northeast 80");
 			}
 		}
 
@@ -600,21 +646,21 @@ public class PlayerControl : MonoBehaviour
 			{
 				this.runDirection = RunDirection.NORTHWEST110;
 				
-				Debug.Log ("it is now northwest 110");
+//				Debug.Log ("it is now northwest 110");
 			}
 
 			if (v < .85 && v > .7 || h < -.15 && h > -.3) 
 			{
 				this.runDirection = RunDirection.NORTHWEST120;
 
-				Debug.Log ("it is now northwest 120");
+//				Debug.Log ("it is now northwest 120");
 			}
 
 			if (v < .7 && v > .55 || h < -.3 && h > -.45) 
 			{
 				this.runDirection = RunDirection.NORTHWEST130;
 				
-				Debug.Log ("it is now northhwest 130");
+//				Debug.Log ("it is now northhwest 130");
 
 			}
 
@@ -622,28 +668,28 @@ public class PlayerControl : MonoBehaviour
 			{
 				this.runDirection = RunDirection.NORTHWEST140;
 				
-				Debug.Log ("it is now northwest 140");
+//				Debug.Log ("it is now northwest 140");
 			}
 
 			if (v < .42 && v > .3 || h < -.58 && h > -.7) 
 			{
 				this.runDirection = RunDirection.NORTHWEST150;
 				
-				Debug.Log ("it is now northwest 150");
+//				Debug.Log ("it is now northwest 150");
 			}
 
 			if (v < .3 && v > .2 || h < -.7 && h > -.8) 
 			{
 				this.runDirection = RunDirection.NORTHWEST160;
 				
-				Debug.Log ("it is now northeast 160");
+//				Debug.Log ("it is now northeast 160");
 			}
 
 			if (v < .2 && v > 0 || h < -.8 && h > -.9) 
 			{
 				this.runDirection = RunDirection.NORTHWEST170;
 				
-				Debug.Log ("it is now northeast 170");
+//				Debug.Log ("it is now northeast 170");
 			}
 		}
 
@@ -655,49 +701,49 @@ public class PlayerControl : MonoBehaviour
 				this.runDirection = RunDirection.SOUTHWEST200;
 
 
-				Debug.Log ("it is now southwest 200");
+//				Debug.Log ("it is now southwest 200");
 			}
 
 			if (v < -.15 && v > -.25 || h < -.75 && h > -.85) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST210;
 
-				Debug.Log ("it is now southwest 210");
+//				Debug.Log ("it is now southwest 210");
 			}
 
 			if (v < -.25 && v > -.37 || h < -.63 && h > -.75) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST220;
 
-				Debug.Log ("it is now southwest 220");
+//				Debug.Log ("it is now southwest 220");
 			}
 
 			if (v < -.37 && v > -.5 || h < -.5 && h > -.63) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST230;
 
-				Debug.Log ("it is now southwest 230");
+//				Debug.Log ("it is now southwest 230");
 			}
 
 			if (v < -.5 && v > -.63 || h < -.38 && h > -.5) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST240;
 
-				Debug.Log ("it is now southwest 240");
+//				Debug.Log ("it is now southwest 240");
 			}
 
 			if (v < -.63 && v > -.75 || h < -.25 && h > -.38) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST250;
 
-				Debug.Log ("it is now southwest 250");
+//				Debug.Log ("it is now southwest 250");
 			}
 
 			if (v < -.75 && v > -.87 || h < 0 && h > -.25) 
 			{
 				this.runDirection = RunDirection.SOUTHWEST260;
 
-				Debug.Log ("it is now southwest 260");
+//				Debug.Log ("it is now southwest 260");
 			}
 		}
 
@@ -708,7 +754,7 @@ public class PlayerControl : MonoBehaviour
 			{
 				this.runDirection = RunDirection.SOUTHEAST290;
 				
-				Debug.Log ("it is now southeast 290");
+//				Debug.Log ("it is now southeast 290");
 			}
 
 			if (v > -.83 && v < -.7 || h > .17 && h < .3) 
@@ -718,42 +764,42 @@ public class PlayerControl : MonoBehaviour
 				//RunningMovement = new Vector2(.0036f, -.00624f);
 				//transform.Translate (RunningMovement);
 				
-				Debug.Log ("it is now southeast 300");
+//				Debug.Log ("it is now southeast 300");
 			}
 
 			if (v > -.7 && v < -.58 || h > .3 && h < .42) 
 			{
 				this.runDirection = RunDirection.SOUTHEAST310;
 				
-				Debug.Log ("it is now southeast 310");
+//				Debug.Log ("it is now southeast 310");
 			}
 
 			if (v > -.58 && v < -.45 || h > .42 && h < .55) 
 			{
 				this.runDirection = RunDirection.SOUTHEAST320;	
 				
-				Debug.Log ("it is now southeast 320");
+//				Debug.Log ("it is now southeast 320");
 			}
 
 			if (v > -.45 && v < -.32 || h > .55 && h < .67) 
 			{
 				this.runDirection = RunDirection.SOUTHEAST330;
 				
-				Debug.Log ("it is now southeast 330");
+//				Debug.Log ("it is now southeast 330");
 			}
 
 			if (v > -.32 && v < -.2 || h > .67 && h < .78) 
 			{
 				this.runDirection = RunDirection.SOUTHEAST340;
 				
-				Debug.Log ("it is now southeast 340");
+//				Debug.Log ("it is now southeast 340");
 			}
 
 			if (v > -.2 && v < 0 || h > .78 && h < .9) 
 			{
 				this.runDirection = RunDirection.SOUTHEAST350;
 				
-				Debug.Log ("it is now southeast 350");
+//				Debug.Log ("it is now southeast 350");
 			}
 		}
 
