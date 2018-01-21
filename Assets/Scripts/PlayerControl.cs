@@ -178,6 +178,7 @@ public class PlayerControl : MonoBehaviour
 		anim.SetFloat ("VerticalAnalogAxis", (Input.GetAxis ("Vertical")));
 		anim.SetFloat ("HorizontalAnalogAxis", (Input.GetAxis ("Horizontal")));
 
+        // checks to see if analog is only slightly tilted for walk animation
         if (Input.GetAxisRaw("Vertical") > -.5f && Input.GetAxisRaw("Vertical") < .5f && Input.GetAxisRaw("Horizontal") > -.5f && Input.GetAxisRaw("Horizontal") < .5f)
         {
             if(!((h == 0) && (v == 0)))
@@ -553,7 +554,7 @@ public class PlayerControl : MonoBehaviour
 		{
 			anim.SetBool ("runReleased", true);
 		}
-//        else anim.SetBool("runReleased", false);
+
 
     }
 
@@ -1033,6 +1034,12 @@ public class PlayerControl : MonoBehaviour
 	{
 		this.player.GetComponent<Rigidbody2D>().isKinematic = false;
 	}
+
+    public Direction getDirection()
+    {
+
+        return direction;
+    }
 
 	public enum Direction
 	{
