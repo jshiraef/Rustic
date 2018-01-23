@@ -17998,7 +17998,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1573572717}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000016292068}
-  m_LocalPosition: {x: -1.11, y: -0.14, z: -5.0032897}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.3898027, y: 1.3898027, z: 1.3898027}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_Children: []
@@ -19269,15 +19269,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400002, guid: 1880a732ad112a541100162a44295342, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -.0500000007
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 1880a732ad112a541100162a44295342, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.15999997
+      value: -1.16
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 1880a732ad112a541100162a44295342, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -28.9400005
+      value: -28.94
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 1880a732ad112a541100162a44295342, type: 2}
       propertyPath: m_LocalRotation.x
@@ -19309,15 +19309,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 1880a732ad112a541100162a44295342, type: 2}
       propertyPath: m_LocalScale.x
-      value: 1.38980269
+      value: 1.3898027
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 1880a732ad112a541100162a44295342, type: 2}
       propertyPath: m_LocalScale.y
-      value: 1.38980269
+      value: 1.3898027
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 1880a732ad112a541100162a44295342, type: 2}
       propertyPath: m_LocalScale.z
-      value: 1.38980269
+      value: 1.3898027
       objectReference: {fileID: 0}
     - target: {fileID: 11900000, guid: 1880a732ad112a541100162a44295342, type: 2}
       propertyPath: m_IgnoreLayers.m_Bits
@@ -20536,6 +20536,7 @@ GameObject:
   - 114: {fileID: 1772974872}
   - 132: {fileID: 1772974873}
   - 50: {fileID: 1772974874}
+  - 96: {fileID: 1772974875}
   m_Layer: 8
   m_Name: player
   m_TagString: Untagged
@@ -20609,7 +20610,7 @@ MonoBehaviour:
   lockPosition: 0
   swinging: 0
   rolling: 0
-  colliding: 0
+  colliding: 1
   lineStart: {fileID: 941897901}
   lineEnd: {fileID: 1076375210}
   groundedEnd: {fileID: 898923955}
@@ -20705,6 +20706,53 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!96 &1772974875
+TrailRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1772974866}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Time: 5
+  m_StartWidth: 1
+  m_EndWidth: 1
+  m_Colors:
+    m_Color[0]:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_Color[1]:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_Color[2]:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_Color[3]:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_Color[4]:
+      serializedVersion: 2
+      rgba: 16777215
+  m_MinVertexDistance: 0.1
+  m_Autodestruct: 0
 --- !u!1 &1778999403
 GameObject:
   m_ObjectHideFlags: 0

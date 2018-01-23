@@ -13,6 +13,7 @@ public class PlayerControl : MonoBehaviour
 	public bool swinging = false;
     public bool rolling = false;
     public bool colliding = false;
+    public bool isIdle = false;
 
     Rigidbody2D body;
     float moveForce;
@@ -34,6 +35,7 @@ public class PlayerControl : MonoBehaviour
 	public Direction direction;
 	public RunDirection runDirection;
 	public RunDirection lastRecordedRunDirection;
+    private float rigidbodyAngularDirection;
 
 	Animator anim;
 	private bool shortFall = false;
@@ -84,6 +86,10 @@ public class PlayerControl : MonoBehaviour
         {
             rumbleCoolDown -= Time.deltaTime;
         }
+
+        //Debug.Log(getAngularDirection());
+        //    Debug.Log(body.angularVelocity);
+        //      Debug.Log(grounded);
 
   //      Debug.Log("the rumble coolDown is: " + rumbleCoolDown);
 
@@ -157,19 +163,21 @@ public class PlayerControl : MonoBehaviour
 		v = Input.GetAxis ("Vertical");
 		h = Input.GetAxis ("Horizontal");
 
-        //// movement vectors are updated here
+        // movement vectors are updated here
         //Vector3 position = transform.position;
-        //Vector3 inputVelocity = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0).normalized;
-        //float moveForce = Mathf.Max((maxVelocity - body.velocity.magnitude), 0);
-        //if (inputVelocity.magnitude > 0.99f)
+        //Vector3 inputvelocity = new Vector3(h, v, 0).normalized;
+        //float moveforce = Mathf.Max((maxVelocity - body.velocity.magnitude), 0);
+        //if (inputvelocity.magnitude > 0.99f)
         //{
         //    body.drag = 1;
-        //    body.AddForce(inputVelocity * moveForce * Time.deltaTime * 60);
+        //    body.AddForce(inputvelocity * moveforce * Time.deltaTime * 60);
         //}
         //else
         //{
         //    body.drag = 4;
         //}
+
+        Debug.Log(body.velocity.magnitude);
 
 
 
@@ -179,7 +187,7 @@ public class PlayerControl : MonoBehaviour
 		anim.SetFloat ("HorizontalAnalogAxis", (Input.GetAxis ("Horizontal")));
 
         // checks to see if analog is only slightly tilted for walk animation
-        if (Input.GetAxisRaw("Vertical") > -.5f && Input.GetAxisRaw("Vertical") < .5f && Input.GetAxisRaw("Horizontal") > -.5f && Input.GetAxisRaw("Horizontal") < .5f)
+        if (Input.GetAxisRaw("Vertical") > -.4f && Input.GetAxisRaw("Vertical") < .4f && Input.GetAxisRaw("Horizontal") > -.4f && Input.GetAxisRaw("Horizontal") < .4f)
         {
             if(!((h == 0) && (v == 0)))
             {
@@ -212,7 +220,7 @@ public class PlayerControl : MonoBehaviour
                 }
 				
 
-                transform.Translate(h * .018f, 0, 0);
+                 transform.Translate(h * .018f, 0, 0);
 
                 //transform.Translate (Vector2.right * speed * Time.deltaTime);
             }
@@ -245,7 +253,6 @@ public class PlayerControl : MonoBehaviour
                     anim.Play("Walking");
                 }
 				
-
                 
                 transform.Translate(h * .018f, 0, 0);
                 
@@ -278,7 +285,7 @@ public class PlayerControl : MonoBehaviour
                 }
 				
 
-                transform.Translate(0, v * .018f, 0);
+                 transform.Translate(0, v * .018f, 0);
 
                 //			transform.Translate (-Vector2.up * speed * Time.deltaTime);
             }
@@ -307,7 +314,7 @@ public class PlayerControl : MonoBehaviour
                     anim.Play("Walking");
                 }
 
-                transform.Translate(0, v * .018f, 0);
+                 transform.Translate(0, v * .018f, 0);
 
                 //transform.Translate (Vector2.up * speed * Time.deltaTime);
             }
@@ -315,9 +322,10 @@ public class PlayerControl : MonoBehaviour
 
 		anim.SetBool ("isRunning", isRunning);
 
-		if(Input.GetKeyDown (KeyCode.Space) && grounded == true)
+		if(Input.GetKeyDown (KeyCode.Space) )
 		{
-			GetComponent<Rigidbody2D>().AddForce(Vector2.up * 200f);
+            //body.AddForce(Vector2.up * 200f);
+            body.MovePosition(Vector2.up * 200f);
 		}
 
 		if (shortFall) 
@@ -330,13 +338,15 @@ public class PlayerControl : MonoBehaviour
 				anim.SetBool ("shortFall", false);
 			}
 
-		if (Input.GetAxisRaw ("Horizontal") == 0 && Input.GetAxisRaw ("Vertical") == 0) 
-		{
-			if(!swinging && !rolling)
-			{
-			anim.Play ("Idle");
-			}
-		}
+        if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+        {
+            if (!swinging && !rolling && !isIdle)
+            {
+                anim.Play("Idle");
+                isIdle = true;
+            }
+        }
+        else isIdle = false;
 
 		if(swinging)
 		{
@@ -1039,6 +1049,16 @@ public class PlayerControl : MonoBehaviour
     {
 
         return direction;
+    }
+
+    public float getAngularDirection()
+    {
+        Vector2 moveDirection = body.velocity;
+        if (moveDirection != Vector2.zero)
+        {
+             rigidbodyAngularDirection = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;            
+        }
+        return rigidbodyAngularDirection;
     }
 
 	public enum Direction
