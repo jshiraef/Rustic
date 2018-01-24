@@ -177,7 +177,8 @@ public class PlayerControl : MonoBehaviour
         //    body.drag = 4;
         //}
 
-        Debug.Log(body.velocity.magnitude);
+//        Debug.Log(body.velocity.magnitude);
+        
 
 
 
@@ -1044,6 +1045,11 @@ public class PlayerControl : MonoBehaviour
 	{
 		this.player.GetComponent<Rigidbody2D>().isKinematic = false;
 	}
+
+    public bool getIsRunning()
+    {
+        return isRunning;
+    }
 
     public Direction getDirection()
     {

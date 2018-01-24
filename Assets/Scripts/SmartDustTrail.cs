@@ -11,11 +11,15 @@ public class SmartDustTrail : MonoBehaviour {
     private string angleString;
     private Vector2 playerAngle;
 
+    private ParticleSystem dustEmitter;
+
 	// Use this for initialization
 	void Start () {
         playersDirection = (Direction)transform.parent.GetComponent<PlayerControl>().getDirection();
         playerPosition = transform.parent.transform.localPosition;
         iconicPosition = dustTrail.transform.localPosition;
+        dustTrail = GameObject.Find("dustTrail");
+        dustEmitter = dustTrail.GetComponent<ParticleSystem>();
     }
 	
 	// Update is called once per frame
@@ -24,8 +28,27 @@ public class SmartDustTrail : MonoBehaviour {
         //playersDirection = (Direction) transform.parent.GetComponent<PlayerControl>().getDirection();
         //if (playersDirection == Direction.SOUTH)
         //{
-            dustTrail.transform.localPosition = new Vector3(iconicPosition.x + Mathf.Cos(transform.GetComponentInParent<PlayerControl>().getAngularDirection()) * 2, iconicPosition.y - Mathf.Sin(transform.GetComponentInParent<PlayerControl>().getAngularDirection()) * 2);
-            Debug.Log("now this");
+//            dustTrail.transform.localPosition = new Vector3(iconicPosition.x + Mathf.Cos(transform.GetComponentInParent<PlayerControl>().getAngularDirection()) * 2, iconicPosition.y - Mathf.Sin(transform.GetComponentInParent<PlayerControl>().getAngularDirection()) * 2);
+
+
+
+
+        if (GetComponentInParent<PlayerControl>().getIsRunning())
+        {
+            if(!dustEmitter.isPlaying)
+            {
+                dustEmitter.Play();
+            }
+        }
+        else
+        {
+            if(dustEmitter.isPlaying)
+            {
+                dustEmitter.Stop();
+            }
+            
+        }
+
         //}
 
         //         dustTrail.transform.localPosition = new Vector3(playerPosition.x, playerPosition.y, playerPosition.z);
