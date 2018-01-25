@@ -279,7 +279,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: a6327594e02609f438c31d3bf825c91f, type: 2}
     m_Threshold: 0.09677419
-    m_Position: {x: 0.09, y: 0.87}
+    m_Position: {x: 0.12, y: 0.89}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -287,7 +287,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 94685b7ba82547f4d8a17c5bd7f06a40, type: 2}
     m_Threshold: 0.12096774
-    m_Position: {x: 0.2, y: 0.78}
+    m_Position: {x: 0.24, y: 0.78}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -295,7 +295,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 46023dddcee0f5045b87451332258a1c, type: 2}
     m_Threshold: 0.14516129
-    m_Position: {x: 0.29, y: 0.66}
+    m_Position: {x: 0.4, y: 0.64}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -303,7 +303,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 37d2687a7bd28534d9496653be317094, type: 2}
     m_Threshold: 0.16935483
-    m_Position: {x: 0.41, y: 0.51}
+    m_Position: {x: 0.51, y: 0.51}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -311,7 +311,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: bfd6d8e2086c21a478723afad28099d0, type: 2}
     m_Threshold: 0.19354838
-    m_Position: {x: 0.56, y: 0.35}
+    m_Position: {x: 0.63, y: 0.4}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -319,7 +319,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 9d9aabce98cb77a429ba67ecd39e2aca, type: 2}
     m_Threshold: 0.21774194
-    m_Position: {x: 0.7, y: 0.25}
+    m_Position: {x: 0.74, y: 0.25}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -327,7 +327,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 5914df310c834c44d8f6920b5261f741, type: 2}
     m_Threshold: 0.24193548
-    m_Position: {x: 0.84, y: 0.1}
+    m_Position: {x: 0.86, y: 0.14}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -3826,29 +3826,6 @@ AnimatorState:
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
---- !u!1102 &110276304
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: IdleSouthEast290_2
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 91f7a670d54c2e24990657e886c7af10, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
 --- !u!1102 &110277466
 AnimatorState:
   serializedVersion: 5
@@ -3978,9 +3955,6 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 110267566}
     m_Position: {x: -24, y: 348, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 110276304}
-    m_Position: {x: 11, y: 413, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 110121196}
