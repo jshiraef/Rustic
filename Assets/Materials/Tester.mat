@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Tester
-  m_Shader: {fileID: 10753, guid: 0000000000000000e000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 951ebb4bb7fcba44b8af0865dbfeab5f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 3000
@@ -143,6 +143,22 @@ Material:
         second: 0
       data:
         first:
+          name: _ShakeDisplacement
+        second: 0.597
+      data:
+        first:
+          name: _ShakeTime
+        second: 0.155
+      data:
+        first:
+          name: _ShakeWindspeed
+        second: 0.536
+      data:
+        first:
+          name: _ShakeBending
+        second: 0.801
+      data:
+        first:
           name: _Parallax
         second: 0.02
       data:
@@ -177,22 +193,6 @@ Material:
         first:
           name: _Metallic
         second: 0
-      data:
-        first:
-          name: _ShakeDisplacement
-        second: 0.597
-      data:
-        first:
-          name: _ShakeTime
-        second: 0.155
-      data:
-        first:
-          name: _ShakeWindspeed
-        second: 0.536
-      data:
-        first:
-          name: _ShakeBending
-        second: 0.801
       data:
         first:
           name: _Speed
@@ -378,6 +378,10 @@ Material:
         first:
           name: _Color
         second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _OccludedColor
+        second: {r: 0, g: 0, b: 0, a: 0.5}
       data:
         first:
           name: _WaterTint
