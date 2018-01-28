@@ -85,6 +85,75 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &47948907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 47948909}
+  - 60: {fileID: 47948908}
+  m_Layer: 0
+  m_Name: grassEdge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!60 &47948908
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 47948907}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: -0.8217888, y: 1.3541946}
+      - {x: -0.34731293, y: 1.2167587}
+      - {x: 0.04125595, y: 0.8363495}
+      - {x: 0.74298096, y: 0.6477356}
+      - {x: 1.3805962, y: 0.47008514}
+      - {x: 1.8962936, y: 0.32190323}
+      - {x: 2.1790276, y: 0.04988861}
+      - {x: 3.08189, y: 0.21353531}
+      - {x: 3.7147636, y: 0.015453339}
+      - {x: 4.5628815, y: -0.337368}
+      - {x: 3.1516075, y: -0.6815033}
+      - {x: 2.087349, y: -1.3858604}
+      - {x: 2.5523186, y: -4.187664}
+      - {x: 3.074501, y: -4.737957}
+      - {x: 2.5633583, y: -5.889641}
+      - {x: -2.231964, y: -6.3135796}
+      - {x: -4.445574, y: -5.9558372}
+      - {x: -6.940029, y: -4.897133}
+      - {x: -5.829302, y: -2.44199}
+      - {x: -5.068798, y: 0.47991562}
+      - {x: -4.73526, y: 0.9674072}
+      - {x: -3.1817932, y: 1.0459061}
+      - {x: -2.3556213, y: 0.88420486}
+      - {x: -1.905674, y: 1.013752}
+      - {x: -1.2621193, y: 1.2394981}
+      - {x: -1.0510254, y: 1.3920212}
+--- !u!4 &47948909
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 47948907}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 35.73, y: -36.66, z: -0.359375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
 --- !u!1001 &383894782
 Prefab:
   m_ObjectHideFlags: 0
@@ -257,6 +326,8 @@ GameObject:
   - 212: {fileID: 603927628}
   - 95: {fileID: 603927627}
   - 114: {fileID: 603927629}
+  - 58: {fileID: 603927630}
+  - 50: {fileID: 603927631}
   m_Layer: 0
   m_Name: renderMask
   m_TagString: Untagged
@@ -271,7 +342,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 603927625}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.22, y: -2.78, z: -0.49946034}
+  m_LocalPosition: {x: 0.22, y: -1.79, z: 0}
   m_LocalScale: {x: 1.3898027, y: 1.3898027, z: 1.3898027}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -335,6 +406,185 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e002d9d74f15a345843f7aca310db88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grassTrigger: 0
+  waterTrigger: 0
+  maskType: 0
+--- !u!58 &603927630
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 603927625}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: -0.3, y: 0.61}
+  serializedVersion: 2
+  m_Radius: 0.04
+--- !u!50 &603927631
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 603927625}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!1 &1249668984
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1249668986}
+  - 68: {fileID: 1249668985}
+  m_Layer: 0
+  m_Name: waterEdge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!68 &1249668985
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1249668984}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+  - {x: -6.334259, y: -5.857685}
+  - {x: -4.455818, y: -5.072319}
+  - {x: -3.8481636, y: -3.902443}
+  - {x: -3.7017593, y: -3.468975}
+  - {x: -3.157627, y: -3.4569283}
+  - {x: -2.3834229, y: -3.4817734}
+  - {x: -2.0057945, y: -3.4370232}
+  - {x: -1.6979141, y: -3.3258057}
+  - {x: -1.2909622, y: -3.4868736}
+  - {x: -0.8381195, y: -3.3746185}
+  - {x: -0.20501709, y: -3.0541954}
+  - {x: 0.36849976, y: -2.6350517}
+  - {x: 0.45853806, y: -1.5517006}
+  - {x: 0.19001389, y: -1.4841881}
+  - {x: -0.028942108, y: -1.2300758}
+  - {x: -0.6081352, y: -0.48628998}
+  - {x: -0.72346497, y: 0.2876625}
+  - {x: -0.74098206, y: 1.069004}
+  - {x: -0.5267906, y: 1.6209869}
+  - {x: 0.008018494, y: 2.0430717}
+  - {x: 0.68735886, y: 2.4138489}
+  - {x: 1.5592995, y: 2.5203857}
+  - {x: 1.5431061, y: 2.7899704}
+  - {x: 0.8292961, y: 3.0579987}
+  - {x: 0.6264572, y: 3.2580948}
+  - {x: -0.076602936, y: 3.5213356}
+  - {x: -1.4117699, y: 4.418152}
+  - {x: -0.5041275, y: 4.6269417}
+  - {x: 0.008628845, y: 4.5972557}
+  - {x: 0.25484467, y: 5.127804}
+  - {x: 0.42959213, y: 5.2388687}
+  - {x: 0.7843323, y: 5.4803085}
+  - {x: 1.1740532, y: 5.5162506}
+  - {x: 1.3595657, y: 5.7176056}
+  - {x: 1.8302574, y: 5.659992}
+  - {x: 2.1154213, y: 5.549629}
+  - {x: 2.005043, y: 5.308441}
+  - {x: 2.2995567, y: 4.9859276}
+  - {x: 2.684719, y: 5.084934}
+  - {x: 2.7804146, y: 5.464813}
+  - {x: 3.0309105, y: 5.3870735}
+--- !u!4 &1249668986
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1249668984}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 39.002182, y: -39.72396, z: -0.359375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+--- !u!1 &1437143723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1437143725}
+  - 60: {fileID: 1437143724}
+  m_Layer: 0
+  m_Name: waterEdge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!60 &1437143724
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1437143723}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: -0.8217888, y: 1.4973984}
+      - {x: 0.46418762, y: 2.1714706}
+      - {x: 1.3142014, y: 2.4593582}
+      - {x: 0.8702736, y: 2.8753967}
+      - {x: -1.6903915, y: 4.273014}
+      - {x: -0.044952393, y: 4.570366}
+      - {x: 0.7628746, y: 5.3167114}
+      - {x: 1.5350609, y: 5.57148}
+      - {x: 2.220501, y: 4.893669}
+      - {x: 2.862259, y: 5.3059235}
+      - {x: 2.882206, y: -6.3081284}
+      - {x: -6.477165, y: -6.097683}
+      - {x: -4.301346, y: -4.368988}
+      - {x: -3.845478, y: -3.5687408}
+      - {x: -1.3156929, y: -3.6193466}
+      - {x: 0.2769165, y: -1.6816864}
+      - {x: -0.022911072, y: -1.6021233}
+      - {x: -0.76226807, y: -0.6266022}
+      - {x: -0.9510565, y: 0.30901712}
+--- !u!4 &1437143725
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1437143723}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 39.2, y: -39.581, z: -0.359375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
 --- !u!1 &1670489764
 GameObject:
   m_ObjectHideFlags: 0
