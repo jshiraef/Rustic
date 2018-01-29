@@ -4,8 +4,6 @@ using System.Collections;
 public class RenderMask : MonoBehaviour {
 
     Animator MovingMask;
-    public bool grassTrigger;
-    public bool waterTrigger;
 
     private GameObject renderMask;
     public MaskType maskType;
@@ -24,16 +22,6 @@ public class RenderMask : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (waterTrigger)
-        {
-            maskType = MaskType.WATER;
-        }
-        
-
-        if(grassTrigger)
-        {
-            maskType = MaskType.GRASS;
-        }
 
         if (GetComponentInParent<PlayerControl>().isIdle)
         {
@@ -55,17 +43,18 @@ public class RenderMask : MonoBehaviour {
             case 1:
                 MovingMask.Play("softWind");
                 break;
+            case 2:
+                MovingMask.Play("nullAnimation");
+                break;
         }
 
         if(maskType == MaskType.NULL)
         {
-            if(renderMask.activeSelf)
-            {
-                renderMask.SetActive(false);
-            }
+            MovingMask.Play("nullAnimation");
         }
 
-        Debug.Log("the mask should be displaying " + maskType);
+
+        //Debug.Log("the mask should be displaying " + maskType);
 
     }
 
@@ -93,4 +82,11 @@ public class RenderMask : MonoBehaviour {
         Debug.Log("Hey! This happened");
     }
 
+    void onCollisionEnter2D (Collision coll)
+    {
+        if(coll.gameObject.name == "grassEdge")
+        {
+            Debug.Log("the circle collider is working!");
+        }
+    }
 }

@@ -12,8 +12,8 @@ public class PlayerControl : MonoBehaviour
     public bool lockPosition = false;
     public bool swinging = false;
     public bool rolling = false;
-    public bool colliding = false;
     public bool isIdle = false;
+    public bool environmentMask = false;
 
     Rigidbody2D body;
     float moveForce;
@@ -94,6 +94,7 @@ public class PlayerControl : MonoBehaviour
         //      Debug.Log(grounded);
 
         //      Debug.Log("the rumble coolDown is: " + rumbleCoolDown);
+
 
         Movement();
         Raycasting();
@@ -341,6 +342,7 @@ public class PlayerControl : MonoBehaviour
             anim.SetBool("shortFall", false);
         }
 
+        //This sets the isIdle variable
         if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
         {
             if (!swinging && !rolling && !isIdle)
@@ -991,6 +993,7 @@ public class PlayerControl : MonoBehaviour
         {
             Debug.Log("there's a wall there moron!");
         }
+
     }
 
     void OnCollisionStay2D(Collision2D coll)
@@ -999,6 +1002,11 @@ public class PlayerControl : MonoBehaviour
         {
             lockPosition = true;
         }
+    }
+
+    void OnCollisionExit2D(Collision2D coll)
+    {
+        renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.NULL);
     }
 
     void coolDownMaker(bool coolDownTrigger, float coolDown, int coolDownTime)
@@ -1029,52 +1037,34 @@ public class PlayerControl : MonoBehaviour
             setShortFall();
         }
 
-        if(other.name == "waterEdge")
-        {
-            //    if(!renderMask.activeSelf)
-            //    {
-            //        renderMask.SetActive(true);
-            //    }
-
-
-            if (!GetComponentInChildren<RenderMask>().waterTrigger)
-            {
-                GetComponentInChildren<RenderMask>().waterTrigger = true;
-                //Debug.Log("now this");
-            }
-
-        }
-
-        if(other.name == "grassEdge")
-        {
-            if (!renderMask.activeSelf)
-            {
-                renderMask.SetActive(true);
-            }
-
-            if(!GetComponentInChildren<RenderMask>().grassTrigger)
-            {
-                GetComponentInChildren<RenderMask>().grassTrigger = true;
-            }
-                
-            
-        }
     }
 
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (GetComponentInChildren<RenderMask>().waterTrigger == true)
+        if (other.tag == "environment")
         {
-            GetComponentInChildren<RenderMask>().waterTrigger = false;
-            //Debug.Log("and this");
+            renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.NULL);
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.tag == "environment")
+        {
+            environmentMask = true;
         }
 
-        if (GetComponentInChildren<RenderMask>().grassTrigger == true)
+        if (other.name == "waterEdge")
         {
-            GetComponentInChildren<RenderMask>().grassTrigger = false;
-            //Debug.Log("and this");
+            renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.WATER);
         }
+
+        if (other.name == "grassEdge")
+        {
+            renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.GRASS);
+        }
+
     }
 
     public void setShortFall()
