@@ -205,6 +205,7 @@ public class PlayerControl : MonoBehaviour
             {
                 isWalking = true;
             }
+            else isWalking = false;
 
         }
         else isWalking = false;
@@ -228,7 +229,7 @@ public class PlayerControl : MonoBehaviour
                 }
                 else
                 {
-                    anim.Play("Walking");
+                    //anim.Play("Walking");
                 }
 
 
@@ -262,7 +263,7 @@ public class PlayerControl : MonoBehaviour
                 }
                 else
                 {
-                    anim.Play("Walking");
+                    //anim.Play("Walking");
                 }
 
 
@@ -293,7 +294,7 @@ public class PlayerControl : MonoBehaviour
                 }
                 else
                 {
-                    anim.Play("Walking");
+                    //anim.Play("Walking");
                 }
 
 
@@ -323,7 +324,7 @@ public class PlayerControl : MonoBehaviour
                 }
                 else
                 {
-                    anim.Play("Walking");
+                    //anim.Play("Walking");
                 }
 
                 //transform.Translate(0, v * .018f, 0);
@@ -333,6 +334,7 @@ public class PlayerControl : MonoBehaviour
         }
 
         anim.SetBool("isRunning", isRunning);
+        anim.SetBool("isWalking", isWalking);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -577,6 +579,7 @@ public class PlayerControl : MonoBehaviour
         {
             anim.SetBool("runReleased", true);
         }
+        else anim.SetBool("runReleased", false);
 
 
     }
