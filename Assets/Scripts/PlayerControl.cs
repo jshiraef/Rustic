@@ -25,7 +25,7 @@ public class PlayerControl : MonoBehaviour
 
     RaycastHit2D whatIHit;
 
-    public float speed = 1f;
+    public float moveSpeed = 4f;
     public float v, h;
 
     private Vector2 RunningMovement;
@@ -166,6 +166,14 @@ public class PlayerControl : MonoBehaviour
         v = Input.GetAxis("Vertical");
         h = Input.GetAxis("Horizontal");
 
+        Vector3 rightMovement = Vector3.right * moveSpeed * Time.deltaTime * h;
+        Vector3 upMovement = Vector3.up * moveSpeed * Time.deltaTime * v;
+
+        Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
+
+        transform.position += rightMovement;
+        transform.position += upMovement;
+
         // movement vectors are updated here
         //Vector3 position = transform.position;
         //Vector3 inputvelocity = new Vector3(h, v, 0).normalized;
@@ -224,7 +232,7 @@ public class PlayerControl : MonoBehaviour
                 }
 
 
-                transform.Translate(h * .018f, 0, 0);
+                //transform.Translate(h * .018f, 0, 0);
 
                 //transform.Translate (Vector2.right * speed * Time.deltaTime);
             }
@@ -258,7 +266,7 @@ public class PlayerControl : MonoBehaviour
                 }
 
 
-                transform.Translate(h * .018f, 0, 0);
+                //transform.Translate(h * .018f, 0, 0);
 
                 //			transform.Translate (-Vector2.right * speed * Time.deltaTime);
             }
@@ -289,7 +297,7 @@ public class PlayerControl : MonoBehaviour
                 }
 
 
-                transform.Translate(0, v * .018f, 0);
+                //transform.Translate(0, v * .018f, 0);
 
                 //			transform.Translate (-Vector2.up * speed * Time.deltaTime);
             }
@@ -318,7 +326,7 @@ public class PlayerControl : MonoBehaviour
                     anim.Play("Walking");
                 }
 
-                transform.Translate(0, v * .018f, 0);
+                //transform.Translate(0, v * .018f, 0);
 
                 //transform.Translate (Vector2.up * speed * Time.deltaTime);
             }
