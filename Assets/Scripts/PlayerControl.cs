@@ -30,6 +30,7 @@ public class PlayerControl : MonoBehaviour
 
     private Vector2 RunningMovement;
     private PlayerIndex playerIndex;
+    private Projector playerBlobShadow;
 
 
     public Direction direction;
@@ -69,6 +70,7 @@ public class PlayerControl : MonoBehaviour
 
         player = GameObject.Find("player");
         renderMask = GameObject.Find("renderMask");
+        playerBlobShadow = player.GetComponentInChildren<Projector>();
 
         //		nearestBarrel = GameObject.Find ("barrel");
     }
@@ -1057,6 +1059,8 @@ public class PlayerControl : MonoBehaviour
         {
             renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.NULL);
         }
+
+        setBlobShadowToNorm();
     }
 
     void OnTriggerStay2D(Collider2D other)
@@ -1069,11 +1073,13 @@ public class PlayerControl : MonoBehaviour
         if (other.name == "waterEdge")
         {
             renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.WATER);
+            setBlobShadowForGrass();
         }
 
         if (other.name == "grassEdge")
         {
             renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.GRASS);
+            setBlobShadowForGrass();  
         }
 
     }
@@ -1084,6 +1090,26 @@ public class PlayerControl : MonoBehaviour
         shortFallCoolDown = .5f;
         anim.SetBool("shortFall", shortFall);
         setKinematic();
+    }
+
+    public void setBlobShadowForGrass()
+    {
+        playerBlobShadow.nearClipPlane = 7.5f;
+        playerBlobShadow.farClipPlane = 39;
+        playerBlobShadow.fieldOfView = 3.75f;
+        playerBlobShadow.aspectRatio = 1.4f;
+        playerBlobShadow.orthographic = false;
+        playerBlobShadow.transform.localPosition = new Vector3(.07f, -0.81f, -29f);
+    }
+
+    public void setBlobShadowToNorm()
+    {
+        playerBlobShadow.nearClipPlane = 12.5f;
+        playerBlobShadow.farClipPlane = 48;
+        playerBlobShadow.fieldOfView = 3.75f;
+        playerBlobShadow.aspectRatio = 1;
+        playerBlobShadow.orthographic = false;
+        playerBlobShadow.transform.localPosition = new Vector3(-.09f, -1.34f, -29f);
     }
 
     void setKinematic()

@@ -6,6 +6,7 @@ public class RenderMask : MonoBehaviour {
     Animator MovingMask;
 
     private GameObject renderMask;
+    private GameObject renderMaskOutliner;
     public MaskType maskType;
 
 	// Use this for initialization
@@ -14,6 +15,7 @@ public class RenderMask : MonoBehaviour {
 
         MovingMask = GetComponent<Animator>();
         renderMask = GameObject.Find("renderMask");
+        //renderMaskOutliner = GameObject.Find("renderMaskOutliner");
 
         maskType = MaskType.NULL;
 
@@ -22,13 +24,19 @@ public class RenderMask : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        //renderMaskOutliner.GetComponent<RenderMask>().maskType = renderMask.GetComponent<RenderMask>().maskType;
 
         if (GetComponentInParent<PlayerControl>().isIdle)
         {
             //MovingMask.enabled = false;
-            MovingMask.speed = 0.3f;
+            MovingMask.speed = 0.0f;
         }
-        else
+        else if(GetComponentInParent<PlayerControl>().isWalking)
+        {
+            //MovingMask.enabled = true;   
+            MovingMask.speed = .3f;
+        }
+        else  
         {
             //MovingMask.enabled = true;   
             MovingMask.speed = 1f;
@@ -42,6 +50,7 @@ public class RenderMask : MonoBehaviour {
 
             case 1:
                 MovingMask.Play("softWind");
+                //MovingMask.Play("softWindOutline");
                 break;
             case 2:
                 MovingMask.Play("nullAnimation");
