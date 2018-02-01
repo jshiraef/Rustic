@@ -46,6 +46,7 @@ public class RenderMask : MonoBehaviour {
         {
             case 0:
                 MovingMask.Play("waterFlowMask");
+
                 break;
 
             case 1:
