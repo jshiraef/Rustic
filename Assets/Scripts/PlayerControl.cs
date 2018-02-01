@@ -1096,7 +1096,7 @@ public class PlayerControl : MonoBehaviour
     {
         playerBlobShadow.nearClipPlane = 7.5f;
         playerBlobShadow.farClipPlane = 39;
-        playerBlobShadow.fieldOfView = 3.75f;
+        playerBlobShadow.fieldOfView = 3f;
         playerBlobShadow.aspectRatio = 1.4f;
         playerBlobShadow.orthographic = false;
         playerBlobShadow.transform.localPosition = new Vector3(.07f, -0.81f, -29f);
