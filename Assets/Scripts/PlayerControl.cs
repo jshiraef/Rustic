@@ -74,6 +74,7 @@ public class PlayerControl : MonoBehaviour
         player = GameObject.Find("player");
         renderMask = GameObject.Find("renderMask");
         playerBlobShadow = player.GetComponentInChildren<Projector>();
+        player.GetComponent<SpriteRenderer>().receiveShadows = true;
 
         //		nearestBarrel = GameObject.Find ("barrel");
     }
