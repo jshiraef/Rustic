@@ -8,6 +8,7 @@ public class RenderMask : MonoBehaviour {
     private GameObject renderMask;
     private GameObject renderMaskOutliner;
     private GameObject renderMaskOutliner2;
+    private SpriteRenderer renderMaskSprite;
     public MaskType maskType;
 
 	// Use this for initialization
@@ -18,6 +19,7 @@ public class RenderMask : MonoBehaviour {
         renderMask = GameObject.Find("renderMask");
         renderMaskOutliner = GameObject.Find("renderMaskOutliner");
         renderMaskOutliner2 = GameObject.Find("renderMaskOutliner2");
+        renderMaskSprite = renderMask.GetComponent<SpriteRenderer>();
 
         maskType = MaskType.NULL;
 
@@ -49,12 +51,12 @@ public class RenderMask : MonoBehaviour {
         {
             case 0:
                 MovingMask.Play("waterFlowMask");
-
+                //renderMask.GetComponent<RenderMask>().setWaterFlowLayer();
                 break;
 
             case 1:
                 MovingMask.Play("softWind");
-                MovingMask.Play("softWindOutline");
+                //MovingMask.Play("softWindOutline");
                 break;
             case 2:
                 MovingMask.Play("nullAnimation");
@@ -101,5 +103,11 @@ public class RenderMask : MonoBehaviour {
         {
             Debug.Log("the circle collider is working!");
         }
+    }
+
+    void setWaterFlowLayer()
+    {
+        renderMaskSprite.sortingLayerName = "Default";
+        renderMaskSprite.sortingOrder = -6;
     }
 }

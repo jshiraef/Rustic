@@ -13,7 +13,10 @@ public class PlayerControl : MonoBehaviour
     public bool swinging = false;
     public bool rolling = false;
     public bool isIdle = false;
-    public bool environmentMask = false;
+    
+
+    private int collisionCount;
+    private int environmentCount;
 
     Rigidbody2D body;
     float moveForce;
@@ -191,8 +194,6 @@ public class PlayerControl : MonoBehaviour
         //}
 
         //        Debug.Log(body.velocity.magnitude);
-
-
 
 
         isRunning = false;
@@ -997,9 +998,12 @@ public class PlayerControl : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
+        collisionCount++;
+        Debug.Log("the collision count is: " + collisionCount);
+
         if (coll.gameObject.tag == "fence")
         {
-            //         Debug.Log("this is happening");
+            
         }
 
         if (coll.gameObject.tag == "wall")
@@ -1019,7 +1023,10 @@ public class PlayerControl : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D coll)
     {
-        renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.NULL);
+        collisionCount--;
+
+        Debug.Log("the collision count is: " + collisionCount);
+
     }
 
     void coolDownMaker(bool coolDownTrigger, float coolDown, int coolDownTime)
@@ -1050,6 +1057,11 @@ public class PlayerControl : MonoBehaviour
             setShortFall();
         }
 
+        if (other.tag == "environment")
+        {
+            environmentCount++;
+        }
+
     }
 
 
@@ -1057,17 +1069,26 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.tag == "environment")
         {
-            renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.NULL);
+            environmentCount--;
+
+            if (environmentCount == 0)
+            {
+                renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.NULL);
+            }
         }
 
-        setBlobShadowToNorm();
+        if(environmentCount == 0)
+        {
+            setBlobShadowToNorm();
+        }
+        
     }
 
     void OnTriggerStay2D(Collider2D other)
     {
         if (other.tag == "environment")
         {
-            environmentMask = true;
+           
         }
 
         if (other.name == "waterEdge")

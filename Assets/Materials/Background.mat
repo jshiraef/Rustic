@@ -1,0 +1,392 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Background
+  m_Shader: {fileID: 10800, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DetailNormalMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ParallaxMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _OcclusionMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _EmissionMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DetailMask
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DetailAlbedoMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MetallicGlossMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Illum
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DisplacementTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _WaterTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MaskTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DispMap1
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DispMap2
+        second:
+          m_Texture: {fileID: 2800000, guid: a04df27096d78884992c92a5d708699c, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Scale
+        second: 1
+      data:
+        first:
+          name: _SrcBlend
+        second: 1
+      data:
+        first:
+          name: _DstBlend
+        second: 0
+      data:
+        first:
+          name: _Cutoff
+        second: 0.315
+      data:
+        first:
+          name: PixelSnap
+        second: 0
+      data:
+        first:
+          name: _ShakeDisplacement
+        second: 0.597
+      data:
+        first:
+          name: _ShakeTime
+        second: 0.155
+      data:
+        first:
+          name: _ShakeWindspeed
+        second: 0.536
+      data:
+        first:
+          name: _ShakeBending
+        second: 0.801
+      data:
+        first:
+          name: _Parallax
+        second: 0.02
+      data:
+        first:
+          name: _ZWrite
+        second: 1
+      data:
+        first:
+          name: _Glossiness
+        second: 0.5
+      data:
+        first:
+          name: _BumpScale
+        second: 1
+      data:
+        first:
+          name: _OcclusionStrength
+        second: 1
+      data:
+        first:
+          name: _DetailNormalMapScale
+        second: 1
+      data:
+        first:
+          name: _UVSec
+        second: 0
+      data:
+        first:
+          name: _Mode
+        second: 0
+      data:
+        first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
+          name: _Speed
+        second: 1
+      data:
+        first:
+          name: _Frequency
+        second: 1
+      data:
+        first:
+          name: _WaveAmplitude1
+        second: 0
+      data:
+        first:
+          name: _WaveAmplitude2
+        second: 0
+      data:
+        first:
+          name: _WaveAmplitude3
+        second: 0
+      data:
+        first:
+          name: _WaveAmplitude4
+        second: 0
+      data:
+        first:
+          name: _WaveAmplitude5
+        second: 0
+      data:
+        first:
+          name: _WaveAmplitude6
+        second: 0
+      data:
+        first:
+          name: _WaveAmplitude7
+        second: 0
+      data:
+        first:
+          name: _WaveAmplitude8
+        second: 0
+      data:
+        first:
+          name: _xImpact1
+        second: 0
+      data:
+        first:
+          name: _zImpact1
+        second: 0
+      data:
+        first:
+          name: _xImpact2
+        second: 0
+      data:
+        first:
+          name: _zImpact2
+        second: 0
+      data:
+        first:
+          name: _xImpact3
+        second: 0
+      data:
+        first:
+          name: _zImpact3
+        second: 0
+      data:
+        first:
+          name: _xImpact4
+        second: 0
+      data:
+        first:
+          name: _zImpact4
+        second: 0
+      data:
+        first:
+          name: _xImpact5
+        second: 0
+      data:
+        first:
+          name: _zImpact5
+        second: 0
+      data:
+        first:
+          name: _xImpact6
+        second: 0
+      data:
+        first:
+          name: _zImpact6
+        second: 0
+      data:
+        first:
+          name: _xImpact7
+        second: 0
+      data:
+        first:
+          name: _zImpact7
+        second: 0
+      data:
+        first:
+          name: _xImpact8
+        second: 0
+      data:
+        first:
+          name: _zImpact8
+        second: 0
+      data:
+        first:
+          name: _Distance1
+        second: 0
+      data:
+        first:
+          name: _Distance2
+        second: 0
+      data:
+        first:
+          name: _Distance3
+        second: 0
+      data:
+        first:
+          name: _Distance4
+        second: 0
+      data:
+        first:
+          name: _Distance5
+        second: 0
+      data:
+        first:
+          name: _Distance6
+        second: 0
+      data:
+        first:
+          name: _Distance7
+        second: 0
+      data:
+        first:
+          name: _Distance8
+        second: 0
+      data:
+        first:
+          name: _BaseHeight
+        second: 0.4
+      data:
+        first:
+          name: _Turbulence
+        second: 1
+      data:
+        first:
+          name: _ScrollOffset
+        second: 0
+      data:
+        first:
+          name: _WaterHeight
+        second: 0.163
+      data:
+        first:
+          name: _ReflDistort
+        second: 0.072
+      data:
+        first:
+          name: _WaterSpeed1
+        second: 1.38
+      data:
+        first:
+          name: _WaterSpeed2
+        second: 2.38
+      data:
+        first:
+          name: _xPositionOffset
+        second: 1.64
+      data:
+        first:
+          name: _transparency
+        second: 0.39
+      data:
+        first:
+          name: _distPerspectiveLink
+        second: 0.177
+      data:
+        first:
+          name: _Magnitude
+        second: 0.05
+    m_Colors:
+      data:
+        first:
+          name: _EmissionColor
+        second: {r: 0, g: 0, b: 0, a: 1}
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _OccludedColor
+        second: {r: 0, g: 0, b: 0, a: 0.5}
+      data:
+        first:
+          name: _WaterTint
+        second: {r: 1, g: 1, b: 1, a: 1}

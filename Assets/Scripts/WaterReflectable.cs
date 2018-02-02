@@ -10,6 +10,7 @@ public class WaterReflectable : MonoBehaviour
         [Header("Reflect properties")]
         public Vector3 localPosition = new Vector3(0, -0.25f, 0);
         public Vector3 localRotation = new Vector3(0, 0, -180);
+        public Vector3 localScale = new Vector3(0, 0, 0);
         [Tooltip("Optional: force the reflected sprite. If null it will be a copy of the source.")]
         public Sprite sprite;
         public string spriteLayer = "Default";
@@ -28,7 +29,7 @@ public class WaterReflectable : MonoBehaviour
             reflectGo.transform.parent = this.transform;
             reflectGo.transform.localPosition = localPosition;
             reflectGo.transform.localRotation = Quaternion.Euler(localRotation);
-            reflectGo.transform.localScale = new Vector3(reflectGo.transform.localScale.x, reflectGo.transform.localScale.y, reflectGo.transform.localScale.z);
+            reflectGo.transform.localScale = localScale;
 
             spriteRenderer = reflectGo.AddComponent<SpriteRenderer>();
             spriteRenderer.sortingLayerName = spriteLayer;
