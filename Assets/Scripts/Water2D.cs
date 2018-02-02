@@ -15,7 +15,7 @@ public class Water2D : MonoBehaviour {
     {
         rend = GetComponent<Renderer>();
         mat = rend.material;
-        offsetStart = -.2f;
+        offsetStart = 0f;
         offsetEnd = .5f;
     }
 

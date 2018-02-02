@@ -1095,7 +1095,7 @@ public class PlayerControl : MonoBehaviour
         if (other.name == "waterEdge")
         {
             renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.WATER);
-            setBlobShadowForGrass();
+            setBlobShadowForWater();
         }
 
         if (other.name == "grassEdge")
@@ -1122,6 +1122,16 @@ public class PlayerControl : MonoBehaviour
         playerBlobShadow.aspectRatio = 1.4f;
         playerBlobShadow.orthographic = false;
         playerBlobShadow.transform.localPosition = new Vector3(.07f, -0.81f, -29f);
+    }
+
+    public void setBlobShadowForWater()
+    {
+        playerBlobShadow.nearClipPlane = 7.5f;
+        playerBlobShadow.farClipPlane = 39;
+        playerBlobShadow.fieldOfView = 3f;
+        playerBlobShadow.aspectRatio = 1.4f;
+        playerBlobShadow.orthographic = false;
+        playerBlobShadow.transform.localPosition = new Vector3(.25f, -0.81f, -29f);
     }
 
     public void setBlobShadowToNorm()
