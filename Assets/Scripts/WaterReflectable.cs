@@ -19,6 +19,9 @@ public class WaterReflectable : MonoBehaviour
         private SpriteRenderer spriteSource;
         private SpriteRenderer spriteRenderer;
 
+        private GameObject waterOverlay;
+        private Light reflectionLight;
+
         #endregion
 
         #region Timeline
@@ -30,8 +33,14 @@ public class WaterReflectable : MonoBehaviour
             reflectGo.transform.localPosition = localPosition;
             reflectGo.transform.localRotation = Quaternion.Euler(localRotation);
             reflectGo.transform.localScale = localScale;
+            reflectGo.AddComponent<Light>();
+            reflectGo.GetComponent<Light>().type = LightType.Directional;
+
+            waterOverlay = GameObject.Find("waterOverlay");
+            
 
             spriteRenderer = reflectGo.AddComponent<SpriteRenderer>();
+            spriteRenderer.material = waterOverlay.GetComponent<SpriteRenderer>().material;
             spriteRenderer.sortingLayerName = spriteLayer;
             spriteRenderer.sortingOrder = spriteLayerOrder;
 
