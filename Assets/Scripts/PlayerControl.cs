@@ -34,6 +34,7 @@ public class PlayerControl : MonoBehaviour
     private Vector2 RunningMovement;
     private PlayerIndex playerIndex;
     private Projector playerBlobShadow;
+    private bool restoreBlobShadowToNormal;
 
 
     public Direction direction;
@@ -140,6 +141,11 @@ public class PlayerControl : MonoBehaviour
             lockPosition = false;
         }
 
+        if(restoreBlobShadowToNormal)
+        {
+            setBlobShadowToNorm();
+        }
+
         //	Debug.Log ("shortFall is: " + shortFall);
         // Debug.Log ("the shortFallCoolDown is: " + shortFallCoolDown);
     }
@@ -195,7 +201,6 @@ public class PlayerControl : MonoBehaviour
         //}
 
         //        Debug.Log(body.velocity.magnitude);
-
 
         isRunning = false;
 
@@ -376,6 +381,7 @@ public class PlayerControl : MonoBehaviour
             GamePad.SetVibration(playerIndex, 1f, 0f);
             rumbleCoolDown = .3f;
         }
+
 
         //		Debug.Log ("the shortfallCoolDown is: " + shortFallCoolDown);
 
@@ -1009,7 +1015,7 @@ public class PlayerControl : MonoBehaviour
 
         if (coll.gameObject.tag == "wall")
         {
-            Debug.Log("there's a wall there moron!");
+//            Debug.Log("there's a wall there moron!");
         }
 
     }
@@ -1060,7 +1066,12 @@ public class PlayerControl : MonoBehaviour
 
         if (other.tag == "environment")
         {
-            environmentCount++;
+            if(collisionCount == 0)
+            {
+                environmentCount++;
+            }
+            
+            Debug.Log("Plus 1 & the environment count is" + environmentCount);
         }
 
     }
@@ -1070,18 +1081,18 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.tag == "environment")
         {
-            environmentCount--;
+            
+                environmentCount--;
 
-            if (environmentCount == 0)
+
+
+            if (environmentCount <= 0)
             {
                 renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.NULL);
             }
         }
 
-        if(environmentCount == 0)
-        {
-            setBlobShadowToNorm();
-        }
+        restoreBlobShadowToNormal = true;
         
     }
 
@@ -1094,12 +1105,16 @@ public class PlayerControl : MonoBehaviour
 
         if (other.name == "waterEdge")
         {
+            restoreBlobShadowToNormal = false;
+
             renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.WATER);
             setBlobShadowForWater();
         }
 
         if (other.name == "grassEdge")
         {
+            restoreBlobShadowToNormal = false;
+
             renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.GRASS);
             setBlobShadowForGrass();  
         }
@@ -1116,32 +1131,32 @@ public class PlayerControl : MonoBehaviour
 
     public void setBlobShadowForGrass()
     {
-        playerBlobShadow.nearClipPlane = 7.5f;
-        playerBlobShadow.farClipPlane = 39;
-        playerBlobShadow.fieldOfView = 3f;
-        playerBlobShadow.aspectRatio = 1.4f;
+        playerBlobShadow.nearClipPlane = Mathf.Lerp(playerBlobShadow.nearClipPlane, 7.5f, Time.deltaTime);
+        playerBlobShadow.farClipPlane = Mathf.Lerp(playerBlobShadow.farClipPlane, 39f, Time.deltaTime); 
+        playerBlobShadow.fieldOfView = Mathf.Lerp(playerBlobShadow.fieldOfView, 3f, Time.deltaTime);
+        playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1.4f, Time.deltaTime);
         playerBlobShadow.orthographic = false;
-        playerBlobShadow.transform.localPosition = new Vector3(.07f, -0.81f, -29f);
+        playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, .07f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -.81f, Time.deltaTime), -29f);
     }
 
     public void setBlobShadowForWater()
     {
-        playerBlobShadow.nearClipPlane = 7.5f;
-        playerBlobShadow.farClipPlane = 39;
-        playerBlobShadow.fieldOfView = 3f;
-        playerBlobShadow.aspectRatio = 1.4f;
+        playerBlobShadow.nearClipPlane = Mathf.Lerp(playerBlobShadow.nearClipPlane, 5f, Time.deltaTime);
+        playerBlobShadow.farClipPlane = Mathf.Lerp(playerBlobShadow.farClipPlane, 32f, Time.deltaTime);
+        playerBlobShadow.fieldOfView = Mathf.Lerp(playerBlobShadow.fieldOfView, 5.5f, Time.deltaTime);
+        playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1.4f, Time.deltaTime);
         playerBlobShadow.orthographic = false;
-        playerBlobShadow.transform.localPosition = new Vector3(.25f, -0.81f, -29f);
+        playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, .275f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -.81f, Time.deltaTime), -29f);
     }
 
     public void setBlobShadowToNorm()
     {
-        playerBlobShadow.nearClipPlane = 12.5f;
-        playerBlobShadow.farClipPlane = 48;
-        playerBlobShadow.fieldOfView = 3.75f;
-        playerBlobShadow.aspectRatio = 1;
+        playerBlobShadow.nearClipPlane = Mathf.Lerp(playerBlobShadow.nearClipPlane, 12.5f, Time.deltaTime);
+        playerBlobShadow.farClipPlane = Mathf.Lerp(playerBlobShadow.farClipPlane, 60f, Time.deltaTime);
+        playerBlobShadow.fieldOfView = Mathf.Lerp(playerBlobShadow.fieldOfView, 3.75f, Time.deltaTime);
+        playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1f, Time.deltaTime);
         playerBlobShadow.orthographic = false;
-        playerBlobShadow.transform.localPosition = new Vector3(-.09f, -1.34f, -29f);
+        playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, -.09f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -1.7f, Time.deltaTime), -29f);
     }
 
     void setKinematic()

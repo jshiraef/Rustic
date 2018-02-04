@@ -27,7 +27,7 @@ public class SortingOrderScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if (player.transform.position.y > -threshold) 
+		if (player.transform.position.y > threshold) 
 		{
 //			sprite.sortingOrder = sortingOrder;
 			sprite.sortingLayerName = OverlapLayer;
@@ -36,6 +36,8 @@ public class SortingOrderScript : MonoBehaviour
 			sprite.sortingLayerName = currentLayerName;
 
 //		Debug.Log ("the sprite's current sorting layer is" + sprite.sortingLayerName);
-//		Debug.Log ("the player's x & y are" + player.transform.position.x + " , " + player.transform.position.y);
+////		Debug.Log ("the player's x & y are" + player.transform.position.x + " , " + player.transform.position.y);
+//        Debug.Log ("the threshold is " + threshold);
+//        Debug.Log("the player's y is" + player.transform.position.y);
 	}
 }
