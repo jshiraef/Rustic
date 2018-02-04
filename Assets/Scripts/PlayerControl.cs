@@ -13,6 +13,7 @@ public class PlayerControl : MonoBehaviour
     public bool swinging = false;
     public bool rolling = false;
     public bool isIdle = false;
+    public bool inWater = false;
     
 
     private int collisionCount;
@@ -1092,7 +1093,14 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        restoreBlobShadowToNormal = true;
+        if (other.name == "waterEdge")
+        {
+
+            inWater = false;
+        }
+
+
+            restoreBlobShadowToNormal = true;
         
     }
 
@@ -1106,6 +1114,8 @@ public class PlayerControl : MonoBehaviour
         if (other.name == "waterEdge")
         {
             restoreBlobShadowToNormal = false;
+
+            inWater = true;
 
             renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.WATER);
             setBlobShadowForWater();

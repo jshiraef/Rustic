@@ -21,14 +21,16 @@ public class FishMovement : MonoBehaviour
     private Vector3 pivot;
     private Vector3 pivotOffset;
     private bool isInverted = false;
-    private bool isRunning = false;
+    private bool isMoving = false;
 
 
     void Start()
     {
         pivot = transform.position;
+
         originalPosition = transform.position;
-        isRunning = true;
+
+        isMoving = true;
 
         if (isLinkOffsetScalePositiveX)
             phase = 3.14f / 2f + 3.14f;
