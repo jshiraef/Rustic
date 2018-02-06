@@ -1,4 +1,6 @@
-﻿Shader "Transparent/Cutout/Diffuse Shake" {
+﻿// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+Shader "Transparent/Cutout/Diffuse Shake" {
 
 	Properties{
 		_Color("Main Color", Color) = (1,1,1,1)
@@ -80,7 +82,7 @@
 		float3 waveMove = float3 (0,0,0);
 		waveMove.x = dot(s, _waveXmove);
 		waveMove.z = dot(s, _waveZmove);
-		v.vertex.xz -= mul((float3x3)_World2Object, waveMove).xz;
+		v.vertex.xz -= mul((float3x3)unity_WorldToObject, waveMove).xz;
 
 	}
 

@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Custom/Water2D Surface" {
 Properties {
   _Color("Color", Color) = (1,1,1,1)
@@ -47,7 +49,7 @@ Category {
       vertexOutput vert (vertexInput v)
       {
 	      vertexOutput o;
-	      o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+	      o.vertex = UnityObjectToClipPos(v.vertex);
 	      #if UNITY_UV_STARTS_AT_TOP
 	      float scale = -1.0;
 	      #else

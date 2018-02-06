@@ -8,7 +8,7 @@ namespace PixelCrushers.DialogueSystem {
 	/// Navigates to the place where the player mouse clicks.
 	/// </summary>
 	[AddComponentMenu("Dialogue System/Actor/Player/Navigate On Mouse Click")]
-	[RequireComponent(typeof(NavMeshAgent))]
+	[RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
 	public class NavigateOnMouseClick : MonoBehaviour {
 		
 		public AnimationClip idle;
@@ -18,13 +18,13 @@ namespace PixelCrushers.DialogueSystem {
 		public MouseButtonType mouseButton = MouseButtonType.Left;
 		
 		private Transform myTransform;
-		private NavMeshAgent navMeshAgent;
+		private UnityEngine.AI.NavMeshAgent navMeshAgent;
 		private Animation anim;
 		
 		void Awake() {
 			myTransform = transform;
 			anim = GetComponent<Animation>();
-			navMeshAgent = GetComponent<NavMeshAgent>();
+			navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 			if (navMeshAgent == null) {
 				Debug.LogWarning(string.Format("{0}: No NavMeshAgent found on {1}. Disabling {2}.", DialogueDebug.Prefix, name, this.GetType().Name));
 				enabled = false;

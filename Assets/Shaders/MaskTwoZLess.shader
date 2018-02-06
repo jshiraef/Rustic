@@ -1,4 +1,6 @@
-﻿Shader "Custom/Stencil/Mask TwoZLess"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/Stencil/Mask TwoZLess"
 {
     SubShader
     {
@@ -25,7 +27,7 @@
             v2f vert(appdata v)
             {
                 v2f o;
-                o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
                 return o;
             }
             half4 frag(v2f i) : COLOR

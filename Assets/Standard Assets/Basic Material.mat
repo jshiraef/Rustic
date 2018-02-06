@@ -8,62 +8,32 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Basic Material
   m_Shader: {fileID: 4800000, guid: 951ebb4bb7fcba44b8af0865dbfeab5f, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
   stringTagMap: {}
+  disabledShaderPasses: []
   m_SavedProperties:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TexEnvs:
-      data:
-        first:
-          name: _MainTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _BumpMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-      data:
-        first:
-          name: _Shininess
-        second: 0.078125
-      data:
-        first:
-          name: PixelSnap
-        second: 0
-      data:
-        first:
-          name: _ShakeDisplacement
-        second: 0.275
-      data:
-        first:
-          name: _ShakeTime
-        second: 0.496
-      data:
-        first:
-          name: _ShakeWindspeed
-        second: 0.555
-      data:
-        first:
-          name: _ShakeBending
-        second: 0.776
+    - PixelSnap: 0
+    - _ShakeBending: 0.776
+    - _ShakeDisplacement: 0.275
+    - _ShakeTime: 0.496
+    - _ShakeWindspeed: 0.555
+    - _Shininess: 0.078125
     m_Colors:
-      data:
-        first:
-          name: _Color
-        second: {r: 1, g: 1, b: 1, a: 1}
-      data:
-        first:
-          name: _SpecColor
-        second: {r: 0.5, g: 0.5, b: 0.5, a: 0}
-      data:
-        first:
-          name: _OccludedColor
-        second: {r: 0, g: 0, b: 0, a: 0.091}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _OccludedColor: {r: 0, g: 0, b: 0, a: 0.091}
+    - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
