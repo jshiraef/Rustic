@@ -30,6 +30,7 @@ public class PlayerControl : MonoBehaviour
     RaycastHit2D whatIHit;
 
     public float moveSpeed = 4f;
+    public float rollSpeed = 8f;
     public float v, h;
 
     private Vector2 RunningMovement;
@@ -409,7 +410,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (!rolling)
             {
-                rollingCoolDown = .7f;
+                rollingCoolDown = .4f;
             }
             rolling = true;
         }
@@ -418,93 +419,96 @@ public class PlayerControl : MonoBehaviour
         {
             anim.Play("Rolling");
 
-            if (h == 0 && v == 0)
-            {
+            //if (h == 0 && v == 0)
+            //{
 
-                if (this.direction == Direction.EAST)
-                {
-                    transform.Translate(.045f, 0, 0);
-                }
+            //    if (this.direction == Direction.EAST)
+            //    {
+            //        transform.Translate(.045f, 0, 0);
+            //    }
 
-                if (this.direction == Direction.NORTHEAST30)
-                {
-                    transform.Translate(.04f, .015f, 0);
-                }
+            //    if (this.direction == Direction.NORTHEAST30)
+            //    {
+            //        transform.Translate(.04f, .015f, 0);
+            //    }
 
-                if (this.direction == Direction.NORTHEAST50)
-                {
-                    transform.Translate(.03f, .025f, 0);
-                }
+            //    if (this.direction == Direction.NORTHEAST50)
+            //    {
+            //        transform.Translate(.03f, .025f, 0);
+            //    }
 
-                if (this.direction == Direction.NORTHEAST70)
-                {
-                    transform.Translate(.02f, .04f, 0);
-                }
+            //    if (this.direction == Direction.NORTHEAST70)
+            //    {
+            //        transform.Translate(.02f, .04f, 0);
+            //    }
 
-                if (this.direction == Direction.NORTH)
-                {
-                    transform.Translate(0, .045f, 0);
-                }
+            //    if (this.direction == Direction.NORTH)
+            //    {
+            //        transform.Translate(0, .045f, 0);
+            //    }
 
-                if (this.direction == Direction.NORTHWEST110)
-                {
-                    transform.Translate(-.015f, .04f, 0);
-                }
+            //    if (this.direction == Direction.NORTHWEST110)
+            //    {
+            //        transform.Translate(-.015f, .04f, 0);
+            //    }
 
-                if (this.direction == Direction.NORTHWEST130)
-                {
-                    transform.Translate(-.025f, .03f, 0);
-                }
+            //    if (this.direction == Direction.NORTHWEST130)
+            //    {
+            //        transform.Translate(-.025f, .03f, 0);
+            //    }
 
-                if (this.direction == Direction.NORTHWEST150)
-                {
-                    transform.Translate(-.04f, .02f, 0);
-                }
+            //    if (this.direction == Direction.NORTHWEST150)
+            //    {
+            //        transform.Translate(-.04f, .02f, 0);
+            //    }
 
-                if (this.direction == Direction.WEST)
-                {
-                    transform.Translate(-.045f, 0, 0);
-                }
+            //    if (this.direction == Direction.WEST)
+            //    {
+            //        transform.Translate(-.045f, 0, 0);
+            //    }
 
-                if (this.direction == Direction.SOUTHWEST210)
-                {
-                    transform.Translate(-.04f, -.015f, 0);
-                }
+            //    if (this.direction == Direction.SOUTHWEST210)
+            //    {
+            //        transform.Translate(-.04f, -.015f, 0);
+            //    }
 
-                if (this.direction == Direction.SOUTHWEST230)
-                {
-                    transform.Translate(-.03f, -.025f, 0);
-                }
+            //    if (this.direction == Direction.SOUTHWEST230)
+            //    {
+            //        transform.Translate(-.03f, -.025f, 0);
+            //    }
 
-                if (this.direction == Direction.SOUTHWEST250)
-                {
-                    transform.Translate(-.04f, -.02f, 0);
-                }
+            //    if (this.direction == Direction.SOUTHWEST250)
+            //    {
+            //        transform.Translate(-.04f, -.02f, 0);
+            //    }
 
-                if (this.direction == Direction.SOUTH)
-                {
-                    transform.Translate(0, -.045f, 0);
-                }
+            //    if (this.direction == Direction.SOUTH)
+            //    {
+            //        transform.Translate(0, -.045f, 0);
+            //    }
 
-                if (this.direction == Direction.SOUTHEAST290)
-                {
-                    transform.Translate(.01f, -.04f, 0);
-                }
+            //    if (this.direction == Direction.SOUTHEAST290)
+            //    {
+            //        transform.Translate(.01f, -.04f, 0);
+            //    }
 
-                if (this.direction == Direction.SOUTHEAST310)
-                {
-                    transform.Translate(.025f, -.03f, 0);
-                }
+            //    if (this.direction == Direction.SOUTHEAST310)
+            //    {
+            //        transform.Translate(.025f, -.03f, 0);
+            //    }
 
-                if (this.direction == Direction.SOUTHEAST330)
-                {
-                    transform.Translate(.04f, -.02f, 0);
-                }
+            //    if (this.direction == Direction.SOUTHEAST330)
+            //    {
+            //        transform.Translate(.04f, -.02f, 0);
+            //    }
 
-            }
+            //}
 
-            else
-                transform.Translate(h * .05f, v * .05f, 0);
+            //else
+            //{
+                Vector3 rollVector = new Vector3(h * rollSpeed * Time.deltaTime, v * rollSpeed * Time.deltaTime, 0);
+                transform.position += rollVector;
+        //    }
 
         }
 
@@ -518,7 +522,8 @@ public class PlayerControl : MonoBehaviour
             rolling = false;
         }
 
-        //        Debug.Log("the roll cooldown is " + rollingCoolDown);
+             Debug.Log("the rollSpeed is " + rollSpeed);
+ //       Debug.Log("the rolling bool is" + rolling);
     }
 
     void animationSetter()

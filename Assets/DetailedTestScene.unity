@@ -5967,6 +5967,14 @@ Prefab:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 21240274, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11498034, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: rollSpeed
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 13202652, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
