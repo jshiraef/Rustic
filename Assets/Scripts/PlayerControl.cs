@@ -24,6 +24,7 @@ public class PlayerControl : MonoBehaviour
     float maxVelocity;
 
     private float rollingCoolDown;
+    private float afterRollCoolDown;
 
     public Transform lineStart, lineEnd, groundedEnd;
 
@@ -406,13 +407,16 @@ public class PlayerControl : MonoBehaviour
             anim.Play("SwingScythe");
         }
 
-        if (Input.GetButton("PS4_Triangle"))
+        if (Input.GetButtonDown("PS4_Triangle"))
         {
             if (!rolling)
             {
                 rollingCoolDown = .4f;
             }
-            rolling = true;
+            if(afterRollCoolDown <= 0)
+            {
+                rolling = true;
+            }          
         }
 
         if (rolling)
@@ -519,10 +523,16 @@ public class PlayerControl : MonoBehaviour
 
         if (rolling && rollingCoolDown <= 0)
         {
+            afterRollCoolDown = .35f;
             rolling = false;
         }
 
-             Debug.Log("the rollSpeed is " + rollSpeed);
+        if(afterRollCoolDown > 0)
+        {
+            afterRollCoolDown -= Time.deltaTime;
+        }
+
+             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
  //       Debug.Log("the rolling bool is" + rolling);
     }
 
