@@ -30,7 +30,7 @@ public class PlayerControl : MonoBehaviour
 
     public Transform lineStart, lineEnd, groundedEnd;
 
-    RaycastHit2D whatIHit;
+    public RaycastHit2D facingWall;
 
     public float moveSpeed = 4f;
     public float rollSpeed = 8f;
@@ -166,7 +166,7 @@ public class PlayerControl : MonoBehaviour
 
         if (Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Wall")))
         {
-            whatIHit = Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Wall"));
+            facingWall = Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Wall"));
             interact = true;
         }
         else
@@ -174,10 +174,11 @@ public class PlayerControl : MonoBehaviour
             interact = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && interact == true)
-        {
-            Destroy(whatIHit.collider.gameObject);
-        }
+
+        //if (Input.GetKeyDown(KeyCode.E) && interact == true)
+        //{
+        //    Destroy(whatIHit.collider.gameObject);
+        //}
     }
 
     void Movement()
@@ -526,7 +527,7 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            playerBoxCollider2D.size = new Vector2 (.60f, .25f);
+            playerBoxCollider2D.size = new Vector2 (.70f, .3f);
         }
 
         if (rollingCoolDown > 0)
@@ -1102,6 +1103,12 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
+        if (other.name == "waterEdge")
+        {
+            renderMask.transform.localScale = new Vector3(.75f, .75f, .75f);
+            renderMask.transform.localPosition = new Vector3(.05f, -1.44f, 0f);
+        }
+
     }
 
 
@@ -1122,8 +1129,10 @@ public class PlayerControl : MonoBehaviour
 
         if (other.name == "waterEdge")
         {
-
             inWater = false;
+            
+                renderMask.transform.localScale = new Vector3(1.225f, 1.225f, 1.225f);
+                renderMask.transform.localPosition = new Vector3(.05f, -2f, 0f);
         }
 
 
