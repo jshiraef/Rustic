@@ -19,6 +19,8 @@ public class PlayerControl : MonoBehaviour
     private int collisionCount;
     private int environmentCount;
 
+    private BoxCollider2D playerBoxCollider2D;
+
     Rigidbody2D body;
     float moveForce;
     float maxVelocity;
@@ -76,6 +78,7 @@ public class PlayerControl : MonoBehaviour
         this.direction = Direction.NULL;
 
         player = GameObject.Find("player");
+        playerBoxCollider2D = player.GetComponent<BoxCollider2D>();
         renderMask = GameObject.Find("renderMask");
         playerBlobShadow = player.GetComponentInChildren<Projector>();
         player.GetComponent<SpriteRenderer>().receiveShadows = true;
@@ -155,14 +158,15 @@ public class PlayerControl : MonoBehaviour
 
     void Raycasting()
     {
+        lineEnd.localPosition = new Vector3(h * 2, v * 2, 0);
         Debug.DrawLine(lineStart.position, lineEnd.position, Color.green);
         Debug.DrawLine(this.transform.position, groundedEnd.position, Color.green);
 
         grounded = Physics2D.Linecast(this.transform.position, groundedEnd.position, 1 << LayerMask.NameToLayer("ground"));
 
-        if (Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Guard")))
+        if (Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Wall")))
         {
-            whatIHit = Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Guard"));
+            whatIHit = Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Wall"));
             interact = true;
         }
         else
@@ -424,6 +428,10 @@ public class PlayerControl : MonoBehaviour
         {
             anim.Play("Rolling");
 
+
+            playerBoxCollider2D.size = new Vector2(1.25f, 2.15f);
+            
+
             if (h == 0 && v == 0)
             {
 
@@ -516,6 +524,10 @@ public class PlayerControl : MonoBehaviour
             }
 
         }
+        else
+        {
+            playerBoxCollider2D.size = new Vector2 (.60f, .25f);
+        }
 
         if (rollingCoolDown > 0)
         {
@@ -534,7 +546,7 @@ public class PlayerControl : MonoBehaviour
             afterRollCoolDown -= Time.deltaTime;
         }
 
-             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
+ //            Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
  //       Debug.Log("the rolling bool is" + rolling);
     }
 
@@ -1024,7 +1036,7 @@ public class PlayerControl : MonoBehaviour
     void OnCollisionEnter2D(Collision2D coll)
     {
         collisionCount++;
-        Debug.Log("the collision count is: " + collisionCount);
+ //       Debug.Log("the collision count is: " + collisionCount);
 
         if (coll.gameObject.tag == "fence")
         {
@@ -1050,7 +1062,7 @@ public class PlayerControl : MonoBehaviour
     {
         collisionCount--;
 
-        Debug.Log("the collision count is: " + collisionCount);
+  //      Debug.Log("the collision count is: " + collisionCount);
 
     }
 
@@ -1088,8 +1100,6 @@ public class PlayerControl : MonoBehaviour
             {
                 environmentCount++;
             }
-            
-            Debug.Log("Plus 1 & the environment count is" + environmentCount);
         }
 
     }

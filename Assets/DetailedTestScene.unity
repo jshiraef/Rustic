@@ -434,10 +434,10 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 0
-        value: 0.8
-        inSlope: 0
-        outSlope: 0
+        time: 0.046340942
+        value: 0.27761155
+        inSlope: 2.651742
+        outSlope: 2.651742
         tangentMode: 0
       - serializedVersion: 2
         time: 1
@@ -447,7 +447,7 @@ TrailRenderer:
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
-      m_RotationOrder: 4
+      m_RotationOrder: 0
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.015686275, g: 0.015686275, b: 0.015686275, a: 0.3764706}
@@ -1224,7 +1224,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 799787725}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40.9, y: -40.3, z: -0.359375}
+  m_LocalPosition: {x: 40.59, y: -38.73, z: -0.359375}
   m_LocalScale: {x: 0.32491127, y: 0.32491127, z: 0.32491127}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1273,10 +1273,10 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 0
-        value: 0.8
-        inSlope: 0
-        outSlope: 0
+        time: 0.004878998
+        value: 0.24776155
+        inSlope: 2.7537313
+        outSlope: 2.7537313
         tangentMode: 0
       - serializedVersion: 2
         time: 1
@@ -1286,7 +1286,7 @@ TrailRenderer:
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
-      m_RotationOrder: 4
+      m_RotationOrder: 0
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.015686275, g: 0.015686275, b: 0.015686275, a: 0.3764706}
@@ -1317,7 +1317,7 @@ TrailRenderer:
       m_NumColorKeys: 5
       m_NumAlphaKeys: 5
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 20
     alignment: 0
     textureMode: 0
     generateLightingData: 0
@@ -1588,7 +1588,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1036153250}
   - component: {fileID: 1036153249}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wall
   m_TagString: wall
   m_Icon: {fileID: 0}
@@ -1610,9 +1610,9 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -4.1126633, y: -2.5469284}
-  - {x: -1.4732609, y: -0.45894623}
-  - {x: 0.019887924, y: 1.0958633}
+  - {x: -4.1126633, y: -2.4767914}
+  - {x: -1.6636467, y: -0.37296677}
+  - {x: -1.4148483, y: -0.15228271}
   - {x: 1.1809692, y: 2.5724907}
   - {x: 1.3708782, y: 3.1967468}
   - {x: 0.9436817, y: 4.707794}
@@ -1816,7 +1816,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1354758364}
   - component: {fileID: 1354758363}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5974,6 +5974,42 @@ Prefab:
     - target: {fileID: 11498034, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
       propertyPath: rollSpeed
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139184, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139184, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139184, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 6.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139184, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 4.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139184, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139184, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139184, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139184, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_Size.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139184, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_Size.y
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 13202652, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
