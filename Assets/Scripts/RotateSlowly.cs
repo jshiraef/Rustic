@@ -23,8 +23,7 @@ public class RotateSlowly : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-	
-//		GetComponent<Light>().transform.Rotate (0, (Mathf.Lerp (minRotation, maxRotation, Time.time)) * .00001f, 0);
+//			GetComponent<Light>().transform.Rotate (0, (Mathf.Lerp (minRotation, maxRotation, Time.time)) * .00001f, 0);
 
 	}
 }

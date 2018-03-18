@@ -56,6 +56,7 @@ public class PlayerControl : MonoBehaviour
 
     private GameObject player;
     private GameObject renderMask;
+    private GameObject renderMaskOutliner;
 
     // barrel variables (variables similar to these can help keep track of relations between player and world objects)
     public GameObject[] barrels;
@@ -80,6 +81,7 @@ public class PlayerControl : MonoBehaviour
         player = GameObject.Find("player");
         playerBoxCollider2D = player.GetComponent<BoxCollider2D>();
         renderMask = GameObject.Find("renderMask");
+        renderMaskOutliner = GameObject.Find("renderMaskOutliner");
         playerBlobShadow = player.GetComponentInChildren<Projector>();
         player.GetComponent<SpriteRenderer>().receiveShadows = true;
 
@@ -1109,6 +1111,13 @@ public class PlayerControl : MonoBehaviour
             renderMask.transform.localPosition = new Vector3(.05f, -1.44f, 0f);
         }
 
+        if (other.name == "shortGrassEdge")
+        {
+            renderMask.transform.localPosition = new Vector3(.05f, -2.23f, 0f);
+            renderMaskOutliner.transform.localScale = new Vector3(0, 0, 0);
+
+        }
+
     }
 
 
@@ -1133,6 +1142,11 @@ public class PlayerControl : MonoBehaviour
             
                 renderMask.transform.localScale = new Vector3(1.225f, 1.225f, 1.225f);
                 renderMask.transform.localPosition = new Vector3(.05f, -2f, 0f);
+        }
+
+        if(other.name == "shortGrassEdge")
+        {
+            renderMaskOutliner.transform.localScale = new Vector3(0.76f, 1.09f, 1.09f);
         }
 
 
@@ -1165,6 +1179,15 @@ public class PlayerControl : MonoBehaviour
             setBlobShadowForGrass();  
         }
 
+        if (other.name == "shortGrassEdge")
+        {
+            restoreBlobShadowToNormal = false;
+
+            renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.GRASS);
+
+            setBlobShadowForGrass();
+        }
+
     }
 
     public void setShortFall()
@@ -1177,32 +1200,32 @@ public class PlayerControl : MonoBehaviour
 
     public void setBlobShadowForGrass()
     {
-        playerBlobShadow.nearClipPlane = Mathf.Lerp(playerBlobShadow.nearClipPlane, 7.5f, Time.deltaTime);
-        playerBlobShadow.farClipPlane = Mathf.Lerp(playerBlobShadow.farClipPlane, 39f, Time.deltaTime); 
-        playerBlobShadow.fieldOfView = Mathf.Lerp(playerBlobShadow.fieldOfView, 3f, Time.deltaTime);
-        playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1.4f, Time.deltaTime);
+        playerBlobShadow.nearClipPlane = Mathf.Lerp(playerBlobShadow.nearClipPlane, 7.5f, Time.deltaTime * 2);
+        playerBlobShadow.farClipPlane = Mathf.Lerp(playerBlobShadow.farClipPlane, 39f, Time.deltaTime * 2); 
+        playerBlobShadow.fieldOfView = Mathf.Lerp(playerBlobShadow.fieldOfView, 3f, Time.deltaTime * 2);
+        playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1.4f, Time.deltaTime * 2);
         playerBlobShadow.orthographic = false;
-        playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, .07f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -.81f, Time.deltaTime), -29f);
+        playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, .07f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -.81f, Time.deltaTime * 2), -29f);
     }
 
     public void setBlobShadowForWater()
     {
-        playerBlobShadow.nearClipPlane = Mathf.Lerp(playerBlobShadow.nearClipPlane, 5f, Time.deltaTime);
-        playerBlobShadow.farClipPlane = Mathf.Lerp(playerBlobShadow.farClipPlane, 32f, Time.deltaTime);
-        playerBlobShadow.fieldOfView = Mathf.Lerp(playerBlobShadow.fieldOfView, 5.5f, Time.deltaTime);
-        playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1.4f, Time.deltaTime);
+        playerBlobShadow.nearClipPlane = Mathf.Lerp(playerBlobShadow.nearClipPlane, 5f, Time.deltaTime * 2);
+        playerBlobShadow.farClipPlane = Mathf.Lerp(playerBlobShadow.farClipPlane, 32f, Time.deltaTime * 2);
+        playerBlobShadow.fieldOfView = Mathf.Lerp(playerBlobShadow.fieldOfView, 5.5f, Time.deltaTime * 2);
+        playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1.4f, Time.deltaTime * 2);
         playerBlobShadow.orthographic = false;
-        playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, .275f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -.81f, Time.deltaTime), -29f);
+        playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, .275f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -.81f, Time.deltaTime * 2), -29f);
     }
 
     public void setBlobShadowToNorm()
     {
-        playerBlobShadow.nearClipPlane = Mathf.Lerp(playerBlobShadow.nearClipPlane, 12.5f, Time.deltaTime);
-        playerBlobShadow.farClipPlane = Mathf.Lerp(playerBlobShadow.farClipPlane, 60f, Time.deltaTime);
-        playerBlobShadow.fieldOfView = Mathf.Lerp(playerBlobShadow.fieldOfView, 3.75f, Time.deltaTime);
-        playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1f, Time.deltaTime);
+        playerBlobShadow.nearClipPlane = Mathf.Lerp(playerBlobShadow.nearClipPlane, 12.5f, Time.deltaTime * 2);
+        playerBlobShadow.farClipPlane = Mathf.Lerp(playerBlobShadow.farClipPlane, 60f, Time.deltaTime * 2);
+        playerBlobShadow.fieldOfView = Mathf.Lerp(playerBlobShadow.fieldOfView, 3.75f, Time.deltaTime * 2);
+        playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1f, Time.deltaTime * 2);
         playerBlobShadow.orthographic = false;
-        playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, -.09f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -1.7f, Time.deltaTime), -29f);
+        playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, -.09f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -1.7f, Time.deltaTime * 2), -29f);
     }
 
     void setKinematic()
