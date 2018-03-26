@@ -2847,11 +2847,11 @@ PolygonCollider2D:
       - {x: -2.048523, y: -5.3706436}
       - {x: -0.28353882, y: -5.5244064}
       - {x: -0.58451843, y: -5.077095}
-      - {x: -0.28325653, y: -4.660469}
-      - {x: 0.7155838, y: -4.154068}
-      - {x: 2.7684402, y: -3.058754}
-      - {x: 3.7504044, y: -2.357872}
-      - {x: 5.384575, y: -2.194374}
+      - {x: -0.54380035, y: -4.302223}
+      - {x: 0.55274963, y: -3.7306824}
+      - {x: 2.5078964, y: -2.6679382}
+      - {x: 3.7829666, y: -1.9019241}
+      - {x: 5.1566086, y: -1.6081543}
       - {x: 5.3371735, y: -1.1446304}
       - {x: 4.207382, y: -0.1875}
       - {x: 3.266098, y: 0.2972641}
@@ -3510,6 +3510,34 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &904050351
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 904050352}
+  m_Layer: 0
+  m_Name: bridgePointA
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &904050352
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 904050351}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.5, y: -2.27, z: 0.021124577}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2055554688}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &953225267
 GameObject:
   m_ObjectHideFlags: 0
@@ -3729,6 +3757,34 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &1003133640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1003133641}
+  m_Layer: 0
+  m_Name: bridgePointB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1003133641
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1003133640}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.51, y: 2.08, z: 0.021124577}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2055554688}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1019021660
 GameObject:
   m_ObjectHideFlags: 0
@@ -5287,6 +5343,8 @@ MonoBehaviour:
   currentLayerName: 
   sortingOrder: 0
   threshold: -87
+  thresholdPoint1: {fileID: 0}
+  thresholdPoint2: {fileID: 0}
 --- !u!1 &1536726826
 GameObject:
   m_ObjectHideFlags: 0
@@ -6363,6 +6421,67 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &1695750667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1695750669}
+  - component: {fileID: 1695750668}
+  m_Layer: 0
+  m_Name: bridgeEdge (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!60 &1695750668
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1695750667}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.75977325, y: 0.59297943}
+      - {x: -0.95105654, y: 0.30901697}
+      - {x: -2.5427551, y: -0.24996948}
+      - {x: -5.351654, y: -2.1912155}
+      - {x: -5.6348495, y: -3.4682236}
+      - {x: -4.3453445, y: -3.820961}
+      - {x: 0.58778536, y: -0.80901694}
+      - {x: 1.439476, y: -0.070869446}
+--- !u!4 &1695750669
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1695750667}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 94.14, y: -84.15, z: -0.041015625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1704715938
 GameObject:
   m_ObjectHideFlags: 0
@@ -7354,6 +7473,55 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &1928209458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1928209460}
+  - component: {fileID: 1928209459}
+  m_Layer: 0
+  m_Name: bridgeEdge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!68 &1928209459
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1928209458}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -6.4598923, y: -3.354477}
+  - {x: -6.579788, y: -3.2821655}
+  - {x: -3.128769, y: -0.953}
+  - {x: 0.26124573, y: 0.5253906}
+  - {x: 0.8520279, y: 0.720047}
+--- !u!4 &1928209460
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1928209458}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 91.92, y: -82.34, z: -0.041015625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1950956272
 GameObject:
   m_ObjectHideFlags: 0
@@ -7935,7 +8103,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 90.40679, y: -83.076675, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 904050352}
+  - {fileID: 1003133641}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7953,6 +8123,8 @@ MonoBehaviour:
   currentLayerName: 
   sortingOrder: 0
   threshold: -81.5
+  thresholdPoint1: {fileID: 904050351}
+  thresholdPoint2: {fileID: 1003133640}
 --- !u!1 &2056825151
 GameObject:
   m_ObjectHideFlags: 0
