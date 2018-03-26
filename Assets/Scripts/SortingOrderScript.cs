@@ -57,13 +57,6 @@ public class SortingOrderScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-        if (thresholdPoint1 != null && thresholdPoint2 != null)
-        {
-            slope = (thresholdPoint2.transform.position.y - thresholdPoint1.transform.position.y) /
-                (thresholdPoint2.transform.position.x - thresholdPoint1.transform.position.x);
-
-            yintercept = thresholdPoint2.transform.position.y - (slope * thresholdPoint2.transform.position.x);
-        }
 
         if (player.transform.position.y > threshold) 
 		{
