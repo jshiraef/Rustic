@@ -126,7 +126,7 @@ public class PlayerControl : MonoBehaviour
         else
         {
             shortFall = false;
-            lockPosition = false;
+ //           lockPosition = false;
             anim.SetBool("shortFall", shortFall);
             setNonKinematic();
         }
@@ -146,7 +146,7 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            lockPosition = false;
+ //           lockPosition = false;
         }
 
         if(restoreBlobShadowToNormal)
@@ -193,8 +193,12 @@ public class PlayerControl : MonoBehaviour
 
         Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
 
-        transform.position += rightMovement;
-        transform.position += upMovement;
+        if (!lockPosition)
+        {
+            transform.position += rightMovement;
+            transform.position += upMovement;
+        }
+        
 
         // movement vectors are updated here
         //Vector3 position = transform.position;
@@ -419,7 +423,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (!rolling)
             {
-                rollingCoolDown = .4f;
+                rollingCoolDown = .6f;
             }
             if(afterRollCoolDown <= 0)
             {
@@ -435,7 +439,7 @@ public class PlayerControl : MonoBehaviour
             playerBoxCollider2D.size = new Vector2(1.25f, 2.15f);
             
 
-            if (h == 0 && v == 0)
+            if (h == 0 && v == 0 && afterRollCoolDown <= 0f)
             {
 
                 if (this.direction == Direction.EAST)
@@ -522,8 +526,12 @@ public class PlayerControl : MonoBehaviour
 
             else
             {
-                Vector3 rollVector = new Vector3(h * rollSpeed * Time.deltaTime, v * rollSpeed * Time.deltaTime, 0);
-                transform.position += rollVector;
+                if (afterRollCoolDown <= 0f)
+                {
+                    Vector3 rollVector = new Vector3(h * rollSpeed * Time.deltaTime, v * rollSpeed * Time.deltaTime, 0);
+                    transform.position += rollVector;
+                }
+                
             }
 
         }
@@ -537,11 +545,18 @@ public class PlayerControl : MonoBehaviour
             rollingCoolDown -= Time.deltaTime;
         }
 
-        if (rolling && rollingCoolDown <= 0)
+        if (rolling && rollingCoolDown <= 0 && afterRollCoolDown <= 0)
         {
-            afterRollCoolDown = .35f;
-            anim.Play("Idle");
+            afterRollCoolDown = .4f;
+            //lockPosition = true;
+            //rolling = false;
+        }
+
+        if(afterRollCoolDown > 0f && afterRollCoolDown < .05f)
+        {
             rolling = false;
+            //lockPosition = false;
+            //anim.Play("Idle");
         }
 
         if(afterRollCoolDown > 0)
@@ -549,8 +564,9 @@ public class PlayerControl : MonoBehaviour
             afterRollCoolDown -= Time.deltaTime;
         }
 
- //            Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
- //       Debug.Log("the rolling bool is" + rolling);
+ //             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
+                Debug.Log("the rolling bool is" + rolling);
+                Debug.Log("the rolling cooldown is " + rollingCoolDown);
     }
 
     void animationSetter()

@@ -2842,12 +2842,10 @@ PolygonCollider2D:
       - {x: -5.4454346, y: -4.339409}
       - {x: -4.7072983, y: -4.5325165}
       - {x: -4.012718, y: -4.4961014}
-      - {x: -3.2064362, y: -4.734749}
-      - {x: -2.3691711, y: -4.96846}
-      - {x: -2.048523, y: -5.3706436}
-      - {x: -0.28353882, y: -5.5244064}
-      - {x: -0.58451843, y: -5.077095}
-      - {x: -0.54380035, y: -4.302223}
+      - {x: -3.8797073, y: -4.1364594}
+      - {x: -3.0770798, y: -4.2542877}
+      - {x: -2.3166275, y: -4.2838974}
+      - {x: -0.33426666, y: -4.9436264}
       - {x: 0.55274963, y: -3.7306824}
       - {x: 2.5078964, y: -2.6679382}
       - {x: 3.7829666, y: -1.9019241}
@@ -4671,6 +4669,26 @@ MonoBehaviour:
   sprite: {fileID: 0}
   spriteLayer: Default
   spriteLayerOrder: -5
+--- !u!320 &1341682287
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1341682279}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: f82ce6a1c6a4732448d3185825d66f7c, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 114107466388344774, guid: f82ce6a1c6a4732448d3185825d66f7c, type: 2}
+    value: {fileID: 1341682279}
+  - key: {fileID: 114553465387044700, guid: f82ce6a1c6a4732448d3185825d66f7c, type: 2}
+    value: {fileID: 0}
+  m_ExposedReferences:
+    m_References: []
 --- !u!1 &1352337131
 GameObject:
   m_ObjectHideFlags: 0
@@ -8026,6 +8044,22 @@ Prefab:
     - target: {fileID: 198169564861117522, guid: c27f323a7c54c8c4d882813d4f37bd46,
         type: 2}
       propertyPath: randomSeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1325440344002642, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1616412756591988, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11498034, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: rollSpeed
+      value: 5.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 11498034, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: lockPosition
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

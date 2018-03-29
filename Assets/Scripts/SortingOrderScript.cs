@@ -70,12 +70,12 @@ public class SortingOrderScript : MonoBehaviour
         else
             sprite.sortingLayerName = currentLayerName;
 
-        if (thresholdPoint1 != null && thresholdPoint2 != null)
-        {
-            Debug.Log("the slope is " + slope);
-            Debug.Log("the thresholdPoint2 is " + thresholdPoint2.transform.position.x + " , " + thresholdPoint2.transform.position.y);
-            Debug.Log("the yintercept is " + yintercept);
-        }
+        //if (thresholdPoint1 != null && thresholdPoint2 != null)
+        //{
+        //    Debug.Log("the slope is " + slope);
+        //    Debug.Log("the thresholdPoint2 is " + thresholdPoint2.transform.position.x + " , " + thresholdPoint2.transform.position.y);
+        //    Debug.Log("the yintercept is " + yintercept);
+        //}
 
         //		Debug.Log ("the sprite's current sorting layer is" + sprite.sortingLayerName);
         ////		Debug.Log ("the player's x & y are" + player.transform.position.x + " , " + player.transform.position.y);
