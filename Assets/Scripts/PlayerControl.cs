@@ -389,7 +389,7 @@ public class PlayerControl : MonoBehaviour
 
         if (swinging)
         {
-            lockPosition = true;
+            //lockPosition = true;
             isRunning = false;
 
             rumble = true;
@@ -499,7 +499,7 @@ public class PlayerControl : MonoBehaviour
 
                 if (this.direction == Direction.SOUTHWEST250)
                 {
-                    transform.Translate(-.04f, -.02f, 0);
+                    transform.Translate(-.03f, -.035f, 0);
                 }
 
                 if (this.direction == Direction.SOUTH)
