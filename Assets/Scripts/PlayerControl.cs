@@ -2,6 +2,7 @@
 using System.Collections;
 using XInputDotNetPure;
 
+
 public class PlayerControl : MonoBehaviour
 {
 
@@ -14,6 +15,7 @@ public class PlayerControl : MonoBehaviour
     public bool rolling = false;
     public bool isIdle = false;
     public bool inWater = false;
+    public bool knockBack = false;
     
 
     private int collisionCount;
@@ -27,6 +29,9 @@ public class PlayerControl : MonoBehaviour
 
     private float rollingCoolDown;
     private float afterRollCoolDown;
+
+    private float knockBackCoolDown;
+    private float knockBackTimeLength = 2.1f;
 
     public Transform lineStart, lineEnd, groundedEnd;
 
@@ -48,6 +53,7 @@ public class PlayerControl : MonoBehaviour
     private float rigidbodyAngularDirection;
 
     Animator anim;
+
     private bool shortFall = false;
     private float shortFallCoolDown;
 
@@ -75,6 +81,7 @@ public class PlayerControl : MonoBehaviour
         maxVelocity = 77f;
 
         anim = GetComponent<Animator>();
+        
 
         this.direction = Direction.NULL;
 
@@ -91,7 +98,6 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
 
         if (rumble && rumbleCoolDown <= 0)
         {
@@ -134,6 +140,11 @@ public class PlayerControl : MonoBehaviour
         if (barrelCooldown > 0)
         {
             barrelCooldown -= Time.deltaTime;
+        }
+
+        if ( knockBackCoolDown > 0)
+        {
+            knockBackCoolDown -= Time.deltaTime;
         }
 
 
@@ -237,12 +248,12 @@ public class PlayerControl : MonoBehaviour
         {
             if (isRunning == false)
             {
-                anim.StopPlayback();
+                //anim.StopPlayback();
             }
 
             this.direction = Direction.EAST;
 
-            if (!lockPosition && !swinging && !rolling)
+            if (!lockPosition && !swinging && !rolling && !knockBack)
             {
 
                 if (!isWalking)
@@ -276,7 +287,7 @@ public class PlayerControl : MonoBehaviour
 
             this.direction = Direction.WEST;
 
-            if (!lockPosition && !swinging && !rolling)
+            if (!lockPosition && !swinging && !rolling && !knockBack)
             {
 
                 if (!isWalking)
@@ -308,7 +319,7 @@ public class PlayerControl : MonoBehaviour
 
             this.direction = Direction.SOUTH;
 
-            if (!lockPosition && !swinging && !rolling)
+            if (!lockPosition && !swinging && !rolling && !knockBack)
             {
                 if (!isWalking)
                 {
@@ -338,7 +349,7 @@ public class PlayerControl : MonoBehaviour
 
             this.direction = Direction.NORTH;
 
-            if (!lockPosition && !swinging && !rolling)
+            if (!lockPosition && !swinging && !rolling && !knockBack)
             {
                 if (!isWalking)
                 {
@@ -379,7 +390,7 @@ public class PlayerControl : MonoBehaviour
         //This sets the isIdle variable
         if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
         {
-            if (!swinging && !rolling && !isIdle)
+            if (!swinging && !rolling && !isIdle && !knockBack)
             {
                 anim.Play("Idle");
                 isIdle = true;
@@ -392,9 +403,35 @@ public class PlayerControl : MonoBehaviour
             //lockPosition = true;
             isRunning = false;
 
-            rumble = true;
-            GamePad.SetVibration(playerIndex, 1f, 0f);
-            rumbleCoolDown = .3f;
+            //rumble = true;
+            //GamePad.SetVibration(playerIndex, .5f, 0f);
+            //rumbleCoolDown = .3f;
+        }
+
+        if (rolling)
+        {
+            //lockPosition = true;
+            isRunning = false;
+
+            if(rollingCoolDown > .25f && rollingCoolDown < .4f)
+            {
+                rumble = true;
+                GamePad.SetVibration(playerIndex, .25f, .25f);
+                rumbleCoolDown = .2f;
+            }  
+        }
+
+        if (knockBack)
+        {
+            //isRunning = false;
+
+            if(knockBackCoolDown > (knockBackTimeLength - .05f))
+            {
+                rumble = true;
+                GamePad.SetVibration(playerIndex, .75f, .75f);
+                rumbleCoolDown = .3f;
+            }
+            
         }
 
 
@@ -404,12 +441,14 @@ public class PlayerControl : MonoBehaviour
         //		Debug.Log ("the vertical axis input is " + Input.GetAxis ("Vertical"));
         //		Debug.Log ("the horizontal axis input is " + Input.GetAxis ("Horizontal"));
         //		Debug.Log ("the direction is " + this.direction);
+        
     }
 
     void checkAttack()
     {
         if (Input.GetButton("PS4_Square")) {
 
+            if(!knockBack && !rolling)
             swinging = true;
         } else
             swinging = false;
@@ -425,7 +464,7 @@ public class PlayerControl : MonoBehaviour
             {
                 rollingCoolDown = .6f;
             }
-            if(afterRollCoolDown <= 0)
+            if(afterRollCoolDown <= 0 && !knockBack)
             {
                 rolling = true;
             }          
@@ -540,6 +579,34 @@ public class PlayerControl : MonoBehaviour
             playerBoxCollider2D.size = new Vector2 (.70f, .3f);
         }
 
+        if(knockBack)
+        {
+            anim.Play("blowBackWest");
+            lockPosition = true;
+
+            if (this.direction == Direction.EAST)
+            {
+                if(knockBackCoolDown > (knockBackTimeLength - .5f))
+                {
+                    transform.Translate(-.02f, 0, 0);
+                }
+                
+            }
+
+            if (knockBackCoolDown < (knockBackTimeLength - .4f) && knockBackCoolDown > .1f)
+            {
+                anim.SetFloat("animationSpeed", .25f);
+            }
+            else anim.SetFloat("animationSpeed", 1f);
+        }
+
+        if(knockBack && knockBackCoolDown > 0f & knockBackCoolDown < .1f)
+        {
+            knockBack = false;
+            anim.Play("Idle");
+            lockPosition = false;
+        }
+
         if (rollingCoolDown > 0)
         {
             rollingCoolDown -= Time.deltaTime;
@@ -565,8 +632,8 @@ public class PlayerControl : MonoBehaviour
         }
 
  //             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
-                Debug.Log("the rolling bool is" + rolling);
-                Debug.Log("the rolling cooldown is " + rollingCoolDown);
+                //Debug.Log("the rolling bool is" + rolling);
+                //Debug.Log("the rolling cooldown is " + rollingCoolDown);
     }
 
     void animationSetter()
@@ -1052,6 +1119,20 @@ public class PlayerControl : MonoBehaviour
 
     }
 
+    public AnimationClip GetAnimationClip(string name)
+    {
+        if (!anim) return null; // no animator
+
+        foreach (AnimationClip clip in anim.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == name)
+            {
+                return clip;
+            }
+        }
+        return null; // no clip by that name
+    }
+
     void OnCollisionEnter2D(Collision2D coll)
     {
         collisionCount++;
@@ -1064,8 +1145,14 @@ public class PlayerControl : MonoBehaviour
 
         if (coll.gameObject.tag == "wall")
         {
-//            Debug.Log("there's a wall there moron!");
+           if(rolling)
+            {
+                rolling = false;
+                knockBack = true;
+                knockBackCoolDown = knockBackTimeLength;
+            }
         }
+
 
     }
 

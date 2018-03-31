@@ -2834,17 +2834,11 @@ PolygonCollider2D:
       - {x: -7.15036, y: -0.34983063}
       - {x: -8.694946, y: -1.2279053}
       - {x: -10.984451, y: -2.8781357}
-      - {x: -10.950142, y: -4.164093}
-      - {x: -9.649918, y: -4.8234863}
-      - {x: -8.122047, y: -4.8025284}
-      - {x: -6.7698517, y: -4.392624}
-      - {x: -6.158264, y: -4.4615555}
-      - {x: -5.4454346, y: -4.339409}
-      - {x: -4.7072983, y: -4.5325165}
-      - {x: -4.012718, y: -4.4961014}
-      - {x: -3.8797073, y: -4.1364594}
-      - {x: -3.0770798, y: -4.2542877}
-      - {x: -2.3166275, y: -4.2838974}
+      - {x: -10.815865, y: -3.6605453}
+      - {x: -9.683479, y: -3.9508743}
+      - {x: -8.189156, y: -3.9969635}
+      - {x: -6.434227, y: -3.3186035}
+      - {x: -2.484436, y: -3.6462173}
       - {x: -0.33426666, y: -4.9436264}
       - {x: 0.55274963, y: -3.7306824}
       - {x: 2.5078964, y: -2.6679382}
@@ -4762,6 +4756,83 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1355449383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1355449385}
+  - component: {fileID: 1355449384}
+  m_Layer: 0
+  m_Name: rockEdges
+  m_TagString: wall
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!60 &1355449384
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1355449383}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.124067, y: 3.413163}
+      - {x: 0.15515876, y: 4.604849}
+      - {x: -1.9595616, y: 8.640644}
+      - {x: -4.1004953, y: 8.769098}
+      - {x: -5.057914, y: 7.9016623}
+      - {x: -5.4152184, y: 6.4652257}
+      - {x: -4.481142, y: 5.686076}
+      - {x: -4.447892, y: 5.509207}
+      - {x: -4.346567, y: 5.322406}
+      - {x: -4.887165, y: 4.7060003}
+      - {x: -4.9712577, y: 4.0530896}
+      - {x: -4.637482, y: 3.081028}
+      - {x: -3.9268596, y: 2.3058925}
+      - {x: -3.5249603, y: 1.576957}
+      - {x: -2.4589136, y: 1.2746236}
+      - {x: -2.1123905, y: 0.79823756}
+      - {x: -1.7204168, y: -0.388713}
+      - {x: -0.9873001, y: -0.78828335}
+      - {x: -0.15079144, y: -1.1532085}
+      - {x: 1.7052932, y: -1.1538256}
+      - {x: 2.1740491, y: -0.4017055}
+      - {x: 2.893198, y: -0.2171681}
+      - {x: 2.796794, y: 0.32068777}
+      - {x: 1.6111844, y: 2.063661}
+--- !u!4 &1355449385
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1355449383}
+  m_LocalRotation: {x: -0, y: -0, z: -0.77209115, w: 0.6355119}
+  m_LocalPosition: {x: 105.76, y: -75.24, z: -0.041015625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -101.08401}
 --- !u!1 &1355532006
 GameObject:
   m_ObjectHideFlags: 0
@@ -7502,7 +7573,7 @@ GameObject:
   - component: {fileID: 1928209459}
   m_Layer: 0
   m_Name: bridgeEdge
-  m_TagString: Untagged
+  m_TagString: wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7522,7 +7593,6 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -6.4598923, y: -3.354477}
   - {x: -6.579788, y: -3.2821655}
   - {x: -3.128769, y: -0.953}
   - {x: 0.26124573, y: 0.5253906}
@@ -8048,11 +8118,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1325440344002642, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1616412756591988, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11498034, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
       propertyPath: rollSpeed
@@ -8060,6 +8130,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11498034, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
       propertyPath: lockPosition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11498034, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: grounded
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
