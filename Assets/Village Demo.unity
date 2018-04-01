@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 48595329}
   - component: {fileID: 48595331}
   - component: {fileID: 48595330}
+  - component: {fileID: 48595332}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -338,6 +339,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &48595332
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 48595328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 8608ec81ee27a15488d33f9dad239e91, type: 2}
+  m_AmplitudeGain: 1
+  m_FrequencyGain: 1
 --- !u!1 &56474006
 GameObject:
   m_ObjectHideFlags: 0
@@ -4796,9 +4811,9 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.124067, y: 3.413163}
-      - {x: 0.15515876, y: 4.604849}
-      - {x: -1.9595616, y: 8.640644}
+    - - {x: 0.19, y: 3.2615244}
+      - {x: -0.1, y: 3.85}
+      - {x: -2.47, y: 8.51}
       - {x: -4.1004953, y: 8.769098}
       - {x: -5.057914, y: 7.9016623}
       - {x: -5.4152184, y: 6.4652257}
@@ -4814,12 +4829,11 @@ PolygonCollider2D:
       - {x: -2.1123905, y: 0.79823756}
       - {x: -1.7204168, y: -0.388713}
       - {x: -0.9873001, y: -0.78828335}
-      - {x: -0.15079144, y: -1.1532085}
-      - {x: 1.7052932, y: -1.1538256}
-      - {x: 2.1740491, y: -0.4017055}
-      - {x: 2.893198, y: -0.2171681}
-      - {x: 2.796794, y: 0.32068777}
-      - {x: 1.6111844, y: 2.063661}
+      - {x: -0.15079144, y: -1.06}
+      - {x: 1.7052932, y: -0.49}
+      - {x: 2.1740491, y: -0.18}
+      - {x: 1.55, y: 0.32068777}
+      - {x: 0.67, y: 2.063661}
 --- !u!4 &1355449385
 Transform:
   m_ObjectHideFlags: 0
@@ -5598,6 +5612,7 @@ GameObject:
   - component: {fileID: 1551981921}
   - component: {fileID: 1551981920}
   - component: {fileID: 1551981919}
+  - component: {fileID: 1551981922}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -5660,6 +5675,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1551981922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1551981918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a8a0a19134393439f86b97eaf91219, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IdleAmplitude: 0
+  IdleFrequency: 0
+  DefaultShakeAmplitude: 0.81
+  DefaultShakeFrequency: 10
 --- !u!1 &1566153902
 GameObject:
   m_ObjectHideFlags: 0
@@ -6555,7 +6585,8 @@ PolygonCollider2D:
       - {x: -2.5427551, y: -0.24996948}
       - {x: -5.351654, y: -2.1912155}
       - {x: -5.6348495, y: -3.4682236}
-      - {x: -4.3453445, y: -3.820961}
+      - {x: -4.9858932, y: -3.0771027}
+      - {x: -4.424179, y: -3.4937057}
       - {x: 0.58778536, y: -0.80901694}
       - {x: 1.439476, y: -0.070869446}
 --- !u!4 &1695750669
@@ -7573,7 +7604,7 @@ GameObject:
   - component: {fileID: 1928209459}
   m_Layer: 0
   m_Name: bridgeEdge
-  m_TagString: wall
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7596,7 +7627,7 @@ EdgeCollider2D:
   - {x: -6.579788, y: -3.2821655}
   - {x: -3.128769, y: -0.953}
   - {x: 0.26124573, y: 0.5253906}
-  - {x: 0.8520279, y: 0.720047}
+  - {x: 1.0239029, y: 0.31900787}
 --- !u!4 &1928209460
 Transform:
   m_ObjectHideFlags: 0
@@ -8135,6 +8166,10 @@ Prefab:
     - target: {fileID: 11498034, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
       propertyPath: grounded
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6139184, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
+      propertyPath: m_Size.y
+      value: 0.65
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114174123749566698, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
