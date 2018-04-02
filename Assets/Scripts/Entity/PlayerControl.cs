@@ -3,7 +3,7 @@ using System.Collections;
 using XInputDotNetPure;
 
 
-public class PlayerControl : MonoBehaviour
+public class PlayerControl : Entity 
 {
 
     public bool interact = false;
@@ -101,7 +101,7 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+       
         if (rumble && rumbleCoolDown <= 0)
         {
             GamePad.SetVibration(playerIndex, 0, 0);
@@ -149,9 +149,6 @@ public class PlayerControl : MonoBehaviour
         {
             knockBackCoolDown -= Time.deltaTime;
         }
-
-
-
 
         // freeze position until animation is finished
         if (this.anim.GetCurrentAnimatorStateInfo(0).IsName("shortFallRecovery") || this.anim.GetCurrentAnimatorStateInfo(0).IsName("FallingDown"))
@@ -585,8 +582,28 @@ public class PlayerControl : MonoBehaviour
         }
 
         if(knockBack)
-        {
-            anim.Play("blowBackWest");
+        {                             
+            if(knockBackCoolDown == knockBackTimeLength)
+            {
+                if (getDirectionNSEW() == Direction.NORTH)
+                {
+                    anim.Play("blowBackSouth");
+                }
+                else if (getDirectionNSEW() == Direction.SOUTH)
+                {
+                    anim.Play("blowBackNorth");
+                }
+                else if (getDirectionNSEW() == Direction.EAST)
+                {
+                    anim.Play("blowBackWest");
+                }
+                else if (getDirectionNSEW() == Direction.WEST)
+                {
+                    player.GetComponent<SpriteRenderer>().flipX = true;
+                    anim.Play("blowBackWest");
+                }
+            }       
+
             lockPosition = true;
 
             
@@ -608,22 +625,22 @@ public class PlayerControl : MonoBehaviour
 
                     else if (this.direction == Direction.NORTHEAST70)
                     {
-                        transform.Translate(-.01f, -.02f, 0);
+                        transform.Translate(-.01f, -.015f, 0);
                     }
 
                     else if (this.direction == Direction.NORTH)
                     {
-                        transform.Translate(0, -.02f, 0);
+                        transform.Translate(0, -.015f, 0);
                     }
 
                     else if (this.direction == Direction.NORTHWEST110)
                     {
-                        transform.Translate(.007f, -.02f, 0);
+                        transform.Translate(.007f, -.015f, 0);
                     }
 
                     else if (this.direction == Direction.NORTHWEST130)
                     {
-                        transform.Translate(.01f, -.015f, 0);
+                        transform.Translate(.01f, -.01f, 0);
                     }
 
                     else if (this.direction == Direction.NORTHWEST150)
@@ -648,12 +665,12 @@ public class PlayerControl : MonoBehaviour
 
                     else if (this.direction == Direction.SOUTHWEST250)
                     {
-                        transform.Translate(.015f, .02f, 0);
+                        transform.Translate(.015f, .015f, 0);
                     }
 
                     else if (this.direction == Direction.SOUTH)
                     {
-                        transform.Translate(0, .02f, 0);
+                        transform.Translate(0, .015f, 0);
                     }
 
                     else if (this.direction == Direction.SOUTHEAST290)
@@ -663,7 +680,7 @@ public class PlayerControl : MonoBehaviour
 
                     else if (this.direction == Direction.SOUTHEAST310)
                     {
-                        transform.Translate(-.01f, .015f, 0);
+                        transform.Translate(-.01f, .01f, 0);
                     }
 
                     else if (this.direction == Direction.SOUTHEAST330)
@@ -684,6 +701,7 @@ public class PlayerControl : MonoBehaviour
 
         if(knockBack && knockBackCoolDown > 0f & knockBackCoolDown < .1f)
         {
+            player.GetComponent<SpriteRenderer>().flipX = false;
             knockBack = false;
             anim.Play("Idle");
             lockPosition = false;
@@ -1449,23 +1467,30 @@ public class PlayerControl : MonoBehaviour
         return rigidbodyAngularDirection;
     }
 
-	public enum Direction
-	{
-			EAST, NORTHEAST30, NORTHEAST50, NORTHEAST70, NORTH, NORTHWEST110, NORTHWEST130, NORTHWEST150, WEST, SOUTHWEST210, SOUTHWEST230, SOUTHWEST250, SOUTH, SOUTHEAST290, SOUTHEAST310, SOUTHEAST330, NULL
-	}
+	
+    public Direction getDirectionNSEW()
+    {
+        if (direction == Direction.SOUTHEAST290 || direction == Direction.SOUTHWEST250 || direction == Direction.SOUTH)
+        {
+            return Direction.SOUTH;
+        }
+        else if (direction == Direction.SOUTHEAST310 || direction == Direction.SOUTHEAST330 || direction == Direction.NORTHEAST30 || direction == Direction.NORTHEAST50 || direction == Direction.EAST)
+        {
+            return Direction.EAST;
+        }
+        else if (direction == Direction.NORTHWEST130 || direction == Direction.NORTHWEST150 || direction == Direction.SOUTHWEST210 || direction == Direction.SOUTHWEST230 || direction == Direction.WEST)
+        {
+            return Direction.WEST;
+        }
+        else if (direction == Direction.NORTHEAST70 || direction == Direction.NORTHWEST110 || direction == Direction.NORTH)
+        {
+            return Direction.NORTH;
+        }
+        else return Direction.NULL;
 
-	public enum RunDirection
-	{
-		EAST,  
-		NORTHEAST20, NORTHEAST30, NORTHEAST40, NORTHEAST50, NORTHEAST60, NORTHEAST70, NORTHEAST80, 
-		NORTH, 
-		NORTHWEST110, NORTHWEST120, NORTHWEST130, NORTHWEST140, NORTHWEST150, NORTHWEST160, NORTHWEST170,
-		WEST,
-		SOUTHWEST200, SOUTHWEST210, SOUTHWEST220, SOUTHWEST230, SOUTHWEST240, SOUTHWEST250, SOUTHWEST260,
-		SOUTH,
-		SOUTHEAST290, SOUTHEAST300, SOUTHEAST310, SOUTHEAST320, SOUTHEAST330, SOUTHEAST340, SOUTHEAST350,
-		NULL
-	}
+         
+    }
+	
 	
 }
 
