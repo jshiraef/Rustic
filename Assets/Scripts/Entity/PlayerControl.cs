@@ -475,9 +475,17 @@ public class PlayerControl : Entity
         {
             anim.Play("Rolling");
 
-
-            playerBoxCollider2D.size = new Vector2(.75f, 1.75f);
-            playerBoxCollider2D.offset = new Vector2(.1075f, -.6f);
+            if(getDirectionNSEW() == Direction.NORTH || getDirectionNSEW() == Direction.SOUTH)
+            {
+                playerBoxCollider2D.size = new Vector2(.8f, 1.4f);
+                playerBoxCollider2D.offset = new Vector2(0f, -.9f);
+            }
+            else if(getDirectionNSEW() == Direction.EAST || getDirectionNSEW() == Direction.WEST)
+            {
+                playerBoxCollider2D.size = new Vector2(1.6f, .95f);
+                playerBoxCollider2D.offset = new Vector2(0f, -1f);
+            }
+            
             
 
             if (h == 0 && v == 0 && afterRollCoolDown <= 0f)
@@ -578,7 +586,7 @@ public class PlayerControl : Entity
         else
         {
             playerBoxCollider2D.offset = new Vector2(.1075f, -.37f);
-            playerBoxCollider2D.size = new Vector2 (.70f, .65f); 
+            playerBoxCollider2D.size = new Vector2(.70f, .65f);
         }
 
         if(knockBack)
