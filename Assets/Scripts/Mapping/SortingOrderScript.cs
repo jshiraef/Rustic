@@ -59,18 +59,50 @@ public class SortingOrderScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+        //if (this.name == "center_Village_Stone")
+        //{
+        //    Debug.Log(player.transform.position.y - this.transform.position.y);
+        //    Color tmpColor = sprite.color;
+        //    tmpColor.a = .65f;
+        //    sprite.color = tmpColor;
+        //}
+            
 
         if (player.transform.position.y > threshold) 
 		{
-//			sprite.sortingOrder = sortingOrder;
-			sprite.sortingLayerName = OverlapLayer;
-		}
+
+            if (player.transform.position.y - this.transform.position.y < sprite.size.y / 2)
+            {
+                FadeOut();
+            }
+            else
+            {
+                FadeIn();
+            }
+
+                //			sprite.sortingOrder = sortingOrder;
+                sprite.sortingLayerName = OverlapLayer;
+            
+        }
         else if (player.transform.position.y > (slope * player.transform.position.x) + yintercept)
         {
+            if (player.transform.position.y - this.transform.position.y < sprite.size.y / 2)
+            {
+                FadeOut();
+            }
+            else
+            {
+                FadeIn();
+            }
+
             sprite.sortingLayerName = OverlapLayer;
         }
         else
+        {
+            FadeIn();
             sprite.sortingLayerName = currentLayerName;
+        }
+            
 
         //if (thresholdPoint1 != null && thresholdPoint2 != null)
         //{
@@ -84,9 +116,30 @@ public class SortingOrderScript : MonoBehaviour
         //        Debug.Log ("the threshold is " + threshold);
         //        Debug.Log("the player's y is" + player.transform.position.y);
 
-        if(copyParentSortingLayer)
+        if (copyParentSortingLayer)
         {
             sprite.sortingLayerName = transform.parent.GetComponent<SpriteRenderer>().sortingLayerName;
+
+            if (player.transform.position.y - this.transform.position.y < sprite.size.y / 2)
+            {
+                FadeOut();
+            }
+            else
+            {
+                FadeIn();
+            }
         }
+    }
+
+    void FadeOut()
+    {      
+            Color tmpColor = sprite.color;
+            sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(tmpColor.a, .5f, Time.deltaTime));       
+    }
+
+    void FadeIn()
+    {
+        Color tmpColor = sprite.color;
+        sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(tmpColor.a, 1f, Time.deltaTime));
     }
 }
