@@ -1261,6 +1261,18 @@ public class PlayerControl : Entity
             }
         }
 
+        if (coll.gameObject.tag == "tree")
+        {
+            if (rolling)
+            {
+                rolling = false;
+                knockBack = true;
+                knockBackCoolDown = knockBackTimeLength;
+
+                coll.gameObject.GetComponent<LeafEmitter>().jostled = true;
+            }
+        }
+
 
     }
 

@@ -4,6 +4,11 @@ Shader "Custom/Sprite Outline" {
     Properties {
         _MainTex ("Base (RGB)", 2D) = "white" {}
         _Color ("Color", Color) = (1, 1, 1, 1)
+
+		// Add values to determine if outlining is enabled and outline color.
+		[PerRendererData] _Outline("Outline", Float) = 0
+		[PerRendererData] _OutlineColor("Outline Color", Color) = (1,1,1,1)
+		[PerRendererData] _OutlineSize("Outline Size", int) = 1
     }
     SubShader {
         Tags {"Queue"="Transparent" "RenderType"="Transparent"}

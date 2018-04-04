@@ -9,6 +9,8 @@ public class SortingOrderScript : MonoBehaviour
 	private SpriteRenderer sprite;
 	private GameObject player;
 
+    public bool copyParentSortingLayer;
+
 
 	// This is the threshhold at which the player's position 
 	// will change the nearby objects sorting layer
@@ -81,5 +83,10 @@ public class SortingOrderScript : MonoBehaviour
         ////		Debug.Log ("the player's x & y are" + player.transform.position.x + " , " + player.transform.position.y);
         //        Debug.Log ("the threshold is " + threshold);
         //        Debug.Log("the player's y is" + player.transform.position.y);
+
+        if(copyParentSortingLayer)
+        {
+            sprite.sortingLayerName = transform.parent.GetComponent<SpriteRenderer>().sortingLayerName;
+        }
     }
 }
