@@ -511,7 +511,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLayerName: 
   sortingOrder: 0
+  copyParentSortingLayer: 0
   threshold: 113
+  thresholdPoint1: {fileID: 0}
+  thresholdPoint2: {fileID: 0}
 --- !u!212 &21372622
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -988,7 +991,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLayerName: 
   sortingOrder: 0
+  copyParentSortingLayer: 0
   threshold: 112
+  thresholdPoint1: {fileID: 0}
+  thresholdPoint2: {fileID: 0}
 --- !u!212 &73710696
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15830,7 +15836,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1038766210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 205.3, y: -97.2, z: -10}
+  m_LocalPosition: {x: 47.84, y: -29.58, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 893702128}
@@ -18266,7 +18272,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLayerName: 
   sortingOrder: 0
+  copyParentSortingLayer: 0
   threshold: 11.75
+  thresholdPoint1: {fileID: 0}
+  thresholdPoint2: {fileID: 0}
 --- !u!1 &1219449363
 GameObject:
   m_ObjectHideFlags: 0
@@ -26350,12 +26359,12 @@ SpriteRenderer:
   m_SortingLayerID: 1210165365
   m_SortingLayer: 15
   m_SortingOrder: 20
-  m_Sprite: {fileID: 21300000, guid: 7fa4ec1bc4b609e44a5fbeb6b1ba0d8a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d105c6d5a7e5c9b4ba6881fa53b8e4f4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 6.4, y: 4.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -26398,11 +26407,12 @@ MonoBehaviour:
   rolling: 0
   isIdle: 0
   inWater: 0
+  knockBack: 0
   lineStart: {fileID: 941897901}
   lineEnd: {fileID: 1076375210}
   groundedEnd: {fileID: 898923955}
   moveSpeed: 4
-  rollSpeed: 8
+  rollSpeed: 4
   v: 0
   h: 0
   direction: 0
@@ -26427,7 +26437,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 6.4, y: 4.8}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 6.4, y: 4.8}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -27067,7 +27077,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLayerName: 
   sortingOrder: 0
+  copyParentSortingLayer: 0
   threshold: 112
+  thresholdPoint1: {fileID: 0}
+  thresholdPoint2: {fileID: 0}
 --- !u!212 &1880147208
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -28577,7 +28590,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1983518987}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 205.3, y: -97.2, z: -10}
+  m_LocalPosition: {x: 47.84, y: -29.58, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -28752,7 +28765,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLayerName: 
   sortingOrder: 0
+  copyParentSortingLayer: 0
   threshold: 113
+  thresholdPoint1: {fileID: 0}
+  thresholdPoint2: {fileID: 0}
 --- !u!212 &2012027896
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -29163,7 +29179,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLayerName: 
   sortingOrder: 0
+  copyParentSortingLayer: 0
   threshold: 9.5
+  thresholdPoint1: {fileID: 0}
+  thresholdPoint2: {fileID: 0}
 --- !u!1 &2032737198
 GameObject:
   m_ObjectHideFlags: 0

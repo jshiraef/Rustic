@@ -13,67 +13,67 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: runReleased
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: VerticalAnalogAxis
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: HorizontalAnalogAxis
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isRunning
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: direction(float)
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: shortFall
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isWalking
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isRolling
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: animationSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: animationOffset
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -303,7 +303,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: a6327594e02609f438c31d3bf825c91f, type: 2}
     m_Threshold: 0.09677419
-    m_Position: {x: 0.12, y: 0.89}
+    m_Position: {x: 0.11, y: 0.92}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -311,7 +311,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 94685b7ba82547f4d8a17c5bd7f06a40, type: 2}
     m_Threshold: 0.12096774
-    m_Position: {x: 0.24, y: 0.78}
+    m_Position: {x: 0.2, y: 0.83}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -319,7 +319,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 46023dddcee0f5045b87451332258a1c, type: 2}
     m_Threshold: 0.14516129
-    m_Position: {x: 0.4, y: 0.64}
+    m_Position: {x: 0.3, y: 0.73}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -327,7 +327,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 37d2687a7bd28534d9496653be317094, type: 2}
     m_Threshold: 0.16935483
-    m_Position: {x: 0.51, y: 0.51}
+    m_Position: {x: 0.42, y: 0.61}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -335,7 +335,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: bfd6d8e2086c21a478723afad28099d0, type: 2}
     m_Threshold: 0.19354838
-    m_Position: {x: 0.63, y: 0.4}
+    m_Position: {x: 0.55, y: 0.5}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -343,7 +343,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 9d9aabce98cb77a429ba67ecd39e2aca, type: 2}
     m_Threshold: 0.21774194
-    m_Position: {x: 0.74, y: 0.25}
+    m_Position: {x: 0.67, y: 0.36}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -351,7 +351,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 5914df310c834c44d8f6920b5261f741, type: 2}
     m_Threshold: 0.24193548
-    m_Position: {x: 0.86, y: 0.14}
+    m_Position: {x: 0.83, y: 0.21}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
@@ -4136,10 +4136,10 @@ AnimatorStateMachine:
     m_Position: {x: 216, y: 384, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102041735628144042}
-    m_Position: {x: 252, y: 444, z: 0}
+    m_Position: {x: 264, y: 468, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102315695897228060}
-    m_Position: {x: 276, y: 528, z: 0}
+    m_Position: {x: 288, y: 528, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102999062558056402}
     m_Position: {x: 300, y: 600, z: 0}

@@ -65,8 +65,7 @@ public class SortingOrderScript : MonoBehaviour
         //    Color tmpColor = sprite.color;
         //    tmpColor.a = .65f;
         //    sprite.color = tmpColor;
-        //}
-            
+        //}   
 
         if (player.transform.position.y > threshold) 
 		{
@@ -120,21 +119,25 @@ public class SortingOrderScript : MonoBehaviour
         {
             sprite.sortingLayerName = transform.parent.GetComponent<SpriteRenderer>().sortingLayerName;
 
-            if (player.transform.position.y - this.transform.position.y < sprite.size.y / 2)
-            {
-                FadeOut();
-            }
-            else
-            {
-                FadeIn();
-            }
+            Color tmpColor1 = transform.parent.GetComponent<SpriteRenderer>().color;
+            Color tmpColor2 = sprite.color;
+            sprite.color = new Color(tmpColor2.r, tmpColor2.g, tmpColor2.b, tmpColor1.a);
+
+            //if (player.transform.position.y - this.transform.position.y < sprite.size.y / 2)
+            //{
+            //    FadeOut();
+            //}
+            //else
+            //{
+            //    FadeIn();
+            //}
         }
     }
 
     void FadeOut()
     {      
             Color tmpColor = sprite.color;
-            sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(tmpColor.a, .5f, Time.deltaTime));       
+            sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(tmpColor.a, .4f, Time.deltaTime));       
     }
 
     void FadeIn()
