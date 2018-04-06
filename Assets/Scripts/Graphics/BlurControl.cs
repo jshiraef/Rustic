@@ -13,13 +13,13 @@ public class BlurControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButton("Up"))
+		if(Input.GetButton("PS4_R1"))
 		{
 			value = value + Time.deltaTime;
 			if (value>20f) value = 20f;
 			transform.GetComponent<Renderer>().material.SetFloat("_blurSizeXY",value);
 		}
-		else if(Input.GetButton("Down"))
+		else if(Input.GetButton("PS4_L1"))
 		{
 			value = (value - Time.deltaTime) % 20.0f;
 			if (value<0f) value = 0f;

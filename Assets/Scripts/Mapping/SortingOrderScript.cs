@@ -6,8 +6,8 @@ public class SortingOrderScript : MonoBehaviour
 	public const string OverlapLayer = "Overlap";
 	public string currentLayerName;
 	public int sortingOrder = 0;
-	private SpriteRenderer sprite;
-	private GameObject player;
+	protected SpriteRenderer sprite;
+	protected GameObject player;
 
     public bool copyParentSortingLayer;
 
@@ -21,10 +21,10 @@ public class SortingOrderScript : MonoBehaviour
     public GameObject thresholdPoint1;
     public GameObject thresholdPoint2;
 
-    private Vector2 threshold1;
-    private Vector2 threshold2;
-    private float slope;
-    private float yintercept;
+    protected Vector2 threshold1;
+    protected Vector2 threshold2;
+    protected float slope;
+    protected float yintercept;
 
 
 	// Use this for initialization
@@ -70,35 +70,17 @@ public class SortingOrderScript : MonoBehaviour
         if (player.transform.position.y > threshold) 
 		{
 
-            if (player.transform.position.y - this.transform.position.y < sprite.size.y / 2)
-            {
-                FadeOut();
-            }
-            else
-            {
-                FadeIn();
-            }
-
                 //			sprite.sortingOrder = sortingOrder;
                 sprite.sortingLayerName = OverlapLayer;
             
         }
         else if (player.transform.position.y > (slope * player.transform.position.x) + yintercept)
         {
-            if (player.transform.position.y - this.transform.position.y < sprite.size.y / 2)
-            {
-                FadeOut();
-            }
-            else
-            {
-                FadeIn();
-            }
 
             sprite.sortingLayerName = OverlapLayer;
         }
         else
         {
-            FadeIn();
             sprite.sortingLayerName = currentLayerName;
         }
             
@@ -119,10 +101,6 @@ public class SortingOrderScript : MonoBehaviour
         {
             sprite.sortingLayerName = transform.parent.GetComponent<SpriteRenderer>().sortingLayerName;
 
-            Color tmpColor1 = transform.parent.GetComponent<SpriteRenderer>().color;
-            Color tmpColor2 = sprite.color;
-            sprite.color = new Color(tmpColor2.r, tmpColor2.g, tmpColor2.b, tmpColor1.a);
-
             //if (player.transform.position.y - this.transform.position.y < sprite.size.y / 2)
             //{
             //    FadeOut();
@@ -134,15 +112,5 @@ public class SortingOrderScript : MonoBehaviour
         }
     }
 
-    void FadeOut()
-    {      
-            Color tmpColor = sprite.color;
-            sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(tmpColor.a, .4f, Time.deltaTime));       
-    }
-
-    void FadeIn()
-    {
-        Color tmpColor = sprite.color;
-        sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(tmpColor.a, 1f, Time.deltaTime));
-    }
+   
 }

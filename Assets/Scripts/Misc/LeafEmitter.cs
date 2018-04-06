@@ -6,7 +6,7 @@ public class LeafEmitter : MonoBehaviour {
 
     public bool jostled = false;
 
-    public float leafEmitterCoolDown;
+    private float leafEmitterCoolDown;
 
     private ParticleSystem leafEmitter;
 
