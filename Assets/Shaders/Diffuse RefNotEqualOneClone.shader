@@ -40,7 +40,7 @@ Shader "Custom/Stencil/Diffuse RefNotEqualOneClone"
 		OUT.texcoord = IN.texcoord;
 		OUT.color = IN.color * _Color;
 #ifdef PIXELSNAP_ON
-		OUT.vertex = UnityPixelSnap(OUT.vertex);
+		//OUT.vertex = UnityPixelSnap(OUT.vertex);
 #endif
 
 		return OUT;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using XInputDotNetPure;
+//using XInputDotNetPure;
 using Cinemachine;
 
 public class ParallaxScroll : MonoBehaviour

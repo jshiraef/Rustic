@@ -4,9 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class LoadNewSceneCollision : MonoBehaviour {
 
+    public string newScene;
+
 	// Use this for initialization
 	void Start () {
-
+        //newScene = "HubTown";
 	}
 	
 	// Update is called once per frame
@@ -16,7 +18,7 @@ public class LoadNewSceneCollision : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-       SceneManager.LoadScene("HubTown");
+       SceneManager.LoadScene(newScene);
 
        Debug.Log("this definitely happened");
     }

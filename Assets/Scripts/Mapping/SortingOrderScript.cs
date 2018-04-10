@@ -14,7 +14,7 @@ public class SortingOrderScript : MonoBehaviour
 
 	// This is the threshhold at which the player's position 
 	// will change the nearby objects sorting layer
-	public double threshold = 9.5;
+	public double threshold = 0;
 
     // Here we create two empty gameobjects which represent two points. 
     // A line is therefore created for sorting depth rendering based on the player's position relative to this line
@@ -34,6 +34,12 @@ public class SortingOrderScript : MonoBehaviour
 		player = GameObject.Find ("player");
 
 		currentLayerName = sprite.sortingLayerName.ToString ();
+
+        if(threshold == 0 && thresholdPoint1 == null)
+        {
+            threshold = this.transform.position.y;
+        }
+        
 
         if (thresholdPoint1 != null)
         {

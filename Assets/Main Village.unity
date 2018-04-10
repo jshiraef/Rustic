@@ -1109,7 +1109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &372928831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1121,6 +1121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea1f7687afda254db82e2111e779711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newScene: Interior
 --- !u!61 &372928832
 BoxCollider2D:
   m_ObjectHideFlags: 0

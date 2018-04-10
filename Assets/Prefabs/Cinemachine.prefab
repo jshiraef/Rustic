@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4717220058162122}
   - component: {fileID: 114778295062091068}
   - component: {fileID: 114248229268255654}
+  - component: {fileID: 114389270364674166}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -38,6 +39,7 @@ GameObject:
   - component: {fileID: 4121441114913304}
   - component: {fileID: 114386728796256790}
   - component: {fileID: 114033077770667284}
+  - component: {fileID: 114008631981006452}
   m_Layer: 0
   m_Name: Cinemachine
   m_TagString: Untagged
@@ -52,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1941614953657344}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.74, y: -29.58, z: -10}
+  m_LocalPosition: {x: 91.9, y: -76.6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4717220058162122}
@@ -72,6 +74,21 @@ Transform:
   m_Father: {fileID: 4121441114913304}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114008631981006452
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1941614953657344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a8a0a19134393439f86b97eaf91219, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IdleAmplitude: 0
+  IdleFrequency: 0
+  DefaultShakeAmplitude: 0.81
+  DefaultShakeFrequency: 10
 --- !u!114 &114033077770667284
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -100,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LookaheadTime: 0
-  m_LookaheadSmoothing: 3
+  m_LookaheadSmoothing: 10
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -151,6 +168,20 @@ MonoBehaviour:
     FarClipPlane: 5000
     Dutch: 0
   m_ComponentOwner: {fileID: 4717220058162122}
+--- !u!114 &114389270364674166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1264813898413160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 8608ec81ee27a15488d33f9dad239e91, type: 2}
+  m_AmplitudeGain: 1
+  m_FrequencyGain: 1
 --- !u!114 &114778295062091068
 MonoBehaviour:
   m_ObjectHideFlags: 1

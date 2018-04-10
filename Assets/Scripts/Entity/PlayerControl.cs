@@ -48,6 +48,8 @@ public class PlayerControl : Entity
     private Projector playerBlobShadow;
     private bool restoreBlobShadowToNormal;
 
+    private bool grassFootstepSquiggle;
+
 
     public Direction direction;
     public RunDirection runDirection;
@@ -65,6 +67,7 @@ public class PlayerControl : Entity
     private GameObject player;
     private GameObject renderMask;
     private GameObject renderMaskOutliner;
+    private GameObject grassSquiggle;
 
     // barrel variables (variables similar to these can help keep track of relations between player and world objects)
     public GameObject[] barrels;
@@ -91,6 +94,7 @@ public class PlayerControl : Entity
         playerBoxCollider2D = player.GetComponent<BoxCollider2D>();
         renderMask = GameObject.Find("renderMask");
         renderMaskOutliner = GameObject.Find("renderMaskOutliner");
+        grassSquiggle = GameObject.Find("grassSquiggle");
         playerBlobShadow = player.GetComponentInChildren<Projector>();
         player.GetComponent<SpriteRenderer>().receiveShadows = true;
         screenShake = GameObject.Find("CM vcam1").GetComponent<CinemachineCameraShaker>();
@@ -404,7 +408,7 @@ public class PlayerControl : Entity
             isRunning = false;
 
             //rumble = true;
-            //GamePad.SetVibration(playerIndex, .5f, 0f);
+            GamePad.SetVibration(playerIndex, .5f, 0f);
             //rumbleCoolDown = .3f;
         }
 
@@ -1241,6 +1245,17 @@ public class PlayerControl : Entity
         return null; // no clip by that name
     }
 
+    public void setSquiggle()
+    {
+        grassFootstepSquiggle = true;
+        grassSquiggle.GetComponent<Animator>().Play("grassSquiggle");
+    }
+
+    public void stopSquiggle()
+    {
+        grassSquiggle.GetComponent<Animator>().Play("nullAnimation");
+    }
+
     void OnCollisionEnter2D(Collision2D coll)
     {
         collisionCount++;
@@ -1280,7 +1295,7 @@ public class PlayerControl : Entity
     {
         if (coll.gameObject.tag == "fence")
         {
-            lockPosition = true;
+            //lockPosition = true;
         }
     }
 
