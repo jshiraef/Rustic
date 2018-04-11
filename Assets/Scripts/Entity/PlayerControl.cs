@@ -48,8 +48,6 @@ public class PlayerControl : Entity
     private Projector playerBlobShadow;
     private bool restoreBlobShadowToNormal;
 
-    private bool grassFootstepSquiggle;
-
 
     public Direction direction;
     public RunDirection runDirection;
@@ -67,7 +65,6 @@ public class PlayerControl : Entity
     private GameObject player;
     private GameObject renderMask;
     private GameObject renderMaskOutliner;
-    private GameObject grassSquiggle;
 
     // barrel variables (variables similar to these can help keep track of relations between player and world objects)
     public GameObject[] barrels;
@@ -94,7 +91,6 @@ public class PlayerControl : Entity
         playerBoxCollider2D = player.GetComponent<BoxCollider2D>();
         renderMask = GameObject.Find("renderMask");
         renderMaskOutliner = GameObject.Find("renderMaskOutliner");
-        grassSquiggle = GameObject.Find("grassSquiggle");
         playerBlobShadow = player.GetComponentInChildren<Projector>();
         player.GetComponent<SpriteRenderer>().receiveShadows = true;
         screenShake = GameObject.Find("CM vcam1").GetComponent<CinemachineCameraShaker>();
@@ -121,7 +117,7 @@ public class PlayerControl : Entity
         //    Debug.Log(body.angularVelocity);
         //      Debug.Log(grounded);
 
-        //      Debug.Log("the rumble coolDown is: " + rumbleCoolDown);
+          //    Debug.Log("the rumble coolDown is: " + rumbleCoolDown);
 
 
         Movement();
@@ -1243,17 +1239,6 @@ public class PlayerControl : Entity
             }
         }
         return null; // no clip by that name
-    }
-
-    public void setSquiggle()
-    {
-        grassFootstepSquiggle = true;
-        grassSquiggle.GetComponent<Animator>().Play("grassSquiggle");
-    }
-
-    public void stopSquiggle()
-    {
-        grassSquiggle.GetComponent<Animator>().Play("nullAnimation");
     }
 
     void OnCollisionEnter2D(Collision2D coll)

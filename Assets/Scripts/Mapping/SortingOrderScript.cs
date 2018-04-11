@@ -37,7 +37,7 @@ public class SortingOrderScript : MonoBehaviour
 
         if(threshold == 0 && thresholdPoint1 == null)
         {
-            threshold = this.transform.position.y;
+            threshold = this.transform.position.y + 1.25f;
         }
         
 
@@ -65,56 +65,29 @@ public class SortingOrderScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-        //if (this.name == "center_Village_Stone")
-        //{
-        //    Debug.Log(player.transform.position.y - this.transform.position.y);
-        //    Color tmpColor = sprite.color;
-        //    tmpColor.a = .65f;
-        //    sprite.color = tmpColor;
-        //}   
 
-        if (player.transform.position.y > threshold) 
-		{
+        if (player.transform.position.y > threshold)
+            {
 
                 //			sprite.sortingOrder = sortingOrder;
                 sprite.sortingLayerName = OverlapLayer;
+
+            }
+            else if (player.transform.position.y > (slope * player.transform.position.x) + yintercept)
+            {
+
+                sprite.sortingLayerName = OverlapLayer;
+            }
+            else
+            {
+                sprite.sortingLayerName = currentLayerName;
+            }      
             
-        }
-        else if (player.transform.position.y > (slope * player.transform.position.x) + yintercept)
-        {
-
-            sprite.sortingLayerName = OverlapLayer;
-        }
-        else
-        {
-            sprite.sortingLayerName = currentLayerName;
-        }
-            
-
-        //if (thresholdPoint1 != null && thresholdPoint2 != null)
-        //{
-        //    Debug.Log("the slope is " + slope);
-        //    Debug.Log("the thresholdPoint2 is " + thresholdPoint2.transform.position.x + " , " + thresholdPoint2.transform.position.y);
-        //    Debug.Log("the yintercept is " + yintercept);
-        //}
-
-        //		Debug.Log ("the sprite's current sorting layer is" + sprite.sortingLayerName);
-        ////		Debug.Log ("the player's x & y are" + player.transform.position.x + " , " + player.transform.position.y);
-        //        Debug.Log ("the threshold is " + threshold);
-        //        Debug.Log("the player's y is" + player.transform.position.y);
 
         if (copyParentSortingLayer)
         {
             sprite.sortingLayerName = transform.parent.GetComponent<SpriteRenderer>().sortingLayerName;
 
-            //if (player.transform.position.y - this.transform.position.y < sprite.size.y / 2)
-            //{
-            //    FadeOut();
-            //}
-            //else
-            //{
-            //    FadeIn();
-            //}
         }
     }
 
