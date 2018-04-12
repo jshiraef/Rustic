@@ -53,11 +53,11 @@ public class ParallaxScroll : MonoBehaviour
 
         toggle = !toggle;
 
-        if (player.transform.position.y > threshold)
-        {
+        //if (player.transform.position.y > threshold)
+        //{
             foreground = true;
-        }
-        else foreground = false;
+        //}
+        //else foreground = false;
 
         // check to see if the camera is moving
         if(toggle)

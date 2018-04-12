@@ -6,10 +6,13 @@ public class SortingOrderScript : MonoBehaviour
 	public const string OverlapLayer = "Overlap";
 	public string currentLayerName;
 	public int sortingOrder = 0;
+    public GameObject neverRenderBehindThisObject;
 	protected SpriteRenderer sprite;
 	protected GameObject player;
 
     public bool copyParentSortingLayer;
+
+    protected bool bruteForceRender;
 
 
 	// This is the threshhold at which the player's position 
@@ -37,7 +40,7 @@ public class SortingOrderScript : MonoBehaviour
 
         if(threshold == 0 && thresholdPoint1 == null)
         {
-            threshold = this.transform.position.y + 1.25f;
+            threshold = this.transform.position.y;
         }
         
 
@@ -60,20 +63,25 @@ public class SortingOrderScript : MonoBehaviour
             yintercept = thresholdPoint2.transform.position.y - (slope * thresholdPoint2.transform.position.x);
         }
 
+        if(neverRenderBehindThisObject != null)
+        {
+            bruteForceRender = true;
+        }
+
     }
 	
 	// Update is called once per frame
 	void Update () 
 	{
 
-        if (player.transform.position.y > threshold)
+        if (player.transform.position.y > threshold && player.transform.position.x > (this.transform.position.x - this.sprite.size.x/2) && player.transform.position.x < (this.transform.position.x + this.sprite.size.x/2))
             {
 
                 //			sprite.sortingOrder = sortingOrder;
                 sprite.sortingLayerName = OverlapLayer;
 
             }
-            else if (player.transform.position.y > (slope * player.transform.position.x) + yintercept)
+            else if (player.transform.position.y > (slope * player.transform.position.x) + yintercept && player.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && player.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
             {
 
                 sprite.sortingLayerName = OverlapLayer;
@@ -88,6 +96,15 @@ public class SortingOrderScript : MonoBehaviour
         {
             sprite.sortingLayerName = transform.parent.GetComponent<SpriteRenderer>().sortingLayerName;
 
+        }
+
+        if(bruteForceRender)
+        {
+            if(neverRenderBehindThisObject.GetComponent<SpriteRenderer>().sortingLayerID != 0)
+            {
+                sprite.sortingLayerID = neverRenderBehindThisObject.GetComponent<SpriteRenderer>().sortingLayerID;
+                sprite.sortingOrder = neverRenderBehindThisObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
+            }
         }
     }
 
