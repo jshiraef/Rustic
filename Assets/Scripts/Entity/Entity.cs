@@ -2,10 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour {
+public abstract class Entity : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    protected bool interact = false;
+    protected bool lockPosition = false;
+
+    // collision
+    protected BoxCollider2D boxCollider2D;
+    protected Rigidbody2D body;
+
+    protected int collisionCount;
+    protected int environmentCount;
+
+    // movement
+    protected float moveSpeed;
+    protected float moveForce;
+    protected float maxVelocity;
+
+    // animation
+    protected Animator anim;
+    protected int currentAction;
+    protected int previousAction;
+    protected bool facingRight;
+
+    // direction
+    public Direction direction;
+    protected float rigidbodyAngularDirection;
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -19,6 +44,62 @@ public class Entity : MonoBehaviour {
         EAST, NORTHEAST30, NORTHEAST50, NORTHEAST70, NORTH, NORTHWEST110, NORTHWEST130, NORTHWEST150, WEST, SOUTHWEST210, SOUTHWEST230, SOUTHWEST250, SOUTH, SOUTHEAST290, SOUTHEAST310, SOUTHEAST330, NULL
     }
 
+    public void animationDirectionSetter()
+    {
+
+        switch ((int)this.direction)
+        {
+            case 0:
+                anim.SetFloat("direction(float)", 0f);
+                break;
+            case 1:
+                anim.SetFloat("direction(float)", (1f / 16f) + .01f);
+                break;
+            case 2:
+                anim.SetFloat("direction(float)", (2f / 16f) + .01f);
+                break;
+            case 3:
+                anim.SetFloat("direction(float)", (3f / 16f) + .01f);
+                break;
+            case 4:
+                anim.SetFloat("direction(float)", (4f / 16f) + .01f);
+                break;
+            case 5:
+                anim.SetFloat("direction(float)", (5f / 16f) + .01f);
+                break;
+            case 6:
+                anim.SetFloat("direction(float)", (6f / 16f) + .01f);
+                break;
+            case 7:
+                anim.SetFloat("direction(float)", (7f / 16f) + .01f);
+                break;
+            case 8:
+                anim.SetFloat("direction(float)", (8f / 16f) + .01f);
+                break;
+            case 9:
+                anim.SetFloat("direction(float)", (9f / 16f) + .01f);
+                break;
+            case 10:
+                anim.SetFloat("direction(float)", (10f / 16f) + .01f);
+                break;
+            case 11:
+                anim.SetFloat("direction(float)", (11f / 16f) + .01f);
+                break;
+            case 12:
+                anim.SetFloat("direction(float)", (12f / 16f) + .01f);
+                break;
+            case 13:
+                anim.SetFloat("direction(float)", (13f / 16f) + .01f);
+                break;
+            case 14:
+                anim.SetFloat("direction(float)", (14f / 16f) + .01f);
+                break;
+            case 15:
+                anim.SetFloat("direction(float)", (15f / 16f) + .01f);
+                break;
+        }
+    }
+
     public enum RunDirection
     {
         EAST,
@@ -30,5 +111,15 @@ public class Entity : MonoBehaviour {
         SOUTH,
         SOUTHEAST290, SOUTHEAST300, SOUTHEAST310, SOUTHEAST320, SOUTHEAST330, SOUTHEAST340, SOUTHEAST350,
         NULL
+    }
+
+    public float getAngularDirection()
+    {
+        Vector2 moveDirection = body.velocity;
+        if (moveDirection != Vector2.zero)
+        {
+            rigidbodyAngularDirection = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+        }
+        return rigidbodyAngularDirection;
     }
 }

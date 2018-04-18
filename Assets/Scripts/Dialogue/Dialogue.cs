@@ -31,8 +31,6 @@ public class Dialogue : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        GameObject player = GameObject.Find("player");
-        GameObject baker = GameObject.Find("baker");
 
         _textComponent = GetComponent<Text>();
         _textComponent.text = "";

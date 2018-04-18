@@ -1,60 +1,50 @@
 ﻿using UnityEngine;
 using System.Collections;
-using XInputDotNetPure;
+//using XInputDotNetPure;
+using UnityEngine.PS4;
+
 
 
 public class PlayerControl : Entity 
 {
 
-    public bool interact = false;
+    // movement
     public bool grounded = false;
     public bool isRunning = false;
     public bool isWalking = false;
-    public bool lockPosition = false;
-    public bool swinging = false;
-    public bool rolling = false;
-    public bool isIdle = false;
-    public bool inWater = false;
-    public bool knockBack = false;
     
-
-    private int collisionCount;
-    private int environmentCount;
-
-    private CinemachineCameraShaker screenShake;
-
-    private BoxCollider2D playerBoxCollider2D;
-
-    Rigidbody2D body;
-    float moveForce;
-    float maxVelocity;
-
-    private float rollingCoolDown;
-    private float afterRollCoolDown;
+    public bool isIdle = false;
 
     private float knockBackCoolDown;
     private float knockBackTimeLength = 2.1f;
+    public bool knockBack = false;
+
+    public bool rolling = false;
+    private float rollingCoolDown;
+    private float afterRollCoolDown;
+
+    // items
+    public bool swinging = false;
+
+    // elements
+    public bool inWater = false;
+
+    private CinemachineCameraShaker screenShake;
 
     public Transform lineStart, lineEnd, groundedEnd;
 
     public RaycastHit2D facingWall;
 
-    public float moveSpeed = 4f;
     public float rollSpeed = 8f;
     public float v, h;
 
-    private Vector2 RunningMovement;
-    private PlayerIndex playerIndex;
+    //private PlayerIndex playerIndex;
     private Projector playerBlobShadow;
     private bool restoreBlobShadowToNormal;
-
-
-    public Direction direction;
+    
     public RunDirection runDirection;
     public RunDirection lastRecordedRunDirection;
-    private float rigidbodyAngularDirection;
 
-    Animator anim;
 
     private bool shortFall = false;
     private float shortFallCoolDown;
@@ -75,6 +65,12 @@ public class PlayerControl : Entity
     float barrelCooldown;
     bool barrelSwitch;
 
+    private static readonly int IDLE = 0;
+    private static readonly int RUNNING = 1;
+    private static readonly int WALKING = 2;
+    private static readonly int ROLLING = 3;
+    private static readonly int SWINGING = 4;
+
 
     // Use this for initialization
     void Start()
@@ -82,13 +78,15 @@ public class PlayerControl : Entity
         body = GetComponent<Rigidbody2D>();
         maxVelocity = 77f;
 
+        moveSpeed = 4f;
+
         anim = GetComponent<Animator>();
         
 
         this.direction = Direction.NULL;
 
         player = GameObject.Find("player");
-        playerBoxCollider2D = player.GetComponent<BoxCollider2D>();
+        boxCollider2D = player.GetComponent<BoxCollider2D>();
         renderMask = GameObject.Find("renderMask");
         renderMaskOutliner = GameObject.Find("renderMaskOutliner");
         playerBlobShadow = player.GetComponentInChildren<Projector>();
@@ -104,7 +102,8 @@ public class PlayerControl : Entity
        
         if (rumble && rumbleCoolDown <= 0)
         {
-            GamePad.SetVibration(playerIndex, 0, 0);
+            //GamePad.SetVibration(playerIndex, 0, 0);  
+            PS4Input.PadSetVibration(1, 0, 0);
             rumble = false;
         }
 
@@ -112,18 +111,13 @@ public class PlayerControl : Entity
         {
             rumbleCoolDown -= Time.deltaTime;
         }
-
-        //Debug.Log(getAngularDirection());
-        //    Debug.Log(body.angularVelocity);
-        //      Debug.Log(grounded);
-
           //    Debug.Log("the rumble coolDown is: " + rumbleCoolDown);
 
 
         Movement();
         Raycasting();
         setRunDirection();
-        animationSetter();
+        animationDirectionSetter();
         checkDestructibleObjects();
         checkAttack();
 
@@ -404,7 +398,10 @@ public class PlayerControl : Entity
             isRunning = false;
 
             //rumble = true;
-            GamePad.SetVibration(playerIndex, .5f, 0f);
+            //GamePad.SetVibration(playerIndex, .5f, 0f);
+            PS4Input.PadSetVibration(1, 175, 0);
+
+
             //rumbleCoolDown = .3f;
         }
 
@@ -416,7 +413,10 @@ public class PlayerControl : Entity
             if(rollingCoolDown > .25f && rollingCoolDown < .4f)
             {
                 rumble = true;
-                GamePad.SetVibration(playerIndex, .25f, .25f);
+                //GamePad.SetVibration(playerIndex, .25f, .25f);
+                PS4Input.PadSetVibration(1, 65, 65);
+
+
                 rumbleCoolDown = .2f;
             }  
         }
@@ -428,13 +428,21 @@ public class PlayerControl : Entity
             if(knockBackCoolDown > (knockBackTimeLength - .05f))
             {
                 rumble = true;
-                GamePad.SetVibration(playerIndex, .75f, .75f);
+                //GamePad.SetVibration(playerIndex, .75f, .75f);
+                PS4Input.PadSetVibration(1, 180, 180);
+
+
                 rumbleCoolDown = .3f;
                 screenShake.ShakeCamera(1f);
             }
             
         }
 
+        if (Input.GetAxisRaw("Vertical") == 0 && Input.GetAxisRaw("Horizontal") == 0)
+        {
+            anim.SetBool("runReleased", true);
+        }
+        else anim.SetBool("runReleased", false);
 
         //		Debug.Log ("the shortfallCoolDown is: " + shortFallCoolDown);
 
@@ -442,7 +450,7 @@ public class PlayerControl : Entity
         //		Debug.Log ("the vertical axis input is " + Input.GetAxis ("Vertical"));
         //		Debug.Log ("the horizontal axis input is " + Input.GetAxis ("Horizontal"));
         //		Debug.Log ("the direction is " + this.direction);
-        
+
     }
 
     void checkAttack()
@@ -477,13 +485,13 @@ public class PlayerControl : Entity
 
             if(getDirectionNSEW() == Direction.NORTH || getDirectionNSEW() == Direction.SOUTH)
             {
-                playerBoxCollider2D.size = new Vector2(.8f, 1.4f);
-                playerBoxCollider2D.offset = new Vector2(0f, -.9f);
+                boxCollider2D.size = new Vector2(.8f, 1.4f);
+                boxCollider2D.offset = new Vector2(0f, -.9f);
             }
             else if(getDirectionNSEW() == Direction.EAST || getDirectionNSEW() == Direction.WEST)
             {
-                playerBoxCollider2D.size = new Vector2(1.6f, .95f);
-                playerBoxCollider2D.offset = new Vector2(0f, -1f);
+                boxCollider2D.size = new Vector2(1.6f, .95f);
+                boxCollider2D.offset = new Vector2(0f, -1f);
             }
             
             
@@ -585,8 +593,8 @@ public class PlayerControl : Entity
         }
         else
         {
-            playerBoxCollider2D.offset = new Vector2(.1075f, -.37f);
-            playerBoxCollider2D.size = new Vector2(.70f, .65f);
+            boxCollider2D.offset = new Vector2(.1075f, -.37f);
+            boxCollider2D.size = new Vector2(.70f, .65f);
         }
 
         if(knockBack)
@@ -738,66 +746,12 @@ public class PlayerControl : Entity
         {
             afterRollCoolDown -= Time.deltaTime;
         }
-
  //             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
                 //Debug.Log("the rolling bool is" + rolling);
                 //Debug.Log("the rolling cooldown is " + rollingCoolDown);
     }
 
-    void animationSetter()
-    {
-
-        switch ((int)this.direction)
-        {
-            case 0:
-                anim.SetFloat("direction(float)", 0f);
-                break;
-            case 1:
-                anim.SetFloat("direction(float)", (1f / 16f) + .01f);
-                break;
-            case 2:
-                anim.SetFloat("direction(float)", (2f / 16f) + .01f);
-                break;
-            case 3:
-                anim.SetFloat("direction(float)", (3f / 16f) + .01f);
-                break;
-            case 4:
-                anim.SetFloat("direction(float)", (4f / 16f) + .01f);
-                break;
-            case 5:
-                anim.SetFloat("direction(float)", (5f / 16f) + .01f);
-                break;
-            case 6:
-                anim.SetFloat("direction(float)", (6f / 16f) + .01f);
-                break;
-            case 7:
-                anim.SetFloat("direction(float)", (7f / 16f) + .01f);
-                break;
-            case 8:
-                anim.SetFloat("direction(float)", (8f / 16f) + .01f);
-                break;
-            case 9:
-                anim.SetFloat("direction(float)", (9f / 16f) + .01f);
-                break;
-            case 10:
-                anim.SetFloat("direction(float)", (10f / 16f) + .01f);
-                break;
-            case 11:
-                anim.SetFloat("direction(float)", (11f / 16f) + .01f);
-                break;
-            case 12:
-                anim.SetFloat("direction(float)", (12f / 16f) + .01f);
-                break;
-            case 13:
-                anim.SetFloat("direction(float)", (13f / 16f) + .01f);
-                break;
-            case 14:
-                anim.SetFloat("direction(float)", (14f / 16f) + .01f);
-                break;
-            case 15:
-                anim.SetFloat("direction(float)", (15f / 16f) + .01f);
-                break;
-        }
+    
 
         //		Debug.Log("the run direction is: " + this.runDirection);
         //		Debug.Log("the direction is: " + this.direction);
@@ -809,14 +763,8 @@ public class PlayerControl : Entity
         //			anim.SetBool ("runReleased", true);
         //		} 
 
-        if (Input.GetAxisRaw("Vertical") == 0 && Input.GetAxisRaw("Horizontal") == 0)
-        {
-            anim.SetBool("runReleased", true);
-        }
-        else anim.SetBool("runReleased", false);
+        
 
-
-    }
 
     void setRunDirection()
     {
@@ -1021,9 +969,6 @@ public class PlayerControl : Entity
             if (v > -.83 && v < -.7 || h > .17 && h < .3)
             {
                 this.runDirection = RunDirection.SOUTHEAST300;
-
-                //RunningMovement = new Vector2(.0036f, -.00624f);
-                //transform.Translate (RunningMovement);
 
                 //				Debug.Log ("it is now southeast 300");
             }
@@ -1288,8 +1233,6 @@ public class PlayerControl : Entity
     {
         collisionCount--;
 
-  //      Debug.Log("the collision count is: " + collisionCount);
-
     }
 
     void coolDownMaker(bool coolDownTrigger, float coolDown, int coolDownTime)
@@ -1475,16 +1418,6 @@ public class PlayerControl : Entity
     {
 
         return direction;
-    }
-
-    public float getAngularDirection()
-    {
-        Vector2 moveDirection = body.velocity;
-        if (moveDirection != Vector2.zero)
-        {
-             rigidbodyAngularDirection = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;            
-        }
-        return rigidbodyAngularDirection;
     }
 
 	

@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using XInputDotNetPure;
+using UnityEngine.UI;
+//using XInputDotNetPure;
+using UnityEngine.PS4;
 
 
 public class ButtonNextLevel : MonoBehaviour
 {
 
-    private PlayerIndex playerIndex;
+    //private PlayerIndex playerIndex;
 
     public int sceneIndex;
 
@@ -16,17 +18,29 @@ public class ButtonNextLevel : MonoBehaviour
 
     public string whichLevel = "Hub Town";
 
+     void Start()
+    {
+        
+    }
+
     void Update()
     {
         if (rumble && rumbleCoolDown <= 0)
         {
-            XInputDotNetPure.GamePad.SetVibration(playerIndex, 0, 0);
+            //GamePad.SetVibration(playerIndex, 0, 0);
+            PS4Input.PadSetVibration(1, 0, 0);
         }
 
         if (rumbleCoolDown > 0)
         {
             rumbleCoolDown -= Time.deltaTime;
         }
+
+        if(SceneManager.GetActiveScene().buildIndex == 0 && Input.GetButton("PS4_X"))
+            {
+                SceneManager.LoadScene(whichLevel);
+            }
+
     }
     //public void NextLevelButton(int index)
     //{
@@ -51,7 +65,7 @@ public class ButtonNextLevel : MonoBehaviour
         SceneManager.LoadScene(index);
 
         rumble = true;
-        XInputDotNetPure.GamePad.SetVibration(playerIndex, 1f, 0f);
+        //GamePad.SetVibration(playerIndex, 1f, 0f);
         rumbleCoolDown = .3f;
     }
 
