@@ -12,7 +12,6 @@ public class PlayerControl : Entity
     public bool grounded = false;
     public bool isRunning = false;
     public bool isWalking = false;
-    
     public bool isIdle = false;
 
     private float knockBackCoolDown;
@@ -25,6 +24,7 @@ public class PlayerControl : Entity
 
     // items
     public bool swinging = false;
+    public bool holdingThrowableItem;
 
     // elements
     public bool inWater = false;
@@ -44,7 +44,6 @@ public class PlayerControl : Entity
     
     public RunDirection runDirection;
     public RunDirection lastRecordedRunDirection;
-
 
     private bool shortFall = false;
     private float shortFallCoolDown;
@@ -111,16 +110,15 @@ public class PlayerControl : Entity
         {
             rumbleCoolDown -= Time.deltaTime;
         }
-          //    Debug.Log("the rumble coolDown is: " + rumbleCoolDown);
+        //    Debug.Log("the rumble coolDown is: " + rumbleCoolDown);
 
-
+        setDirection8();
         Movement();
         Raycasting();
         setRunDirection();
         animationDirectionSetter();
         checkDestructibleObjects();
         checkAttack();
-
 
         if (shortFallCoolDown > 0)
         {
@@ -615,7 +613,7 @@ public class PlayerControl : Entity
                 }
                 else if (getDirectionNSEW() == Direction.WEST)
                 {
-                    setSpriteFlipX();
+                    setSpriteFlipX(true);
                     anim.Play("blowBackWest");
                 }
             }       
@@ -717,7 +715,7 @@ public class PlayerControl : Entity
 
         if(knockBack && knockBackCoolDown > 0f & knockBackCoolDown < .1f)
         {
-            player.GetComponent<SpriteRenderer>().flipX = false;
+            setSpriteFlipX(false);
             knockBack = false;
             anim.Play("Idle");
             lockPosition = false;

@@ -19,6 +19,10 @@ public abstract class Entity : MonoBehaviour {
     protected bool right;
     protected bool up;
     protected bool down;
+    protected bool southEast;
+    protected bool southWest;
+    protected bool northEast;
+    protected bool northWest;
 
     // movement attributes
     protected float moveSpeed;
@@ -131,9 +135,9 @@ public abstract class Entity : MonoBehaviour {
         this.GetComponent<Rigidbody2D>().isKinematic = false;
     }
 
-    public void setSpriteFlipX()
+    public void setSpriteFlipX(bool b)
     {
-        this.GetComponent < SpriteRenderer>().flipX = true;
+        this.GetComponent < SpriteRenderer>().flipX = b;
     }
 
     public float getAngularDirection()
@@ -165,6 +169,63 @@ public abstract class Entity : MonoBehaviour {
         else if (direction == Direction.NORTHWEST130 || direction == Direction.NORTHWEST150 || direction == Direction.SOUTHWEST210 || direction == Direction.SOUTHWEST230 || direction == Direction.WEST)
         {
             return Direction.WEST;
+        }
+        else if (direction == Direction.NORTHEAST70 || direction == Direction.NORTHWEST110 || direction == Direction.NORTH)
+        {
+            return Direction.NORTH;
+        }
+        else return Direction.NULL;
+
+    }
+
+    public void setDirection8()
+    {
+        up = direction == Direction.NORTH;
+
+        down =  direction == Direction.SOUTH;
+
+        right = direction == Direction.EAST;
+
+        left =  direction == Direction.WEST;
+
+        southEast = direction == Direction.SOUTHEAST310 || direction == Direction.SOUTHEAST290 || direction == Direction.SOUTHEAST330;
+
+        southWest = direction == Direction.SOUTHWEST230 || direction == Direction.SOUTHWEST250 || direction == Direction.SOUTHWEST210;
+
+        northWest = direction == Direction.NORTHWEST130 || direction == Direction.NORTHWEST110 || direction == Direction.NORTHWEST150;
+
+        northEast = direction == Direction.NORTHEAST50 || direction == Direction.NORTHEAST70 || direction == Direction.NORTHEAST30;
+    }
+
+    public Direction getDirection8()
+    {
+        if(direction == Direction.SOUTHEAST310)
+        {
+            return Direction.SOUTHEAST310;
+        }
+        if (direction == Direction.SOUTHEAST290 || direction == Direction.SOUTHWEST250 || direction == Direction.SOUTH)
+        {
+            return Direction.SOUTH;       
+        }
+        else if (direction == Direction.SOUTHWEST230) 
+        {
+            return Direction.SOUTHWEST230;
+        }
+        else if (direction == Direction.SOUTHEAST330 || direction == Direction.NORTHEAST30 || direction == Direction.EAST)
+        {
+            return Direction.EAST;           
+        }
+        else if(direction == Direction.NORTHWEST130)
+        {
+            return Direction.NORTHWEST130;
+        }
+        else if (direction == Direction.NORTHWEST150 || direction == Direction.SOUTHWEST210 || direction == Direction.SOUTHWEST230 || direction == Direction.WEST)
+        {
+            return Direction.WEST;          
+        }
+        else if (direction == Direction.NORTHEAST50)
+        {
+            return Direction.NORTHEAST50;
         }
         else if (direction == Direction.NORTHEAST70 || direction == Direction.NORTHWEST110 || direction == Direction.NORTH)
         {
