@@ -15,8 +15,16 @@ public abstract class Entity : MonoBehaviour {
     protected int environmentCount;
 
     // movement
+    protected bool left;
+    protected bool right;
+    protected bool up;
+    protected bool down;
+
+    // movement attributes
     protected float moveSpeed;
     protected float moveForce;
+    protected float maxSpeed;
+    protected float stopSpeed;
     protected float maxVelocity;
 
     // animation
@@ -113,6 +121,21 @@ public abstract class Entity : MonoBehaviour {
         NULL
     }
 
+    public void setKinematic()
+    {
+        this.GetComponent<Rigidbody2D>().isKinematic = true;
+    }
+
+    public void setNonKinematic()
+    {
+        this.GetComponent<Rigidbody2D>().isKinematic = false;
+    }
+
+    public void setSpriteFlipX()
+    {
+        this.GetComponent < SpriteRenderer>().flipX = true;
+    }
+
     public float getAngularDirection()
     {
         Vector2 moveDirection = body.velocity;
@@ -121,5 +144,33 @@ public abstract class Entity : MonoBehaviour {
             rigidbodyAngularDirection = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
         }
         return rigidbodyAngularDirection;
+    }
+
+    public Direction getDirection()
+    {
+
+        return direction;
+    }
+
+    public Direction getDirectionNSEW()
+    {
+        if (direction == Direction.SOUTHEAST290 || direction == Direction.SOUTHWEST250 || direction == Direction.SOUTH)
+        {
+            return Direction.SOUTH;
+        }
+        else if (direction == Direction.SOUTHEAST310 || direction == Direction.SOUTHEAST330 || direction == Direction.NORTHEAST30 || direction == Direction.NORTHEAST50 || direction == Direction.EAST)
+        {
+            return Direction.EAST;
+        }
+        else if (direction == Direction.NORTHWEST130 || direction == Direction.NORTHWEST150 || direction == Direction.SOUTHWEST210 || direction == Direction.SOUTHWEST230 || direction == Direction.WEST)
+        {
+            return Direction.WEST;
+        }
+        else if (direction == Direction.NORTHEAST70 || direction == Direction.NORTHWEST110 || direction == Direction.NORTH)
+        {
+            return Direction.NORTH;
+        }
+        else return Direction.NULL;
+
     }
 }

@@ -495,87 +495,87 @@ public class PlayerControl : Entity
             }
             
             
-
+            // rolling while idle
             if (h == 0 && v == 0 && afterRollCoolDown <= 0f)
             {
 
                 if (this.direction == Direction.EAST)
                 {
-                    transform.Translate(.045f, 0, 0);
+                    transform.Translate(4.5f * Time.deltaTime, 0, 0);
                 }
                 else if (this.direction == Direction.NORTHEAST30)
                 {
-                    transform.Translate(.04f, .015f, 0);
+                    transform.Translate(4f * Time.deltaTime, 1.5f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.NORTHEAST50)
                 {
-                    transform.Translate(.03f, .025f, 0);
+                    transform.Translate(3f * Time.deltaTime, 2.5f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.NORTHEAST70)
                 {
-                    transform.Translate(.02f, .04f, 0);
+                    transform.Translate(2f * Time.deltaTime, 4f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.NORTH)
                 {
-                    transform.Translate(0, .045f, 0);
+                    transform.Translate(0, 4.5f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.NORTHWEST110)
                 {
-                    transform.Translate(-.015f, .04f, 0);
+                    transform.Translate(-1.5f, 4f, 0);
                 }
 
                 else if (this.direction == Direction.NORTHWEST130)
                 {
-                    transform.Translate(-.025f, .03f, 0);
+                    transform.Translate(-2.5f * Time.deltaTime, 3f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.NORTHWEST150)
                 {
-                    transform.Translate(-.04f, .02f, 0);
+                    transform.Translate(-4f * Time.deltaTime, 2f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.WEST)
                 {
-                    transform.Translate(-.045f, 0, 0);
+                    transform.Translate(-4.5f * Time.deltaTime, 0, 0);
                 }
 
                 else if (this.direction == Direction.SOUTHWEST210)
                 {
-                    transform.Translate(-.04f, -.015f, 0);
+                    transform.Translate(-.4f * Time.deltaTime, -.15f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.SOUTHWEST230)
                 {
-                    transform.Translate(-.03f, -.025f, 0);
+                    transform.Translate(-3f * Time.deltaTime, -2.5f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.SOUTHWEST250)
                 {
-                    transform.Translate(-.03f, -.035f, 0);
+                    transform.Translate(-3f * Time.deltaTime, -3.5f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.SOUTH)
                 {
-                    transform.Translate(0, -.045f, 0);
+                    transform.Translate(0, -4.5f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.SOUTHEAST290)
                 {
-                    transform.Translate(.01f, -.04f, 0);
+                    transform.Translate(1f * Time.deltaTime, -4f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.SOUTHEAST310)
                 {
-                    transform.Translate(.025f, -.03f, 0);
+                    transform.Translate(2.5f * Time.deltaTime, -3f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.SOUTHEAST330)
                 {
-                    transform.Translate(.04f, -.02f, 0);
+                    transform.Translate(4f * Time.deltaTime, -2f * Time.deltaTime, 0);
                 }
 
             }
@@ -615,7 +615,7 @@ public class PlayerControl : Entity
                 }
                 else if (getDirectionNSEW() == Direction.WEST)
                 {
-                    player.GetComponent<SpriteRenderer>().flipX = true;
+                    setSpriteFlipX();
                     anim.Play("blowBackWest");
                 }
             }       
@@ -627,81 +627,81 @@ public class PlayerControl : Entity
                 {
                         if(this.direction == Direction.EAST)
                     {
-                        transform.Translate(-.02f, 0, 0);
+                        transform.Translate(-2f * Time.deltaTime, 0, 0);
                     }
                     else if (this.direction == Direction.NORTHEAST30)
                     {
-                        transform.Translate(-.02f, -.01f, 0);
+                        transform.Translate(-2f * Time.deltaTime, -1f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.NORTHEAST50)
                     {
-                        transform.Translate(-.015f, -.015f, 0);
+                        transform.Translate(-1.5f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.NORTHEAST70)
                     {
-                        transform.Translate(-.01f, -.015f, 0);
+                        transform.Translate(-1f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.NORTH)
                     {
-                        transform.Translate(0, -.015f, 0);
+                        transform.Translate(0, -1.5f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.NORTHWEST110)
                     {
-                        transform.Translate(.007f, -.015f, 0);
+                        transform.Translate(1f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.NORTHWEST130)
                     {
-                        transform.Translate(.01f, -.01f, 0);
+                        transform.Translate(1f * Time.deltaTime, -1f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.NORTHWEST150)
                     {
-                        transform.Translate(.02f, -.01f, 0);
+                        transform.Translate(2f * Time.deltaTime, -1f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.WEST)
                     {
-                        transform.Translate(.02f, 0, 0);
+                        transform.Translate(2f * Time.deltaTime, 0, 0);
                     }
 
                     else if (this.direction == Direction.SOUTHWEST210)
                     {
-                        transform.Translate(.02f, .005f, 0);
+                        transform.Translate(2f * Time.deltaTime, .5f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.SOUTHWEST230)
                     {
-                        transform.Translate(.015f, .01f, 0);
+                        transform.Translate(1.5f * Time.deltaTime, 1f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.SOUTHWEST250)
                     {
-                        transform.Translate(.015f, .015f, 0);
+                        transform.Translate(1.5f * Time.deltaTime, 1.5f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.SOUTH)
                     {
-                        transform.Translate(0, .015f, 0);
+                        transform.Translate(0, 1.5f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.SOUTHEAST290)
                     {
-                        transform.Translate(-.005f, .02f, 0);
+                        transform.Translate(-.5f * Time.deltaTime, 2f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.SOUTHEAST310)
                     {
-                        transform.Translate(-.01f, .01f, 0);
+                        transform.Translate(-1f * Time.deltaTime, 1f * Time.deltaTime, 0);
                     }
 
                     else if (this.direction == Direction.SOUTHEAST330)
                     {
-                        transform.Translate(-.02f, .01f, 0);
+                        transform.Translate(-2f * Time.deltaTime, 1f * Time.deltaTime, 0);
                     }
 
             }
@@ -1286,7 +1286,6 @@ public class PlayerControl : Entity
 
     }
 
-
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.tag == "environment")
@@ -1394,16 +1393,6 @@ public class PlayerControl : Entity
         playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, -.09f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -1.7f, Time.deltaTime * 2), -29f);
     }
 
-    void setKinematic()
-    {
-        this.player.GetComponent<Rigidbody2D>().isKinematic = true;
-    }
-
-    void setNonKinematic()
-    {
-        this.player.GetComponent<Rigidbody2D>().isKinematic = false;
-    }
-
     public bool getIsRunning()
     {
         return isRunning;
@@ -1413,37 +1402,6 @@ public class PlayerControl : Entity
     {
         return isIdle;
     }
-
-    public Direction getDirection()
-    {
-
-        return direction;
-    }
-
-	
-    public Direction getDirectionNSEW()
-    {
-        if (direction == Direction.SOUTHEAST290 || direction == Direction.SOUTHWEST250 || direction == Direction.SOUTH)
-        {
-            return Direction.SOUTH;
-        }
-        else if (direction == Direction.SOUTHEAST310 || direction == Direction.SOUTHEAST330 || direction == Direction.NORTHEAST30 || direction == Direction.NORTHEAST50 || direction == Direction.EAST)
-        {
-            return Direction.EAST;
-        }
-        else if (direction == Direction.NORTHWEST130 || direction == Direction.NORTHWEST150 || direction == Direction.SOUTHWEST210 || direction == Direction.SOUTHWEST230 || direction == Direction.WEST)
-        {
-            return Direction.WEST;
-        }
-        else if (direction == Direction.NORTHEAST70 || direction == Direction.NORTHWEST110 || direction == Direction.NORTH)
-        {
-            return Direction.NORTH;
-        }
-        else return Direction.NULL;
-
-         
-    }
-	
 	
 }
 
