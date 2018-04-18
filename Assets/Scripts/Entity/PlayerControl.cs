@@ -191,17 +191,7 @@ public class PlayerControl : Entity
         v = Input.GetAxis("Vertical");
         h = Input.GetAxis("Horizontal");
 
-        Vector3 rightMovement = Vector3.right * moveSpeed * Time.deltaTime * h;
-        Vector3 upMovement = Vector3.up * moveSpeed * Time.deltaTime * v;
-
-        Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
-
-        if (!lockPosition)
-        {
-            transform.position += rightMovement;
-            transform.position += upMovement;
-        }
-        
+        getNextPosition(v, h);
 
         // movement vectors are updated here
         //Vector3 position = transform.position;

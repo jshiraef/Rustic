@@ -125,6 +125,20 @@ public abstract class Entity : MonoBehaviour {
         NULL
     }
 
+    public void getNextPosition(float v, float h)
+    {
+        Vector3 rightMovement = Vector3.right * moveSpeed * Time.deltaTime * h;
+        Vector3 upMovement = Vector3.up * moveSpeed * Time.deltaTime * v;
+
+        Vector3 heading = Vector3.Normalize(rightMovement + upMovement);
+
+        if (!lockPosition)
+        {
+            transform.position += rightMovement;
+            transform.position += upMovement;
+        }
+    }
+
     public void setKinematic()
     {
         this.GetComponent<Rigidbody2D>().isKinematic = true;
