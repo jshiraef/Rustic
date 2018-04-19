@@ -154,6 +154,16 @@ public abstract class Entity : MonoBehaviour {
         this.GetComponent < SpriteRenderer>().flipX = b;
     }
 
+    public bool animatorIsPlaying(string stateName)
+    {
+        return anim.GetCurrentAnimatorStateInfo(0).IsName(stateName);
+    }
+
+    public bool animationHasPlayedOnce()
+    {
+            return anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !anim.IsInTransition(0);
+    }
+
     public float getAngularDirection()
     {
         Vector2 moveDirection = body.velocity;

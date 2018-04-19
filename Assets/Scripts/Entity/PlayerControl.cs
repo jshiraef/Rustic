@@ -68,7 +68,10 @@ public class PlayerControl : Entity
     private static readonly int RUNNING = 1;
     private static readonly int WALKING = 2;
     private static readonly int ROLLING = 3;
-    private static readonly int SWINGING = 4;
+    private static readonly int KNOCKBACK = 4;
+    private static readonly int SWINGING = 5;
+    private static readonly int ITEMGRAB = 6;
+    private static readonly int WALKWITHITEM = 7;
 
 
     // Use this for initialization
@@ -80,7 +83,7 @@ public class PlayerControl : Entity
         moveSpeed = 4f;
 
         anim = GetComponent<Animator>();
-        
+        currentAction = IDLE;
 
         this.direction = Direction.NULL;
 
@@ -120,6 +123,134 @@ public class PlayerControl : Entity
         checkDestructibleObjects();
         checkAttack();
 
+
+
+
+        if (currentAction == SWINGING)
+        {
+            if(animationHasPlayedOnce())
+            {
+                swinging = false;
+            }
+        }
+
+
+        // setAction
+
+        if (swinging)
+        {
+            if(currentAction != SWINGING)
+            {
+                currentAction = SWINGING;
+                anim.Play("SwingScythe");
+                //lockPosition = true;
+                isRunning = false;
+
+                //rumble = true;
+                //GamePad.SetVibration(playerIndex, .5f, 0f);
+                PS4Input.PadSetVibration(1, 175, 0);
+            }
+            //rumbleCoolDown = .3f;
+        }
+        else if (rolling)
+        {
+            if(currentAction != ROLLING)
+            {
+                currentAction = ROLLING;
+            }
+            //lockPosition = true;
+            isRunning = false;
+
+            if (rollingCoolDown > .25f && rollingCoolDown < .4f)
+            {
+                rumble = true;
+                //GamePad.SetVibration(playerIndex, .25f, .25f);
+                PS4Input.PadSetVibration(1, 65, 65);
+                rumbleCoolDown = .2f;
+            }
+        }
+        else if (knockBack)
+        {
+            //isRunning = false;
+            if(currentAction != KNOCKBACK)
+            {
+                currentAction = KNOCKBACK;
+            }
+            if (knockBackCoolDown > (knockBackTimeLength - .05f))
+            {
+                rumble = true;
+                //GamePad.SetVibration(playerIndex, .75f, .75f);
+                PS4Input.PadSetVibration(1, 180, 180);
+
+                rumbleCoolDown = .3f;
+                screenShake.ShakeCamera(1f);
+            }
+        }
+
+        // checks to see if analog is only slightly tilted for walk animation
+        else if (Input.GetAxisRaw("Vertical") > -.4f && Input.GetAxisRaw("Vertical") < .4f && Input.GetAxisRaw("Horizontal") > -.4f && Input.GetAxisRaw("Horizontal") < .4f && !((h == 0) && (v == 0)))
+        {          
+                
+            isWalking = true;
+
+            if (currentAction != WALKING)
+            {
+                currentAction = WALKING;
+            }
+
+            anim.Play("Walking");
+        }
+        else if (Input.GetAxisRaw("Horizontal") > 0 || Input.GetAxisRaw("Horizontal") < 0 || Input.GetAxisRaw("Vertical") > 0 || Input.GetAxisRaw("Vertical") < 0)
+        {
+
+            if (!lockPosition && !swinging && !rolling && !knockBack)
+            {
+                isRunning = true;
+
+                if (currentAction != RUNNING)
+                {
+                    currentAction = RUNNING;
+                }
+                anim.Play("Running");
+
+                //transform.Translate(h * .018f, 0, 0);
+                //transform.Translate (Vector2.right * speed * Time.deltaTime);
+                //transform.eulerAngles = new Vector2(0, 0); // this sets the rotation of the gameobject
+
+            }
+        }       
+        else
+        {
+            //This sets the isIdle variable
+            if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+            {
+                if (!swinging && !rolling && !knockBack)
+                {
+                    if(!isIdle)
+                    {
+                        if(currentAction != IDLE)
+                        {
+                            currentAction = IDLE;
+                            anim.Play("Idle");
+                        }
+                        
+                    }                 
+                    isIdle = true;
+                }
+            }
+            else isIdle = false;
+        }
+
+        // sets runReleased parameter in Animator
+        if (Input.GetAxisRaw("Vertical") == 0 && Input.GetAxisRaw("Horizontal") == 0)
+        {
+            anim.SetBool("runReleased", true);
+        }
+        else anim.SetBool("runReleased", false);
+
+
+        // cool down timers
+
         if (shortFallCoolDown > 0)
         {
             shortFallCoolDown -= Time.deltaTime;
@@ -132,6 +263,16 @@ public class PlayerControl : Entity
             setNonKinematic();
         }
 
+        // freeze position until animation is finished
+        if (this.anim.GetCurrentAnimatorStateInfo(0).IsName("shortFallRecovery") || this.anim.GetCurrentAnimatorStateInfo(0).IsName("FallingDown"))
+        {
+            lockPosition = true;
+        }
+        else
+        {
+            // lockPosition = false;
+        }
+
         if (barrelCooldown > 0)
         {
             barrelCooldown -= Time.deltaTime;
@@ -142,15 +283,6 @@ public class PlayerControl : Entity
             knockBackCoolDown -= Time.deltaTime;
         }
 
-        // freeze position until animation is finished
-        if (this.anim.GetCurrentAnimatorStateInfo(0).IsName("shortFallRecovery") || this.anim.GetCurrentAnimatorStateInfo(0).IsName("FallingDown"))
-        {
-            lockPosition = true;
-        }
-        else
-        {
- //           lockPosition = false;
-        }
 
         if(restoreBlobShadowToNormal)
         {
@@ -178,8 +310,6 @@ public class PlayerControl : Entity
         {
             interact = false;
         }
-
-
         //if (Input.GetKeyDown(KeyCode.E) && interact == true)
         //{
         //    Destroy(whatIHit.collider.gameObject);
@@ -210,145 +340,14 @@ public class PlayerControl : Entity
         //        Debug.Log(body.velocity.magnitude);
 
         isRunning = false;
+        isWalking = false;
+        isIdle = false;
 
         anim.SetFloat("VerticalAnalogAxis", (Input.GetAxis("Vertical")));
         anim.SetFloat("HorizontalAnalogAxis", (Input.GetAxis("Horizontal")));
 
-        // checks to see if analog is only slightly tilted for walk animation
-        if (Input.GetAxisRaw("Vertical") > -.4f && Input.GetAxisRaw("Vertical") < .4f && Input.GetAxisRaw("Horizontal") > -.4f && Input.GetAxisRaw("Horizontal") < .4f)
-        {
-            if (!((h == 0) && (v == 0)))
-            {
-                isWalking = true;
-            }
-            else isWalking = false;
 
-        }
-        else isWalking = false;
-
-        if (Input.GetAxisRaw("Horizontal") > 0)
-        {
-            if (isRunning == false)
-            {
-                //anim.StopPlayback();
-            }
-
-            this.direction = Direction.EAST;
-
-            if (!lockPosition && !swinging && !rolling && !knockBack)
-            {
-
-                if (!isWalking)
-                {
-                    isRunning = true;
-                    anim.Play("Running");
-                }
-                else
-                {
-                    //anim.Play("Walking");
-                }
-
-
-                //transform.Translate(h * .018f, 0, 0);
-
-                //transform.Translate (Vector2.right * speed * Time.deltaTime);
-            }
-
-            //			transform.eulerAngles = new Vector2(0, 0); // this sets the rotation of the gameobject
-
-        }
-
-
-        if (Input.GetAxisRaw("Horizontal") < 0)
-        {
-
-            if (isRunning == false)
-            {
-                anim.StopPlayback();
-            }
-
-            this.direction = Direction.WEST;
-
-            if (!lockPosition && !swinging && !rolling && !knockBack)
-            {
-
-                if (!isWalking)
-                {
-                    isRunning = true;
-                    anim.Play("Running");
-                }
-                else
-                {
-                    //anim.Play("Walking");
-                }
-
-
-                //transform.Translate(h * .018f, 0, 0);
-
-                //			transform.Translate (-Vector2.right * speed * Time.deltaTime);
-            }
-
-            //			transform.eulerAngles = new Vector2(0, 180);  // this sets the rotation of the gamebject
-        }
-
-
-        if (Input.GetAxisRaw("Vertical") < 0)
-        {
-            if (isRunning == false)
-            {
-                anim.StopPlayback();
-            }
-
-            this.direction = Direction.SOUTH;
-
-            if (!lockPosition && !swinging && !rolling && !knockBack)
-            {
-                if (!isWalking)
-                {
-                    isRunning = true;
-                    anim.Play("Running");
-                }
-                else
-                {
-                    //anim.Play("Walking");
-                }
-
-
-                //transform.Translate(0, v * .018f, 0);
-
-                //			transform.Translate (-Vector2.up * speed * Time.deltaTime);
-            }
-        }
-
-
-        if (Input.GetAxisRaw("Vertical") > 0)
-        {
-            if (isRunning == false)
-            {
-                anim.StopPlayback();
-            }
-
-
-            this.direction = Direction.NORTH;
-
-            if (!lockPosition && !swinging && !rolling && !knockBack)
-            {
-                if (!isWalking)
-                {
-                    isRunning = true;
-                    anim.Play("Running");
-                }
-                else
-                {
-                    //anim.Play("Walking");
-                }
-
-                //transform.Translate(0, v * .018f, 0);
-
-                //transform.Translate (Vector2.up * speed * Time.deltaTime);
-            }
-        }
-
+        // set animation parameters for transitions
         anim.SetBool("isRunning", isRunning);
         anim.SetBool("isWalking", isWalking);
         anim.SetBool("isRolling", rolling);
@@ -369,75 +368,7 @@ public class PlayerControl : Entity
             anim.SetBool("shortFall", false);
         }
 
-        //This sets the isIdle variable
-        if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
-        {
-            if (!swinging && !rolling && !isIdle && !knockBack)
-            {
-                anim.Play("Idle");
-                isIdle = true;
-            }
-        }
-        else isIdle = false;
-
-        if (swinging)
-        {
-            //lockPosition = true;
-            isRunning = false;
-
-            //rumble = true;
-            //GamePad.SetVibration(playerIndex, .5f, 0f);
-            PS4Input.PadSetVibration(1, 175, 0);
-
-
-            //rumbleCoolDown = .3f;
-        }
-
-        if (rolling)
-        {
-            //lockPosition = true;
-            isRunning = false;
-
-            if(rollingCoolDown > .25f && rollingCoolDown < .4f)
-            {
-                rumble = true;
-                //GamePad.SetVibration(playerIndex, .25f, .25f);
-                PS4Input.PadSetVibration(1, 65, 65);
-
-
-                rumbleCoolDown = .2f;
-            }  
-        }
-
-        if (knockBack)
-        {
-            //isRunning = false;
-
-            if(knockBackCoolDown > (knockBackTimeLength - .05f))
-            {
-                rumble = true;
-                //GamePad.SetVibration(playerIndex, .75f, .75f);
-                PS4Input.PadSetVibration(1, 180, 180);
-
-
-                rumbleCoolDown = .3f;
-                screenShake.ShakeCamera(1f);
-            }
-            
-        }
-
-        if (Input.GetAxisRaw("Vertical") == 0 && Input.GetAxisRaw("Horizontal") == 0)
-        {
-            anim.SetBool("runReleased", true);
-        }
-        else anim.SetBool("runReleased", false);
-
         //		Debug.Log ("the shortfallCoolDown is: " + shortFallCoolDown);
-
-        //		Debug.Log ("the player's direction is: " + this.direction);
-        //		Debug.Log ("the vertical axis input is " + Input.GetAxis ("Vertical"));
-        //		Debug.Log ("the horizontal axis input is " + Input.GetAxis ("Horizontal"));
-        //		Debug.Log ("the direction is " + this.direction);
 
     }
 
@@ -447,13 +378,9 @@ public class PlayerControl : Entity
 
             if(!knockBack && !rolling)
             swinging = true;
+
         } else
             swinging = false;
-
-        if (swinging)
-        {
-            anim.Play("SwingScythe");
-        }
 
         if (Input.GetButtonDown("PS4_Triangle"))
         {
@@ -513,7 +440,7 @@ public class PlayerControl : Entity
 
                 else if (this.direction == Direction.NORTHWEST110)
                 {
-                    transform.Translate(-1.5f, 4f, 0);
+                    transform.Translate(-1.5f * Time.deltaTime, 4f * Time.deltaTime, 0);
                 }
 
                 else if (this.direction == Direction.NORTHWEST130)
@@ -1010,105 +937,110 @@ public class PlayerControl : Entity
 
 
         // Set the direction by using the RunDirection
-        switch ((int)lastRecordedRunDirection)
+        if (!swinging)
         {
-            case 0:
-                this.direction = Direction.EAST;
-                break;
-            case 1:
-                this.direction = Direction.NORTHEAST30;
-                break;
-            case 2:
-                this.direction = Direction.NORTHEAST30;
-                break;
-            case 3:
-                this.direction = Direction.NORTHEAST30;
-                break;
-            case 4:
-                this.direction = Direction.NORTHEAST50;
-                break;
-            case 5:
-                this.direction = Direction.NORTHEAST50;
-                break;
-            case 6:
-                this.direction = Direction.NORTHEAST70;
-                break;
-            case 7:
-                this.direction = Direction.NORTHEAST70;
-                break;
-            case 8:
-                this.direction = Direction.NORTH;
-                break;
-            case 9:
-                this.direction = Direction.NORTHWEST110;
-                break;
-            case 10:
-                this.direction = Direction.NORTHWEST110;
-                break;
-            case 11:
-                this.direction = Direction.NORTHWEST110;
-                break;
-            case 12:
-                this.direction = Direction.NORTHWEST130;
-                break;
-            case 13:
-                this.direction = Direction.NORTHWEST130;
-                break;
-            case 14:
-                this.direction = Direction.NORTHWEST150;
-                break;
-            case 15:
-                this.direction = Direction.NORTHWEST150;
-                break;
-            case 16:
-                this.direction = Direction.WEST;
-                break;
-            case 17:
-                this.direction = Direction.SOUTHWEST210;
-                break;
-            case 18:
-                this.direction = Direction.SOUTHWEST230;
-                break;
-            case 19:
-                this.direction = Direction.SOUTHWEST230;
-                break;
-            case 20:
-                this.direction = Direction.SOUTHWEST230;
-                break;
-            case 21:
-                this.direction = Direction.SOUTHWEST230;
-                break;
-            case 22:
-                this.direction = Direction.SOUTHWEST250;
-                break;
-            case 23:
-                this.direction = Direction.SOUTHWEST250;
-                break;
-            case 24:
-                this.direction = Direction.SOUTH;
-                break;
-            case 25:
-                this.direction = Direction.SOUTHEAST290;
-                break;
-            case 26:
-                this.direction = Direction.SOUTHEAST290;
-                break;
-            case 27:
-                this.direction = Direction.SOUTHEAST290;
-                break;
-            case 28:
-                this.direction = Direction.SOUTHEAST310;
-                break;
-            case 29:
-                this.direction = Direction.SOUTHEAST310;
-                break;
-            case 30:
-                this.direction = Direction.SOUTHEAST330;
-                break;
-            case 31:
-                this.direction = Direction.SOUTHEAST330;
-                break;
+            switch ((int)lastRecordedRunDirection)
+            {
+                case 0:
+                    this.direction = Direction.EAST;
+                    break;
+                case 1:
+                    this.direction = Direction.NORTHEAST30;
+                    break;
+                case 2:
+                    this.direction = Direction.NORTHEAST30;
+                    break;
+                case 3:
+                    this.direction = Direction.NORTHEAST30;
+                    break;
+                case 4:
+                    this.direction = Direction.NORTHEAST50;
+                    break;
+                case 5:
+                    this.direction = Direction.NORTHEAST50;
+                    break;
+                case 6:
+                    this.direction = Direction.NORTHEAST70;
+                    break;
+                case 7:
+                    this.direction = Direction.NORTHEAST70;
+                    break;
+                case 8:
+                    this.direction = Direction.NORTH;
+                    break;
+                case 9:
+                    this.direction = Direction.NORTHWEST110;
+                    break;
+                case 10:
+                    this.direction = Direction.NORTHWEST110;
+                    break;
+                case 11:
+                    this.direction = Direction.NORTHWEST110;
+                    break;
+                case 12:
+                    this.direction = Direction.NORTHWEST130;
+                    break;
+                case 13:
+                    this.direction = Direction.NORTHWEST130;
+                    break;
+                case 14:
+                    this.direction = Direction.NORTHWEST150;
+                    break;
+                case 15:
+                    this.direction = Direction.NORTHWEST150;
+                    break;
+                case 16:
+                    this.direction = Direction.WEST;
+                    break;
+                case 17:
+                    this.direction = Direction.SOUTHWEST210;
+                    break;
+                case 18:
+                    this.direction = Direction.SOUTHWEST230;
+                    break;
+                case 19:
+                    this.direction = Direction.SOUTHWEST230;
+                    break;
+                case 20:
+                    this.direction = Direction.SOUTHWEST230;
+                    break;
+                case 21:
+                    this.direction = Direction.SOUTHWEST230;
+                    break;
+                case 22:
+                    this.direction = Direction.SOUTHWEST250;
+                    break;
+                case 23:
+                    this.direction = Direction.SOUTHWEST250;
+                    break;
+                case 24:
+                    this.direction = Direction.SOUTH;
+                    break;
+                case 25:
+                    this.direction = Direction.SOUTHEAST290;
+                    break;
+                case 26:
+                    this.direction = Direction.SOUTHEAST290;
+                    break;
+                case 27:
+                    this.direction = Direction.SOUTHEAST290;
+                    break;
+                case 28:
+                    this.direction = Direction.SOUTHEAST310;
+                    break;
+                case 29:
+                    this.direction = Direction.SOUTHEAST310;
+                    break;
+                case 30:
+                    this.direction = Direction.SOUTHEAST330;
+                    break;
+                case 31:
+                    this.direction = Direction.SOUTHEAST330;
+                    break;
+            }
         }
+        
+        
 
         //		Debug.Log ("the last-recorded Run Direction is: " + this.lastRecordedRunDirection);
     }
