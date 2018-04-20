@@ -8,7 +8,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: ContourOutline
   m_Shader: {fileID: 4800000, guid: 3f6991ccb343243d8b537016dc34cc4e, type: 3}
-  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA _OUTLINEQUALITY_SIMPLE
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA _OUTLINEQUALITY_SMOOTH
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -70,21 +70,21 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _OutlineMultiplier: 0
-    - _OutlineQuality: 0
+    - _OutlineMultiplier: 7.01
+    - _OutlineQuality: 2
     - _OutlineSize: 0.94
     - _Parallax: 0.02
-    - _Size: 1.37
+    - _Size: 1.31
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TransparencyCutout: 0.04
+    - _TransparencyCutout: 1.35
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 0.46323532, g: 0.39511248, b: 0.39511248, a: 1}
+    - _OutlineColor: {r: 0.875, g: 0.7334559, b: 0.7334559, a: 1}
     - _PivotCorrection: {r: 0, g: 0, b: 0, a: 0}
     - _SpriteUVs: {r: 0, g: 0, b: 1, a: 1}

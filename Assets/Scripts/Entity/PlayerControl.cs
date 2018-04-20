@@ -9,7 +9,6 @@ public class PlayerControl : Entity
 {
 
     // movement
-    public bool grounded = false;
     public bool isRunning = false;
     public bool isWalking = false;
     public bool isIdle = false;
@@ -25,6 +24,7 @@ public class PlayerControl : Entity
     // items
     public bool swinging = false;
     public bool holdingThrowableItem;
+    public bool grabItem;
 
     // elements
     public bool inWater = false;
@@ -33,7 +33,7 @@ public class PlayerControl : Entity
 
     public Transform lineStart, lineEnd, groundedEnd;
 
-    public RaycastHit2D facingWall;
+    public RaycastHit2D itemInView;
 
     public float rollSpeed = 8f;
     public float v, h;
@@ -60,6 +60,8 @@ public class PlayerControl : Entity
     public Vector2 distanceToBarrel;
     private GameObject nearestBarrel;
     private float actualBarrelSeparation;
+
+    private float analogAxesAngle;
 
     float barrelCooldown;
     bool barrelSwitch;
@@ -135,9 +137,23 @@ public class PlayerControl : Entity
         }
 
 
-        // setAction
 
-        if (swinging)
+        // setAction
+        if (holdingThrowableItem)
+        {
+            if(currentAction != WALKWITHITEM)
+            {
+                currentAction = WALKWITHITEM;
+            }
+        }
+        if (grabItem)
+        {
+            if(currentAction != ITEMGRAB)
+            {
+                currentAction = ITEMGRAB;
+            }
+        }
+        else if (swinging)
         {
             if(currentAction != SWINGING)
             {
@@ -295,31 +311,44 @@ public class PlayerControl : Entity
 
     void Raycasting()
     {
-        lineEnd.localPosition = new Vector3(h * 2, v * 2, 0);
+        lineEnd.localPosition = new Vector3(h * 1, v * 1, 0);
         Debug.DrawLine(lineStart.position, lineEnd.position, Color.green);
         Debug.DrawLine(this.transform.position, groundedEnd.position, Color.green);
 
         grounded = Physics2D.Linecast(this.transform.position, groundedEnd.position, 1 << LayerMask.NameToLayer("ground"));
 
-        if (Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Wall")))
+        if (Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Rock")))
         {
-            facingWall = Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Wall"));
+            itemInView = Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Rock"));
             interact = true;
         }
         else
         {
             interact = false;
         }
-        //if (Input.GetKeyDown(KeyCode.E) && interact == true)
-        //{
-        //    Destroy(whatIHit.collider.gameObject);
-        //}
+
+
+        if (Input.GetButton("PS4_X") && interact == true)
+        {
+            //Destroy(itemInView.collider.gameObject);
+            itemInView.collider.gameObject.transform.SetParent(this.gameObject.transform);
+            grabItem = true;
+        }
+
+        //Debug.Log("the current action is " + currentAction);
+        //Debug.Log("interact bool is " + interact);
     }
 
     void Movement()
     {
         v = Input.GetAxis("Vertical");
         h = Input.GetAxis("Horizontal");
+
+        // gets the angle of the left analog stick axes vector
+        if (h != 0.0f || v != 0.0f)
+        {
+            analogAxesAngle = Mathf.Atan2(v, h) * Mathf.Rad2Deg;
+        }
 
         getNextPosition(v, h);
 
@@ -392,6 +421,14 @@ public class PlayerControl : Entity
             {
                 rolling = true;
             }          
+        }
+
+        if (grabItem && animationHasPlayedOnce())
+        {
+            grabItem = false;
+            holdingThrowableItem = true;
+            anim.StopPlayback();
+            setSpriteFlipX(true);
         }
 
         if (rolling)
@@ -530,6 +567,7 @@ public class PlayerControl : Entity
                 }
                 else if (getDirectionNSEW() == Direction.WEST)
                 {
+                    Debug.Log("this is happenin");
                     setSpriteFlipX(true);
                     anim.Play("blowBackWest");
                 }
@@ -638,6 +676,34 @@ public class PlayerControl : Entity
             lockPosition = false;
         }
 
+        if (grabItem)
+        {
+            if (getDirectionNSEW() == Direction.NORTH)
+            {
+                anim.Play("pickUpNorth");
+            }
+            else if (getDirectionNSEW() == Direction.SOUTH)
+            {
+                anim.Play("pickUpSouth");
+            }
+            else if (getDirectionNSEW() == Direction.EAST)
+            {
+                anim.Play("pickUpEast");
+            }
+            else if (getDirectionNSEW() == Direction.WEST)
+            {
+                setSpriteFlipX(true);
+                anim.Play("pickUpEast");
+            }
+        }
+        else
+        {
+            if (!knockBack)
+            {
+                setSpriteFlipX(false);
+            }
+        }
+
         if (rollingCoolDown > 0)
         {
             rollingCoolDown -= Time.deltaTime;
@@ -684,24 +750,24 @@ public class PlayerControl : Entity
     void setRunDirection()
     {
         // North, South, East, West
-        if (v == 1 && h == 0)
+        if (analogAxesAngle > 85 && analogAxesAngle < 95)
         {
             this.runDirection = RunDirection.NORTH;
         }
 
-        if (v == -1 && h == 0)
+        if (analogAxesAngle > -95 && analogAxesAngle < -85)
         {
             this.runDirection = RunDirection.SOUTH;
 
         }
 
-        if (v == 0 && h == 1)
+        if (analogAxesAngle > -5 && analogAxesAngle < 15)
         {
             this.runDirection = RunDirection.EAST;
 
         }
 
-        if (v == 0 && h == -1)
+        if (analogAxesAngle > 175 || analogAxesAngle < -175)
         {
             this.runDirection = RunDirection.WEST;
 
@@ -711,7 +777,7 @@ public class PlayerControl : Entity
         if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") > 0)
         {
 
-            if (v > 0 && v < .1 || h > .87 && h < .95)
+            if (analogAxesAngle > 15 && analogAxesAngle < 25)
             {
                 this.runDirection = RunDirection.NORTHEAST20;
 
@@ -719,21 +785,21 @@ public class PlayerControl : Entity
                 //				Debug.Log ("it is now northeast 20");
             }
 
-            if (v > .1 && v < .2 || h > .75 && h < .87)
+            if (analogAxesAngle > 25 && analogAxesAngle < 35)
             {
                 this.runDirection = RunDirection.NORTHEAST30;
 
                 //				Debug.Log ("it is now northeast 30");
             }
 
-            if (v > .2 && v < .3 || h > .65 && h < .75)
+            if (analogAxesAngle > 35 && analogAxesAngle < 45)
             {
                 this.runDirection = RunDirection.NORTHEAST40;
 
                 //				Debug.Log ("it is now northeast 40");
             }
 
-            if (v > .3 && v < .4 || h > .5 && h < .65)
+            if (analogAxesAngle > 45 && analogAxesAngle < 55)
             {
                 this.runDirection = RunDirection.NORTHEAST50;
 
@@ -741,21 +807,21 @@ public class PlayerControl : Entity
 
             }
 
-            if (v > .4 && v < .55 || h > .35 && h < .5)
+            if (analogAxesAngle > 55 && analogAxesAngle < 65)
             {
                 this.runDirection = RunDirection.NORTHEAST60;
 
                 //				Debug.Log ("it is now northeast 60");
             }
 
-            if (v > .55 && v < .7 || h > .25 && h < .35)
+            if (analogAxesAngle > 65 && analogAxesAngle < 75)
             {
                 this.runDirection = RunDirection.NORTHEAST70;
 
                 //				Debug.Log ("it is now northeast 70");
             }
 
-            if (v > .7 && v < .85 || h > 0 && h < .25)
+            if (analogAxesAngle > 75 && analogAxesAngle < 85)
             {
                 this.runDirection = RunDirection.NORTHEAST80;
 
@@ -766,21 +832,21 @@ public class PlayerControl : Entity
         // Set NorthWest
         if (Input.GetAxis("Vertical") > 0 && Input.GetAxis("Horizontal") < 0)
         {
-            if (v < 1 && v > .85 || h < 0 && h > -.15)
+            if (analogAxesAngle > 105 && analogAxesAngle < 115)
             {
                 this.runDirection = RunDirection.NORTHWEST110;
 
                 //				Debug.Log ("it is now northwest 110");
             }
 
-            if (v < .85 && v > .7 || h < -.15 && h > -.3)
+            if (analogAxesAngle > 115 && analogAxesAngle < 125)
             {
                 this.runDirection = RunDirection.NORTHWEST120;
 
                 //				Debug.Log ("it is now northwest 120");
             }
 
-            if (v < .7 && v > .55 || h < -.3 && h > -.45)
+            if (analogAxesAngle > 125 && analogAxesAngle < 135)
             {
                 this.runDirection = RunDirection.NORTHWEST130;
 
@@ -788,28 +854,28 @@ public class PlayerControl : Entity
 
             }
 
-            if (v < .55 && v > .42 || h < -.45 && h > -.58)
+            if (analogAxesAngle > 135 && analogAxesAngle < 145)
             {
                 this.runDirection = RunDirection.NORTHWEST140;
 
                 //				Debug.Log ("it is now northwest 140");
             }
 
-            if (v < .42 && v > .3 || h < -.58 && h > -.7)
+            if (analogAxesAngle > 145 && analogAxesAngle < 155)
             {
                 this.runDirection = RunDirection.NORTHWEST150;
 
                 //				Debug.Log ("it is now northwest 150");
             }
 
-            if (v < .3 && v > .2 || h < -.7 && h > -.8)
+            if (analogAxesAngle > 155 && analogAxesAngle < 165)
             {
                 this.runDirection = RunDirection.NORTHWEST160;
 
                 //				Debug.Log ("it is now northeast 160");
             }
 
-            if (v < .2 && v > 0 || h < -.8 && h > -.9)
+            if (analogAxesAngle > 165 && analogAxesAngle < 175)
             {
                 this.runDirection = RunDirection.NORTHWEST170;
 
@@ -820,7 +886,7 @@ public class PlayerControl : Entity
         // Set SouthWest
         if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") < 0)
         {
-            if (v < 0 && v > -.15 || h < -.85 && h > -.95)
+            if (analogAxesAngle > -165 && analogAxesAngle < -155)
             {
                 this.runDirection = RunDirection.SOUTHWEST200;
 
@@ -828,42 +894,42 @@ public class PlayerControl : Entity
                 //				Debug.Log ("it is now southwest 200");
             }
 
-            if (v < -.15 && v > -.25 || h < -.75 && h > -.85)
+            if (analogAxesAngle > -155 && analogAxesAngle < -145)
             {
                 this.runDirection = RunDirection.SOUTHWEST210;
 
                 //				Debug.Log ("it is now southwest 210");
             }
 
-            if (v < -.25 && v > -.37 || h < -.63 && h > -.75)
+            if (analogAxesAngle > -145 && analogAxesAngle < -135)
             {
                 this.runDirection = RunDirection.SOUTHWEST220;
 
                 //				Debug.Log ("it is now southwest 220");
             }
 
-            if (v < -.37 && v > -.5 || h < -.5 && h > -.63)
+            if (analogAxesAngle > -135 && analogAxesAngle < -125)
             {
                 this.runDirection = RunDirection.SOUTHWEST230;
 
                 //				Debug.Log ("it is now southwest 230");
             }
 
-            if (v < -.5 && v > -.63 || h < -.38 && h > -.5)
+            if (analogAxesAngle > -125 && analogAxesAngle < -115)
             {
                 this.runDirection = RunDirection.SOUTHWEST240;
 
                 //				Debug.Log ("it is now southwest 240");
             }
 
-            if (v < -.63 && v > -.75 || h < -.25 && h > -.38)
+            if (analogAxesAngle > -115 && analogAxesAngle < -105)
             {
                 this.runDirection = RunDirection.SOUTHWEST250;
 
                 //				Debug.Log ("it is now southwest 250");
             }
 
-            if (v < -.75 && v > -.87 || h < 0 && h > -.25)
+            if (analogAxesAngle > -105 && analogAxesAngle < -95)
             {
                 this.runDirection = RunDirection.SOUTHWEST260;
 
@@ -874,49 +940,49 @@ public class PlayerControl : Entity
         // Set SouthEast
         if (Input.GetAxis("Vertical") < 0 && Input.GetAxis("Horizontal") > 0)
         {
-            if (v > -.95 && v < -.83 || h > .05 && h < .17)
+            if (analogAxesAngle > -85 && analogAxesAngle < -75)
             {
                 this.runDirection = RunDirection.SOUTHEAST290;
 
                 //				Debug.Log ("it is now southeast 290");
             }
 
-            if (v > -.83 && v < -.7 || h > .17 && h < .3)
+            if (analogAxesAngle > -65 && analogAxesAngle < -55)
             {
                 this.runDirection = RunDirection.SOUTHEAST300;
 
                 //				Debug.Log ("it is now southeast 300");
             }
 
-            if (v > -.7 && v < -.58 || h > .3 && h < .42)
+            if (analogAxesAngle > -55 && analogAxesAngle < -45)
             {
                 this.runDirection = RunDirection.SOUTHEAST310;
 
                 //				Debug.Log ("it is now southeast 310");
             }
 
-            if (v > -.58 && v < -.45 || h > .42 && h < .55)
+            if (analogAxesAngle > -45 && analogAxesAngle < -35)
             {
                 this.runDirection = RunDirection.SOUTHEAST320;
 
                 //				Debug.Log ("it is now southeast 320");
             }
 
-            if (v > -.45 && v < -.32 || h > .55 && h < .67)
+            if (analogAxesAngle > -35 && analogAxesAngle < -25)
             {
                 this.runDirection = RunDirection.SOUTHEAST330;
 
                 //				Debug.Log ("it is now southeast 330");
             }
 
-            if (v > -.32 && v < -.2 || h > .67 && h < .78)
+            if (analogAxesAngle > -25 && analogAxesAngle < -15)
             {
                 this.runDirection = RunDirection.SOUTHEAST340;
 
                 //				Debug.Log ("it is now southeast 340");
             }
 
-            if (v > -.2 && v < 0 || h > .78 && h < .9)
+            if (analogAxesAngle > -15 && analogAxesAngle < -5)
             {
                 this.runDirection = RunDirection.SOUTHEAST350;
 
@@ -1155,22 +1221,22 @@ public class PlayerControl : Entity
 
     }
 
-    void coolDownMaker(bool coolDownTrigger, float coolDown, int coolDownTime)
+    void coolDownMaker(bool coolDownTrigger, float coolDownClock, int coolDownTime)
     {
         if (!coolDownTrigger)
             return;
 
-        if (coolDownTrigger && coolDown <= 0)
+        if (coolDownTrigger && coolDownClock <= 0)
         {
-            coolDownTime = (int)coolDown;
+            coolDownTime = (int)coolDownClock ;
         }
 
-        if (coolDown > 0)
+        if (coolDownClock > 0)
         {
-            coolDown -= Time.deltaTime;
+            coolDownClock -= Time.deltaTime;
         }
 
-        if (coolDown <= 0)
+        if (coolDownClock <= 0)
         {
             coolDownTrigger = false;
         }

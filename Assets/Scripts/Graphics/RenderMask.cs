@@ -94,7 +94,7 @@ public class RenderMask : MonoBehaviour {
         //    MovingMask.Play("waterFlowMash");
         //}
 
-        Debug.Log("Hey! This happened");
+        //Debug.Log("Hey! Listen!");
     }
 
     void onCollisionEnter2D (Collision coll)

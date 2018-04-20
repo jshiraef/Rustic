@@ -4,8 +4,11 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour {
 
-    protected bool interact = false;
+    public bool interact = false;
     protected bool lockPosition = false;
+    protected bool grounded;
+    protected bool falling;
+    
 
     // collision
     protected BoxCollider2D boxCollider2D;
@@ -29,6 +32,8 @@ public abstract class Entity : MonoBehaviour {
     protected float moveForce;
     protected float maxSpeed;
     protected float stopSpeed;
+    protected float fallSpeed;
+    protected float fallDistance;
     protected float maxVelocity;
 
     // animation
