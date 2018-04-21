@@ -54,6 +54,7 @@ public class PlayerControl : Entity
     private GameObject player;
     private GameObject renderMask;
     private GameObject renderMaskOutliner;
+    private GameObject throwableItem;
 
     // barrel variables (variables similar to these can help keep track of relations between player and world objects)
     public GameObject[] barrels;
@@ -62,6 +63,7 @@ public class PlayerControl : Entity
     private float actualBarrelSeparation;
 
     private float analogAxesAngle;
+    private float analogAxesAngle360;
 
     float barrelCooldown;
     bool barrelSwitch;
@@ -116,17 +118,18 @@ public class PlayerControl : Entity
             rumbleCoolDown -= Time.deltaTime;
         }
         //    Debug.Log("the rumble coolDown is: " + rumbleCoolDown);
+        anim.SetFloat("normalizedDirection", analogAxesAngle360 / 360);
 
         setDirection8();
         Movement();
         Raycasting();
         setRunDirection();
-        animationDirectionSetter();
+        //animationDirectionSetter();
         checkDestructibleObjects();
         checkAttack();
 
 
-
+        //Debug.Log("the time of the animator is " + anim.GetCurrentAnimatorStateInfo(0).length);
 
         if (currentAction == SWINGING)
         {
@@ -136,22 +139,40 @@ public class PlayerControl : Entity
             }
         }
 
-
-
         // setAction
         if (holdingThrowableItem)
         {
             if(currentAction != WALKWITHITEM)
             {
                 currentAction = WALKWITHITEM;
+                moveSpeed = 1;
             }
+            
+            if(h == 0 && v == 0)
+            {
+                anim.speed = 0.0f;
+            }
+            else
+            {
+                anim.speed = 1f;
+            }
+
+            if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 < .5f)
+            {
+                moveSpeed = 1;
+            }
+            else moveSpeed = 0;
+            
         }
-        if (grabItem)
+        else if (grabItem)
         {
             if(currentAction != ITEMGRAB)
             {
                 currentAction = ITEMGRAB;
             }
+
+            throwableItem.transform.position = new Vector3(Mathf.Lerp(throwableItem.transform.position.x, player.transform.position.x, Time.deltaTime/2), Mathf.Lerp(throwableItem.transform.position.y, player.transform.position.y + 1.35f, Time.deltaTime/2), 0);
+                //Vector3.Lerp(throwableItem.transform.localPosition, new Vector3(player.transform.position.x, player.transform.position.y + 50, 0), Time.deltaTime);
         }
         else if (swinging)
         {
@@ -202,7 +223,6 @@ public class PlayerControl : Entity
                 screenShake.ShakeCamera(1f);
             }
         }
-
         // checks to see if analog is only slightly tilted for walk animation
         else if (Input.GetAxisRaw("Vertical") > -.4f && Input.GetAxisRaw("Vertical") < .4f && Input.GetAxisRaw("Horizontal") > -.4f && Input.GetAxisRaw("Horizontal") < .4f && !((h == 0) && (v == 0)))
         {          
@@ -311,10 +331,11 @@ public class PlayerControl : Entity
 
     void Raycasting()
     {
-        lineEnd.localPosition = new Vector3(h * 1, v * 1, 0);
+        //lineEnd.localPosition = new Vector3(h * 2, v * 2, 0);
+        lineEnd.localPosition = new Vector3(Mathf.Cos(analogAxesAngle360 * Mathf.Deg2Rad), Mathf.Sin(analogAxesAngle360 * Mathf.Deg2Rad), 0);
         Debug.DrawLine(lineStart.position, lineEnd.position, Color.green);
         Debug.DrawLine(this.transform.position, groundedEnd.position, Color.green);
-
+        
         grounded = Physics2D.Linecast(this.transform.position, groundedEnd.position, 1 << LayerMask.NameToLayer("ground"));
 
         if (Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Rock")))
@@ -332,8 +353,11 @@ public class PlayerControl : Entity
         {
             //Destroy(itemInView.collider.gameObject);
             itemInView.collider.gameObject.transform.SetParent(this.gameObject.transform);
+            throwableItem = itemInView.collider.gameObject;
+            throwableItem.GetComponent<RockController>().setGrabbed(true);
             grabItem = true;
         }
+
 
         //Debug.Log("the current action is " + currentAction);
         //Debug.Log("interact bool is " + interact);
@@ -345,9 +369,18 @@ public class PlayerControl : Entity
         h = Input.GetAxis("Horizontal");
 
         // gets the angle of the left analog stick axes vector
-        if (h != 0.0f || v != 0.0f)
+        if (h >= .01f || h <= -.01f || v >= .01f || v <= -.01f)
         {
             analogAxesAngle = Mathf.Atan2(v, h) * Mathf.Rad2Deg;
+        }
+
+        if (analogAxesAngle >= 0)
+        {
+            analogAxesAngle360 = analogAxesAngle;
+        }
+        else 
+        {
+            analogAxesAngle360 = 360 - Mathf.Abs(analogAxesAngle);
         }
 
         getNextPosition(v, h);
@@ -423,13 +456,6 @@ public class PlayerControl : Entity
             }          
         }
 
-        if (grabItem && animationHasPlayedOnce())
-        {
-            grabItem = false;
-            holdingThrowableItem = true;
-            anim.StopPlayback();
-            setSpriteFlipX(true);
-        }
 
         if (rolling)
         {
@@ -695,14 +721,31 @@ public class PlayerControl : Entity
                 setSpriteFlipX(true);
                 anim.Play("pickUpEast");
             }
-        }
-        else
-        {
-            if (!knockBack)
+
+            if (animatorIsPlaying("pickUpSouth") || animatorIsPlaying("pickUpEast") || animatorIsPlaying("pickUpNorth"))
             {
-                setSpriteFlipX(false);
+                if (animationHasPlayedOnce())
+                {
+                    grabItem = false;
+                    holdingThrowableItem = true;
+                    anim.StopPlayback();
+                    setSpriteFlipX(false);
+                }             
             }
         }
+
+
+
+
+        if (holdingThrowableItem)
+        {
+            if (h > 0 || v > 0)
+            {
+                anim.Play("WalkingWithObjectOverhead");
+            }
+            else anim.StopPlayback();
+        }
+
 
         if (rollingCoolDown > 0)
         {
@@ -1377,6 +1420,16 @@ public class PlayerControl : Entity
         playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1f, Time.deltaTime * 2);
         playerBlobShadow.orthographic = false;
         playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, -.09f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -1.7f, Time.deltaTime * 2), -29f);
+    }
+
+    public float getDirectionAngle360()
+    {
+        return  analogAxesAngle360;
+    }
+
+    public int getDirectionAngle180()
+    {
+        return (int) analogAxesAngle;
     }
 
     public bool getIsRunning()

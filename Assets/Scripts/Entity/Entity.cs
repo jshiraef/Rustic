@@ -48,7 +48,7 @@ public abstract class Entity : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+
 	}
 	
 	// Update is called once per frame
@@ -169,7 +169,12 @@ public abstract class Entity : MonoBehaviour {
             return anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !anim.IsInTransition(0);
     }
 
-    public float getAngularDirection()
+    public float getAnimatorNormalizedTime()
+    {
+        return anim.GetCurrentAnimatorStateInfo(0).normalizedTime - (int)anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    }
+
+    public float getRigidbodyAngularDirection()
     {
         Vector2 moveDirection = body.velocity;
         if (moveDirection != Vector2.zero)
@@ -177,6 +182,16 @@ public abstract class Entity : MonoBehaviour {
             rigidbodyAngularDirection = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
         }
         return rigidbodyAngularDirection;
+    }
+
+    public string getSpriteLayerName(SpriteRenderer sprite)
+    {
+        return sprite.sortingLayerName.ToString();
+    }
+
+    public int getSpriteSortingOrder(SpriteRenderer sprite)
+    {
+        return sprite.sortingOrder;
     }
 
     public Direction getDirection()

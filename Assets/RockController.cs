@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RockController : MonoBehaviour {
+public class RockController : Entity {
 
     private bool breakable;
 
-    private bool grabbable;
+    private bool grabbed;
     private float grabbableTimer;
 
     public float airSpeed;
@@ -16,11 +16,21 @@ public class RockController : MonoBehaviour {
 
     private GameObject player;
 
-	// Use this for initialization
-	void Start () {
+    public string currentLayerName;
+    public int currentLayerOrder;
+
+    private Vector3 originalScale;
+
+    private SpriteRenderer rockSprite;
+    // Use this for initialization
+    void Start () {
+        rockSprite = GetComponent<SpriteRenderer>();
         player = GameObject.Find("player");
         outline = this.transform.GetChild(0).gameObject;
-	}
+        currentLayerName = getSpriteLayerName(rockSprite);
+        currentLayerOrder = getSpriteSortingOrder(rockSprite);
+        originalScale = this.transform.localScale;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -29,14 +39,14 @@ public class RockController : MonoBehaviour {
         {
             outline.SetActive(true);
 
-            if (!grabbable && grabbableTimer <= 0)
-            {
-                grabbableTimer = 1f;
+            //if (!grabbed && grabbableTimer <= 0)
+            //{
+            //    grabbableTimer = 1f;
                 //outline.AddComponent<CircleCollider2D>();
                 //outline.GetComponent<CircleCollider2D>().isTrigger = true;
                 //outline.GetComponent<CircleCollider2D>().radius = 2f;
-            }
-            grabbable = true;    
+            //}
+            //grabbed = true;    
         }
         else
         {
@@ -48,6 +58,91 @@ public class RockController : MonoBehaviour {
             
         }
 
+        if (grabbed)
+        {       
+            if(player.GetComponent<PlayerControl>().getDirectionAngle360() > 15 && player.GetComponent<PlayerControl>().getDirectionAngle360() <= 180)
+            {
+                rockSprite.sortingLayerName = currentLayerName;
+                rockSprite.sortingOrder = currentLayerOrder;
+                //this.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1.3f, 0);
+            }
+            else
+            {
+                rockSprite.sortingLayerName = getSpriteLayerName(player.GetComponent<SpriteRenderer>());
+                rockSprite.sortingOrder = getSpriteSortingOrder(player.GetComponent<SpriteRenderer>()) + 1;
+            }
+
+            if (player.GetComponent<PlayerControl>().getDirectionAngle360() >= 0 && player.GetComponent<PlayerControl>().getDirectionAngle360() < 16.35)
+            {
+                this.transform.localPosition = new Vector3(.38f, .91f, 0);
+                this.transform.localScale = new Vector3(.55f, .85f, .85f);
+                //East
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 49.1)
+            {
+                this.transform.localPosition = new Vector3(.21f, .94f, 0);
+                this.transform.localScale = new Vector3(.85f, .85f, .85f);
+                //NorthEast30
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 81.85)
+            {
+                this.transform.localPosition = new Vector3(.09f, 1.05f, 0);
+                //NorthEast70
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 114.6)
+            {
+                this.transform.localPosition = new Vector3(.09f, 1.07f, 0);
+                //North
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 147.35)
+            {
+                this.transform.localPosition = new Vector3(-.067f, 1.154f, 0);
+                //NorthWest120
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() <= 180)
+            {
+                this.transform.localScale = new Vector3(.85f, .85f, .85f);
+                this.transform.localPosition = new Vector3(-.2f, 1.136f, 0);
+                //NorthWest150
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 212.85)
+            {
+                this.transform.localPosition = new Vector3(-.243f, 1.145f, 0);
+                this.transform.localScale = new Vector3(.55f, .85f, .85f);
+                //West
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 245.6)
+            {
+                this.transform.localPosition = new Vector3(.013f, 1.111f, 0);
+                this.transform.localScale = new Vector3(.75f, .85f, .85f);
+                //SouthWest210
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 278.35)
+            {
+                this.transform.localPosition = new Vector3(.14f, 1.14f, 0);
+                this.transform.localScale = new Vector3(.85f, .85f, .85f);
+                //SouthWest240
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 311.1)
+            {
+                this.transform.localPosition = new Vector3(.24f, 1.04f, 0);
+                //South
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 343.85)
+            {
+                this.transform.localPosition = new Vector3(.27f, 1.01f, 0);
+                this.transform.localScale = new Vector3(.75f, .85f, .85f);
+                //SouthEast300
+            }
+            else
+            {
+                this.transform.localPosition = new Vector3(.28f, .97f, 0);
+                this.transform.localScale = new Vector3(.65f, .85f, .85f);
+                //SouthEast330
+            }
+        }
+
+        Debug.Log("the player angle is " + player.GetComponent<PlayerControl>().getDirectionAngle360());
 
         if(grabbableTimer > 0)
         {
@@ -56,8 +151,15 @@ public class RockController : MonoBehaviour {
 
         if(grabbableTimer <= 0)
         {
-            grabbable = false;
+            //grabbed = false;
             //Destroy(outline.GetComponent<CircleCollider2D>());
         }
+
+        //Debug.Log("the rock's grabbed bool is " + grabbed);
 	}
+
+    public void setGrabbed(bool b)
+    {
+        grabbed = b; 
+    }
 }
