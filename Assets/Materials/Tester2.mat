@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Tester2
-  m_Shader: {fileID: 4800000, guid: 60f11eca73793af4c92171ef174c9fe9, type: 3}
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA _OUTLINEQUALITY_SIMPLE
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -37,7 +37,7 @@ Material:
     - _Size: 1
     - _TransparencyCutout: 1
     m_Colors:
-    - _Color: {r: 0.04411763, g: 0.035358984, b: 0.035358984, a: 1}
+    - _Color: {r: 0.97794116, g: 0.9347967, b: 0.9347967, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _PivotCorrection: {r: 0, g: 0, b: 0, a: 0}

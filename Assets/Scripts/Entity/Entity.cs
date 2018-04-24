@@ -278,4 +278,11 @@ public abstract class Entity : MonoBehaviour {
         else return Direction.NULL;
 
     }
+
+    public void LookAt(Vector3 position)
+    {
+        Vector3 difference = position - this.transform.position;
+        float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+    }
 }
