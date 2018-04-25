@@ -25,6 +25,7 @@ public class PlayerControl : Entity
     public bool swinging = false;
     public bool holdingThrowableItem;
     public bool grabItem;
+    public float grabItemTimer;
 
     // elements
     public bool inWater = false;
@@ -55,6 +56,7 @@ public class PlayerControl : Entity
     private GameObject renderMask;
     private GameObject renderMaskOutliner;
     private GameObject throwableItem;
+    private FieldOfView vision;
 
     // barrel variables (variables similar to these can help keep track of relations between player and world objects)
     public GameObject[] barrels;
@@ -98,6 +100,7 @@ public class PlayerControl : Entity
         playerBlobShadow = player.GetComponentInChildren<Projector>();
         player.GetComponent<SpriteRenderer>().receiveShadows = true;
         screenShake = GameObject.Find("CM vcam1").GetComponent<CinemachineCameraShaker>();
+        vision = GetComponent<FieldOfView>();
 
         //		nearestBarrel = GameObject.Find ("barrel");
     }
@@ -171,8 +174,14 @@ public class PlayerControl : Entity
                 currentAction = ITEMGRAB;
             }
 
-            throwableItem.transform.position = new Vector3(Mathf.Lerp(throwableItem.transform.position.x, player.transform.position.x, Time.deltaTime/2), Mathf.Lerp(throwableItem.transform.position.y, player.transform.position.y + 1.35f, Time.deltaTime/2), 0);
-                //Vector3.Lerp(throwableItem.transform.localPosition, new Vector3(player.transform.position.x, player.transform.position.y + 50, 0), Time.deltaTime);
+            //throwableItem.transform.position = new Vector3(Mathf.Lerp(throwableItem.transform.position.x, player.transform.position.x, Time.deltaTime/2), Mathf.Lerp(throwableItem.transform.position.y, player.transform.position.y + 1.35f, Time.deltaTime/2), 0);
+            if(grabItemTimer < .55f && grabItemTimer > .1f)
+            {
+                throwableItem.transform.position = Vector3.Lerp(throwableItem.transform.position, new Vector3(player.transform.position.x, player.transform.position.y + 2f, 0), Time.deltaTime * 1.33f);
+                itemInView.collider.gameObject.transform.SetParent(this.gameObject.transform);
+                throwableItem.GetComponent<Collider2D>().isTrigger = true;
+            }
+
         }
         else if (swinging)
         {
@@ -338,10 +347,11 @@ public class PlayerControl : Entity
         
         grounded = Physics2D.Linecast(this.transform.position, groundedEnd.position, 1 << LayerMask.NameToLayer("ground"));
 
-        if (Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Rock")))
+        if (Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Rock")) && !holdingThrowableItem && !grabItem)
         {
             itemInView = Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Rock"));
             interact = true;
+            itemInView.transform.SendMessage("hitByRaycast", true);
         }
         else
         {
@@ -352,9 +362,8 @@ public class PlayerControl : Entity
         if (Input.GetButton("PS4_X") && interact == true)
         {
             //Destroy(itemInView.collider.gameObject);
-            itemInView.collider.gameObject.transform.SetParent(this.gameObject.transform);
             throwableItem = itemInView.collider.gameObject;
-            throwableItem.GetComponent<RockController>().setGrabbed(true);
+            itemInView.transform.SendMessage("setGrabbed", true);
             grabItem = true;
         }
 
@@ -367,6 +376,8 @@ public class PlayerControl : Entity
     {
         v = Input.GetAxis("Vertical");
         h = Input.GetAxis("Horizontal");
+
+       // Debug.Log("the getClosestTarget() is returning " + getClosestTarget());
 
         // gets the angle of the left analog stick axes vector
         if (h >= .01f || h <= -.01f || v >= .01f || v <= -.01f)
@@ -438,8 +449,8 @@ public class PlayerControl : Entity
     {
         if (Input.GetButton("PS4_Square")) {
 
-            if(!knockBack && !rolling)
-            swinging = true;
+            if (!knockBack && !rolling)
+                swinging = true;
 
         } else
             swinging = false;
@@ -450,10 +461,10 @@ public class PlayerControl : Entity
             {
                 rollingCoolDown = .6f;
             }
-            if(afterRollCoolDown <= 0 && !knockBack)
+            if (afterRollCoolDown <= 0 && !knockBack)
             {
                 rolling = true;
-            }          
+            }
         }
 
 
@@ -461,18 +472,18 @@ public class PlayerControl : Entity
         {
             anim.Play("Rolling");
 
-            if(getDirectionNSEW() == Direction.NORTH || getDirectionNSEW() == Direction.SOUTH)
+            if (getDirectionNSEW() == Direction.NORTH || getDirectionNSEW() == Direction.SOUTH)
             {
                 boxCollider2D.size = new Vector2(.8f, 1.4f);
                 boxCollider2D.offset = new Vector2(0f, -.9f);
             }
-            else if(getDirectionNSEW() == Direction.EAST || getDirectionNSEW() == Direction.WEST)
+            else if (getDirectionNSEW() == Direction.EAST || getDirectionNSEW() == Direction.WEST)
             {
                 boxCollider2D.size = new Vector2(1.6f, .95f);
                 boxCollider2D.offset = new Vector2(0f, -1f);
             }
-            
-            
+
+
             // rolling while idle
             if (h == 0 && v == 0 && afterRollCoolDown <= 0f)
             {
@@ -565,7 +576,7 @@ public class PlayerControl : Entity
                     Vector3 rollVector = new Vector3(h * rollSpeed * Time.deltaTime, v * rollSpeed * Time.deltaTime, 0);
                     transform.position += rollVector;
                 }
-                
+
             }
 
         }
@@ -575,9 +586,9 @@ public class PlayerControl : Entity
             boxCollider2D.size = new Vector2(.70f, .65f);
         }
 
-        if(knockBack)
-        {                             
-            if(knockBackCoolDown == knockBackTimeLength)
+        if (knockBack)
+        {
+            if (knockBackCoolDown == knockBackTimeLength)
             {
                 if (getDirectionNSEW() == Direction.NORTH)
                 {
@@ -593,98 +604,97 @@ public class PlayerControl : Entity
                 }
                 else if (getDirectionNSEW() == Direction.WEST)
                 {
-                    Debug.Log("this is happenin");
                     setSpriteFlipX(true);
                     anim.Play("blowBackWest");
                 }
-            }       
+            }
 
             lockPosition = true;
 
-            
-                if(knockBackCoolDown > (knockBackTimeLength - .5f))
+
+            if (knockBackCoolDown > (knockBackTimeLength - .5f))
+            {
+                if (this.direction == Direction.EAST)
                 {
-                        if(this.direction == Direction.EAST)
-                    {
-                        transform.Translate(-2f * Time.deltaTime, 0, 0);
-                    }
-                    else if (this.direction == Direction.NORTHEAST30)
-                    {
-                        transform.Translate(-2f * Time.deltaTime, -1f * Time.deltaTime, 0);
-                    }
+                    transform.Translate(-2f * Time.deltaTime, 0, 0);
+                }
+                else if (this.direction == Direction.NORTHEAST30)
+                {
+                    transform.Translate(-2f * Time.deltaTime, -1f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.NORTHEAST50)
-                    {
-                        transform.Translate(-1.5f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.NORTHEAST50)
+                {
+                    transform.Translate(-1.5f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.NORTHEAST70)
-                    {
-                        transform.Translate(-1f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.NORTHEAST70)
+                {
+                    transform.Translate(-1f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.NORTH)
-                    {
-                        transform.Translate(0, -1.5f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.NORTH)
+                {
+                    transform.Translate(0, -1.5f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.NORTHWEST110)
-                    {
-                        transform.Translate(1f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.NORTHWEST110)
+                {
+                    transform.Translate(1f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.NORTHWEST130)
-                    {
-                        transform.Translate(1f * Time.deltaTime, -1f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.NORTHWEST130)
+                {
+                    transform.Translate(1f * Time.deltaTime, -1f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.NORTHWEST150)
-                    {
-                        transform.Translate(2f * Time.deltaTime, -1f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.NORTHWEST150)
+                {
+                    transform.Translate(2f * Time.deltaTime, -1f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.WEST)
-                    {
-                        transform.Translate(2f * Time.deltaTime, 0, 0);
-                    }
+                else if (this.direction == Direction.WEST)
+                {
+                    transform.Translate(2f * Time.deltaTime, 0, 0);
+                }
 
-                    else if (this.direction == Direction.SOUTHWEST210)
-                    {
-                        transform.Translate(2f * Time.deltaTime, .5f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.SOUTHWEST210)
+                {
+                    transform.Translate(2f * Time.deltaTime, .5f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.SOUTHWEST230)
-                    {
-                        transform.Translate(1.5f * Time.deltaTime, 1f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.SOUTHWEST230)
+                {
+                    transform.Translate(1.5f * Time.deltaTime, 1f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.SOUTHWEST250)
-                    {
-                        transform.Translate(1.5f * Time.deltaTime, 1.5f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.SOUTHWEST250)
+                {
+                    transform.Translate(1.5f * Time.deltaTime, 1.5f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.SOUTH)
-                    {
-                        transform.Translate(0, 1.5f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.SOUTH)
+                {
+                    transform.Translate(0, 1.5f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.SOUTHEAST290)
-                    {
-                        transform.Translate(-.5f * Time.deltaTime, 2f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.SOUTHEAST290)
+                {
+                    transform.Translate(-.5f * Time.deltaTime, 2f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.SOUTHEAST310)
-                    {
-                        transform.Translate(-1f * Time.deltaTime, 1f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.SOUTHEAST310)
+                {
+                    transform.Translate(-1f * Time.deltaTime, 1f * Time.deltaTime, 0);
+                }
 
-                    else if (this.direction == Direction.SOUTHEAST330)
-                    {
-                        transform.Translate(-2f * Time.deltaTime, 1f * Time.deltaTime, 0);
-                    }
+                else if (this.direction == Direction.SOUTHEAST330)
+                {
+                    transform.Translate(-2f * Time.deltaTime, 1f * Time.deltaTime, 0);
+                }
 
             }
-                           
+
 
             // changes the animation speed
             if (knockBackCoolDown < (knockBackTimeLength - .5f) && knockBackCoolDown > 1f)
@@ -694,7 +704,7 @@ public class PlayerControl : Entity
             else anim.SetFloat("animationSpeed", 1f);
         }
 
-        if(knockBack && knockBackCoolDown > 0f & knockBackCoolDown < .1f)
+        if (knockBack && knockBackCoolDown > 0f & knockBackCoolDown < .1f)
         {
             setSpriteFlipX(false);
             knockBack = false;
@@ -704,9 +714,16 @@ public class PlayerControl : Entity
 
         if (grabItem)
         {
+
             if (getDirectionNSEW() == Direction.NORTH)
             {
                 anim.Play("pickUpNorth");
+
+                if (grabItemTimer > .6f)
+                {
+                    //transform.Translate(new Vector3(0, .02f, 0));
+                }
+
             }
             else if (getDirectionNSEW() == Direction.SOUTH)
             {
@@ -715,31 +732,50 @@ public class PlayerControl : Entity
             else if (getDirectionNSEW() == Direction.EAST)
             {
                 anim.Play("pickUpEast");
+
+                if (grabItemTimer > .6f)
+                {
+                    transform.Translate(new Vector3(0, .007f, 0));
+                }
+
             }
             else if (getDirectionNSEW() == Direction.WEST)
             {
-                setSpriteFlipX(true);
-                anim.Play("pickUpEast");
+                anim.Play("pickUpWest");
+
+                if (grabItemTimer > .6f)
+                {
+                    transform.Translate(new Vector3(0, .007f, 0));
+                }
             }
 
-            if (animatorIsPlaying("pickUpSouth") || animatorIsPlaying("pickUpEast") || animatorIsPlaying("pickUpNorth"))
+            if (animatorIsPlaying("pickUpSouth") || animatorIsPlaying("pickUpEast") || animatorIsPlaying("pickUpNorth") || animatorIsPlaying("pickUpWest"))
             {
                 if (animationHasPlayedOnce())
                 {
                     grabItem = false;
                     holdingThrowableItem = true;
-                    anim.StopPlayback();
-                    setSpriteFlipX(false);
-                }             
+                    anim.StopPlayback(); ;
+                }
             }
         }
 
+        if (grabItem && grabItemTimer <= 0)
+        {
+            grabItemTimer = 1f;
+        }
 
+        if (grabItemTimer > 0)
+        {
+            grabItemTimer -= Time.deltaTime;
+        }
+
+        //Debug.Log("the grabItemTimer says " + grabItemTimer);
 
 
         if (holdingThrowableItem)
         {
-            if (h > 0 || v > 0)
+            if (h > 0 || v > 0 || h < 0 || v < 0)
             {
                 anim.Play("WalkingWithObjectOverhead");
             }
@@ -1168,8 +1204,8 @@ public class PlayerControl : Entity
             {
                 if (!barrelSwitch)
                 {
-                    barrelCooldown = 1f;
-                    barrelSwitch = true;
+                    //barrelCooldown = 1f;
+                    //barrelSwitch = true;
                 }
 
                 if (barrelCooldown <= 0)
@@ -1179,10 +1215,10 @@ public class PlayerControl : Entity
 
                     if (barrel.name.EndsWith("1"))
                     {
-                        barrelAnimator.Play("barrelBreakParticle");
+                        //barrelAnimator.Play("barrelBreakParticle");
                     }
                     else {
-                        barrelAnimator.Play("barrelBreak");
+                        //barrelAnimator.Play("barrelBreak");
                     }
 
                 }
@@ -1196,7 +1232,7 @@ public class PlayerControl : Entity
 
         if (barrelCooldown <= 0)
         {
-            barrelSwitch = false;
+            //barrelSwitch = false;
         }
 
     }
@@ -1264,26 +1300,6 @@ public class PlayerControl : Entity
 
     }
 
-    void coolDownMaker(bool coolDownTrigger, float coolDownClock, int coolDownTime)
-    {
-        if (!coolDownTrigger)
-            return;
-
-        if (coolDownTrigger && coolDownClock <= 0)
-        {
-            coolDownTime = (int)coolDownClock ;
-        }
-
-        if (coolDownClock > 0)
-        {
-            coolDownClock -= Time.deltaTime;
-        }
-
-        if (coolDownClock <= 0)
-        {
-            coolDownTrigger = false;
-        }
-    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -1382,6 +1398,29 @@ public class PlayerControl : Entity
             setBlobShadowForGrass();
         }
 
+    }
+
+    public Vector3 getClosestTarget()
+    {
+        Vector3 closestTarget = Vector3.zero;
+
+            for (int i = 0; i < vision.visibleTargets.Count; i++)
+            {
+
+                if (i == 0) closestTarget = vision.visibleTargets[i].position;
+
+                float dst = Vector3.Distance(vision.visibleTargets[i].position, this.transform.position);
+
+                if (dst < Vector3.Distance(closestTarget, this.transform.position))
+                {
+                    closestTarget = vision.visibleTargets[i].position;
+                }
+                
+            }
+
+        return closestTarget;
+        
+        
     }
 
     public void setShortFall()

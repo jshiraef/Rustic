@@ -9,6 +9,9 @@ public class RockController : Entity {
     private bool grabbed;
     private float grabbableTimer;
 
+    private bool hitByRay;
+    private int hitByRayCoolDown;
+
     public float airSpeed;
     public float rollSpeed;
 
@@ -35,17 +38,17 @@ public class RockController : Entity {
 	// Update is called once per frame
 	void Update () {
 
-        if (player.GetComponent<PlayerControl>().interact)
+        if (player.GetComponent<PlayerControl>().interact && this.hitByRay)
         {
             outline.SetActive(true);
 
-            //if (!grabbed && grabbableTimer <= 0)
-            //{
-            //    grabbableTimer = 1f;
+            if (grabbed && grabbableTimer <= 0)
+            {
+                grabbableTimer = 1f;
                 //outline.AddComponent<CircleCollider2D>();
                 //outline.GetComponent<CircleCollider2D>().isTrigger = true;
                 //outline.GetComponent<CircleCollider2D>().radius = 2f;
-            //}
+            }
             //grabbed = true;    
         }
         else
@@ -53,12 +56,7 @@ public class RockController : Entity {
             outline.SetActive(false);
         }
 
-        if(grabbableTimer > 0)
-        {
-            
-        }
-
-        if (grabbed)
+        if (grabbed && player.GetComponent<PlayerControl>().holdingThrowableItem)
         {       
             if(player.GetComponent<PlayerControl>().getDirectionAngle360() > 15 && player.GetComponent<PlayerControl>().getDirectionAngle360() <= 180)
             {
@@ -91,7 +89,7 @@ public class RockController : Entity {
             }
             else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 114.6)
             {
-                this.transform.localPosition = new Vector3(.09f, 1.07f, 0);
+                this.transform.localPosition = new Vector3(-.1f, 1.25f, 0);
                 //North
             }
             else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 147.35)
@@ -142,24 +140,46 @@ public class RockController : Entity {
             }
         }
 
-        Debug.Log("the player angle is " + player.GetComponent<PlayerControl>().getDirectionAngle360());
+        
+            GetComponent<SortingOrderScript>().enabled = !grabbed;
+        
+        
 
-        if(grabbableTimer > 0)
+        //if(grabbableTimer > 0)
+        //{
+        //    grabbableTimer -= Time.deltaTime;
+        //}
+
+        //if(grabbableTimer < 0)
+        //{
+        //    grabbed = false;
+        //    //Destroy(outline.GetComponent<CircleCollider2D>());
+        //}
+
+        if (hitByRayCoolDown > 0)
         {
-            grabbableTimer -= Time.deltaTime;
+            hitByRayCoolDown -= Mathf.RoundToInt(Time.deltaTime * 100);
         }
 
-        if(grabbableTimer <= 0)
+        if (hitByRayCoolDown <= 0)
         {
-            //grabbed = false;
+            hitByRay = false;
             //Destroy(outline.GetComponent<CircleCollider2D>());
         }
 
         //Debug.Log("the rock's grabbed bool is " + grabbed);
-	}
+        //Debug.Log("the hitByRay bool is " + hitByRay);
+        //Debug.Log("the hitByRayCoolDown is " + hitByRayCoolDown);
+    }
 
     public void setGrabbed(bool b)
     {
         grabbed = b; 
+    }
+
+    public void hitByRaycast(bool b)
+    {       
+        hitByRay = b;
+        hitByRayCoolDown = 50;
     }
 }

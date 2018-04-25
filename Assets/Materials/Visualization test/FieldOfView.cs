@@ -50,7 +50,6 @@ public class FieldOfView : MonoBehaviour
     {
         DrawFieldOfView();
         //       Debug.Log("the transform.eulerangles.z looks like " + transform.eulerAngles.z);
-        Debug.Log("the getPlayerAngle() says " + getPlayerAngle());
         playerAngle = player.GetComponent<PlayerControl>().getDirectionAngle360();
     }
 
@@ -143,10 +142,16 @@ public class FieldOfView : MonoBehaviour
             Vector3 dir = DirFromAngle(globalAngle, true);
 
             RaycastHit hit;
+            RaycastHit2D hit2D;
+            hit2D = Physics2D.Raycast(transform.position, dir, viewRadius, obstacleMask);
 
             if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
             {
                 return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+            }
+            else if (hit2D)
+            {
+                return new ViewCastInfo(true, hit2D.point, hit2D.distance, globalAngle);
             }
             else
             {
