@@ -4039,7 +4039,7 @@ AnimatorStateMachine:
     m_Position: {x: 324, y: 588, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102104237380639352}
-    m_Position: {x: 370, y: 730, z: 0}
+    m_Position: {x: 372, y: 732, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102979798426192582}
     m_Position: {x: 405, y: 795, z: 0}
@@ -4052,6 +4052,18 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 1102529945574298642}
     m_Position: {x: 444, y: 924, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102305633447315732}
+    m_Position: {x: 612, y: 720, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102634798086025298}
+    m_Position: {x: 636, y: 780, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102233927282573652}
+    m_Position: {x: 660, y: 852, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102364849396746764}
+    m_Position: {x: 684, y: 924, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 110121196}
@@ -4421,9 +4433,59 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: ba31a5a8ba84ff54e8c36f969a276b05, type: 2}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: animationSpeed
   m_MirrorParameter: 
-  m_CycleOffsetParameter: 
+  m_CycleOffsetParameter: animationOffset
+  m_TimeParameter: 
+--- !u!1102 &1102233927282573652
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: putDownNorth
+  m_Speed: -1.65
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 25652df01e188de40b0f9b774b17b4f2, type: 2}
+  m_Tag: 
+  m_SpeedParameter: animationSpeed
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: animationOffset
+  m_TimeParameter: 
+--- !u!1102 &1102305633447315732
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: putDownSouth
+  m_Speed: -1.65
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: ba31a5a8ba84ff54e8c36f969a276b05, type: 2}
+  m_Tag: 
+  m_SpeedParameter: animationSpeed
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: animationOffset
   m_TimeParameter: 
 --- !u!1102 &1102315695897228060
 AnimatorState:
@@ -4449,6 +4511,31 @@ AnimatorState:
   m_SpeedParameter: animationSpeed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &1102364849396746764
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: putDownWest
+  m_Speed: -1.65
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: c84e298127c77714da292a95cb9cbc6d, type: 2}
+  m_Tag: 
+  m_SpeedParameter: animationSpeed
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: animationOffset
   m_TimeParameter: 
 --- !u!1102 &1102400560722804624
 AnimatorState:
@@ -4521,9 +4608,9 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: c84e298127c77714da292a95cb9cbc6d, type: 2}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: animationSpeed
   m_MirrorParameter: 
-  m_CycleOffsetParameter: 
+  m_CycleOffsetParameter: animationOffset
   m_TimeParameter: 
 --- !u!1102 &1102616894768113516
 AnimatorState:
@@ -4546,9 +4633,34 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 25652df01e188de40b0f9b774b17b4f2, type: 2}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: animationSpeed
   m_MirrorParameter: 
-  m_CycleOffsetParameter: 
+  m_CycleOffsetParameter: animationOffset
+  m_TimeParameter: 
+--- !u!1102 &1102634798086025298
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: putDownEast
+  m_Speed: -1.65
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: abbf2edb07c40344b83e879b429a7b27, type: 2}
+  m_Tag: 
+  m_SpeedParameter: animationSpeed
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: animationOffset
   m_TimeParameter: 
 --- !u!1102 &1102979798426192582
 AnimatorState:
@@ -4571,7 +4683,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: abbf2edb07c40344b83e879b429a7b27, type: 2}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: animationSpeed
   m_MirrorParameter: 
-  m_CycleOffsetParameter: 
+  m_CycleOffsetParameter: animationOffset
   m_TimeParameter: 

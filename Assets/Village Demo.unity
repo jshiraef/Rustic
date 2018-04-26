@@ -986,7 +986,7 @@ MonoBehaviour:
   sortingOrder: 0
   neverRenderBehindThisObject: {fileID: 0}
   copyParentSortingLayer: 0
-  threshold: -73
+  threshold: 0
   thresholdPoint1: {fileID: 0}
   thresholdPoint2: {fileID: 0}
 --- !u!58 &169231419
@@ -1001,9 +1001,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.1, y: 0}
+  m_Offset: {x: 0.07, y: 0.24}
   serializedVersion: 2
-  m_Radius: 0.37
+  m_Radius: 0.4
 --- !u!1 &201289490
 GameObject:
   m_ObjectHideFlags: 0
@@ -2536,7 +2536,7 @@ MonoBehaviour:
   sortingOrder: 0
   neverRenderBehindThisObject: {fileID: 0}
   copyParentSortingLayer: 0
-  threshold: -74.75
+  threshold: 0
   thresholdPoint1: {fileID: 0}
   thresholdPoint2: {fileID: 0}
 --- !u!320 &459312667
@@ -3086,11 +3086,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4717070210598060, guid: aa500e225e7f01b42942a24619fd7b7e, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 94.669
+      value: 93.98
       objectReference: {fileID: 0}
     - target: {fileID: 4717070210598060, guid: aa500e225e7f01b42942a24619fd7b7e, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -73.444
+      value: -74.13
       objectReference: {fileID: 0}
     - target: {fileID: 4717070210598060, guid: aa500e225e7f01b42942a24619fd7b7e, type: 2}
       propertyPath: m_LocalPosition.z
@@ -8936,6 +8936,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2055554688}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &909697476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 909697477}
+  m_Layer: 0
+  m_Name: TestTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &909697477
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 909697476}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.187122, y: -2.5719628, z: -0.03491176}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 54
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &917665114
 GameObject:
@@ -14950,7 +14978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edeb1fd5771df3e47a5a22cddd308e21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 1
+  viewRadius: 2
   viewAngle: 90
   targetMask:
     serializedVersion: 2

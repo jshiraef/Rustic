@@ -74,6 +74,15 @@ public class SortingOrderScript : MonoBehaviour
 	void Update () 
 	{
 
+        if (threshold == 0 && thresholdPoint1 == null)
+        {
+            threshold = this.transform.position.y;
+        }
+        if(this.name == "simpleRock")
+        {
+            threshold = this.transform.position.y + 1;
+        }
+
         if (player.transform.position.y > threshold && player.transform.position.x > (this.transform.position.x - this.sprite.size.x/2) && player.transform.position.x < (this.transform.position.x + this.sprite.size.x/2))
             {
 
@@ -106,6 +115,13 @@ public class SortingOrderScript : MonoBehaviour
                 sprite.sortingOrder = neverRenderBehindThisObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
             }
         }
+
+        if(Mathf.Abs((float) threshold - this.transform.position.y) > sprite.size.y)
+        {
+            threshold = this.transform.position.y + 1;
+        }
+
+
     }
 
    

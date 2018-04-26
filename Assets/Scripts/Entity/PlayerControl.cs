@@ -26,6 +26,7 @@ public class PlayerControl : Entity
     public bool holdingThrowableItem;
     public bool grabItem;
     public float grabItemTimer;
+    public bool setItemDown;
 
     // elements
     public bool inWater = false;
@@ -165,19 +166,27 @@ public class PlayerControl : Entity
                 moveSpeed = 1;
             }
             else moveSpeed = 0;
+
             
         }
         else if (grabItem)
         {
+            if(currentAction == WALKWITHITEM)
+            {
+                anim.speed = 1f;
+                setItemDown = true;
+
+            }
+
             if(currentAction != ITEMGRAB)
             {
                 currentAction = ITEMGRAB;
             }
 
             //throwableItem.transform.position = new Vector3(Mathf.Lerp(throwableItem.transform.position.x, player.transform.position.x, Time.deltaTime/2), Mathf.Lerp(throwableItem.transform.position.y, player.transform.position.y + 1.35f, Time.deltaTime/2), 0);
-            if(grabItemTimer < .55f && grabItemTimer > .1f)
+            if(grabItemTimer < .55f && grabItemTimer > .1f && !setItemDown)
             {
-                throwableItem.transform.position = Vector3.Lerp(throwableItem.transform.position, new Vector3(player.transform.position.x, player.transform.position.y + 2f, 0), Time.deltaTime * 1.33f);
+                throwableItem.transform.Translate(new Vector3(0, 2.5f * Time.deltaTime, 0));
                 itemInView.collider.gameObject.transform.SetParent(this.gameObject.transform);
                 throwableItem.GetComponent<Collider2D>().isTrigger = true;
             }
@@ -362,8 +371,9 @@ public class PlayerControl : Entity
         if (Input.GetButton("PS4_X") && interact == true)
         {
             //Destroy(itemInView.collider.gameObject);
+            this.throwableItem = null;
             throwableItem = itemInView.collider.gameObject;
-            itemInView.transform.SendMessage("setGrabbed", true);
+            itemInView.transform.SendMessage("setPickUp", true);
             grabItem = true;
         }
 
@@ -377,7 +387,7 @@ public class PlayerControl : Entity
         v = Input.GetAxis("Vertical");
         h = Input.GetAxis("Horizontal");
 
-       // Debug.Log("the getClosestTarget() is returning " + getClosestTarget());
+        //Debug.Log("the getClosestTarget() position is returning " + getClosestTarget().position);
 
         // gets the angle of the left analog stick axes vector
         if (h >= .01f || h <= -.01f || v >= .01f || v <= -.01f)
@@ -463,6 +473,14 @@ public class PlayerControl : Entity
             }
             if (afterRollCoolDown <= 0 && !knockBack)
             {
+                if(grabItem || holdingThrowableItem)
+                {
+                    throwableItem.transform.SendMessage("dropped", true);
+                    grabItem = false;
+                    holdingThrowableItem = false;
+                    anim.speed = 1f;
+                    moveSpeed = 4;
+                }
                 rolling = true;
             }
         }
@@ -611,7 +629,7 @@ public class PlayerControl : Entity
 
             lockPosition = true;
 
-
+            // knockBack position change
             if (knockBackCoolDown > (knockBackTimeLength - .5f))
             {
                 if (this.direction == Direction.EAST)
@@ -714,48 +732,107 @@ public class PlayerControl : Entity
 
         if (grabItem)
         {
+            moveSpeed = 0;
+            //anim.SetFloat("animationOffset", 0);
 
             if (getDirectionNSEW() == Direction.NORTH)
             {
-                anim.Play("pickUpNorth");
 
-                if (grabItemTimer > .6f)
+                if (setItemDown)
                 {
-                    //transform.Translate(new Vector3(0, .02f, 0));
+                    anim.Play("putDownNorth");
                 }
+                else
+                {
+                    anim.Play("pickUpNorth");
+
+                    if (grabItemTimer > .6f)
+                    {
+                        transform.Translate(new Vector3(0, .02f, 0));
+                    }
+                }              
 
             }
             else if (getDirectionNSEW() == Direction.SOUTH)
             {
-                anim.Play("pickUpSouth");
+
+                if (setItemDown)
+                {
+                    anim.Play("putDownSouth");
+                }
+                else
+                {
+                    anim.Play("pickUpSouth");
+                }
             }
             else if (getDirectionNSEW() == Direction.EAST)
             {
-                anim.Play("pickUpEast");
-
-                if (grabItemTimer > .6f)
+                if (setItemDown)
                 {
-                    transform.Translate(new Vector3(0, .007f, 0));
+                    anim.Play("putDownEast");
+                }
+                else
+                {
+                    if(getDirection8() == Direction.NORTHEAST50)
+                    {
+                        anim.Play("pickUpNorth");
+
+                        if (grabItemTimer > .6f)
+                        {
+                            transform.Translate(new Vector3(.007f, .01f, 0));
+                        }
+
+                    }
+                    else
+                    {
+                        anim.Play("pickUpEast");
+                    }
+
+                    if (grabItemTimer > .6f)
+                    {
+                        transform.Translate(new Vector3(0, .007f, 0));
+                    }
                 }
 
             }
             else if (getDirectionNSEW() == Direction.WEST)
             {
-                anim.Play("pickUpWest");
-
-                if (grabItemTimer > .6f)
+                if (setItemDown)
                 {
-                    transform.Translate(new Vector3(0, .007f, 0));
+                    anim.Play("putDownWest");
+                }
+                else
+                {
+                    anim.Play("pickUpWest");
+
+                    if (grabItemTimer > .6f)
+                    {
+                        transform.Translate(new Vector3(0, .007f, 0));
+                    }
                 }
             }
+
 
             if (animatorIsPlaying("pickUpSouth") || animatorIsPlaying("pickUpEast") || animatorIsPlaying("pickUpNorth") || animatorIsPlaying("pickUpWest"))
             {
                 if (animationHasPlayedOnce())
                 {
-                    grabItem = false;
+                    grabItem = false;                  
                     holdingThrowableItem = true;
-                    anim.StopPlayback(); ;
+                    anim.StopPlayback();      
+                }
+
+            }
+
+            if (animatorIsPlaying("putDownSouth") || animatorIsPlaying("putDownEast") || animatorIsPlaying("putDownNorth") || animatorIsPlaying("putDownWest"))
+            {
+                if (animationHasPlayedOnce())
+                {
+                    throwableItem.transform.parent = null;
+                    setItemDown = false;
+                    grabItem = false;
+                    moveSpeed = 4;
+                    anim.Play("Idle");
                 }
             }
         }
@@ -780,6 +857,13 @@ public class PlayerControl : Entity
                 anim.Play("WalkingWithObjectOverhead");
             }
             else anim.StopPlayback();
+
+            if (Input.GetButton("PS4_X"))
+            {
+                grabItem = true;
+                holdingThrowableItem = false;
+                throwableItem.transform.SendMessage("setDown", 30);
+            }
         }
 
 
@@ -1082,7 +1166,7 @@ public class PlayerControl : Entity
 
 
         // Set the direction by using the RunDirection
-        if (!swinging)
+        if (!swinging && !grabItem)
         {
             switch ((int)lastRecordedRunDirection)
             {
@@ -1400,20 +1484,20 @@ public class PlayerControl : Entity
 
     }
 
-    public Vector3 getClosestTarget()
+    public Transform getClosestTarget()
     {
-        Vector3 closestTarget = Vector3.zero;
+        Transform closestTarget = GameObject.Find("TestTarget").transform;
 
             for (int i = 0; i < vision.visibleTargets.Count; i++)
             {
 
-                if (i == 0) closestTarget = vision.visibleTargets[i].position;
+            if (i == 0) closestTarget = vision.visibleTargets[i];
 
                 float dst = Vector3.Distance(vision.visibleTargets[i].position, this.transform.position);
 
-                if (dst < Vector3.Distance(closestTarget, this.transform.position))
+                if (dst < Vector3.Distance(closestTarget.position, this.transform.position))
                 {
-                    closestTarget = vision.visibleTargets[i].position;
+                    closestTarget = vision.visibleTargets[i];
                 }
                 
             }

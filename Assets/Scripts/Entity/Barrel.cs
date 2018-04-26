@@ -6,13 +6,23 @@ public class Barrel : Entity {
 	public GameObject[] barrels;
 	public bool hit = false;
 	public bool broken = false;
-    private bool grabbed;
+
+    private bool pickedUp;
+    private int pickedUpTimer;
+
 	public float barrelDistanceToPlayer;
 
     private float grabbableTimer;
 
     private bool hitByRay;
     private int hitByRayCoolDown;
+
+    private bool putDown;
+    private int setDownTimer;
+
+    private bool dropped;
+    private int droppedCoolDown;
+
 
     private GameObject player;
     private GameObject outline;
@@ -46,11 +56,7 @@ public class Barrel : Entity {
         {
             outline.SetActive(true);
 
-            if (grabbed && grabbableTimer <= 0)
-            {
-                grabbableTimer = 1f;
-
-            }
+            
         }
         else
         {
@@ -67,7 +73,7 @@ public class Barrel : Entity {
             anim.Play("barrelBreak");
         }
 
-        if (grabbed && player.GetComponent<PlayerControl>().holdingThrowableItem)
+        if (pickedUp && player.GetComponent<PlayerControl>().holdingThrowableItem)
         {
             if (player.GetComponent<PlayerControl>().getDirectionAngle360() > 15 && player.GetComponent<PlayerControl>().getDirectionAngle360() <= 180)
             {
@@ -98,7 +104,7 @@ public class Barrel : Entity {
             }
             else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 114.6)
             {
-                this.transform.localPosition = new Vector3(.09f, 1.25f, 0);
+                this.transform.localPosition = new Vector3(-.1f, 1.15f, 0);
                 //North
             }
             else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 147.35)
@@ -145,16 +151,36 @@ public class Barrel : Entity {
             //	print ("the barrel's distance to player is " + distanceToPlayer);
 
         }
+        else if (putDown)
+        {
+            if (player.GetComponent<PlayerControl>().getDirectionNSEW() == Direction.SOUTH)
+            {
+                transform.localPosition -= new Vector3(0, 11f * Time.deltaTime, 0);
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionNSEW() == Direction.NORTH)
+            {
+                transform.localPosition -= new Vector3(0, 6f * Time.deltaTime, 0);
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionNSEW() == Direction.EAST)
+            {
+                transform.localPosition -= new Vector3(-2f * Time.deltaTime, 9f * Time.deltaTime, 0);
+            }
+            else if (player.GetComponent<PlayerControl>().getDirectionNSEW() == Direction.WEST)
+            {
+                transform.localPosition -= new Vector3(2f * Time.deltaTime, 9f * Time.deltaTime, 0);
+            }
+        }
 
-        //if (grabbableTimer > 0)
-        //{
-        //    grabbableTimer -= Time.deltaTime;
-        //}
 
-        //if (grabbableTimer < 0)
-        //{
-        //    grabbed = false;
-        //}
+        GetComponent<SortingOrderScript>().enabled = !pickedUp;
+
+
+
+        if (putDown && setDownTimer <= 0 && transform.parent == null)
+        {
+            pickedUp = false;
+        }
+
 
         if (hitByRayCoolDown > 0)
         {
@@ -164,6 +190,33 @@ public class Barrel : Entity {
         if (hitByRayCoolDown <= 0)
         {
             hitByRay = false;
+        }
+
+        if (droppedCoolDown > 0)
+        {
+            droppedCoolDown -= Mathf.RoundToInt(Time.deltaTime * 100);
+        }
+
+        if (droppedCoolDown <= 0)
+        {
+            dropped = false;
+        }
+
+        if (setDownTimer > 0)
+        {
+            setDownTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
+        }
+
+        if (pickedUpTimer > 0)
+        {
+            pickedUpTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
+        }
+
+        if (putDown && setDownTimer <= 0)
+        {
+            GetComponent<CircleCollider2D>().isTrigger = false;
+            putDown = false;
+            pickedUp = false;
         }
     }
 
@@ -183,14 +236,27 @@ public class Barrel : Entity {
 		barrelTimer = barrelTimer - 5;
 	}
 
-    public void setGrabbed(bool b)
+    public void setPickUp(bool b)
     {
-        grabbed = b;
+        pickedUp = b;
+        pickedUpTimer = 200;
     }
 
     public void hitByRaycast(bool b)
     {
         hitByRay = b;
         hitByRayCoolDown = 50;
+    }
+
+     public void setDown(int setDownTime)
+    {
+        setDownTimer = setDownTime;
+        putDown = true;
+    }
+
+    public void setDropped(bool b)
+    {
+        dropped = b;
+        droppedCoolDown = 100;
     }
 }
