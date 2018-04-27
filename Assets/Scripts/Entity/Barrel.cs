@@ -20,8 +20,7 @@ public class Barrel : Entity {
     private bool putDown;
     private int setDownTimer;
 
-    private bool dropped;
-    private int droppedCoolDown;
+    private int fallTimer;
 
 
     private GameObject player;
@@ -46,6 +45,8 @@ public class Barrel : Entity {
         anim = GetComponent<Animator> ();
         player = GameObject.Find("player");
         outline = this.transform.GetChild(0).gameObject;
+
+        fallSpeed = -5.9f;
     }
 
     // Update is called once per frame
@@ -148,8 +149,6 @@ public class Barrel : Entity {
                 //SouthEast330
             }
 
-            //	print ("the barrel's distance to player is " + distanceToPlayer);
-
         }
         else if (putDown)
         {
@@ -170,10 +169,28 @@ public class Barrel : Entity {
                 transform.localPosition -= new Vector3(2f * Time.deltaTime, 9f * Time.deltaTime, 0);
             }
         }
+        else if (falling)
+        {
+            if (fallTimer > 45)
+            {
+                transform.Translate(new Vector3(0, 1f * Time.deltaTime, 0));
+            }
+            else
+            {
+                fallSpeed += 1 / fallTimer * 20f;
+                transform.Translate(new Vector3(0, fallSpeed * Time.deltaTime, 0));
+            }
+        }
 
-
+        // SortingOrderScript takes control only when object is not pickedUp by player
         GetComponent<SortingOrderScript>().enabled = !pickedUp;
 
+
+
+        if (fallTimer > 0 && fallTimer < 20)
+        {
+            GetComponent<CircleCollider2D>().isTrigger = false;
+        }
 
 
         if (putDown && setDownTimer <= 0 && transform.parent == null)
@@ -192,14 +209,15 @@ public class Barrel : Entity {
             hitByRay = false;
         }
 
-        if (droppedCoolDown > 0)
+        if (fallTimer > 0)
         {
-            droppedCoolDown -= Mathf.RoundToInt(Time.deltaTime * 100);
+            fallTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
         }
 
-        if (droppedCoolDown <= 0)
+        if (fallTimer <= 0)
         {
-            dropped = false;
+            fallSpeed = -6f;
+            falling = false;
         }
 
         if (setDownTimer > 0)
@@ -218,9 +236,11 @@ public class Barrel : Entity {
             putDown = false;
             pickedUp = false;
         }
+
+        //	print ("the barrel's distance to player is " + distanceToPlayer);
     }
 
-	void OnCollisionEnter2D(Collision2D coll)
+    void OnCollisionEnter2D(Collision2D coll)
 	{
 		if (coll.gameObject.tag == "weapon") {
 			Debug.Log ("a hit");
@@ -248,15 +268,17 @@ public class Barrel : Entity {
         hitByRayCoolDown = 50;
     }
 
-     public void setDown(int setDownTime)
+     public void setDown(bool b)
     {
-        setDownTimer = setDownTime;
-        putDown = true;
+        setDownTimer = 30;
+        putDown = b;
     }
 
     public void setDropped(bool b)
     {
-        dropped = b;
-        droppedCoolDown = 100;
+        falling = b;
+        fallTimer = 55;
+        pickedUp = false;
+        putDown = false;
     }
 }

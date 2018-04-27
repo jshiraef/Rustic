@@ -12,11 +12,11 @@ public class RockController : Entity {
     private bool hitByRay;
     private int hitByRayCoolDown;
 
-    private bool dropped;
-    private int droppedCoolDown;
 
     private bool putDown;
     private int setDownTimer;
+
+    private int fallTimer;
 
     public float airSpeed;
     public float rollSpeed;
@@ -39,6 +39,7 @@ public class RockController : Entity {
         currentLayerName = getSpriteLayerName(rockSprite);
         currentLayerOrder = getSpriteSortingOrder(rockSprite);
         originalScale = this.transform.localScale;
+        fallSpeed = -5.9f;
     }
 	
 	// Update is called once per frame
@@ -162,9 +163,28 @@ public class RockController : Entity {
                 transform.localPosition -= new Vector3(2f * Time.deltaTime, 9f * Time.deltaTime, 0);
             }
         }
+        else if (falling)
+        {
+            if(fallTimer > 45)
+            {
+                transform.Translate(new Vector3(0, 1f * Time.deltaTime, 0));
+            }
+            else
+            {
+                fallSpeed += 1 / fallTimer * 20f;
+                transform.Translate(new Vector3(0, fallSpeed * Time.deltaTime, 0));
+            }
+        }
 
-
+        // SortingOrderScript takes control only when object is not pickedUp by player
         GetComponent<SortingOrderScript>().enabled = !pickedUp;
+
+
+
+        if(fallTimer > 0 && fallTimer < 20)
+        {
+            GetComponent<CircleCollider2D>().isTrigger = false;
+        }
 
 
 
@@ -184,14 +204,15 @@ public class RockController : Entity {
             hitByRay = false;
         }
 
-        if (droppedCoolDown > 0)
+        if (fallTimer > 0)
         {
-            droppedCoolDown -= Mathf.RoundToInt(Time.deltaTime * 100);
+            fallTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
         }
 
-        if (droppedCoolDown <= 0)
+        if (fallTimer <= 0)
         {
-            dropped = false;
+            fallSpeed = -6f;
+            falling = false;
         }
 
         if (setDownTimer > 0)
@@ -212,8 +233,7 @@ public class RockController : Entity {
             pickedUp = false;
         }
 
-        Debug.Log("the rock's pickedUp timer is " + pickedUpTimer);
-        Debug.Log("the rock's pickedUp bool is " + pickedUp);
+        //Debug.Log("the rock's fallSpeed is " + fallSpeed);     
         //Debug.Log("the hitByRay bool is " + hitByRay);
         //Debug.Log("the hitByRayCoolDown is " + hitByRayCoolDown);
     }
@@ -230,15 +250,19 @@ public class RockController : Entity {
         hitByRayCoolDown = 50;
     }
 
-    public void setDown(int setDownTime)
+    public void setDown(bool b)
     {
-        setDownTimer = setDownTime;
-        putDown = true;
+        setDownTimer = 35;
+        putDown = b;
     }
 
     public void setDropped(bool b)
     {
-        dropped = b;
-        droppedCoolDown = 100;
+        this.transform.localScale = originalScale;
+
+        falling = b;
+        fallTimer = 55;
+        pickedUp = false;
+        putDown = false;
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.PS4;
 
 
 
-public class PlayerControl : Entity 
+public class PlayerControl : Entity
 {
 
     // movement
@@ -43,7 +43,7 @@ public class PlayerControl : Entity
     //private PlayerIndex playerIndex;
     private Projector playerBlobShadow;
     private bool restoreBlobShadowToNormal;
-    
+
     public RunDirection runDirection;
     public RunDirection lastRecordedRunDirection;
 
@@ -109,7 +109,7 @@ public class PlayerControl : Entity
     // Update is called once per frame
     void Update()
     {
-       
+
         if (rumble && rumbleCoolDown <= 0)
         {
             //GamePad.SetVibration(playerIndex, 0, 0);  
@@ -137,7 +137,7 @@ public class PlayerControl : Entity
 
         if (currentAction == SWINGING)
         {
-            if(animationHasPlayedOnce())
+            if (animationHasPlayedOnce())
             {
                 swinging = false;
             }
@@ -146,13 +146,13 @@ public class PlayerControl : Entity
         // setAction
         if (holdingThrowableItem)
         {
-            if(currentAction != WALKWITHITEM)
+            if (currentAction != WALKWITHITEM)
             {
                 currentAction = WALKWITHITEM;
                 moveSpeed = 1;
             }
-            
-            if(h == 0 && v == 0)
+
+            if (h == 0 && v == 0)
             {
                 anim.speed = 0.0f;
             }
@@ -167,34 +167,33 @@ public class PlayerControl : Entity
             }
             else moveSpeed = 0;
 
-            
+
         }
         else if (grabItem)
         {
-            if(currentAction == WALKWITHITEM)
+            if (currentAction == WALKWITHITEM)
             {
                 anim.speed = 1f;
                 setItemDown = true;
 
             }
 
-            if(currentAction != ITEMGRAB)
+            if (currentAction != ITEMGRAB)
             {
                 currentAction = ITEMGRAB;
             }
 
             //throwableItem.transform.position = new Vector3(Mathf.Lerp(throwableItem.transform.position.x, player.transform.position.x, Time.deltaTime/2), Mathf.Lerp(throwableItem.transform.position.y, player.transform.position.y + 1.35f, Time.deltaTime/2), 0);
-            if(grabItemTimer < .55f && grabItemTimer > .1f && !setItemDown)
+            if (grabItemTimer < .55f && grabItemTimer > .1f && !setItemDown)
             {
-                throwableItem.transform.Translate(new Vector3(0, 2.5f * Time.deltaTime, 0));
+                throwableItem.transform.Translate(new Vector3(0, 5f * Time.deltaTime, 0));
                 itemInView.collider.gameObject.transform.SetParent(this.gameObject.transform);
-                throwableItem.GetComponent<Collider2D>().isTrigger = true;
             }
 
         }
         else if (swinging)
         {
-            if(currentAction != SWINGING)
+            if (currentAction != SWINGING)
             {
                 currentAction = SWINGING;
                 anim.Play("SwingScythe");
@@ -205,11 +204,12 @@ public class PlayerControl : Entity
                 //GamePad.SetVibration(playerIndex, .5f, 0f);
                 PS4Input.PadSetVibration(1, 175, 0);
             }
+            moveSpeed = 0;
             //rumbleCoolDown = .3f;
         }
         else if (rolling)
         {
-            if(currentAction != ROLLING)
+            if (currentAction != ROLLING)
             {
                 currentAction = ROLLING;
             }
@@ -227,7 +227,7 @@ public class PlayerControl : Entity
         else if (knockBack)
         {
             //isRunning = false;
-            if(currentAction != KNOCKBACK)
+            if (currentAction != KNOCKBACK)
             {
                 currentAction = KNOCKBACK;
             }
@@ -243,9 +243,10 @@ public class PlayerControl : Entity
         }
         // checks to see if analog is only slightly tilted for walk animation
         else if (Input.GetAxisRaw("Vertical") > -.4f && Input.GetAxisRaw("Vertical") < .4f && Input.GetAxisRaw("Horizontal") > -.4f && Input.GetAxisRaw("Horizontal") < .4f && !((h == 0) && (v == 0)))
-        {          
-                
+        {
+
             isWalking = true;
+            moveSpeed = 4f;
 
             if (currentAction != WALKING)
             {
@@ -260,6 +261,7 @@ public class PlayerControl : Entity
             if (!lockPosition && !swinging && !rolling && !knockBack)
             {
                 isRunning = true;
+                moveSpeed = 4f;
 
                 if (currentAction != RUNNING)
                 {
@@ -272,7 +274,7 @@ public class PlayerControl : Entity
                 //transform.eulerAngles = new Vector2(0, 0); // this sets the rotation of the gameobject
 
             }
-        }       
+        }
         else
         {
             //This sets the isIdle variable
@@ -280,15 +282,15 @@ public class PlayerControl : Entity
             {
                 if (!swinging && !rolling && !knockBack)
                 {
-                    if(!isIdle)
+                    if (!isIdle)
                     {
-                        if(currentAction != IDLE)
+                        if (currentAction != IDLE)
                         {
                             currentAction = IDLE;
                             anim.Play("Idle");
                         }
-                        
-                    }                 
+
+                    }
                     isIdle = true;
                 }
             }
@@ -312,7 +314,7 @@ public class PlayerControl : Entity
         else
         {
             shortFall = false;
- //           lockPosition = false;
+            //           lockPosition = false;
             anim.SetBool("shortFall", shortFall);
             setNonKinematic();
         }
@@ -332,13 +334,13 @@ public class PlayerControl : Entity
             barrelCooldown -= Time.deltaTime;
         }
 
-        if ( knockBackCoolDown > 0)
+        if (knockBackCoolDown > 0)
         {
             knockBackCoolDown -= Time.deltaTime;
         }
 
 
-        if(restoreBlobShadowToNormal)
+        if (restoreBlobShadowToNormal)
         {
             setBlobShadowToNorm();
         }
@@ -353,7 +355,7 @@ public class PlayerControl : Entity
         lineEnd.localPosition = new Vector3(Mathf.Cos(analogAxesAngle360 * Mathf.Deg2Rad), Mathf.Sin(analogAxesAngle360 * Mathf.Deg2Rad), 0);
         Debug.DrawLine(lineStart.position, lineEnd.position, Color.green);
         Debug.DrawLine(this.transform.position, groundedEnd.position, Color.green);
-        
+
         grounded = Physics2D.Linecast(this.transform.position, groundedEnd.position, 1 << LayerMask.NameToLayer("ground"));
 
         if (Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Rock")) && !holdingThrowableItem && !grabItem)
@@ -367,13 +369,14 @@ public class PlayerControl : Entity
             interact = false;
         }
 
-
-        if (Input.GetButton("PS4_X") && interact == true)
+        //only temporary, this should be Input.GetButton("PS4_X");
+        if (Input.GetKey(KeyCode.X) && interact == true)
         {
             //Destroy(itemInView.collider.gameObject);
             this.throwableItem = null;
             throwableItem = itemInView.collider.gameObject;
             itemInView.transform.SendMessage("setPickUp", true);
+            throwableItem.GetComponent<Collider2D>().isTrigger = true;
             grabItem = true;
         }
 
@@ -399,7 +402,7 @@ public class PlayerControl : Entity
         {
             analogAxesAngle360 = analogAxesAngle;
         }
-        else 
+        else
         {
             analogAxesAngle360 = 360 - Mathf.Abs(analogAxesAngle);
         }
@@ -457,15 +460,18 @@ public class PlayerControl : Entity
 
     void checkAttack()
     {
-        if (Input.GetButton("PS4_Square")) {
+        // only temporary, this should be Input.GetButton("PS4_Square");
+        if (Input.GetKey(KeyCode.Q)) {
 
             if (!knockBack && !rolling)
+
                 swinging = true;
 
         } else
             swinging = false;
 
-        if (Input.GetButtonDown("PS4_Triangle"))
+        //only temporary, this should be Input.GetButton("PS4_Triangle");
+        if (Input.GetKeyDown(KeyCode.T))
         {
             if (!rolling)
             {
@@ -473,14 +479,7 @@ public class PlayerControl : Entity
             }
             if (afterRollCoolDown <= 0 && !knockBack)
             {
-                if(grabItem || holdingThrowableItem)
-                {
-                    throwableItem.transform.SendMessage("dropped", true);
-                    grabItem = false;
-                    holdingThrowableItem = false;
-                    anim.speed = 1f;
-                    moveSpeed = 4;
-                }
+                releaseItem();
                 rolling = true;
             }
         }
@@ -748,10 +747,9 @@ public class PlayerControl : Entity
 
                     if (grabItemTimer > .6f)
                     {
-                        transform.Translate(new Vector3(0, .02f, 0));
+                        transform.Translate(new Vector3(0, .01f, 0));
                     }
-                }              
-
+                }
             }
             else if (getDirectionNSEW() == Direction.SOUTH)
             {
@@ -763,6 +761,7 @@ public class PlayerControl : Entity
                 else
                 {
                     anim.Play("pickUpSouth");
+
                 }
             }
             else if (getDirectionNSEW() == Direction.EAST)
@@ -773,7 +772,7 @@ public class PlayerControl : Entity
                 }
                 else
                 {
-                    if(getDirection8() == Direction.NORTHEAST50)
+                    if (getDirection8() == Direction.NORTHEAST50)
                     {
                         anim.Play("pickUpNorth");
 
@@ -817,9 +816,9 @@ public class PlayerControl : Entity
             {
                 if (animationHasPlayedOnce())
                 {
-                    grabItem = false;                  
+                    grabItem = false;
                     holdingThrowableItem = true;
-                    anim.StopPlayback();      
+                    anim.StopPlayback();
                 }
 
             }
@@ -858,11 +857,12 @@ public class PlayerControl : Entity
             }
             else anim.StopPlayback();
 
-            if (Input.GetButton("PS4_X"))
+            //only temporary, this should be Input.GetButton("PS4_X");
+            if (Input.GetKey(KeyCode.X))
             {
                 grabItem = true;
                 holdingThrowableItem = false;
-                throwableItem.transform.SendMessage("setDown", 30);
+                throwableItem.transform.SendMessage("setDown", true);
             }
         }
 
@@ -879,35 +879,35 @@ public class PlayerControl : Entity
             //rolling = false;
         }
 
-        if(afterRollCoolDown > 0f && afterRollCoolDown < .05f)
+        if (afterRollCoolDown > 0f && afterRollCoolDown < .05f)
         {
             rolling = false;
             //lockPosition = false;
             //anim.Play("Idle");
         }
 
-        if(afterRollCoolDown > 0)
+        if (afterRollCoolDown > 0)
         {
             afterRollCoolDown -= Time.deltaTime;
         }
- //             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
-                //Debug.Log("the rolling bool is" + rolling);
-                //Debug.Log("the rolling cooldown is " + rollingCoolDown);
+        //             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
+        //Debug.Log("the rolling bool is" + rolling);
+        //Debug.Log("the rolling cooldown is " + rollingCoolDown);
     }
 
-    
-
-        //		Debug.Log("the run direction is: " + this.runDirection);
-        //		Debug.Log("the direction is: " + this.direction);
-        //		Debug.Log ("the animator's direction float is: " + anim.GetFloat ("direction(float)"));
 
 
-        //		if (Input.GetKeyUp (KeyCode.W) || Input.GetKeyUp (KeyCode.S) || Input.GetKeyUp (KeyCode.D) || Input.GetKeyUp (KeyCode.A))
-        //		{
-        //			anim.SetBool ("runReleased", true);
-        //		} 
+    //		Debug.Log("the run direction is: " + this.runDirection);
+    //		Debug.Log("the direction is: " + this.direction);
+    //		Debug.Log ("the animator's direction float is: " + anim.GetFloat ("direction(float)"));
 
-        
+
+    //		if (Input.GetKeyUp (KeyCode.W) || Input.GetKeyUp (KeyCode.S) || Input.GetKeyUp (KeyCode.D) || Input.GetKeyUp (KeyCode.A))
+    //		{
+    //			anim.SetBool ("runReleased", true);
+    //		} 
+
+
 
 
     void setRunDirection()
@@ -1268,8 +1268,8 @@ public class PlayerControl : Entity
                     break;
             }
         }
-        
-        
+
+
 
         //		Debug.Log ("the last-recorded Run Direction is: " + this.lastRecordedRunDirection);
     }
@@ -1338,16 +1338,16 @@ public class PlayerControl : Entity
     void OnCollisionEnter2D(Collision2D coll)
     {
         collisionCount++;
- //       Debug.Log("the collision count is: " + collisionCount);
+        //       Debug.Log("the collision count is: " + collisionCount);
 
         if (coll.gameObject.tag == "fence")
         {
-            
+
         }
 
         if (coll.gameObject.tag == "wall")
         {
-           if(rolling)
+            if (rolling)
             {
                 rolling = false;
                 knockBack = true;
@@ -1394,7 +1394,7 @@ public class PlayerControl : Entity
 
         if (other.tag == "environment")
         {
-            if(collisionCount == 0)
+            if (collisionCount == 0)
             {
                 environmentCount++;
             }
@@ -1419,8 +1419,8 @@ public class PlayerControl : Entity
     {
         if (other.tag == "environment")
         {
-            
-                environmentCount--;
+
+            environmentCount--;
 
 
 
@@ -1433,26 +1433,26 @@ public class PlayerControl : Entity
         if (other.name == "waterEdge")
         {
             inWater = false;
-            
-                renderMask.transform.localScale = new Vector3(1.225f, 1.225f, 1.225f);
-                renderMask.transform.localPosition = new Vector3(.05f, -2f, 0f);
+
+            renderMask.transform.localScale = new Vector3(1.225f, 1.225f, 1.225f);
+            renderMask.transform.localPosition = new Vector3(.05f, -2f, 0f);
         }
 
-        if(other.name == "shortGrassEdge")
+        if (other.name == "shortGrassEdge")
         {
             renderMaskOutliner.transform.localScale = new Vector3(0.76f, 1.09f, 1.09f);
         }
 
 
-            restoreBlobShadowToNormal = true;
-        
+        restoreBlobShadowToNormal = true;
+
     }
 
     void OnTriggerStay2D(Collider2D other)
     {
         if (other.tag == "environment")
         {
-           
+
         }
 
         if (other.name == "waterEdge")
@@ -1470,7 +1470,7 @@ public class PlayerControl : Entity
             restoreBlobShadowToNormal = false;
 
             renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.GRASS);
-            setBlobShadowForGrass();  
+            setBlobShadowForGrass();
         }
 
         if (other.name == "shortGrassEdge")
@@ -1482,6 +1482,19 @@ public class PlayerControl : Entity
             setBlobShadowForGrass();
         }
 
+    }
+
+    public void releaseItem()
+    {
+        if (grabItem || holdingThrowableItem)
+        {
+            throwableItem.transform.SendMessage("setDropped", true);
+            throwableItem.transform.parent = null;
+            grabItem = false;
+            holdingThrowableItem = false;
+            anim.speed = 1f;
+            moveSpeed = 4;
+        }
     }
 
     public Transform getClosestTarget()
