@@ -27,6 +27,8 @@ public class PlayerControl : Entity
     public bool grabItem;
     public float grabItemTimer;
     public bool setItemDown;
+    public bool throwing;
+    public int throwTimer;
 
     // elements
     public bool inWater = false;
@@ -67,6 +69,7 @@ public class PlayerControl : Entity
 
     private float analogAxesAngle;
     private float analogAxesAngle360;
+    private bool freezeForAnimation;
 
     float barrelCooldown;
     bool barrelSwitch;
@@ -79,6 +82,7 @@ public class PlayerControl : Entity
     private static readonly int SWINGING = 5;
     private static readonly int ITEMGRAB = 6;
     private static readonly int WALKWITHITEM = 7;
+    private static readonly int THROWING = 8;
 
 
     // Use this for initialization
@@ -122,7 +126,11 @@ public class PlayerControl : Entity
             rumbleCoolDown -= Time.deltaTime;
         }
         //    Debug.Log("the rumble coolDown is: " + rumbleCoolDown);
-        anim.SetFloat("normalizedDirection", analogAxesAngle360 / 360);
+
+        if (!freezeForAnimation)
+        {
+            anim.SetFloat("normalizedDirection", analogAxesAngle360 / 360);
+        }
 
         setDirection8();
         Movement();
@@ -189,7 +197,17 @@ public class PlayerControl : Entity
                 throwableItem.transform.Translate(new Vector3(0, 5f * Time.deltaTime, 0));
                 itemInView.collider.gameObject.transform.SetParent(this.gameObject.transform);
             }
+        }
+        else if (throwing)
+        {
+            anim.speed = 1f;
 
+            if (currentAction != THROWING)
+            {
+                throwableItem.transform.SendMessage("setThrown", true);
+                anim.Play("throwing", 0, .55f);
+                currentAction = THROWING;
+            }
         }
         else if (swinging)
         {
@@ -373,7 +391,7 @@ public class PlayerControl : Entity
         if (Input.GetKey(KeyCode.X) && interact == true)
         {
             //Destroy(itemInView.collider.gameObject);
-            this.throwableItem = null;
+            //this.throwableItem = null;
             throwableItem = itemInView.collider.gameObject;
             itemInView.transform.SendMessage("setPickUp", true);
             throwableItem.GetComponent<Collider2D>().isTrigger = true;
@@ -463,7 +481,7 @@ public class PlayerControl : Entity
         // only temporary, this should be Input.GetButton("PS4_Square");
         if (Input.GetKey(KeyCode.Q)) {
 
-            if (!knockBack && !rolling)
+            if (!knockBack && !rolling && !throwing)
 
                 swinging = true;
 
@@ -477,7 +495,7 @@ public class PlayerControl : Entity
             {
                 rollingCoolDown = .6f;
             }
-            if (afterRollCoolDown <= 0 && !knockBack)
+            if (afterRollCoolDown <= 0 && !knockBack && !throwing)
             {
                 releaseItem();
                 rolling = true;
@@ -864,6 +882,32 @@ public class PlayerControl : Entity
                 holdingThrowableItem = false;
                 throwableItem.transform.SendMessage("setDown", true);
             }
+
+            if (Input.GetButton("PS4_R1"))
+            {
+                throwing = true;
+                holdingThrowableItem = false;
+                throwTimer = 100;
+            }
+        }
+
+        if (throwing)
+        {          
+            throwableItem.transform.parent = null;
+
+
+            if (animatorIsPlaying("throwing"))
+            {
+                freezeForAnimation = true;
+
+                if (animationHasPlayedOnce())
+                {
+                    throwing = false;
+                    moveSpeed = 4;
+                    anim.Play("Idle");
+                    freezeForAnimation = false;
+                }
+            }
         }
 
 
@@ -890,24 +934,22 @@ public class PlayerControl : Entity
         {
             afterRollCoolDown -= Time.deltaTime;
         }
+
+        if(throwTimer > 0)
+        {
+            throwTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
+        }
+
+
         //             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
         //Debug.Log("the rolling bool is" + rolling);
         //Debug.Log("the rolling cooldown is " + rollingCoolDown);
     }
 
 
-
     //		Debug.Log("the run direction is: " + this.runDirection);
     //		Debug.Log("the direction is: " + this.direction);
     //		Debug.Log ("the animator's direction float is: " + anim.GetFloat ("direction(float)"));
-
-
-    //		if (Input.GetKeyUp (KeyCode.W) || Input.GetKeyUp (KeyCode.S) || Input.GetKeyUp (KeyCode.D) || Input.GetKeyUp (KeyCode.A))
-    //		{
-    //			anim.SetBool ("runReleased", true);
-    //		} 
-
-
 
 
     void setRunDirection()

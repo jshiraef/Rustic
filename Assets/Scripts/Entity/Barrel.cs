@@ -22,8 +22,12 @@ public class Barrel : Entity {
 
     private int fallTimer;
 
+    private bool airBorne;
+    public float airSpeed;
 
     private GameObject player;
+    private PlayerControl playerControl;
+
     private GameObject outline;
 
 	public static int barrelTimer = 50;
@@ -32,6 +36,8 @@ public class Barrel : Entity {
 
     public string currentLayerName;
     public int currentLayerOrder;
+
+    private Vector3 playerDirection;
 
 
     // Use this for initialization
@@ -44,16 +50,19 @@ public class Barrel : Entity {
 
         anim = GetComponent<Animator> ();
         player = GameObject.Find("player");
+        playerControl = player.GetComponent<PlayerControl>();
+
         outline = this.transform.GetChild(0).gameObject;
 
         fallSpeed = -5.9f;
+        airSpeed = 5f;
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (player.GetComponent<PlayerControl>().interact && this.hitByRay)
+        if (playerControl.interact && this.hitByRay)
         {
             outline.SetActive(true);
 
@@ -74,9 +83,9 @@ public class Barrel : Entity {
             anim.Play("barrelBreak");
         }
 
-        if (pickedUp && player.GetComponent<PlayerControl>().holdingThrowableItem)
+        if (pickedUp && playerControl.holdingThrowableItem)
         {
-            if (player.GetComponent<PlayerControl>().getDirectionAngle360() > 15 && player.GetComponent<PlayerControl>().getDirectionAngle360() <= 180)
+            if (playerControl.getDirectionAngle360() > 15 && playerControl.getDirectionAngle360() <= 180)
             {
                 barrelSprite.sortingLayerName = currentLayerName;
                 barrelSprite.sortingOrder = currentLayerOrder;
@@ -88,57 +97,57 @@ public class Barrel : Entity {
                 barrelSprite.sortingOrder = getSpriteSortingOrder(player.GetComponent<SpriteRenderer>()) + 1;
             }
 
-            if (player.GetComponent<PlayerControl>().getDirectionAngle360() >= 0 && player.GetComponent<PlayerControl>().getDirectionAngle360() < 16.35)
+            if (playerControl.getDirectionAngle360() >= 0 && playerControl.getDirectionAngle360() < 16.35)
             {
                 this.transform.localPosition = new Vector3(.38f, .91f, 0);
                 //East
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 49.1)
+            else if (playerControl.getDirectionAngle360() < 49.1)
             {
                 this.transform.localPosition = new Vector3(.21f, .94f, 0);
                 //NorthEast30
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 81.85)
+            else if (playerControl.getDirectionAngle360() < 81.85)
             {
                 this.transform.localPosition = new Vector3(.09f, 1.05f, 0);
                 //NorthEast70
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 114.6)
+            else if (playerControl.getDirectionAngle360() < 114.6)
             {
                 this.transform.localPosition = new Vector3(-.1f, 1.15f, 0);
                 //North
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 147.35)
+            else if (playerControl.getDirectionAngle360() < 147.35)
             {
                 this.transform.localPosition = new Vector3(-.067f, 1.154f, 0);
                 //NorthWest120
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() <= 180)
+            else if (playerControl.getDirectionAngle360() <= 180)
             {
                 this.transform.localPosition = new Vector3(-.2f, 1.136f, 0);
                 //NorthWest150
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 212.85)
+            else if (playerControl.getDirectionAngle360() < 212.85)
             {
                 this.transform.localPosition = new Vector3(-.243f, 1.145f, 0);
                 //West
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 245.6)
+            else if (playerControl.getDirectionAngle360() < 245.6)
             {
                 this.transform.localPosition = new Vector3(.013f, 1.111f, 0);
                 //SouthWest210
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 278.35)
+            else if (playerControl.getDirectionAngle360() < 278.35)
             {
                 this.transform.localPosition = new Vector3(.14f, 1.14f, 0);
                 //SouthWest240
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 311.1)
+            else if (playerControl.getDirectionAngle360() < 311.1)
             {
                 this.transform.localPosition = new Vector3(.24f, 1.04f, 0);
                 //South
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionAngle360() < 343.85)
+            else if (playerControl.getDirectionAngle360() < 343.85)
             {
                 this.transform.localPosition = new Vector3(.27f, 1.01f, 0);
                 //SouthEast300
@@ -152,19 +161,19 @@ public class Barrel : Entity {
         }
         else if (putDown)
         {
-            if (player.GetComponent<PlayerControl>().getDirectionNSEW() == Direction.SOUTH)
+            if (playerControl.getDirectionNSEW() == Direction.SOUTH)
             {
                 transform.localPosition -= new Vector3(0, 11f * Time.deltaTime, 0);
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionNSEW() == Direction.NORTH)
+            else if (playerControl.getDirectionNSEW() == Direction.NORTH)
             {
                 transform.localPosition -= new Vector3(0, 6f * Time.deltaTime, 0);
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionNSEW() == Direction.EAST)
+            else if (playerControl.getDirectionNSEW() == Direction.EAST)
             {
                 transform.localPosition -= new Vector3(-2f * Time.deltaTime, 9f * Time.deltaTime, 0);
             }
-            else if (player.GetComponent<PlayerControl>().getDirectionNSEW() == Direction.WEST)
+            else if (playerControl.getDirectionNSEW() == Direction.WEST)
             {
                 transform.localPosition -= new Vector3(2f * Time.deltaTime, 9f * Time.deltaTime, 0);
             }
@@ -180,6 +189,12 @@ public class Barrel : Entity {
                 fallSpeed += 1 / fallTimer * 20f;
                 transform.Translate(new Vector3(0, fallSpeed * Time.deltaTime, 0));
             }
+
+            if (airBorne)
+            {
+                Vector3 throwDistance = new Vector3(playerDirection.x * (airSpeed * Time.deltaTime), playerDirection.y * (airSpeed * Time.deltaTime), 0);
+                transform.Translate(throwDistance);
+            }
         }
 
         // SortingOrderScript takes control only when object is not pickedUp by player
@@ -190,6 +205,7 @@ public class Barrel : Entity {
         if (fallTimer > 0 && fallTimer < 20)
         {
             GetComponent<CircleCollider2D>().isTrigger = false;
+            pickedUp = false;
         }
 
 
@@ -218,6 +234,7 @@ public class Barrel : Entity {
         {
             fallSpeed = -6f;
             falling = false;
+            airBorne = false;
         }
 
         if (setDownTimer > 0)
@@ -280,5 +297,13 @@ public class Barrel : Entity {
         fallTimer = 55;
         pickedUp = false;
         putDown = false;
+    }
+
+    public void setThrown(bool b)
+    {
+        playerDirection = new Vector3(Mathf.Cos(playerControl.getDirectionAngle360() * Mathf.Deg2Rad), Mathf.Sin(playerControl.getDirectionAngle360() * Mathf.Deg2Rad), 0);
+        airBorne = b;
+        falling = true;
+        fallTimer = 60;
     }
 }
