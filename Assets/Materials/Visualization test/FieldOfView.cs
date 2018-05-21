@@ -231,4 +231,9 @@ public class FieldOfView : MonoBehaviour
             pointB = _pointB;
         }
     }
+
+    public int getTargetsInView()
+    {
+        return visibleTargets.Count;
+    }
 }

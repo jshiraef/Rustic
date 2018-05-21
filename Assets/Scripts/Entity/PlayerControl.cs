@@ -23,6 +23,8 @@ public class PlayerControl : Entity
 
     // items
     public bool swinging = false;
+    private float swingCoolDown;
+    private float swipeStartAngle;
     public bool holdingThrowableItem;
     public bool grabItem;
     public float grabItemTimer;
@@ -59,6 +61,7 @@ public class PlayerControl : Entity
     private GameObject renderMask;
     private GameObject renderMaskOutliner;
     private GameObject throwableItem;
+    private GameObject sickleSwipe;
     private FieldOfView vision;
 
     // barrel variables (variables similar to these can help keep track of relations between player and world objects)
@@ -105,7 +108,10 @@ public class PlayerControl : Entity
         playerBlobShadow = player.GetComponentInChildren<Projector>();
         player.GetComponent<SpriteRenderer>().receiveShadows = true;
         screenShake = GameObject.Find("CM vcam1").GetComponent<CinemachineCameraShaker>();
+        sickleSwipe = GameObject.Find("sickleSwipe");
         vision = GetComponent<FieldOfView>();
+
+        float swipeStartAngle = 35f;
 
         //		nearestBarrel = GameObject.Find ("barrel");
     }
@@ -145,10 +151,10 @@ public class PlayerControl : Entity
 
         if (currentAction == SWINGING)
         {
-            if (animationHasPlayedOnce())
-            {
-                swinging = false;
-            }
+            //if (animationHasPlayedOnce())
+            //{
+            //    swinging = false;
+            //}
         }
 
         // setAction
@@ -214,7 +220,7 @@ public class PlayerControl : Entity
             if (currentAction != SWINGING)
             {
                 currentAction = SWINGING;
-                anim.Play("SwingScythe");
+                //anim.Play("SwingScythe");
                 //lockPosition = true;
                 isRunning = false;
 
@@ -365,6 +371,7 @@ public class PlayerControl : Entity
 
         //	Debug.Log ("shortFall is: " + shortFall);
         // Debug.Log ("the shortFallCoolDown is: " + shortFallCoolDown);
+
     }
 
     void Raycasting()
@@ -479,14 +486,17 @@ public class PlayerControl : Entity
     void checkAttack()
     {
         // only temporary, this should be Input.GetButton("PS4_Square");
-        if (Input.GetKey(KeyCode.Q)) {
+        if (Input.GetKeyDown(KeyCode.Q) )
+        {
 
-            if (!knockBack && !rolling && !throwing)
-
+            if (!knockBack && !rolling && !throwing && !swinging)
+            {
                 swinging = true;
-
-        } else
-            swinging = false;
+                swingCoolDown = .62f;
+            }
+                   
+        }
+        
 
         //only temporary, this should be Input.GetButton("PS4_Triangle");
         if (Input.GetKeyDown(KeyCode.T))
@@ -502,6 +512,66 @@ public class PlayerControl : Entity
             }
         }
 
+        if (swinging)
+        {
+            anim.Play("SwingScythe");
+
+            //float swipeMultiplier = 58f;
+
+
+            if (swingCoolDown < .35f && swingCoolDown > .05f)
+            {
+                sickleSwipe.GetComponent<TrailRenderer>().enabled = true;
+
+                swipeStartAngle += Mathf.Round(Time.deltaTime * 350);
+            }
+            else
+            {
+                sickleSwipe.GetComponent<TrailRenderer>().enabled = false;
+
+
+                if(getDirection8() == Direction.NORTHEAST50)
+                {
+                    swipeStartAngle = 30f;
+                }
+                else if(getDirection8() == Direction.NORTH)
+                {
+                    swipeStartAngle = 60f;
+                }
+                else if (getDirection8() == Direction.NORTHWEST130)
+                {
+                    swipeStartAngle = 100f;
+                }
+                else if (getDirection8() == Direction.WEST)
+                {
+                    swipeStartAngle = 140f;
+                }
+                else if (getDirection8() == Direction.SOUTHWEST230)
+                {
+                    swipeStartAngle = 190f;
+                }
+                else if (getDirection8() == Direction.SOUTH)
+                {
+                    swipeStartAngle = 250f;
+                }
+                else if (getDirection8() == Direction.SOUTHEAST310)
+                {
+                    swipeStartAngle = 290f;
+                }
+                else if (getDirection8() == Direction.EAST)
+                {
+                    swipeStartAngle = 330f;
+                }
+
+            }
+            //swipeMultiplier += 1 / swingCoolDown * 45f;
+            //float swipeAngle = startAngle + (swipeMultiplier * swingCoolDown);
+
+            Debug.Log("the swipeStartAngle is " + swipeStartAngle);  
+
+            Vector3 sickleSwipePosition = new Vector3(Mathf.Cos(swipeStartAngle * Mathf.Deg2Rad) * 1.65f, Mathf.Sin(swipeStartAngle * Mathf.Deg2Rad) * 1.65f, 0);
+            sickleSwipe.transform.localPosition = sickleSwipePosition;
+        }
 
         if (rolling)
         {
@@ -620,6 +690,7 @@ public class PlayerControl : Entity
             boxCollider2D.offset = new Vector2(.1075f, -.37f);
             boxCollider2D.size = new Vector2(.70f, .65f);
         }
+
 
         if (knockBack)
         {
@@ -908,6 +979,19 @@ public class PlayerControl : Entity
                     freezeForAnimation = false;
                 }
             }
+        }
+
+
+
+
+        if(swingCoolDown > 0)
+        {
+            swingCoolDown -= Time.deltaTime;
+        }
+
+        if(swinging && swingCoolDown <= 0)
+        {
+            swinging = false;
         }
 
 

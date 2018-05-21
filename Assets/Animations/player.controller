@@ -1377,7 +1377,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: fc894654fb188cb49be2e84da9fdc36f, type: 2}
+    m_Motion: {fileID: 7400000, guid: db6c22ee2d3f91743905e653b80b4f83, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -1385,66 +1385,74 @@ BlendTree:
     m_DirectBlendParameter: 
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 35e159e5dd91b7e4aae2a0cbe74a1100, type: 2}
-    m_Threshold: 0.1
+    m_Motion: {fileID: 7400000, guid: 63487c30eb6a8b0499bb13cc2d7d34ec, type: 2}
+    m_Threshold: 0.1171875
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: c3260fecb0ee20a429affae78feae245, type: 2}
-    m_Threshold: 0.2
+    m_Motion: {fileID: 7400000, guid: bbe12e690b2a2b34a8b869ed6e08d4d5, type: 2}
+    m_Threshold: 0.234375
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 29314d2de7dc5964b9e308a77f90c56d, type: 2}
-    m_Threshold: 0.3
+    m_Motion: {fileID: 7400000, guid: 0329b60f18dfb514c9282ec9adafaf72, type: 2}
+    m_Threshold: 0.3515625
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 8813a9392d0c8b94cab685f8a0c35561, type: 2}
-    m_Threshold: 0.42
+    m_Motion: {fileID: 7400000, guid: 86ce694c7ce65234b8bb062f1fcf18c5, type: 2}
+    m_Threshold: 0.46875
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 6a780c363b8f5c64e86e9ca8501885a7, type: 2}
-    m_Threshold: 0.6
+    m_Motion: {fileID: 7400000, guid: 8d8a15f6ec50b554abc51681273a81e0, type: 2}
+    m_Threshold: 0.5859375
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 37cdaa372258f0a4db777de0745a20e8, type: 2}
-    m_Threshold: 0.7
+    m_Motion: {fileID: 7400000, guid: 406cec8915dd18e46a58d315cb4bcd9e, type: 2}
+    m_Threshold: 0.703125
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 89feb8e1df352fd4b99e68e1b3bb285b, type: 2}
-    m_Threshold: 0.8
+    m_Motion: {fileID: 7400000, guid: e0db959c524f1f84f82ea5da0f63725b, type: 2}
+    m_Threshold: 0.8203125
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: 
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: db6c22ee2d3f91743905e653b80b4f83, type: 2}
+    m_Threshold: 0.9375
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: VerticalAnalogAxis
     m_Mirror: 0
   m_BlendParameter: normalizedDirection
   m_BlendParameterY: VerticalAnalogAxis
   m_MinThreshold: 0
-  m_MaxThreshold: 0.8
-  m_UseAutomaticThresholds: 0
+  m_MaxThreshold: 0.9375
+  m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
 --- !u!206 &20668036
@@ -4065,44 +4073,32 @@ AnimatorStateMachine:
     m_State: {fileID: 1102364849396746764}
     m_Position: {x: 684, y: 924, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 1102751013010244616}
-    m_Position: {x: 719, y: 989, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102222491385482442}
-    m_Position: {x: 756, y: 1056, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102065306391510096}
-    m_Position: {x: 789, y: 1119, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102943684347610042}
-    m_Position: {x: 824, y: 1184, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102162259950152330}
-    m_Position: {x: 859, y: 1249, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102735723961030278}
-    m_Position: {x: 894, y: 1314, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102075212619626652}
-    m_Position: {x: 929, y: 1379, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102341244300582998}
-    m_Position: {x: 964, y: 1444, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102226228784111652}
-    m_Position: {x: 999, y: 1509, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102358775155248326}
-    m_Position: {x: 1034, y: 1574, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102295663911440440}
-    m_Position: {x: 1069, y: 1639, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102450441359252250}
-    m_Position: {x: 1104, y: 1704, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 1102650135151758728}
     m_Position: {x: 100.12897, y: 672.8746, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102649382956246962}
+    m_Position: {x: 135.12897, y: 737.8746, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102675105312681008}
+    m_Position: {x: 170.12897, y: 802.8746, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102716906802879122}
+    m_Position: {x: 205.12897, y: 867.8746, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102410270384704410}
+    m_Position: {x: 240.12897, y: 932.8746, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102935259615014398}
+    m_Position: {x: 275.12897, y: 997.8746, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102568388070662408}
+    m_Position: {x: 310.12897, y: 1062.8745, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102795529495238932}
+    m_Position: {x: 345.12897, y: 1127.8745, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102855610404537054}
+    m_Position: {x: 380.12897, y: 1192.8745, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 110121196}
@@ -4536,56 +4532,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: animationOffset
   m_TimeParameter: 
---- !u!1102 &1102065306391510096
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: ThrowNorthWest120
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 63aca45ddd1b2444896c7224c97dec03, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &1102075212619626652
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: ThrowingEast
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7c76156fa64964a4abb8e2d8847a8cca, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1102 &1102102170428911878
 AnimatorState:
   serializedVersion: 5
@@ -4636,81 +4582,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: animationOffset
   m_TimeParameter: 
---- !u!1102 &1102162259950152330
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: ThrowNorthEast70
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 05d7d01fbe9237e40b8af869f3b158e0, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &1102222491385482442
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: ThrowNorthWest150
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a8b3333654221c0409db48881dbb6eaa, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &1102226228784111652
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: ThrowSouthEast300
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 627662a463f999a42b2eb6aa610e90f9, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1102 &1102233927282573652
 AnimatorState:
   serializedVersion: 5
@@ -4735,31 +4606,6 @@ AnimatorState:
   m_SpeedParameter: animationSpeed
   m_MirrorParameter: 
   m_CycleOffsetParameter: animationOffset
-  m_TimeParameter: 
---- !u!1102 &1102295663911440440
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: ThrowSouthWest240
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e2ddb7c208a8ee1409538a2be5de3fe4, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
   m_TimeParameter: 
 --- !u!1102 &1102305633447315732
 AnimatorState:
@@ -4808,56 +4654,6 @@ AnimatorState:
   m_Motion: {fileID: 7400000, guid: 01599fadd35047146837f2824a94afaa, type: 2}
   m_Tag: 
   m_SpeedParameter: animationSpeed
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &1102341244300582998
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: ThrowSouthEast330
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 5c0612f87972553438bdadd85e548531, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &1102358775155248326
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: ThrowSouth
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d45af6cf27feca248ae5e0b1366f4b57, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -4911,6 +4707,31 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &1102410270384704410
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: sickleSwingNorthWest
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 0329b60f18dfb514c9282ec9adafaf72, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &1102436069335641652
 AnimatorState:
   serializedVersion: 5
@@ -4931,31 +4752,6 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 57761c1757487a2478167d3544880bb2, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &1102450441359252250
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: ThrowSouthWest210
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: bde3a42f1c9394b4ba6cd777cd990eca, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -4985,6 +4781,31 @@ AnimatorState:
   m_SpeedParameter: animationSpeed
   m_MirrorParameter: 
   m_CycleOffsetParameter: animationOffset
+  m_TimeParameter: 
+--- !u!1102 &1102568388070662408
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: sickleSwingSouthWest
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 8d8a15f6ec50b554abc51681273a81e0, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
   m_TimeParameter: 
 --- !u!1102 &1102616894768113516
 AnimatorState:
@@ -5036,6 +4857,31 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: animationOffset
   m_TimeParameter: 
+--- !u!1102 &1102649382956246962
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: sickleSwingEast
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: db6c22ee2d3f91743905e653b80b4f83, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &1102650135151758728
 AnimatorState:
   serializedVersion: 5
@@ -5061,13 +4907,13 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &1102735723961030278
+--- !u!1102 &1102675105312681008
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ThrowNorthEast30
+  m_Name: sickleSwingNorthEast30
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -5080,19 +4926,19 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 8bfef61919db4d145bc798e5b5f78d99, type: 2}
+  m_Motion: {fileID: 7400000, guid: 63487c30eb6a8b0499bb13cc2d7d34ec, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &1102751013010244616
+--- !u!1102 &1102716906802879122
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ThrowingWest
+  m_Name: sickleSwingNorth
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -5105,19 +4951,19 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 13ea3c4f60a26fd46a9b95efa1454d4a, type: 2}
+  m_Motion: {fileID: 7400000, guid: bbe12e690b2a2b34a8b869ed6e08d4d5, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &1102943684347610042
+--- !u!1102 &1102795529495238932
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ThrowNorth
+  m_Name: sickleSwingSouth
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -5130,7 +4976,57 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4fe897b1d06b50b469307923665b8709, type: 2}
+  m_Motion: {fileID: 7400000, guid: 406cec8915dd18e46a58d315cb4bcd9e, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &1102855610404537054
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: sickleSwingSouthEast
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: e0db959c524f1f84f82ea5da0f63725b, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &1102935259615014398
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: sickleSwingWest
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 86ce694c7ce65234b8bb062f1fcf18c5, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
