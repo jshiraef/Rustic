@@ -163,7 +163,7 @@ public class Barrel : Entity {
         {
             if (playerControl.getDirectionNSEW() == Direction.SOUTH)
             {
-                transform.localPosition -= new Vector3(0, 15f * Time.deltaTime, 0);
+                transform.localPosition -= new Vector3(0, 11f * Time.deltaTime, 0);
             }
             else if (playerControl.getDirectionNSEW() == Direction.NORTH)
             {

@@ -49,7 +49,7 @@ public class RockController : Entity {
         originalScale = this.transform.localScale;
 
         fallSpeed = -5.9f;
-        airSpeed = 10f;
+        airSpeed = 8f;
     }
 	
 	// Update is called once per frame
@@ -273,7 +273,7 @@ public class RockController : Entity {
 
     public void setDown(bool b)
     {
-        setDownTimer = 35;
+        setDownTimer = 28;
         putDown = b;
     }
 
@@ -282,7 +282,7 @@ public class RockController : Entity {
         this.transform.localScale = originalScale;
 
         falling = b;
-        fallTimer = 55;
+        fallTimer = 45;
         pickedUp = false;
         putDown = false;
     }

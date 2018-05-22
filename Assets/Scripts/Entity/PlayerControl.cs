@@ -24,7 +24,7 @@ public class PlayerControl : Entity
     // items
     public bool swinging = false;
     private float swingCoolDown;
-    private float swipeStartAngle;
+
     public bool holdingThrowableItem;
     public bool grabItem;
     public float grabItemTimer;
@@ -111,7 +111,7 @@ public class PlayerControl : Entity
         sickleSwipe = GameObject.Find("sickleSwipe");
         vision = GetComponent<FieldOfView>();
 
-        float swipeStartAngle = 35f;
+         
 
         //		nearestBarrel = GameObject.Find ("barrel");
     }
@@ -491,6 +491,7 @@ public class PlayerControl : Entity
 
             if (!knockBack && !rolling && !throwing && !swinging)
             {
+                releaseItem();
                 swinging = true;
                 swingCoolDown = .62f;
             }
@@ -519,58 +520,12 @@ public class PlayerControl : Entity
             //float swipeMultiplier = 58f;
 
 
-            if (swingCoolDown < .35f && swingCoolDown > .05f)
-            {
-                sickleSwipe.GetComponent<TrailRenderer>().enabled = true;
+            
 
-                swipeStartAngle += Mathf.Round(Time.deltaTime * 350);
-            }
-            else
-            {
-                sickleSwipe.GetComponent<TrailRenderer>().enabled = false;
-
-
-                if(getDirection8() == Direction.NORTHEAST50)
-                {
-                    swipeStartAngle = 30f;
-                }
-                else if(getDirection8() == Direction.NORTH)
-                {
-                    swipeStartAngle = 60f;
-                }
-                else if (getDirection8() == Direction.NORTHWEST130)
-                {
-                    swipeStartAngle = 100f;
-                }
-                else if (getDirection8() == Direction.WEST)
-                {
-                    swipeStartAngle = 140f;
-                }
-                else if (getDirection8() == Direction.SOUTHWEST230)
-                {
-                    swipeStartAngle = 190f;
-                }
-                else if (getDirection8() == Direction.SOUTH)
-                {
-                    swipeStartAngle = 250f;
-                }
-                else if (getDirection8() == Direction.SOUTHEAST310)
-                {
-                    swipeStartAngle = 290f;
-                }
-                else if (getDirection8() == Direction.EAST)
-                {
-                    swipeStartAngle = 330f;
-                }
-
-            }
             //swipeMultiplier += 1 / swingCoolDown * 45f;
             //float swipeAngle = startAngle + (swipeMultiplier * swingCoolDown);
 
-            Debug.Log("the swipeStartAngle is " + swipeStartAngle);  
-
-            Vector3 sickleSwipePosition = new Vector3(Mathf.Cos(swipeStartAngle * Mathf.Deg2Rad) * 1.65f, Mathf.Sin(swipeStartAngle * Mathf.Deg2Rad) * 1.65f, 0);
-            sickleSwipe.transform.localPosition = sickleSwipePosition;
+            
         }
 
         if (rolling)
@@ -983,17 +938,15 @@ public class PlayerControl : Entity
 
 
 
-
-        if(swingCoolDown > 0)
+        if (swingCoolDown > 0)
         {
             swingCoolDown -= Time.deltaTime;
         }
 
-        if(swinging && swingCoolDown <= 0)
+        if (swinging && swingCoolDown <= 0)
         {
             swinging = false;
         }
-
 
         if (rollingCoolDown > 0)
         {
@@ -1702,6 +1655,21 @@ public class PlayerControl : Entity
     public bool getIsIdle()
     {
         return isIdle;
+    }
+
+    public bool getSwinging()
+    {
+        return swinging;
+    }
+
+    public void setSwinging(bool b)
+    {
+        swinging = b;
+    }
+
+    public float getSwingCoolDown()
+    {
+        return swingCoolDown;
     }
 	
 }
