@@ -53,7 +53,6 @@ public class sickleSwipe : Entity {
                     swipeReference.transform.localPosition = Vector3.Lerp(swipeReference.transform.localPosition, new Vector3(-.25f, -1.75f, 0f), Time.deltaTime * 5); 
                     //swipeReach = 1.25f;
 
-                    Debug.Log("the is happening");
                 }
                 else if (playerControl.getDirection8() == Direction.NORTH)
                 {

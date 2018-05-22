@@ -39,6 +39,9 @@ public class Barrel : Entity {
 
     private Vector3 playerDirection;
 
+    float barrelCooldown;
+    bool barrelSwitch;
+
 
     // Use this for initialization
     void Start () {
@@ -62,7 +65,7 @@ public class Barrel : Entity {
     void Update()
     {
 
-        if (playerControl.interact && this.hitByRay)
+        if (playerControl.interact && this.hitByRay && !hit)
         {
             outline.SetActive(true);
 
@@ -76,6 +79,35 @@ public class Barrel : Entity {
         if (hit)
         {
             Debug.Log("barrel was hit");
+
+            if (!barrelSwitch)
+            {
+                //barrelCooldown = 1f;
+                barrelSwitch = true;
+            }
+
+            //if (barrelCooldown <= 0)
+            //{
+
+                Animator barrelAnimator = GetComponent<Animator>();
+
+                if (this.name.EndsWith("1"))
+                {
+                    barrelAnimator.Play("barrelBreakParticle");
+                }
+                else
+                {
+                    barrelAnimator.Play("barrelBreak");
+                }
+
+            GetComponent<SortingOrderScript>().enabled = false;
+
+            //}
+        }
+
+        if (barrelCooldown <= 0)
+        {
+            barrelSwitch = false;
         }
 
         if (barrelTimer < 0)
@@ -254,6 +286,11 @@ public class Barrel : Entity {
             pickedUp = false;
         }
 
+        if (barrelCooldown > 0)
+        {
+            barrelCooldown -= Time.deltaTime;
+        }
+
         //	print ("the barrel's distance to player is " + distanceToPlayer);
     }
 
@@ -305,5 +342,12 @@ public class Barrel : Entity {
         airBorne = b;
         falling = true;
         fallTimer = 60;
+    }
+
+    public void setHit(bool b)
+    {
+        hit = b;
+        GetComponent<CircleCollider2D>().enabled = false;
+        barrelSprite.sortingLayerName = "background"    ;
     }
 }

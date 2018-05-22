@@ -14616,6 +14616,7 @@ GameObject:
   - component: {fileID: 1283275669}
   - component: {fileID: 1283275668}
   - component: {fileID: 1283275670}
+  - component: {fileID: 1283275671}
   m_Layer: 0
   m_Name: sickleSwipe
   m_TagString: Untagged
@@ -14748,6 +14749,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interact: 0
   direction: 0
+--- !u!58 &1283275671
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1283275667}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.1
 --- !u!1 &1302047276
 GameObject:
   m_ObjectHideFlags: 0

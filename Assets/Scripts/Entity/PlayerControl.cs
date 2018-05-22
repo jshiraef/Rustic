@@ -74,8 +74,7 @@ public class PlayerControl : Entity
     private float analogAxesAngle360;
     private bool freezeForAnimation;
 
-    float barrelCooldown;
-    bool barrelSwitch;
+    
 
     private static readonly int IDLE = 0;
     private static readonly int RUNNING = 1;
@@ -351,11 +350,6 @@ public class PlayerControl : Entity
         else
         {
             // lockPosition = false;
-        }
-
-        if (barrelCooldown > 0)
-        {
-            barrelCooldown -= Time.deltaTime;
         }
 
         if (knockBackCoolDown > 0)
@@ -1369,29 +1363,9 @@ public class PlayerControl : Entity
 
             actualBarrelSeparation = Mathf.Sqrt(distanceToBarrel.x * distanceToBarrel.x + distanceToBarrel.y * distanceToBarrel.y);
 
-            if (actualBarrelSeparation < 1.5)
+            if (barrel.GetComponent<CircleCollider2D>().IsTouching(sickleSwipe.GetComponent<CircleCollider2D>()))
             {
-                if (!barrelSwitch)
-                {
-                    //barrelCooldown = 1f;
-                    //barrelSwitch = true;
-                }
-
-                if (barrelCooldown <= 0)
-                {
-
-                    Animator barrelAnimator = barrel.GetComponent<Animator>();
-
-                    if (barrel.name.EndsWith("1"))
-                    {
-                        //barrelAnimator.Play("barrelBreakParticle");
-                    }
-                    else {
-                        //barrelAnimator.Play("barrelBreak");
-                    }
-
-                }
-
+                barrel.GetComponent<Barrel>().setHit(true);
             }
             //			print ("the actual barrel separation" + actualBarrelSeparation);
             //			print ("the barrelCooldown is " + barrelCooldown);
@@ -1399,10 +1373,7 @@ public class PlayerControl : Entity
 
         }
 
-        if (barrelCooldown <= 0)
-        {
-            //barrelSwitch = false;
-        }
+       
 
     }
 
