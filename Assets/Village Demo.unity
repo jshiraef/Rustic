@@ -3164,7 +3164,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1688789712641540, guid: d3314150cc27bd84db5780cb3bc3957f, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d3314150cc27bd84db5780cb3bc3957f, type: 2}
@@ -3613,6 +3613,35 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &687992229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 687992230}
+  m_Layer: 0
+  m_Name: sickleSwipeReference
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &687992230
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 687992229}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.03, y: -0.31, z: 0}
+  m_LocalScale: {x: 1.200088, y: 1.2000881, z: 1.2000881}
+  m_Children:
+  - {fileID: 1283275669}
+  m_Father: {fileID: 1058246462}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &692021690
 GameObject:
   m_ObjectHideFlags: 0
@@ -14586,6 +14615,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1283275669}
   - component: {fileID: 1283275668}
+  - component: {fileID: 1283275670}
   m_Layer: 0
   m_Name: sickleSwipe
   m_TagString: Untagged
@@ -14631,23 +14661,35 @@ TrailRenderer:
   m_Time: 0.27
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.52
+    widthMultiplier: 1.08
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 0
-        value: 1
+        time: 0.027139664
+        value: 0.31481552
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.45093364
+        value: 0.9321035
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.9707572
+        value: 0.29629552
         inSlope: 0
         outSlope: 0
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
-      m_RotationOrder: 4
+      m_RotationOrder: 0
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.7794118, g: 0.7507569, b: 0.7507569, a: 1}
+      key1: {r: 0.25735295, g: 0.24032223, b: 0.24032223, a: 0.41568628}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -14687,12 +14729,25 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1283275667}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.55, y: 1.49, z: 0.021565849}
-  m_LocalScale: {x: 1.200088, y: 1.2000881, z: 1.2000881}
+  m_LocalPosition: {x: 0.05, y: -0.07, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1058246462}
-  m_RootOrder: 8
+  m_Father: {fileID: 687992230}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1283275670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1283275667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625d9c4d99065d44fa6335454293ff7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interact: 0
+  direction: 0
 --- !u!1 &1302047276
 GameObject:
   m_ObjectHideFlags: 0

@@ -519,7 +519,13 @@ public class PlayerControl : Entity
 
             //float swipeMultiplier = 58f;
 
-
+            if(animatorIsPlaying("swingScythe"))
+            {
+                if(animationHasPlayedOnce())
+                {
+                    swinging = false;
+                }
+            }
             
 
             //swipeMultiplier += 1 / swingCoolDown * 45f;
@@ -1613,8 +1619,9 @@ public class PlayerControl : Entity
         playerBlobShadow.farClipPlane = Mathf.Lerp(playerBlobShadow.farClipPlane, 39f, Time.deltaTime * 2); 
         playerBlobShadow.fieldOfView = Mathf.Lerp(playerBlobShadow.fieldOfView, 3f, Time.deltaTime * 2);
         playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1.4f, Time.deltaTime * 2);
-        playerBlobShadow.orthographic = false;
-        playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, .07f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -.81f, Time.deltaTime * 2), -29f);
+        playerBlobShadow.orthographic = false;      
+        playerBlobShadow.transform.localPosition = Vector3.Lerp(playerBlobShadow.transform.localPosition, new Vector3(.07f, -.81f, -29f), Time.deltaTime * 2);
+
     }
 
     public void setBlobShadowForWater()
@@ -1624,7 +1631,8 @@ public class PlayerControl : Entity
         playerBlobShadow.fieldOfView = Mathf.Lerp(playerBlobShadow.fieldOfView, 5.5f, Time.deltaTime * 2);
         playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1.4f, Time.deltaTime * 2);
         playerBlobShadow.orthographic = false;
-        playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, .275f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -.81f, Time.deltaTime * 2), -29f);
+        Vector3.Lerp(playerBlobShadow.transform.localPosition, new Vector3(.275f, -.81f, -29f), Time.deltaTime * 2);
+        playerBlobShadow.transform.localPosition = Vector3.Lerp(playerBlobShadow.transform.localPosition, new Vector3(.275f, -.81f, -29f), Time.deltaTime * 2);
     }
 
     public void setBlobShadowToNorm()
@@ -1634,7 +1642,7 @@ public class PlayerControl : Entity
         playerBlobShadow.fieldOfView = Mathf.Lerp(playerBlobShadow.fieldOfView, 3.75f, Time.deltaTime * 2);
         playerBlobShadow.aspectRatio = Mathf.Lerp(playerBlobShadow.aspectRatio, 1f, Time.deltaTime * 2);
         playerBlobShadow.orthographic = false;
-        playerBlobShadow.transform.localPosition = new Vector3(Mathf.Lerp(playerBlobShadow.transform.localPosition.x, -.09f, Time.deltaTime), Mathf.Lerp(playerBlobShadow.transform.localPosition.y, -1.7f, Time.deltaTime * 2), -29f);
+        playerBlobShadow.transform.localPosition = Vector3.Lerp(playerBlobShadow.transform.localPosition, new Vector3(-.09f, -1.7f, -29f), Time.deltaTime * 2);
     }
 
     public float getDirectionAngle360()
