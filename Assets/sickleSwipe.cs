@@ -15,6 +15,8 @@ public class sickleSwipe : Entity {
     private GameObject swipeReference;
     private PlayerControl playerControl;
     private Vector3 swipeOriginalPosition;
+    private CircleCollider2D hitpoint;
+    private ParticleSystem grassEmitter;
 
 	// Use this for initialization
 	void Start () {
@@ -28,7 +30,9 @@ public class sickleSwipe : Entity {
         playerControl = player.GetComponent<PlayerControl>();
         swipeReference = transform.parent.gameObject;
         swipeOriginalPosition = swipeReference.transform.localPosition;
+        grassEmitter = GetComponentInChildren<ParticleSystem>();
 
+        hitpoint = GetComponent<CircleCollider2D>();
     }
 	
 	// Update is called once per frame
@@ -36,12 +40,13 @@ public class sickleSwipe : Entity {
 
         if (playerControl.getSwinging())
         {
+            hitpoint.enabled = true;
 
-            if (playerControl.getSwingCoolDown()< .3f && playerControl.getSwingCoolDown() > .1f)
+            if (playerControl.getSwingCoolDown() < .3f && playerControl.getSwingCoolDown() > .1f)
             {
                 swipe.enabled = true;
 
-                swipeStartAngle += Mathf.Round(Time.deltaTime * 650);          
+                swipeStartAngle += Mathf.Round(Time.deltaTime * 650);
             }
             else
             {
@@ -50,7 +55,7 @@ public class sickleSwipe : Entity {
                 if (playerControl.getDirection8() == Direction.NORTHEAST50)
                 {
                     swipeStartAngle = 15f;
-                    swipeReference.transform.localPosition = Vector3.Lerp(swipeReference.transform.localPosition, new Vector3(-.25f, -1.75f, 0f), Time.deltaTime * 5); 
+                    swipeReference.transform.localPosition = Vector3.Lerp(swipeReference.transform.localPosition, new Vector3(-.25f, -1.75f, 0f), Time.deltaTime * 5);
                     //swipeReach = 1.25f;
 
                 }
@@ -98,13 +103,28 @@ public class sickleSwipe : Entity {
                 }
             }
 
-            
+
 
             //Debug.Log("the swipeStartAngle is " + swipeStartAngle);
 
             Vector3 sickleSwipePosition = new Vector3(Mathf.Cos(swipeStartAngle * Mathf.Deg2Rad) * swipeReach, Mathf.Sin(swipeStartAngle * Mathf.Deg2Rad) * swipeReach, 0);
             this.transform.localPosition = sickleSwipePosition;
         }
+        else hitpoint.enabled = false;
 
+        
+
+    }
+
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        if(coll.gameObject.tag == "grass")
+        {
+            if (!grassEmitter.isPlaying)
+            {
+                grassEmitter.Play();
+                //Debug.Log("the grass particles should be flying");   
+            }
+        }
     }
 }

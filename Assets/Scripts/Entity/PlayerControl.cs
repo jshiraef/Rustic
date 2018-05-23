@@ -1366,14 +1366,12 @@ public class PlayerControl : Entity
             if (barrel.GetComponent<CircleCollider2D>().IsTouching(sickleSwipe.GetComponent<CircleCollider2D>()))
             {
                 barrel.GetComponent<Barrel>().setHit(true);
+                Debug.Log("the sickle swipe hit the barrel collider in PlayerControl.cs");
             }
             //			print ("the actual barrel separation" + actualBarrelSeparation);
             //			print ("the barrelCooldown is " + barrelCooldown);
             //			print ("the barrelSwitch is " + barrelSwitch);
-
         }
-
-       
 
     }
 

@@ -78,7 +78,7 @@ public class Barrel : Entity {
 
         if (hit)
         {
-            Debug.Log("barrel was hit");
+            //Debug.Log("barrel was hit");
 
             if (!barrelSwitch)
             {
@@ -291,19 +291,42 @@ public class Barrel : Entity {
             barrelCooldown -= Time.deltaTime;
         }
 
+        //Debug.Log("the fallTimer is " + fallTimer);
+
         //	print ("the barrel's distance to player is " + distanceToPlayer);
     }
 
     void OnCollisionEnter2D(Collision2D coll)
 	{
-		if (coll.gameObject.tag == "weapon") {
-			Debug.Log ("a hit");
+		if (coll.gameObject.tag == "weapon")
+        {
+			Debug.Log ("hit by weapon");
 //			Destroy(coll.gameObject);
 //			Destroy(this.gameObject);
-
 			hit = true;
 		}
-	}
+
+        if(coll.gameObject.tag == "rock")
+        {
+            hit = true;
+            Debug.Log("hit by rock");
+        }
+
+        if(coll.gameObject.name == "barrel")
+        {
+            hit = true;
+            Debug.Log("hit by barrel");
+        }
+
+        if (coll.gameObject.tag == "Player")
+        {
+            Debug.Log("hit by Player");
+            //			Destroy(coll.gameObject);
+            //			Destroy(this.gameObject);
+            //          hit = true;
+        }
+    }
+
 
 	public static void barrelCountDown()
 	{

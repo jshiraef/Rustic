@@ -7,8 +7,11 @@ public class GrassController : MonoBehaviour {
     private GameObject player;
     private Animator anim;
 
+    private bool chopped;
+
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         player = GameObject.Find("player");
         anim = GetComponent<Animator>();
 	}
@@ -34,18 +37,28 @@ public class GrassController : MonoBehaviour {
             else
             {
                 anim.speed = .3f;
-            }
-         
+            }       
         }
         else
         {
             anim.speed = .3f;
         }
 
+        if(chopped)
+        {
+            anim.Play("smallWindyGoldWheatGrass");
+        }
+
         //Debug.Log("the speed of the animator is " + anim.speed);
         
+    }
 
-
-
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        if(coll.gameObject.tag == "weapon")
+        {
+            //Debug.Log("the grass collided with a weapon");
+            chopped = true;
+        }
     }
 }

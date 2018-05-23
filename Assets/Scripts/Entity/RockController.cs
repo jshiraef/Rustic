@@ -37,7 +37,8 @@ public class RockController : Entity {
 
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         rockSprite = GetComponent<SpriteRenderer>();
 
         player = GameObject.Find("player");
@@ -50,6 +51,8 @@ public class RockController : Entity {
 
         fallSpeed = -5.9f;
         airSpeed = 8f;
+
+        body = GetComponent<Rigidbody2D>();
     }
 	
 	// Update is called once per frame
@@ -156,9 +159,12 @@ public class RockController : Entity {
         }
         else if (putDown)
         {
+
+            GetComponent<CircleCollider2D>().enabled = false;
+
             if(playerControl.getDirectionNSEW() == Direction.SOUTH)
             {
-                transform.localPosition -= new Vector3(0, 11f * Time.deltaTime, 0);
+                transform.localPosition -= new Vector3(0, 10f * Time.deltaTime, 0);
             }
             else if (playerControl.getDirectionNSEW() == Direction.NORTH)
             {
@@ -185,10 +191,12 @@ public class RockController : Entity {
                 transform.Translate(new Vector3(0, fallSpeed * Time.deltaTime, 0));
             }
 
+            body.isKinematic = false;
+
             if (airBorne)
             {
-                Vector3 throwDistance = new Vector3(playerDirection.x * (airSpeed * Time.deltaTime), playerDirection.y * (airSpeed * Time.deltaTime), 0);
-                transform.Translate(throwDistance);
+                    Vector3 throwDistance = new Vector3(playerDirection.x * (airSpeed * Time.deltaTime), playerDirection.y * (airSpeed * Time.deltaTime), 0);
+                    transform.Translate(throwDistance);              
             }
         }
 
@@ -231,6 +239,9 @@ public class RockController : Entity {
             fallSpeed = -6f;
             falling = false;
             airBorne = false;
+            body.isKinematic = true;
+            body.velocity = Vector3.zero;
+            body.angularVelocity = 0f;
             this.transform.localScale = originalScale;
 
         }
@@ -249,15 +260,30 @@ public class RockController : Entity {
         {
             this.transform.localScale = originalScale;
             GetComponent<CircleCollider2D>().isTrigger = false;
+            GetComponent<CircleCollider2D>().enabled = true;
             putDown = false;
             pickedUp = false;
         }
+
+        //Debug.Log("the playerDirection is " + playerDirection);
 
         //Debug.Log("the rock's fallSpeed is " + fallSpeed);     
         //Debug.Log("the hitByRay bool is " + hitByRay);
         //Debug.Log("the hitByRayCoolDown is " + hitByRayCoolDown);
         //Debug.Log("the rock's pickedUp bool is " + pickedUp);
     }
+
+
+    public void noGravity()
+    {
+        Physics.gravity = Vector3.zero;
+    }
+
+    public void setGravity()
+    {
+        Physics.gravity = new Vector3(0f, 0f, -9.8f);
+    }
+
 
     public void setPickUp(bool b)
     {
@@ -291,7 +317,15 @@ public class RockController : Entity {
     {
         playerDirection = new Vector3(Mathf.Cos(playerControl.getDirectionAngle360() * Mathf.Deg2Rad), Mathf.Sin(playerControl.getDirectionAngle360() * Mathf.Deg2Rad), 0);
         this.transform.localScale = originalScale;
+        this.transform.localRotation = new Quaternion(0, 0, 0, 0);
         airBorne = b;
+
+        if (playerDirection.y > .5f)
+        {
+            airSpeed = airSpeed + (playerDirection.y * 3f);
+        }
+        else airSpeed = 8f;
+
         falling = true;
         fallTimer = 60;
     }
