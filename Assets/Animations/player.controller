@@ -4099,6 +4099,15 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 1102855610404537054}
     m_Position: {x: 380.12897, y: 1192.8745, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102289266791015124}
+    m_Position: {x: 415.12897, y: 1257.8745, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102122706715186622}
+    m_Position: {x: 450.12897, y: 1322.8745, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1102647940225269776}
+    m_Position: {x: 485.12897, y: 1387.8745, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 110121196}
@@ -4582,6 +4591,31 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: animationOffset
   m_TimeParameter: 
+--- !u!1102 &1102122706715186622
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: noHatIdleNorthEast30
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 410929bc77c0cf745a3e0c7fcce09ab0, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &1102233927282573652
 AnimatorState:
   serializedVersion: 5
@@ -4606,6 +4640,31 @@ AnimatorState:
   m_SpeedParameter: animationSpeed
   m_MirrorParameter: 
   m_CycleOffsetParameter: animationOffset
+  m_TimeParameter: 
+--- !u!1102 &1102289266791015124
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: noHatIdleEast
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 8c436846ff605724cae6395e534294f8, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
   m_TimeParameter: 
 --- !u!1102 &1102305633447315732
 AnimatorState:
@@ -4856,6 +4915,31 @@ AnimatorState:
   m_SpeedParameter: animationSpeed
   m_MirrorParameter: 
   m_CycleOffsetParameter: animationOffset
+  m_TimeParameter: 
+--- !u!1102 &1102647940225269776
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: noHatIdleNorthEast70
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: e3fa89a2680f057488d554048eed2e16, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
   m_TimeParameter: 
 --- !u!1102 &1102649382956246962
 AnimatorState:

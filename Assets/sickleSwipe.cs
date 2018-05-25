@@ -40,17 +40,19 @@ public class sickleSwipe : Entity {
 
         if (playerControl.getSwinging())
         {
-            hitpoint.enabled = true;
+            
 
             if (playerControl.getSwingCoolDown() < .3f && playerControl.getSwingCoolDown() > .1f)
             {
                 swipe.enabled = true;
+                hitpoint.enabled = true;
 
                 swipeStartAngle += Mathf.Round(Time.deltaTime * 650);
             }
             else
             {
                 swipe.enabled = false;
+                hitpoint.enabled = false;
 
                 if (playerControl.getDirection8() == Direction.NORTHEAST50)
                 {

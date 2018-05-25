@@ -168,7 +168,7 @@ public class RockController : Entity {
             }
             else if (playerControl.getDirectionNSEW() == Direction.NORTH)
             {
-                transform.localPosition -= new Vector3(0, 6f * Time.deltaTime, 0);
+                transform.localPosition -= new Vector3(0, 4f * Time.deltaTime, 0);
             }
             else if (playerControl.getDirectionNSEW() == Direction.EAST)
             {
@@ -195,6 +195,27 @@ public class RockController : Entity {
 
             if (airBorne)
             {
+                if(playerControl.getDirectionAngle360() > 250 && playerControl.getDirectionAngle360() < 290)
+                {
+                    fallSpeed = -5.9f;
+                    airSpeed = 3.5f;
+                }
+                else if(playerControl.getDirectionAngle360() > 170 && playerControl.getDirectionAngle360() < 190 || playerControl.getDirectionAngle360() < 10 || playerControl.getDirectionAngle360() > 350)
+                {
+                    fallSpeed = -3f;
+                    airSpeed = 8f;
+                }
+                else if (playerControl.getDirectionAngle360() < 170 && playerControl.getDirectionAngle360() > 10)
+                {
+                    fallSpeed = -5.9f;
+                    airSpeed = 12f;
+                }
+                else
+                {
+                    fallSpeed = -5.9f;
+                    airSpeed = 6f;
+                }
+
                     Vector3 throwDistance = new Vector3(playerDirection.x * (airSpeed * Time.deltaTime), playerDirection.y * (airSpeed * Time.deltaTime), 0);
                     transform.Translate(throwDistance);              
             }
@@ -320,11 +341,16 @@ public class RockController : Entity {
         this.transform.localRotation = new Quaternion(0, 0, 0, 0);
         airBorne = b;
 
-        if (playerDirection.y > .5f)
-        {
-            airSpeed = airSpeed + (playerDirection.y * 3f);
-        }
-        else airSpeed = 8f;
+        //if (playerDirection.y > .5f)
+        //{
+        //    noGravity();
+        //    airSpeed = airSpeed + (playerDirection.y * 3f);
+        //}
+        //else
+        //{
+        //    airSpeed = 8f;
+        //    setGravity();
+        //}
 
         falling = true;
         fallTimer = 60;
