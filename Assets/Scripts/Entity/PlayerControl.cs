@@ -31,6 +31,7 @@ public class PlayerControl : Entity
     public bool setItemDown;
     public bool throwing;
     public int throwTimer;
+    public bool hatAndCoat;
 
     // elements
     public bool inWater = false;
@@ -290,7 +291,13 @@ public class PlayerControl : Entity
                 {
                     currentAction = RUNNING;
                 }
-                anim.Play("Running");
+
+                if(!hatAndCoat)
+                {
+                    anim.Play("RunningNoHat");
+                }
+                else anim.Play("Running");
+
 
                 //transform.Translate(h * .018f, 0, 0);
                 //transform.Translate (Vector2.right * speed * Time.deltaTime);
@@ -310,7 +317,13 @@ public class PlayerControl : Entity
                         if (currentAction != IDLE)
                         {
                             currentAction = IDLE;
-                            anim.Play("Idle");
+
+                            if (!hatAndCoat)
+                            {
+                                anim.Play("IdleNoHat");
+                            }
+                            else anim.Play("Idle");
+                            
                         }
 
                     }
@@ -769,7 +782,13 @@ public class PlayerControl : Entity
         {
             setSpriteFlipX(false);
             knockBack = false;
-            anim.Play("Idle");
+
+            if (!hatAndCoat)
+            {
+                anim.Play("IdleNoHat");
+            }
+            else anim.Play("Idle");
+
             lockPosition = false;
         }
 
@@ -875,7 +894,13 @@ public class PlayerControl : Entity
                     setItemDown = false;
                     grabItem = false;
                     moveSpeed = 4;
-                    anim.Play("Idle");
+
+
+                    if (!hatAndCoat)
+                    {
+                        anim.Play("IdleNoHat");
+                    }
+                    else anim.Play("Idle");
                 }
             }
         }
@@ -930,7 +955,13 @@ public class PlayerControl : Entity
                 {
                     throwing = false;
                     moveSpeed = 4;
-                    anim.Play("Idle");
+
+                    if (!hatAndCoat)
+                    {
+                        anim.Play("IdleNoHat");
+                    }
+                    else anim.Play("Idle");
+
                     freezeForAnimation = false;
                 }
             }
@@ -1366,13 +1397,13 @@ public class PlayerControl : Entity
             if (barrel.GetComponent<CircleCollider2D>().IsTouching(sickleSwipe.GetComponent<CircleCollider2D>()))
             {
                 barrel.GetComponent<Barrel>().setHit(true);
+                screenShake.ShakeCamera(.1f);
                 Debug.Log("the sickle swipe hit the barrel collider in PlayerControl.cs");
             }
             //			print ("the actual barrel separation" + actualBarrelSeparation);
             //			print ("the barrelCooldown is " + barrelCooldown);
             //			print ("the barrelSwitch is " + barrelSwitch);
         }
-
     }
 
     public AnimationClip GetAnimationClip(string name)
