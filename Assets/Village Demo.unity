@@ -1589,6 +1589,66 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &318249039
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 318249041}
+  - component: {fileID: 318249040}
+  m_Layer: 0
+  m_Name: parallaxTrigger
+  m_TagString: foregroundParallaxTrigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!60 &318249040
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 318249039}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -3.276905, y: 8.129478}
+      - {x: -12.5932865, y: 6.801796}
+      - {x: -16.056826, y: 1.9945374}
+      - {x: 24.463917, y: -15.021866}
+      - {x: 29.08302, y: -8.573128}
+      - {x: 17.26139, y: -0.30456543}
+      - {x: 2.3286133, y: 4.757141}
+--- !u!4 &318249041
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 318249039}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 32.20631, y: -69.578896, z: -0.19140625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 55
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &333085533
 GameObject:
   m_ObjectHideFlags: 0
@@ -5522,7 +5582,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -37487728
+  randomSeed: -1780430447
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -14058,6 +14118,7 @@ MonoBehaviour:
   foreground: 0
   background: 0
   threshold: 0
+  blurMaterial: {fileID: 2100000, guid: c5d8f0d7b68562a43adab066eb7e05eb, type: 2}
 --- !u!1 &1182031066
 GameObject:
   m_ObjectHideFlags: 0
@@ -17338,6 +17399,7 @@ MonoBehaviour:
   foreground: 0
   background: 0
   threshold: 0
+  blurMaterial: {fileID: 2100000, guid: c5d8f0d7b68562a43adab066eb7e05eb, type: 2}
 --- !u!1 &1598581556
 GameObject:
   m_ObjectHideFlags: 0
@@ -24257,11 +24319,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1325440344002642, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1616412756591988, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11498034, guid: c27f323a7c54c8c4d882813d4f37bd46, type: 2}
       propertyPath: rollSpeed

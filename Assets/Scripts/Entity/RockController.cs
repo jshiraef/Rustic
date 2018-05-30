@@ -264,7 +264,6 @@ public class RockController : Entity {
             body.velocity = Vector3.zero;
             body.angularVelocity = 0f;
             this.transform.localScale = originalScale;
-
         }
 
         if (setDownTimer > 0)

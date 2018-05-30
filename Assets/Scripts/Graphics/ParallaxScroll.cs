@@ -7,6 +7,7 @@ public class ParallaxScroll : MonoBehaviour
 {
 
     public GameObject player;
+    private PlayerControl playerControl;
     public GameObject Camera;
     public CinemachineVirtualCamera CinemachineCamera;
     public float v, h;
@@ -27,15 +28,20 @@ public class ParallaxScroll : MonoBehaviour
 
     public double threshold = 0;
 
+    private Material currentMaterial;
+    public Material blurMaterial;
+
     // Use this for initialization
     void Start()
     {
         player = GameObject.Find("player");
+        playerControl = player.GetComponent<PlayerControl>();
         Camera = GameObject.Find("CM vcam1");
 
         originalPosition = this.transform.position;
 
         sprite = this.GetComponent<SpriteRenderer>();
+        currentMaterial = sprite.material;
 
         if (threshold == 0)
         {
@@ -67,7 +73,7 @@ public class ParallaxScroll : MonoBehaviour
         camNextPosition = Camera.GetComponent<CinemachineVirtualCamera>().transform.position;          
 
 
-        if (!(camLastPosition == camNextPosition) && sprite.isVisible && foreground)
+        if (!(camLastPosition == camNextPosition) && playerControl.parallaxTrigger)
         {
 
             if (Input.GetAxisRaw("Horizontal") < 0)
@@ -90,11 +96,14 @@ public class ParallaxScroll : MonoBehaviour
                 transform.Translate(0, v * -.005f, 0);
             }
 
+            sprite.material = blurMaterial;
+
         }
 
-        if (!sprite.isVisible && !(this.transform.position == originalPosition))
+        if (!playerControl.parallaxTrigger && !(this.transform.position == originalPosition))
         {
             transform.position = Vector3.Lerp(transform.position, originalPosition, Time.deltaTime);
+            sprite.material = currentMaterial;
         }
 
         //if(this.name == "BigVillageHouse")

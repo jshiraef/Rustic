@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-//using XInputDotNetPure;
+using XInputDotNetPure;
 using UnityEngine.PS4;
 
 
@@ -37,6 +37,7 @@ public class PlayerControl : Entity
     public bool inWater = false;
 
     private CinemachineCameraShaker screenShake;
+    public bool parallaxTrigger;
 
     public Transform lineStart, lineEnd, groundedEnd;
 
@@ -45,7 +46,7 @@ public class PlayerControl : Entity
     public float rollSpeed = 8f;
     public float v, h;
 
-    //private PlayerIndex playerIndex;
+    private PlayerIndex playerIndex;
     private Projector playerBlobShadow;
     private bool restoreBlobShadowToNormal;
 
@@ -122,8 +123,8 @@ public class PlayerControl : Entity
 
         if (rumble && rumbleCoolDown <= 0)
         {
-            //GamePad.SetVibration(playerIndex, 0, 0);  
-            PS4Input.PadSetVibration(1, 0, 0);
+            GamePad.SetVibration(playerIndex, 0, 0);  
+            //PS4Input.PadSetVibration(1, 0, 0);
             rumble = false;
         }
 
@@ -224,9 +225,9 @@ public class PlayerControl : Entity
                 //lockPosition = true;
                 isRunning = false;
 
-                //rumble = true;
-                //GamePad.SetVibration(playerIndex, .5f, 0f);
-                PS4Input.PadSetVibration(1, 175, 0);
+                rumble = true;
+                GamePad.SetVibration(playerIndex, .5f, 0f);
+                //PS4Input.PadSetVibration(1, 175, 0);
             }
             moveSpeed = 0;
             //rumbleCoolDown = .3f;
@@ -243,8 +244,8 @@ public class PlayerControl : Entity
             if (rollingCoolDown > .25f && rollingCoolDown < .4f)
             {
                 rumble = true;
-                //GamePad.SetVibration(playerIndex, .25f, .25f);
-                PS4Input.PadSetVibration(1, 65, 65);
+                GamePad.SetVibration(playerIndex, .25f, .25f);
+                //PS4Input.PadSetVibration(1, 65, 65);
                 rumbleCoolDown = .2f;
             }
         }
@@ -258,10 +259,10 @@ public class PlayerControl : Entity
             if (knockBackCoolDown > (knockBackTimeLength - .05f))
             {
                 rumble = true;
-                //GamePad.SetVibration(playerIndex, .75f, .75f);
-                PS4Input.PadSetVibration(1, 180, 180);
+                GamePad.SetVibration(playerIndex, .75f, .75f);
+                //PS4Input.PadSetVibration(1, 180, 180);
 
-                rumbleCoolDown = .3f;
+                rumbleCoolDown = .9f;
                 screenShake.ShakeCamera(1f);
             }
         }
@@ -277,7 +278,12 @@ public class PlayerControl : Entity
                 currentAction = WALKING;
             }
 
-            anim.Play("Walking");
+            if (!hatAndCoat)
+            {
+                anim.Play("WalkingNoHat");
+            }
+            else anim.Play("Walking");
+
         }
         else if (Input.GetAxisRaw("Horizontal") > 0 || Input.GetAxisRaw("Horizontal") < 0 || Input.GetAxisRaw("Vertical") > 0 || Input.GetAxisRaw("Vertical") < 0)
         {
@@ -507,7 +513,7 @@ public class PlayerControl : Entity
         
 
         //only temporary, this should be Input.GetButton("PS4_Triangle");
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetButton("PS4_Triangle"))
         {
             if (!rolling)
             {
@@ -1011,10 +1017,10 @@ public class PlayerControl : Entity
 
         //             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
         //Debug.Log("the rolling bool is" + rolling);
-        //Debug.Log("the rolling cooldown is " + rollingCoolDown);
+        //Debug.Log("the rolling cooldown is " + rollingCoolDown);     
     }
 
-
+            
     //		Debug.Log("the run direction is: " + this.runDirection);
     //		Debug.Log("the direction is: " + this.direction);
     //		Debug.Log ("the animator's direction float is: " + anim.GetFloat ("direction(float)"));
@@ -1498,6 +1504,11 @@ public class PlayerControl : Entity
 
         }
 
+        if (other.name == "parallaxTrigger")
+        {
+            parallaxTrigger = true;
+        }
+
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -1526,6 +1537,11 @@ public class PlayerControl : Entity
         if (other.name == "shortGrassEdge")
         {
             renderMaskOutliner.transform.localScale = new Vector3(0.76f, 1.09f, 1.09f);
+        }
+
+        if (other.name == "parallaxTrigger")
+        {
+            parallaxTrigger = false;
         }
 
 
@@ -1566,6 +1582,7 @@ public class PlayerControl : Entity
 
             setBlobShadowForGrass();
         }
+     
 
     }
 

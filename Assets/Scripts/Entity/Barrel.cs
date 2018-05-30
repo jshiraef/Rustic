@@ -327,8 +327,13 @@ public class Barrel : Entity {
         }
     }
 
+     void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+    }
 
-	public static void barrelCountDown()
+
+    public static void barrelCountDown()
 	{
 		barrelTimer = barrelTimer - 5;
 	}
