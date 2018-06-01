@@ -40,7 +40,15 @@ public class ParallaxScroll : MonoBehaviour
 
         originalPosition = this.transform.position;
 
-        sprite = this.GetComponent<SpriteRenderer>();
+        if(GetComponent<SpriteRenderer>() != null)
+        {
+            sprite = this.GetComponent<SpriteRenderer>();
+        }
+        else
+        {
+            sprite = GetComponentInChildren<SpriteRenderer>();
+        }
+        
         currentMaterial = sprite.material;
 
         if (threshold == 0)

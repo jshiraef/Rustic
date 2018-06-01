@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class bakerController : MonoBehaviour {
+public class bakerController : Entity {
 
     public TextAsset dialogue;
     private Dialogue dialogueUI;
@@ -27,7 +27,7 @@ public class bakerController : MonoBehaviour {
             dialogueUI.LoadDialogueAsset(dialogue);
         }
 
-        dialogueUI.setIsDialoguePlaying();
+        dialogueUI.setIsDialoguePlaying(false);
 
         _withinTalkingRange = true;
     }

@@ -44,8 +44,8 @@ public class Dialogue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetButton("PS4_X") && DialogueStringsList.Count > 0)
+        //only temporary, this should be Input.GetButton("PS4_X");
+        if (Input.GetKey(KeyCode.X) && DialogueStringsList.Count > 0)
         {
             if (!_isDialoguePlaying)
             {
@@ -53,7 +53,7 @@ public class Dialogue : MonoBehaviour
                 StartCoroutine(StartDialogue());
             }
         }
-
+        
     }
 
     private IEnumerator StartDialogue()
@@ -86,7 +86,8 @@ public class Dialogue : MonoBehaviour
 
         while (true)
         {
-            if (Input.GetButtonDown("PS4_X"))
+            //only temporary, this should be Input.GetButton("PS4_X");
+            if (Input.GetKey(KeyCode.X))
             {
                 break;
             }
@@ -96,7 +97,7 @@ public class Dialogue : MonoBehaviour
         }
 
         HideStuff();
-        _isEndofDialogue = false;
+        //_isEndofDialogue = false;
         _isDialoguePlaying = false;
 
     }
@@ -121,7 +122,8 @@ public class Dialogue : MonoBehaviour
 
             if (currentCharacterIndex < stringLength)
             {
-                if (Input.GetButton("PS4_X"))
+                //only temporary, this should be Input.GetButton("PS4_X");
+                if (Input.GetKey(KeyCode.X))
                 {
                     yield return new WaitForSeconds(TimeBetweenCharacters * CharacterRate);
                 }
@@ -133,6 +135,8 @@ public class Dialogue : MonoBehaviour
 
             else
             {
+                Debug.Log("the end of dialogue bool is " + _isEndofDialogue);
+
                 if(_isEndofDialogue)
                 {
                     Debug.Log("IT IS THE LAST LETTER OF THE LAST DIALOGUE ENTRY");
@@ -145,7 +149,8 @@ public class Dialogue : MonoBehaviour
 
         while (true)
         {
-            if (Input.GetButtonDown("PS4_X"))
+            //only temporary, this should be Input.GetButton("PS4_X");
+            if (Input.GetKey(KeyCode.X))
             {
                 break;
             }
@@ -221,8 +226,8 @@ public class Dialogue : MonoBehaviour
         return _isDialoguePlaying;
     }
 
-    public void setIsDialoguePlaying()
+    public void setIsDialoguePlaying(bool b)
     {
-        _isDialoguePlaying = false;
+        _isDialoguePlaying = b;
     }
 }

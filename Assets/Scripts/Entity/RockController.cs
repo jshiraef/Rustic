@@ -164,11 +164,11 @@ public class RockController : Entity {
 
             if(playerControl.getDirectionNSEW() == Direction.SOUTH)
             {
-                transform.localPosition -= new Vector3(0, 10f * Time.deltaTime, 0);
+                transform.localPosition -= new Vector3(0, 12f * Time.deltaTime, 0);
             }
             else if (playerControl.getDirectionNSEW() == Direction.NORTH)
             {
-                transform.localPosition -= new Vector3(0, 4f * Time.deltaTime, 0);
+                transform.localPosition -= new Vector3(0, 6f * Time.deltaTime, 0);
             }
             else if (playerControl.getDirectionNSEW() == Direction.EAST)
             {
