@@ -9,10 +9,11 @@ public class RenderMask : MonoBehaviour {
     private GameObject renderMaskOutliner;
     private GameObject renderMaskOutliner2;
     private SpriteRenderer renderMaskSprite;
-    public MaskType maskType;
+    public MaskType playerMaskType;
+    public MaskType vendorMaskType;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
 
         MovingMask = GetComponent<Animator>();
@@ -21,61 +22,102 @@ public class RenderMask : MonoBehaviour {
         renderMaskOutliner2 = GameObject.Find("renderMaskOutliner2");
         renderMaskSprite = renderMask.GetComponent<SpriteRenderer>();
 
-        maskType = MaskType.NULL;
+        playerMaskType = MaskType.NULL;
+        vendorMaskType = MaskType.NULL;
 
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        renderMaskOutliner.GetComponent<RenderMask>().maskType = renderMask.GetComponent<RenderMask>().maskType;
-        renderMaskOutliner2.GetComponent<RenderMask>().maskType = renderMask.GetComponent<RenderMask>().maskType;
-
-        if (GetComponentInParent<PlayerControl>().isIdle)
-        {
-            //MovingMask.enabled = false;
-            MovingMask.speed = 0.0f;
-        }
-        else if(GetComponentInParent<PlayerControl>().isWalking)
-        {
-            //MovingMask.enabled = true;   
-            MovingMask.speed = .3f;
-        }
-        else  
-        {
-            //MovingMask.enabled = true;   
-            MovingMask.speed = 1f;
-        }
-
-        switch ((int)maskType)
-        {
-            case 0:
-                MovingMask.Play("waterFlowMask");
-                //renderMask.GetComponent<RenderMask>().setWaterFlowLayer();
-                break;
-
-            case 1:
-                MovingMask.Play("softWind");
-                //MovingMask.Play("softWindOutline");
-                break;
-            case 2:
-                MovingMask.Play("nullAnimation");
-                break;
-        }
-
-        if(maskType == MaskType.NULL)
-        {
-            MovingMask.Play("nullAnimation");
-        }
-
-
-        //Debug.Log("the mask should be displaying " + maskType);
 
     }
 
-    public void setMaskType(MaskType mask)
+    // Update is called once per frame
+    void Update ()
     {
-        this.maskType = mask;
+        renderMaskOutliner.GetComponent<RenderMask>().playerMaskType = renderMask.GetComponent<RenderMask>().playerMaskType;
+        renderMaskOutliner2.GetComponent<RenderMask>().playerMaskType = renderMask.GetComponent<RenderMask>().playerMaskType;
+
+        if(this.gameObject.transform.parent.name == "player")
+        {
+            if (GetComponentInParent<PlayerControl>().isIdle)
+            {
+                //MovingMask.enabled = false;
+                MovingMask.speed = 0.0f;
+            }
+            else if (GetComponentInParent<PlayerControl>().isWalking)
+            {
+                //MovingMask.enabled = true;   
+                MovingMask.speed = .3f;
+            }
+            else
+            {
+                //MovingMask.enabled = true;   
+                MovingMask.speed = 1f;
+            }
+        }
+
+        if(transform.root.name == "player")
+        {
+            switch ((int)playerMaskType)
+            {
+                case 0:
+                    MovingMask.Play("waterFlowMask");
+                    //renderMask.GetComponent<RenderMask>().setWaterFlowLayer();
+                    break;
+
+                case 1:
+                    MovingMask.Play("softWind");
+                    //MovingMask.Play("softWindOutline");
+                    break;
+                case 2:
+                    MovingMask.Play("nullAnimation");
+                    break;
+            }
+        }
+
+        
+        if(transform.root.name == "Vendor")
+        {
+            switch ((int)vendorMaskType)
+            {
+                case 0:
+                    MovingMask.Play("waterFlowMask");
+                    //renderMask.GetComponent<RenderMask>().setWaterFlowLayer();
+                    break;
+
+                case 1:
+                    MovingMask.Play("softWind");
+                    //MovingMask.Play("softWindOutline");
+                    break;
+                case 2:
+                    MovingMask.Play("nullAnimation");
+                    break;
+            }
+        }
+        
+
+        //if (playerMaskType == MaskType.NULL || vendorMaskType == MaskType.NULL)
+        //{
+        //    MovingMask.Play("nullAnimation");
+        //}
+
+        //if(this.gameObject.transform.parent.name == "player" && this.name == "renderMask")
+        //{
+        //    Debug.Log("the player mask should be displaying " + maskType);
+        //}
+
+        //if (this.gameObject.transform.parent.name == "Vendor" && this.name == "renderMask")
+        //{
+        //    Debug.Log("the Vendor mask should be displaying " + maskType);
+        //}
+
+    }
+
+    public void setPlayerMaskType(MaskType mask)
+    {
+        this.playerMaskType = mask;
+    }
+
+    public void setVendorMaskType(MaskType mask)
+    {
+        this.vendorMaskType = mask;
     }
 
     public enum MaskType
@@ -83,19 +125,6 @@ public class RenderMask : MonoBehaviour {
         WATER, GRASS, NULL
     }
 
-    void onTriggerEnter2D (Collider2D coll)
-    {
-        //if(coll.name == "grassEdge")
-        //{
-        //    MovingMask.Play("SoftWind");
-        //}
-        //else if (coll.name == "waterEdge")
-        //{
-        //    MovingMask.Play("waterFlowMash");
-        //}
-
-        //Debug.Log("Hey! Listen!");
-    }
 
     void onCollisionEnter2D (Collision coll)
     {

@@ -12,6 +12,8 @@ public class Dialogue : MonoBehaviour
 
     public string[] DialogueStrings;
 
+    private string[] animationCommands;
+
     public float TimeBetweenCharacters = 0.05f;
     public float CharacterRate = 0.5f;
 
@@ -49,6 +51,7 @@ public class Dialogue : MonoBehaviour
         {
             if (!_isDialoguePlaying)
             {
+                _isEndofDialogue = false;
                 _isDialoguePlaying = true;
                 StartCoroutine(StartDialogue());
             }
@@ -97,6 +100,7 @@ public class Dialogue : MonoBehaviour
         }
 
         HideStuff();
+
         //_isEndofDialogue = false;
         _isDialoguePlaying = false;
 
@@ -134,13 +138,13 @@ public class Dialogue : MonoBehaviour
             }
 
             else
-            {
-                Debug.Log("the end of dialogue bool is " + _isEndofDialogue);
+            {             
 
                 if(_isEndofDialogue)
                 {
                     Debug.Log("IT IS THE LAST LETTER OF THE LAST DIALOGUE ENTRY");
                 }
+
                 break;
             }
         }
@@ -211,6 +215,7 @@ public class Dialogue : MonoBehaviour
         if(stringToDisplay[0] == '[')
         {
             string[] commands = stringToDisplay.Substring(1, stringToDisplay.IndexOf("]") - 1).Split(',');
+
             if (GameObject.Find("RawImage") != null)
             {
                 RawImage avatar = GameObject.Find("RawImage").GetComponent<RawImage>();
@@ -218,6 +223,11 @@ public class Dialogue : MonoBehaviour
                 // this next line loads an image (found in Assets/Resources) with the same name given within the text file
                 avatar.texture = Resources.Load(commands[0]) as Texture;
             }
+        }
+
+        if(stringToDisplay[0] == '{')
+        {
+            animationCommands = stringToDisplay.Substring(1, stringToDisplay.IndexOf("}") - 1).Split(',');
         }
     }
 
@@ -229,5 +239,10 @@ public class Dialogue : MonoBehaviour
     public void setIsDialoguePlaying(bool b)
     {
         _isDialoguePlaying = b;
+    }
+
+    public string getDialogueAnimation()
+    {
+        return animationCommands[0];
     }
 }

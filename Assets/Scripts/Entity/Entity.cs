@@ -46,6 +46,8 @@ public abstract class Entity : MonoBehaviour {
     public Direction direction;
     protected float rigidbodyAngularDirection;
 
+    
+
     // Use this for initialization
     void Start () {
 

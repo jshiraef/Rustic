@@ -104,16 +104,14 @@ public class PlayerControl : Entity
 
         player = GameObject.Find("player");
         boxCollider2D = player.GetComponent<BoxCollider2D>();
-        renderMask = GameObject.Find("renderMask");
-        renderMaskOutliner = GameObject.Find("renderMaskOutliner");
+        renderMask = transform.Find("renderMask").gameObject;
+        renderMaskOutliner = transform.Find("renderMaskOutliner").gameObject; 
         playerBlobShadow = player.GetComponentInChildren<Projector>();
         player.GetComponent<SpriteRenderer>().receiveShadows = true;
         screenShake = GameObject.Find("CM vcam1").GetComponent<CinemachineCameraShaker>();
         sickleSwipe = GameObject.Find("sickleSwipe");
         vision = GetComponent<FieldOfView>();
-
-         
-
+       
         //		nearestBarrel = GameObject.Find ("barrel");
     }
 
@@ -1518,11 +1516,9 @@ public class PlayerControl : Entity
 
             environmentCount--;
 
-
-
             if (environmentCount <= 0)
             {
-                renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.NULL);
+                renderMask.GetComponent<RenderMask>().setPlayerMaskType(RenderMask.MaskType.NULL);
             }
         }
 
@@ -1562,7 +1558,7 @@ public class PlayerControl : Entity
 
             inWater = true;
 
-            renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.WATER);
+            renderMask.GetComponent<RenderMask>().setPlayerMaskType(RenderMask.MaskType.WATER);
             setBlobShadowForWater();
         }
 
@@ -1570,7 +1566,7 @@ public class PlayerControl : Entity
         {
             restoreBlobShadowToNormal = false;
 
-            renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.GRASS);
+            renderMask.GetComponent<RenderMask>().setPlayerMaskType(RenderMask.MaskType.GRASS);
             setBlobShadowForGrass();
         }
 
@@ -1578,7 +1574,7 @@ public class PlayerControl : Entity
         {
             restoreBlobShadowToNormal = false;
 
-            renderMask.GetComponent<RenderMask>().setMaskType(RenderMask.MaskType.GRASS);
+            renderMask.GetComponent<RenderMask>().setPlayerMaskType(RenderMask.MaskType.GRASS);
 
             setBlobShadowForGrass();
         }

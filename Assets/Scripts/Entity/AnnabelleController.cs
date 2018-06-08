@@ -4,11 +4,13 @@ using System.Collections;
 public class AnnabelleController : Entity
 {
 
-    public TextAsset dialogue;
-    private Dialogue dialogueUI;
-    private Rigidbody body;
+    
 
     private GameObject AlertIcon;
+
+    public TextAsset dialogue;
+    private Dialogue dialogueUI;
+
 
     private bool _withinTalkingRange;
 
@@ -17,7 +19,7 @@ public class AnnabelleController : Entity
     {
 
         dialogueUI = GameObject.Find("Dialogue Text").GetComponent<Dialogue>();
-        body = GetComponent<Rigidbody>();
+        body = GetComponent<Rigidbody2D>();
         AlertIcon = GameObject.Find("AlertIcon");
 
     }
