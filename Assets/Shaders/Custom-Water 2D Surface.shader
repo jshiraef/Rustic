@@ -1,6 +1,6 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Custom/Water2D Surface" {
+Shader "Custom/Water 2D Surface" {
 Properties {
   _Color("Color", Color) = (1,1,1,1)
 	_MainTex ("Normalmap", 2D) = "bump" {}

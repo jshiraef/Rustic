@@ -26,6 +26,9 @@ public class Dialogue : MonoBehaviour
     public GameObject ContinueText;
     public GameObject StopText;
 
+    private bool setInventory;
+    private int currentLineOfDialogue;
+
     private GameObject dialoguePanel;
 
     private List<string> DialogueStringsList = new List<string>();
@@ -51,11 +54,12 @@ public class Dialogue : MonoBehaviour
         {
             if (!_isDialoguePlaying)
             {
-                _isEndofDialogue = false;
+                //_isEndofDialogue = false;
                 _isDialoguePlaying = true;
                 StartCoroutine(StartDialogue());
             }
         }
+
         
     }
 
@@ -98,6 +102,8 @@ public class Dialogue : MonoBehaviour
             yield return 0;
 
         }
+
+        currentLineOfDialogue = currentDialogueIndex;
 
         HideStuff();
 
@@ -244,5 +250,15 @@ public class Dialogue : MonoBehaviour
     public string getDialogueAnimation()
     {
         return animationCommands[0];
+    }
+
+    public bool getIsEndOfDialogue()
+    {
+        return _isEndofDialogue;
+    }
+
+    public int getCurrentLineNumber()
+    {
+        return currentLineOfDialogue;
     }
 }

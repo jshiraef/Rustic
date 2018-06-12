@@ -45,6 +45,7 @@ public abstract class Entity : MonoBehaviour {
     // direction
     public Direction direction;
     protected float rigidbodyAngularDirection;
+    
 
     
 
@@ -56,6 +57,7 @@ public abstract class Entity : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+
 	}
 
     public enum Direction
@@ -245,40 +247,40 @@ public abstract class Entity : MonoBehaviour {
 
     public Direction getDirection8()
     {
-        if(direction == Direction.SOUTHEAST310)
+        if(direction == Direction.SOUTHEAST310 || direction == Direction.SOUTHEAST330 || direction == Direction.SOUTHEAST290)
         {
             return Direction.SOUTHEAST310;
         }
-        if (direction == Direction.SOUTHEAST290 || direction == Direction.SOUTHWEST250 || direction == Direction.SOUTH)
+        if ( direction == Direction.SOUTH)
         {
             return Direction.SOUTH;       
         }
-        else if (direction == Direction.SOUTHWEST230) 
+        else if (direction == Direction.SOUTHWEST230 || direction == Direction.SOUTHWEST210 || direction == Direction.SOUTHWEST230 || direction == Direction.SOUTHWEST250) 
         {
             return Direction.SOUTHWEST230;
         }
-        else if (direction == Direction.SOUTHEAST330 || direction == Direction.NORTHEAST30 || direction == Direction.EAST)
+        else if ( direction == Direction.EAST)
         {
             return Direction.EAST;           
         }
-        else if(direction == Direction.NORTHWEST130)
+        else if(direction == Direction.NORTHWEST130 || direction == Direction.NORTHWEST150 || direction == Direction.NORTHWEST110)
         {
             return Direction.NORTHWEST130;
         }
-        else if (direction == Direction.NORTHWEST150 || direction == Direction.SOUTHWEST210 || direction == Direction.SOUTHWEST230 || direction == Direction.WEST)
+        else if (direction == Direction.WEST)
         {
             return Direction.WEST;          
         }
-        else if (direction == Direction.NORTHEAST50)
+        else if (direction == Direction.NORTHEAST50 || direction == Direction.NORTHEAST70 || direction == Direction.NORTHEAST30)
         {
             return Direction.NORTHEAST50;
         }
-        else if (direction == Direction.NORTHEAST70 || direction == Direction.NORTHWEST110 || direction == Direction.NORTH)
+        else if ( direction == Direction.NORTH)
         {
             return Direction.NORTH;
         }
-        else return Direction.NULL;
 
+        else return Direction.NULL;
     }
 
     public void LookAt(Vector3 position)

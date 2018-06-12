@@ -17,9 +17,9 @@ public class RenderMask : MonoBehaviour {
     {
 
         MovingMask = GetComponent<Animator>();
-        renderMask = GameObject.Find("renderMask");
-        renderMaskOutliner = GameObject.Find("renderMaskOutliner");
-        renderMaskOutliner2 = GameObject.Find("renderMaskOutliner2");
+        renderMask = GameObject.Find("player").gameObject.transform.Find("renderMask").gameObject; 
+        renderMaskOutliner = renderMask.transform.Find("renderMaskOutliner").gameObject;
+        renderMaskOutliner2 = renderMaskOutliner.transform.Find("renderMaskOutliner2").gameObject;
         renderMaskSprite = renderMask.GetComponent<SpriteRenderer>();
 
         playerMaskType = MaskType.NULL;
@@ -31,10 +31,8 @@ public class RenderMask : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        renderMaskOutliner.GetComponent<RenderMask>().playerMaskType = renderMask.GetComponent<RenderMask>().playerMaskType;
-        renderMaskOutliner2.GetComponent<RenderMask>().playerMaskType = renderMask.GetComponent<RenderMask>().playerMaskType;
 
-        if(this.gameObject.transform.parent.name == "player")
+        if(transform.root.name == "player")
         {
             if (GetComponentInParent<PlayerControl>().isIdle)
             {
@@ -53,7 +51,10 @@ public class RenderMask : MonoBehaviour {
             }
         }
 
-        if(transform.root.name == "player")
+        renderMaskOutliner.GetComponent<RenderMask>().playerMaskType = renderMask.GetComponent<RenderMask>().playerMaskType;
+        renderMaskOutliner2.GetComponent<RenderMask>().playerMaskType = renderMask.GetComponent<RenderMask>().playerMaskType;
+
+        if (transform.root.name == "player")
         {
             switch ((int)playerMaskType)
             {

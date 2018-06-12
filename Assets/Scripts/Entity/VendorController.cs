@@ -24,6 +24,8 @@ public class VendorController : Entity {
 
     public bool dialogueIsShowing;
 
+    private SatchelController inventory;
+
     private CircleCollider2D dialogueCollider;
 
     // Use this for initialization
@@ -39,6 +41,8 @@ public class VendorController : Entity {
 
         dialogueCollider = GetComponent<CircleCollider2D>();
 
+        inventory = GameObject.Find("inventory").GetComponent<SatchelController>();
+
 
         anim = GetComponent<Animator>();
 
@@ -47,8 +51,6 @@ public class VendorController : Entity {
 	
 	// Update is called once per frame
 	void Update () {
-
-        
 
         if (_withinTalkingRange && !dialogueUI.getIsDialoguePlaying())
         {
@@ -214,6 +216,16 @@ public class VendorController : Entity {
             renderMask.GetComponent<RenderMask>().setVendorMaskType(RenderMask.MaskType.GRASS);
             
         }
+    }
+
+    public bool getEndOfDialogue()
+    {
+        return dialogueUI.getIsEndOfDialogue();
+    }
+
+    public bool getWithinTalkingRange()
+    {
+        return _withinTalkingRange;
     }
 
 }

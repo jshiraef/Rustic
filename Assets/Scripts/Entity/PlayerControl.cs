@@ -33,6 +33,8 @@ public class PlayerControl : Entity
     public int throwTimer;
     public bool hatAndCoat;
 
+    private AnimatorClipInfo animInfo;
+
     // elements
     public bool inWater = false;
 
@@ -53,6 +55,12 @@ public class PlayerControl : Entity
     public RunDirection runDirection;
     public RunDirection lastRecordedRunDirection;
 
+    private Direction lastDirection8;
+
+    // leaning against things
+    private int leanTimer;
+    private bool leaning;
+
     private bool shortFall = false;
     private float shortFallCoolDown;
 
@@ -65,6 +73,9 @@ public class PlayerControl : Entity
     private GameObject throwableItem;
     private GameObject sickleSwipe;
     private FieldOfView vision;
+
+    private int toggleTimer;
+    private bool flipflopToggle;
 
     // barrel variables (variables similar to these can help keep track of relations between player and world objects)
     public GameObject[] barrels;
@@ -87,6 +98,7 @@ public class PlayerControl : Entity
     private static readonly int ITEMGRAB = 6;
     private static readonly int WALKWITHITEM = 7;
     private static readonly int THROWING = 8;
+    private static readonly int LEANAGAINST = 9;
 
 
     // Use this for initialization
@@ -98,6 +110,7 @@ public class PlayerControl : Entity
         moveSpeed = 4f;
 
         anim = GetComponent<Animator>();
+        
         currentAction = IDLE;
 
         this.direction = Direction.NULL;
@@ -105,19 +118,38 @@ public class PlayerControl : Entity
         player = GameObject.Find("player");
         boxCollider2D = player.GetComponent<BoxCollider2D>();
         renderMask = transform.Find("renderMask").gameObject;
-        renderMaskOutliner = transform.Find("renderMaskOutliner").gameObject; 
+        renderMaskOutliner = renderMask.transform.Find("renderMaskOutliner").gameObject; 
         playerBlobShadow = player.GetComponentInChildren<Projector>();
         player.GetComponent<SpriteRenderer>().receiveShadows = true;
         screenShake = GameObject.Find("CM vcam1").GetComponent<CinemachineCameraShaker>();
         sickleSwipe = GameObject.Find("sickleSwipe");
         vision = GetComponent<FieldOfView>();
-       
+
+        hatAndCoat = true;
+
         //		nearestBarrel = GameObject.Find ("barrel");
     }
 
     // Update is called once per frame
     void Update()
     {
+        // checks every 10 frame to see if direction has changed
+        if (toggleTimer == 1)
+            lastDirection8 = getDirection8fromAngle();
+
+        if (toggleTimer > 10)
+            toggleTimer = 0;
+
+        toggleTimer += Mathf.RoundToInt(Time.deltaTime * 100);
+        
+
+         
+
+        //if (lastDirection8 != getDirection8fromAngle())
+        //{
+        //    Debug.Log("the direction changed; it used to be " + lastDirection8 + " but it is now " + getDirection8fromAngle() );
+        //}
+
 
         if (rumble && rumbleCoolDown <= 0)
         {
@@ -157,7 +189,16 @@ public class PlayerControl : Entity
         }
 
         // setAction
-        if (holdingThrowableItem)
+
+        if (leaning)
+        {
+            if(currentAction != LEANAGAINST)
+            {
+                currentAction = LEANAGAINST;
+                moveSpeed = 0;
+            }
+        }
+        else if (holdingThrowableItem)
         {
             if (currentAction != WALKWITHITEM)
             {
@@ -179,7 +220,6 @@ public class PlayerControl : Entity
                 moveSpeed = 1;
             }
             else moveSpeed = 0;
-
 
         }
         else if (grabItem)
@@ -301,7 +341,6 @@ public class PlayerControl : Entity
                     anim.Play("RunningNoHat");
                 }
                 else anim.Play("Running");
-
 
                 //transform.Translate(h * .018f, 0, 0);
                 //transform.Translate (Vector2.right * speed * Time.deltaTime);
@@ -971,6 +1010,11 @@ public class PlayerControl : Entity
             }
         }
 
+        if(leaning)
+        {
+            anim.Play("LeanToPush");
+        }
+
 
 
         if (swingCoolDown > 0)
@@ -1012,13 +1056,29 @@ public class PlayerControl : Entity
             throwTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
         }
 
+        if(lastDirection8 != getDirection8fromAngle())
+        {
+            leanTimer = 0;
+            leaning = false;
+        }
+
+        if (leanTimer > 30 && Input.GetAxisRaw("Horizontal") != 0 && Input.GetAxisRaw("Vertical") != 0)
+        {
+            leaning = true;
+        }
+        else leaning = false;
+
+       // Debug.Log("the animator is playing" + anim.runtimeAnimatorController.animationClips[24]);
+       
+        //Debug.Log("the normalized time of the current animation is " + getAnimatorNormalizedTime());
 
         //             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
         //Debug.Log("the rolling bool is" + rolling);
         //Debug.Log("the rolling cooldown is " + rollingCoolDown);     
     }
 
-            
+          
+
     //		Debug.Log("the run direction is: " + this.runDirection);
     //		Debug.Log("the direction is: " + this.direction);
     //		Debug.Log ("the animator's direction float is: " + anim.GetFloat ("direction(float)"));
@@ -1427,7 +1487,7 @@ public class PlayerControl : Entity
     void OnCollisionEnter2D(Collision2D coll)
     {
         collisionCount++;
-        //       Debug.Log("the collision count is: " + collisionCount);
+        //Debug.Log("the collision count is: " + collisionCount);
 
         if (coll.gameObject.tag == "fence")
         {
@@ -1442,6 +1502,7 @@ public class PlayerControl : Entity
                 knockBack = true;
                 knockBackCoolDown = knockBackTimeLength;
             }
+
         }
 
         if (coll.gameObject.tag == "tree")
@@ -1456,7 +1517,6 @@ public class PlayerControl : Entity
             }
         }
 
-
     }
 
     void OnCollisionStay2D(Collision2D coll)
@@ -1465,14 +1525,24 @@ public class PlayerControl : Entity
         {
             //lockPosition = true;
         }
+
+        if (coll.gameObject.tag == "wall" && (v > .5 || v < .5 || h > .5 || h < .5))
+        {
+            leanTimer += Mathf.RoundToInt(Time.deltaTime * 100);
+        }
+        else leanTimer = 0;
+        
     }
 
     void OnCollisionExit2D(Collision2D coll)
     {
         collisionCount--;
 
+        if(coll.gameObject.tag == "wall")
+        {
+            leanTimer = 0;
+        }
     }
-
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -1502,7 +1572,7 @@ public class PlayerControl : Entity
 
         }
 
-        if (other.name == "parallaxTrigger")
+        if (other.tag == "foregroundParallaxTrigger")
         {
             parallaxTrigger = true;
         }
@@ -1666,6 +1736,56 @@ public class PlayerControl : Entity
     public int getDirectionAngle180()
     {
         return (int) analogAxesAngle;
+    }
+
+    public Direction getDirection8fromAngle()
+    {
+        if (getDirectionAngle360() >= 0 && getDirectionAngle360() < 21.1)
+        {
+            return Direction.EAST;
+            //East
+        }
+        else if (getDirectionAngle360() < 63.3)
+        {
+            return Direction.NORTHEAST50;
+            //NorthEast30
+        }
+        else if (getDirectionAngle360() < 105.5)
+        {
+            return Direction.NORTH;
+            //North
+        }
+        else if (getDirectionAngle360() < 147.7)
+        {
+            return Direction.NORTHWEST130;
+            //NorthWest130
+        }
+        else if (getDirectionAngle360() < 189.9)
+        {
+            return Direction.WEST;           
+            //West
+        }
+        else if (getDirectionAngle360() <= 232.1)
+        {
+            return Direction.SOUTHWEST230;
+            //southWest230
+        }
+        else if (getDirectionAngle360() < 264.3)
+        {
+            return Direction.SOUTH;
+            //south
+        }
+        else if (getDirectionAngle360() < 306.5)
+        {
+            return Direction.SOUTHEAST310;
+            //southWest310
+        }
+        else 
+        {
+            return Direction.EAST;
+            //East
+        }
+       
     }
 
     public bool getIsRunning()
