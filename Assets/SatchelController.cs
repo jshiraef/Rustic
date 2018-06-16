@@ -15,7 +15,13 @@ public class SatchelController : MonoBehaviour {
         
         blurOverlay = GameObject.Find("blurInventory").gameObject;
       
+        
         satchel = GameObject.Find("Satchel").gameObject;
+
+        if(!satchel.activeSelf)
+        {
+            satchel = null;
+        }
 
         vendor = GameObject.Find("Vendor");
 
@@ -24,21 +30,25 @@ public class SatchelController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if(vendor.GetComponent<VendorController>().getEndOfDialogue() && vendor.GetComponent<VendorController>().getWithinTalkingRange())
-        {   
-            if(!satchel.activeSelf)
-            {
-                satchel.SetActive(true);
-            }
-        }
-        else
+        if(satchel != null)
         {
-            if (satchel.activeSelf)
+            if (vendor.GetComponent<VendorController>().getEndOfDialogue() && vendor.GetComponent<VendorController>().getWithinTalkingRange())
             {
-                satchel.SetActive(false);
+
+                if (!satchel.activeSelf)
+                {
+                    satchel.SetActive(true);
+                }
+            }
+            else
+            {
+                if (satchel.activeSelf)
+                {
+                    satchel.SetActive(false);
+                }
             }
         }
-
+           
     }
 
     public void setSatchel(bool b)

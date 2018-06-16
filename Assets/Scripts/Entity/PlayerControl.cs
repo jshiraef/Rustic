@@ -59,7 +59,10 @@ public class PlayerControl : Entity
 
     // leaning against things
     private int leanTimer;
-    private bool leaning;
+    public bool leaning;
+    public bool wallInteract;
+
+    private bool pushing;
 
     private bool shortFall = false;
     private float shortFallCoolDown;
@@ -99,6 +102,7 @@ public class PlayerControl : Entity
     private static readonly int WALKWITHITEM = 7;
     private static readonly int THROWING = 8;
     private static readonly int LEANAGAINST = 9;
+    private static readonly int PUSHING = 10;
 
 
     // Use this for initialization
@@ -196,6 +200,14 @@ public class PlayerControl : Entity
             {
                 currentAction = LEANAGAINST;
                 moveSpeed = 0;
+            }
+        }
+        else if (pushing)
+        {
+            if(currentAction != PUSHING)
+            {
+                currentAction = PUSHING;
+                moveSpeed = 1;
             }
         }
         else if (holdingThrowableItem)
@@ -444,6 +456,8 @@ public class PlayerControl : Entity
             interact = false;
         }
 
+        wallInteract = Physics2D.Linecast(lineStart.position, lineEnd.position, 1 << LayerMask.NameToLayer("Wall"));
+        
         //only temporary, this should be Input.GetButton("PS4_X");
         if (Input.GetKey(KeyCode.X) && interact == true)
         {
@@ -454,7 +468,6 @@ public class PlayerControl : Entity
             throwableItem.GetComponent<Collider2D>().isTrigger = true;
             grabItem = true;
         }
-
 
         //Debug.Log("the current action is " + currentAction);
         //Debug.Log("interact bool is " + interact);
@@ -539,7 +552,7 @@ public class PlayerControl : Entity
         if (Input.GetKeyDown(KeyCode.Q) )
         {
 
-            if (!knockBack && !rolling && !throwing && !swinging)
+            if (!knockBack && !rolling && !throwing && !swinging && !leaning)
             {
                 releaseItem();
                 swinging = true;
@@ -559,6 +572,7 @@ public class PlayerControl : Entity
             if (afterRollCoolDown <= 0 && !knockBack && !throwing)
             {
                 releaseItem();
+                leanTimer = 0;
                 rolling = true;
             }
         }
@@ -1010,9 +1024,29 @@ public class PlayerControl : Entity
             }
         }
 
-        if(leaning)
+        if(leaning && !pushing)
         {
             anim.Play("LeanToPush");
+        }
+
+        if (pushing)
+        {
+            if(getDirectionNSEW() == Direction.NORTH)
+            {
+                anim.Play("pushingNorth");
+            }
+            else if (getDirectionNSEW() == Direction.SOUTH)
+            {
+                anim.Play("pushingSouth");
+            }
+            else if (getDirectionNSEW() == Direction.EAST)
+            {
+                anim.Play("pushingEast");
+            }
+            else if (getDirectionNSEW() == Direction.WEST)
+            {
+                anim.Play("pushingWest");
+            }
         }
 
 
@@ -1062,19 +1096,32 @@ public class PlayerControl : Entity
             leaning = false;
         }
 
-        if (leanTimer > 30 && Input.GetAxisRaw("Horizontal") != 0 && Input.GetAxisRaw("Vertical") != 0)
+        if (leanTimer > 25 && Input.GetAxisRaw("Horizontal") != 0 && Input.GetAxisRaw("Vertical") != 0)
         {
             leaning = true;
         }
-        else leaning = false;
+        else if (leanTimer <= 0)
+        {
+            leaning = false;
+            leanTimer = 0;
+        }
+
+        //only temporary, this should be Input.GetButton("PS4_X");
+        if (leaning && Input.GetKey(KeyCode.X) && leanTimer > 50)
+        {
+            pushing = true;
+        }
+        else pushing = false;
+            
+           
 
        // Debug.Log("the animator is playing" + anim.runtimeAnimatorController.animationClips[24]);
-       
-        //Debug.Log("the normalized time of the current animation is " + getAnimatorNormalizedTime());
 
-        //             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
-        //Debug.Log("the rolling bool is" + rolling);
-        //Debug.Log("the rolling cooldown is " + rollingCoolDown);     
+                //Debug.Log("the normalized time of the current animation is " + getAnimatorNormalizedTime());
+
+                //             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
+                //Debug.Log("the rolling bool is" + rolling);
+                //Debug.Log("the rolling cooldown is " + rollingCoolDown);     
     }
 
           
@@ -1467,6 +1514,7 @@ public class PlayerControl : Entity
             //			print ("the actual barrel separation" + actualBarrelSeparation);
             //			print ("the barrelCooldown is " + barrelCooldown);
             //			print ("the barrelSwitch is " + barrelSwitch);
+            
         }
     }
 
@@ -1526,11 +1574,28 @@ public class PlayerControl : Entity
             //lockPosition = true;
         }
 
-        if (coll.gameObject.tag == "wall" && (v > .5 || v < .5 || h > .5 || h < .5))
+        if (coll.gameObject.tag == "wall" && !rolling && wallInteract)
         {
-            leanTimer += Mathf.RoundToInt(Time.deltaTime * 100);
+            if ((v > .5 || v < -.5 || h > .5 || h < -.5))
+            {
+                anim.SetFloat("animationSpeed", 1f);
+                leanTimer += Mathf.RoundToInt(Time.deltaTime * 100);
+            }
+            else if(leanTimer > 0)
+            {
+                if (animatorIsPlaying("LeanToPush") && getAnimatorNormalizedTime() < .01f)
+                {
+                    leanTimer = 0;
+                }
+                leanTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
+                    anim.SetFloat("animationSpeed", -1.3f);             
+            }                        
         }
-        else leanTimer = 0;
+        else
+        {
+            leanTimer = 0;
+            anim.SetFloat("animationSpeed", 1f); 
+        }
         
     }
 
@@ -1775,7 +1840,7 @@ public class PlayerControl : Entity
             return Direction.SOUTH;
             //south
         }
-        else if (getDirectionAngle360() < 306.5)
+        else if (getDirectionAngle360() < 316.5)
         {
             return Direction.SOUTHEAST310;
             //southWest310
