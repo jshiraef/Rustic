@@ -24,7 +24,7 @@ public class GrassController : MonoBehaviour {
         {
             if (player.GetComponent<PlayerControl>().isIdle)
             {
-                anim.speed = 0.5f;
+                anim.speed = 0f;
             }
             else if (player.GetComponent<PlayerControl>().isWalking)
             {
@@ -36,12 +36,12 @@ public class GrassController : MonoBehaviour {
             }
             else
             {
-                anim.speed = .3f;
+                anim.speed = 0f;
             }       
         }
         else
         {
-            anim.speed = .3f;
+            anim.speed = 0f;
         }
 
         if(chopped)

@@ -29,7 +29,7 @@ public class ParallaxScroll : MonoBehaviour
     public double threshold = 0;
 
     private Material currentMaterial;
-    public Material blurMaterial;
+    public Material overlapMaterial;
 
     // Use this for initialization
     void Start()
@@ -104,12 +104,17 @@ public class ParallaxScroll : MonoBehaviour
                 transform.Translate(0, v * -.005f, 0);
             }
 
-            sprite.material = blurMaterial;
+            sprite.material = overlapMaterial;
 
         }
 
         if (!playerControl.parallaxTrigger && !(this.transform.position == originalPosition))
         {
+            //if(player.transform.position.x < this.transform.position.x - sprite.size.x/2)
+            //{
+            //    Vector3 slightlyEast = new Vector3(originalPosition.x + 10, originalPosition.y, originalPosition.z);
+            //    transform.position = Vector3.Lerp(transform.position, slightlyEast, Time.deltaTime);
+            //}
             transform.position = Vector3.Lerp(transform.position, originalPosition, Time.deltaTime);
             sprite.material = currentMaterial;
         }

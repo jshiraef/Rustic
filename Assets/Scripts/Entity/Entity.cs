@@ -283,6 +283,8 @@ public abstract class Entity : MonoBehaviour {
         else return Direction.NULL;
     }
 
+   
+
     public void LookAt(Vector3 position)
     {
         Vector3 difference = position - this.transform.position;

@@ -23,11 +23,15 @@ public class SortingOrderScript : MonoBehaviour
     // A line is therefore created for sorting depth rendering based on the player's position relative to this line
     public GameObject thresholdPoint1;
     public GameObject thresholdPoint2;
+    public GameObject thresholdPoint3;
+    public GameObject thresholdPoint4;
 
     protected Vector2 threshold1;
     protected Vector2 threshold2;
-    protected float slope;
-    protected float yintercept;
+    protected Vector2 threshold3;
+    protected Vector2 threshold4;
+    protected float slope, slope2;
+    protected float yintercept, yintercept2;
 
 
 	// Use this for initialization
@@ -47,12 +51,21 @@ public class SortingOrderScript : MonoBehaviour
         if (thresholdPoint1 != null)
         {
             threshold1 = new Vector2(thresholdPoint1.transform.position.x, thresholdPoint1.transform.position.y);
-
         }
 
         if (thresholdPoint2 != null)
         {
             threshold2 = new Vector2(thresholdPoint2.transform.position.x, thresholdPoint2.transform.position.y);
+        }
+
+        if (thresholdPoint3 != null)
+        {
+            threshold3 = new Vector2(thresholdPoint3.transform.position.x, thresholdPoint3.transform.position.y);
+        }
+
+        if (thresholdPoint4 != null)
+        {
+            threshold4 = new Vector2(thresholdPoint4.transform.position.x, thresholdPoint4.transform.position.y);
         }
 
         if (thresholdPoint1 != null && thresholdPoint2 != null)
@@ -63,7 +76,15 @@ public class SortingOrderScript : MonoBehaviour
             yintercept = thresholdPoint2.transform.position.y - (slope * thresholdPoint2.transform.position.x);
         }
 
-        if(neverRenderBehindThisObject != null)
+        if (thresholdPoint4 != null && thresholdPoint3 != null)
+        {
+            slope2 = (thresholdPoint4.transform.position.y - thresholdPoint3.transform.position.y) /
+                (thresholdPoint4.transform.position.x - thresholdPoint3.transform.position.x);
+
+            yintercept2 = thresholdPoint4.transform.position.y - (slope2 * thresholdPoint4.transform.position.x);
+        }
+
+        if (neverRenderBehindThisObject != null)
         {
             bruteForceRender = true;
         }
@@ -85,12 +106,11 @@ public class SortingOrderScript : MonoBehaviour
 
         if (player.transform.position.y > threshold && player.transform.position.x > (this.transform.position.x - this.sprite.size.x/2) && player.transform.position.x < (this.transform.position.x + this.sprite.size.x/2))
             {
-
                 //			sprite.sortingOrder = sortingOrder;
                 sprite.sortingLayerName = OverlapLayer;
 
             }
-            else if (player.transform.position.y > (slope * player.transform.position.x) + yintercept && player.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && player.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
+            else if (player.transform.position.y > (slope * player.transform.position.x) + yintercept || player.transform.position.y > (slope2 * player.transform.position.x) + yintercept2 && player.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && player.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
             {
 
                 sprite.sortingLayerName = OverlapLayer;
@@ -98,7 +118,8 @@ public class SortingOrderScript : MonoBehaviour
             else
             {
                 sprite.sortingLayerName = currentLayerName;
-            }      
+            }  
+        
             
 
         if (copyParentSortingLayer)
@@ -121,6 +142,14 @@ public class SortingOrderScript : MonoBehaviour
             threshold = this.transform.position.y + 1;
         }
 
+        if(this.name == "gazebo back")
+        {
+
+            //Debug.Log("the second slope is" + slope2);
+            //Debug.Log("the first yintercept is " + yintercept2);
+        }
+
+        
 
     }
 

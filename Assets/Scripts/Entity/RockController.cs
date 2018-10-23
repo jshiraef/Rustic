@@ -279,7 +279,7 @@ public class RockController : Entity {
         if (putDown && setDownTimer <= 0)
         {
             this.transform.localScale = originalScale;
-            GetComponent<CircleCollider2D>().isTrigger = false;
+            //GetComponent<CircleCollider2D>().isTrigger = false;
             GetComponent<CircleCollider2D>().enabled = true;
             putDown = false;
             pickedUp = false;

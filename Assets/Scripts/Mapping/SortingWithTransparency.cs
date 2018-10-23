@@ -48,7 +48,7 @@ public class SortingWithTransparency : SortingOrderScript {
 
             sprite.sortingLayerName = OverlapLayer;
         }
-        else if (player.transform.position.y > (slope * player.transform.position.x) + yintercept)
+        else if (player.transform.position.y > (slope * player.transform.position.x) + yintercept && player.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && player.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
         {
             if (player.transform.position.y - this.transform.position.y < sprite.size.y / 2)
             {
@@ -89,6 +89,7 @@ public class SortingWithTransparency : SortingOrderScript {
 
             sprite.sortingLayerName = transform.parent.GetComponent<SpriteRenderer>().sortingLayerName;
         }
+
 
     }
 
