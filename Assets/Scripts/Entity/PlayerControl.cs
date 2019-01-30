@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using XInputDotNetPure;
-using UnityEngine.PS4;
+//using UnityEngine.PS4;
 
 
 
@@ -1561,7 +1561,10 @@ public class PlayerControl : Entity
                 knockBack = true;
                 knockBackCoolDown = knockBackTimeLength;
 
-                coll.gameObject.GetComponent<LeafEmitter>().jostled = true;
+                if(coll.gameObject.GetComponent<LeafEmitter>() != null)
+                {
+                    coll.gameObject.GetComponent<LeafEmitter>().jostled = true;
+                }
             }
         }
 

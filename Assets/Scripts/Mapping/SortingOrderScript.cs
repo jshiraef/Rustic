@@ -137,10 +137,10 @@ public class SortingOrderScript : MonoBehaviour
             }
         }
 
-        if(Mathf.Abs((float) threshold - this.transform.position.y) > sprite.size.y)
-        {
-            threshold = this.transform.position.y + 1;
-        }
+        //if(Mathf.Abs((float) threshold - this.transform.position.y) > sprite.size.y)
+        //{
+        //    threshold = this.transform.position.y + 1;
+        //}
 
         if(this.name == "gazebo back")
         {
