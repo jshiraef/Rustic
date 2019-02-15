@@ -5,6 +5,26 @@ Properties {
   _Color("Color", Color) = (1,1,1,1)
 	_MainTex ("Normalmap", 2D) = "bump" {}
   _Magnitude("Magnitude", Range(0,1)) = 0.05
+
+  iChannel1("Texture", 2D) = "white" {}
+		iMouse("mouse", Vector) = (0, 0, 0, 0)
+		handPos1("handPos1", Vector) = (0, 0, 0, 0)
+		handPos2("handPos2", Vector) = (0, 0, 0, 0)
+		handPos3("handPos3", Vector) = (0, 0, 0, 0)
+		handPos4("handPos4", Vector) = (0, 0, 0, 0)
+		handPos5("handPos5", Vector) = (0, 0, 0, 0)
+		handPos6("handPos6", Vector) = (0, 0, 0, 0)
+		handPos7("handPos7", Vector) = (0, 0, 0, 0)
+		handPos8("handPos8", Vector) = (0, 0, 0, 0)
+		handPos9("handPos9", Vector) = (0, 0, 0, 0)
+		handPos10("handPos10", Vector) = (0, 0, 0, 0)
+		handPos11("handPos11", Vector) = (0, 0, 0, 0)
+		handPos12("handPos12", Vector) = (0, 0, 0, 0)
+		iMouse("mouse", Vector) = (0, 0, 0, 0)
+		_RippleWidth("Ripple Width", float) = 1.0
+		_RippleHeight("Ripple Height", float) = 1.0
+		waveScaleFactor("Wave Scale", Range(5.0,10.0)) = 7.5
+		_specular("Specular", Range(10.0,100.0)) = 10.0
 }
 
 Category {

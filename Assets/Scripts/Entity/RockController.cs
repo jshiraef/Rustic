@@ -54,6 +54,8 @@ public class RockController : Entity {
 
         body = GetComponent<Rigidbody2D>();
     }
+
+
 	
 	// Update is called once per frame
 	void Update () {

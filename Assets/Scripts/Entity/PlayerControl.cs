@@ -835,7 +835,7 @@ public class PlayerControl : Entity
             else anim.SetFloat("animationSpeed", 1f);
         }
 
-        if (knockBack && knockBackCoolDown > 0f & knockBackCoolDown < .1f)
+        if (knockBack && knockBackCoolDown > 0f && knockBackCoolDown < .1f)
         {
             setSpriteFlipX(false);
             knockBack = false;
@@ -1566,6 +1566,13 @@ public class PlayerControl : Entity
                     coll.gameObject.GetComponent<LeafEmitter>().jostled = true;
                 }
             }
+        }
+
+        if(coll.gameObject.tag == "weapon")
+        {
+            rolling = false;
+            knockBack = true;
+            knockBackCoolDown = knockBackTimeLength;
         }
 
     }
