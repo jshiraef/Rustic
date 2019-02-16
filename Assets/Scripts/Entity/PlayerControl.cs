@@ -90,7 +90,9 @@ public class PlayerControl : Entity
     private float analogAxesAngle360;
     private bool freezeForAnimation;
 
-    
+    private SatchelController inventory;
+
+
 
     private static readonly int IDLE = 0;
     private static readonly int RUNNING = 1;
@@ -128,6 +130,7 @@ public class PlayerControl : Entity
         screenShake = GameObject.Find("CM vcam1").GetComponent<CinemachineCameraShaker>();
         sickleSwipe = GameObject.Find("sickleSwipe");
         vision = GetComponent<FieldOfView>();
+        inventory = GameObject.Find("inventory").GetComponent<SatchelController>();
 
         hatAndCoat = true;
 
@@ -387,6 +390,21 @@ public class PlayerControl : Entity
             }
             else isIdle = false;
         }
+
+
+        // allows the player to pause the game
+        //if(Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    if(!inventory.enabled)
+        //    {
+        //        inventory.enabled = true;
+        //    }
+        //    else
+        //    {
+        //        inventory.enabled = false;
+        //    }
+            
+        //}
 
         // sets runReleased parameter in Animator
         if (Input.GetAxisRaw("Vertical") == 0 && Input.GetAxisRaw("Horizontal") == 0)

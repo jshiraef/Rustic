@@ -138,7 +138,7 @@ public class FacelessController : Entity {
             if(spinAttackCoolDown <= 0 && !spinAttack)
             {
                 spinAttack = true;
-                spinAttackTimer = 100;
+                spinAttackTimer = 240;
             }
             
         }
