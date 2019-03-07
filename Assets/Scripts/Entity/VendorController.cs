@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PathCreation;
 
 public class VendorController : Entity {
 
@@ -21,6 +22,13 @@ public class VendorController : Entity {
 
     public bool isIdle;
     public bool isWalking;
+
+
+    public PathCreator pathCreator;
+    public float speed = 1;
+    float distanceTravelled;
+    float movementAngle;
+    Vector3 oldPosition;
 
     public bool dialogueIsShowing;
 
@@ -47,6 +55,10 @@ public class VendorController : Entity {
         anim = GetComponent<Animator>();
 
         changeDirectionCoolDown = 500;
+
+        isWalking = true;
+
+        oldPosition = transform.position;
     }
 	
 	// Update is called once per frame
@@ -63,31 +75,33 @@ public class VendorController : Entity {
 
         if (!_withinTalkingRange)
         {
+            isWalking = true;
             dialogueUI.transform.parent.transform.parent.GetComponent<CanvasGroup>().alpha = 0;
         }
+        else isWalking = false;
 
         if (!dialogueUI.getIsDialoguePlaying())
         {
-            if (changeDirectionCoolDown > 4000)
-            {
-                transform.Translate(0, -1f * Time.deltaTime, 0);
-                anim.Play("walkingSouth");
-            }
-            else if (changeDirectionCoolDown > 3000)
-            {
-                transform.Translate(-1f * Time.deltaTime, 0, 0);
-                anim.Play("walkingWest");
-            }
-            else if (changeDirectionCoolDown > 2000)
-            {
-                transform.Translate(0, 1f * Time.deltaTime, 0);
-                anim.Play("walkingNorth");
-            }
-            else if (changeDirectionCoolDown > 50)
-            {
-                transform.Translate(1f * Time.deltaTime, 0, 0);
-                anim.Play("walkingEast");
-            }
+            //if (changeDirectionCoolDown > 4000)
+            //{
+            //    transform.Translate(0, -1f * Time.deltaTime, 0);
+            //    anim.Play("walkingSouth");
+            //}
+            //else if (changeDirectionCoolDown > 3000)
+            //{
+            //    transform.Translate(-1f * Time.deltaTime, 0, 0);
+            //    anim.Play("walkingWest");
+            //}
+            //else if (changeDirectionCoolDown > 2000)
+            //{
+            //    transform.Translate(0, 1f * Time.deltaTime, 0);
+            //    anim.Play("walkingNorth");
+            //}
+            //else if (changeDirectionCoolDown > 50)
+            //{
+            //    transform.Translate(1f * Time.deltaTime, 0, 0);
+            //    anim.Play("walkingEast");
+            //}
         }
         else if (dialogueUI.getIsDialoguePlaying())
         {
@@ -137,11 +151,45 @@ public class VendorController : Entity {
             
         }
 
-        //Debug.Log("the changeDirectionCoolDown is " + changeDirectionCoolDown);
+        if(isWalking)
+        {
+            distanceTravelled += speed * Time.deltaTime;
+            transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled);
+        }
+
+        getDirectionFromMovement();
+        setAnimationFromPathDirection();
+
+
+        Debug.Log("the vendor is moving in the direction of" + getDirectionFromMovement());
 
         //Debug.Log("the Vendor environment count is " + environmentCount);
 
 
+    }
+
+    void setAnimationFromPathDirection()
+    {
+        if(getDirectionFromMovement() != 90)
+        {
+            if (getDirectionFromMovement() > 45 && getDirectionFromMovement() < 135)
+            {
+                anim.Play("walkingNorth");
+            }
+            else if (getDirectionFromMovement() > 135 || getDirectionFromMovement() < -135)
+            {
+                anim.Play("walkingWest");
+            }
+            else if (getDirectionFromMovement() < -45 && getDirectionFromMovement() > -135)
+            {
+                anim.Play("walkingSouth");
+            }
+            else if (getDirectionFromMovement() > -45 && getDirectionFromMovement() < 45)
+            {
+                anim.Play("walkingEast");
+            }
+        }
+        
     }
 
 
@@ -216,6 +264,26 @@ public class VendorController : Entity {
             renderMask.GetComponent<RenderMask>().setVendorMaskType(RenderMask.MaskType.GRASS);
             
         }
+    }
+
+    // this will detect the angle of movement when the NPC is on a fixed path
+    public float getDirectionFromMovement()
+    {
+        if(changeDirectionCoolDown % 100 < 10)
+        {
+            oldPosition = transform.position;
+        }
+
+        Vector3 targetDir = transform.position - oldPosition;
+        movementAngle = Vector3.Angle(targetDir, transform.right);
+
+        if(oldPosition.y > transform.position.y)
+        {
+            movementAngle = movementAngle * -1;
+        }
+
+        return movementAngle ;
+
     }
 
     public bool getEndOfDialogue()
