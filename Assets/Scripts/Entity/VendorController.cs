@@ -161,10 +161,11 @@ public class VendorController : Entity {
         setAnimationFromPathDirection();
 
 
-        Debug.Log("the vendor is moving in the direction of" + getDirectionFromMovement());
+        //Debug.Log("the vendor is moving in the direction of" + getDirectionFromMovement());
 
         //Debug.Log("the Vendor environment count is " + environmentCount);
 
+        //Debug.Log("the entities list has " + allEntities.Count + "entities");
 
     }
 

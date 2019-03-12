@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 
 public class SortingOrderScript : MonoBehaviour 
@@ -32,6 +33,12 @@ public class SortingOrderScript : MonoBehaviour
     protected Vector2 threshold4;
     protected float slope, slope2;
     protected float yintercept, yintercept2;
+
+
+    protected GameObject[] allMovableObjects;
+    protected List<GameObject> allMovableObjectsWithinProximity;
+
+    protected List<Entity> allMovableEntities;
 
 
 	// Use this for initialization
@@ -89,6 +96,16 @@ public class SortingOrderScript : MonoBehaviour
             bruteForceRender = true;
         }
 
+
+        allMovableObjects = GameObject.FindGameObjectsWithTag("movable");
+        allMovableObjectsWithinProximity = new List<GameObject>();
+
+
+        //foreach (GameObject movableObject in allMovableObjects)
+        //{
+        //    allMovableEntities.Add(movableObject.GetComponent<Entity>());
+        //}
+
     }
 	
 	// Update is called once per frame
@@ -104,13 +121,35 @@ public class SortingOrderScript : MonoBehaviour
             threshold = this.transform.position.y + 1;
         }
 
-        if (player.transform.position.y > threshold && player.transform.position.x > (this.transform.position.x - this.sprite.size.x/2) && player.transform.position.x < (this.transform.position.x + this.sprite.size.x/2))
+
+        // checks to see if moving object are within a 10 unit radius
+        foreach (GameObject movableObject in allMovableObjects)
+        {
+            float dst = Vector3.Distance(movableObject.transform.position, this.transform.position);
+
+            if(dst < 10 && !allMovableObjectsWithinProximity.Contains(movableObject))
+            {
+                allMovableObjectsWithinProximity.Add(movableObject);
+            }
+            else
+            {
+                if(allMovableObjectsWithinProximity.Contains(movableObject) && dst > 10)
+                {
+                    allMovableObjectsWithinProximity.Remove(movableObject);               
+                }
+            }
+        }
+       
+
+        foreach (GameObject movableObject in allMovableObjectsWithinProximity)
+        {
+            if (movableObject.transform.position.y > threshold && movableObject.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && movableObject.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
             {
                 //			sprite.sortingOrder = sortingOrder;
                 sprite.sortingLayerName = OverlapLayer;
 
             }
-            else if (player.transform.position.y > (slope * player.transform.position.x) + yintercept || player.transform.position.y > (slope2 * player.transform.position.x) + yintercept2 && player.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && player.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
+            else if (movableObject.transform.position.y > (slope * movableObject.transform.position.x) + yintercept || movableObject.transform.position.y > (slope2 * movableObject.transform.position.x) + yintercept2 && movableObject.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && movableObject.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
             {
 
                 sprite.sortingLayerName = OverlapLayer;
@@ -118,8 +157,10 @@ public class SortingOrderScript : MonoBehaviour
             else
             {
                 sprite.sortingLayerName = currentLayerName;
-            }  
-        
+            }
+        }
+
+        Debug.Log("the number of object with the list is " + allMovableObjectsWithinProximity.Count);
             
 
         if (copyParentSortingLayer)
@@ -150,7 +191,6 @@ public class SortingOrderScript : MonoBehaviour
         }
 
         
-
     }
 
    

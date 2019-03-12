@@ -45,6 +45,7 @@ public abstract class Entity : MonoBehaviour {
     // direction
     public Direction direction;
     protected float rigidbodyAngularDirection;
+
     
 
     
