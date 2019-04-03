@@ -8,7 +8,7 @@ public class CartController : MonoBehaviour {
     public bool isIdle;
     public bool grounded;
     public bool interact = false;
-    public bool lockPosition;
+    public bool lockPosition; 
 
     public float speed = 1f;
     public float v, h;

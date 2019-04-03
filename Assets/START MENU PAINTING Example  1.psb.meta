@@ -1,0 +1,303 @@
+fileFormatVersion: 2
+guid: 58590598e9547a64eab0ac8902dd4870
+ScriptedImporter:
+  fileIDToRecycleName:
+    100000: Layer 2 copy_GO/Layer 2 copy_GO
+    100002: Layer 2 copy_GO/Layer 2 copy_GO/Aron's Gift
+    100004: Layer 2 copy_GO/Layer 2 copy_GO/Layer 2 copy
+    100006: Layer 2 copy_GO/Layer 2 copy_GO/Layer 5
+    100008: Layer 2 copy_GO/Layer 2 copy_GO/Light Stick GLow
+    100010: Layer 2 copy_GO/Layer 2 copy_GO/Rocks Fav
+    100012: Layer 2 copy_GO/Layer 2 copy_GO/TREE SHADOW copy 14
+    400000: Layer 2 copy_GO/Layer 2 copy_GO/Transform
+    400002: Layer 2 copy_GO/Layer 2 copy_GO/Aron's Gift/Transform
+    400004: Layer 2 copy_GO/Layer 2 copy_GO/Layer 2 copy/Transform
+    400006: Layer 2 copy_GO/Layer 2 copy_GO/Layer 5/Transform
+    400008: Layer 2 copy_GO/Layer 2 copy_GO/Light Stick GLow/Transform
+    400010: Layer 2 copy_GO/Layer 2 copy_GO/Rocks Fav/Transform
+    400012: Layer 2 copy_GO/Layer 2 copy_GO/TREE SHADOW copy 14/Transform
+    2800000: START MENU PAINTING Example  1
+    21200000: Layer 2 copy_GO/Layer 2 copy_GO/Aron's Gift/SpriteRenderer
+    21200002: Layer 2 copy_GO/Layer 2 copy_GO/Layer 2 copy/SpriteRenderer
+    21200004: Layer 2 copy_GO/Layer 2 copy_GO/Layer 5/SpriteRenderer
+    21200006: Layer 2 copy_GO/Layer 2 copy_GO/Light Stick GLow/SpriteRenderer
+    21200008: Layer 2 copy_GO/Layer 2 copy_GO/Rocks Fav/SpriteRenderer
+    21200010: Layer 2 copy_GO/Layer 2 copy_GO/TREE SHADOW copy 14/SpriteRenderer
+    21300000: Light Stick GLow
+    21300002: Rocks Fav
+    21300004: Aron's Gift
+    21300006: TREE SHADOW copy 14
+    21300008: Layer 5
+    21300010: Layer 2 copy
+    100100000: Layer 2 copy_GO
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: b2a9591990af98743ba3ff7cf1000886, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 1
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    isReadable: 0
+    streamingMipmaps: 1
+    streamingMipmapsPriority: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 100
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+  spriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 0, y: 0}
+  mosaicSpriteImportData: []
+  rigSpriteImportData:
+  - name: Light Stick GLow
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 3367
+      y: 2172
+      width: 283
+      height: 418
+    spriteID: 73da53f51d248cd4a946271befe72b6b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 1822, y: 1557}
+  - name: Rocks Fav
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 3353
+      width: 1982
+      height: 1174
+    spriteID: c4dc493f5da69614898a8f5063a60335
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -155, y: 3232}
+  - name: Aron's Gift
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4535
+      width: 1371
+      height: 262
+    spriteID: 55b94d00a818b7841a23469c8dfd6268
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -1558, y: 2936}
+  - name: TREE SHADOW copy 14
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 2835
+      y: 4
+      width: 898
+      height: 2001
+    spriteID: 10c6049c4a873c547a009cfa67dc2f0b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 2835, y: -155}
+  - name: Layer 5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 2172
+      width: 3355
+      height: 1173
+    spriteID: b5557400be7a5e747a32e6e58b3545c9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 2172}
+  - name: Layer 2 copy
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 2823
+      height: 2160
+    spriteID: cbc0edecdcfb47c4cb7f8a0463ab9ddd
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -528, y: 4}
+  platformSettings: []
+  mosaicLayers: 1
+  documentPivot: {x: 0, y: 0}
+  documentAlignment: 7
+  importHiddenLayers: 0
+  importedTextureWidth: 1024
+  importedTextureHeight: 2048
+  documentSize: {x: 3355, y: 2160}
+  textureActualWidth: 4096
+  textureActualHeight: 8192
+  spritePackingTag: 
+  resliceFromLayer: 0
+  characterMode: 1
+  mosaicPSDLayers: []
+  rigPSDLayers:
+  - name: Light Stick GLow
+    spriteName: Light Stick GLow
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 73da53f51d248cd4a946271befe72b6b
+    layerID: 42
+    mosaicPosition: {x: 3367, y: 2172}
+  - name: Rocks Fav
+    spriteName: Rocks Fav
+    isGroup: 0
+    parentIndex: -1
+    spriteID: c4dc493f5da69614898a8f5063a60335
+    layerID: 38
+    mosaicPosition: {x: 4, y: 3353}
+  - name: Aron's Gift
+    spriteName: Aron's Gift
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 55b94d00a818b7841a23469c8dfd6268
+    layerID: 44
+    mosaicPosition: {x: 4, y: 4535}
+  - name: TREE SHADOW copy 14
+    spriteName: TREE SHADOW copy 14
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 10c6049c4a873c547a009cfa67dc2f0b
+    layerID: 7
+    mosaicPosition: {x: 2835, y: 4}
+  - name: Layer 5
+    spriteName: Layer 5
+    isGroup: 0
+    parentIndex: -1
+    spriteID: b5557400be7a5e747a32e6e58b3545c9
+    layerID: 9
+    mosaicPosition: {x: 4, y: 2172}
+  - name: Layer 2 copy
+    spriteName: Layer 2 copy
+    isGroup: 0
+    parentIndex: -1
+    spriteID: cbc0edecdcfb47c4cb7f8a0463ab9ddd
+    layerID: 15
+    mosaicPosition: {x: 4, y: 4}
+  characterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+  boneGOs: []
+  generateGOHierarchy: 0

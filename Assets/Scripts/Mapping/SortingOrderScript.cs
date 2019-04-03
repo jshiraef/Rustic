@@ -160,7 +160,7 @@ public class SortingOrderScript : MonoBehaviour
             }
         }
 
-        Debug.Log("the number of object with the list is " + allMovableObjectsWithinProximity.Count);
+        //Debug.Log("the number of object with the list is " + allMovableObjectsWithinProximity.Count);
             
 
         if (copyParentSortingLayer)
