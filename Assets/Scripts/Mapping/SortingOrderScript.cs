@@ -5,8 +5,14 @@ using System.Collections;
 public class SortingOrderScript : MonoBehaviour 
 {
 	public const string OverlapLayer = "Overlap";
+
+    // these are the variables that can determine sorting Order
+    public float zPosOriginal;
 	public string currentLayerName;
+    public int currentSortingOrderNumber;
 	public int sortingOrder = 0;
+
+
     public GameObject neverRenderBehindThisObject;
 	protected SpriteRenderer sprite;
 	protected GameObject player;
@@ -48,6 +54,8 @@ public class SortingOrderScript : MonoBehaviour
 		player = GameObject.Find ("player");
 
 		currentLayerName = sprite.sortingLayerName.ToString ();
+        currentSortingOrderNumber = sprite.sortingOrder;
+        zPosOriginal = this.transform.position.z;
 
         if(threshold == 0 && thresholdPoint1 == null)
         {
@@ -146,17 +154,19 @@ public class SortingOrderScript : MonoBehaviour
             if (movableObject.transform.position.y > threshold && movableObject.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && movableObject.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
             {
                 //			sprite.sortingOrder = sortingOrder;
-                sprite.sortingLayerName = OverlapLayer;
+
+                Overlap();
 
             }
             else if (movableObject.transform.position.y > (slope * movableObject.transform.position.x) + yintercept || movableObject.transform.position.y > (slope2 * movableObject.transform.position.x) + yintercept2 && movableObject.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && movableObject.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
             {
 
-                sprite.sortingLayerName = OverlapLayer;
+                Overlap();            
             }
             else
             {
                 sprite.sortingLayerName = currentLayerName;
+                sprite.sortingOrder = currentSortingOrderNumber;
             }
         }
 
@@ -191,6 +201,11 @@ public class SortingOrderScript : MonoBehaviour
         }
 
         
+    }
+
+    void Overlap()
+    {
+        sprite.sortingLayerName = OverlapLayer;
     }
 
    

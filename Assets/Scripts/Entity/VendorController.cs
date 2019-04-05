@@ -171,7 +171,7 @@ public class VendorController : Entity {
 
     void setAnimationFromPathDirection()
     {
-        if(getDirectionFromMovement() != 90)
+        if(getDirectionFromMovement() != 90 && !dialogueUI.getIsDialoguePlaying())
         {
             if (getDirectionFromMovement() > 45 && getDirectionFromMovement() < 135)
             {

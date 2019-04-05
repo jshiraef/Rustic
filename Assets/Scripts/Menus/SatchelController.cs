@@ -17,10 +17,15 @@ public class SatchelController : MonoBehaviour
 
     private GameObject vendor;
 
+    private Animator stoneBagAnim;
+
 
     public bool isPaused;
 
     public bool satchelSelect;
+
+    [SerializeField] AnimatorSound animatorSound;
+    public AudioSource audioSource;
 
 
 
@@ -37,6 +42,8 @@ public class SatchelController : MonoBehaviour
 
         satchel = GameObject.Find("Satchel").gameObject;
 
+        stoneBagAnim = GetComponentInChildren<Animator>();
+
 
 
         if (!satchel.activeSelf)
@@ -50,6 +57,10 @@ public class SatchelController : MonoBehaviour
 
 
         vendor = GameObject.Find("Vendor");
+
+        audioSource = GetComponent<AudioSource>();
+
+        stoneBagAnim.updateMode = AnimatorUpdateMode.UnscaledTime;
 
 
 
@@ -100,6 +111,9 @@ public class SatchelController : MonoBehaviour
                     isPaused = true;
                     satchel.SetActive(true);
                     Time.timeScale = 0f;
+                    stoneBagAnim.Play("stoneBagJostle");
+                    //animatorSound.disableOnce = true;
+                    
 
                 }
 
@@ -131,6 +145,8 @@ public class SatchelController : MonoBehaviour
         return satchelSelect;
 
     }
+
+
 
 
 

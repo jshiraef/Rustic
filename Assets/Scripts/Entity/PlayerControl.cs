@@ -161,7 +161,7 @@ public class PlayerControl : Entity
         if (rumble && rumbleCoolDown <= 0)
         {
             //GamePad.SetVibration(playerIndex, 0, 0);  
-            PS4Input.PadSetVibration(1, 0, 0);
+            //PS4Input.PadSetVibration(1, 0, 0);
             rumble = false;
         }
 
@@ -280,7 +280,7 @@ public class PlayerControl : Entity
 
                 rumble = true;
                 //GamePad.SetVibration(playerIndex, .5f, 0f);
-                PS4Input.PadSetVibration(1, 175, 0);
+                //PS4Input.PadSetVibration(1, 175, 0);
             }
             moveSpeed = 0;
             //rumbleCoolDown = .3f;
@@ -298,7 +298,7 @@ public class PlayerControl : Entity
             {
                 rumble = true;
                 //GamePad.SetVibration(playerIndex, .25f, .25f);
-                PS4Input.PadSetVibration(1, 65, 65);
+                //PS4Input.PadSetVibration(1, 65, 65);
                 rumbleCoolDown = .2f;
             }
         }
@@ -313,7 +313,7 @@ public class PlayerControl : Entity
             {
                 rumble = true;
                 //GamePad.SetVibration(playerIndex, .75f, .75f);
-                PS4Input.PadSetVibration(1, 180, 180);
+                //PS4Input.PadSetVibration(1, 180, 180);
 
                 rumbleCoolDown = .9f;
                 screenShake.ShakeCamera(1f);

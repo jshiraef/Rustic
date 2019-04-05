@@ -16,7 +16,7 @@ public class ButtonNextLevel : MonoBehaviour
     private bool rumble = false;
     private float rumbleCoolDown;
 
-    public string whichLevel = "Hub Town";
+    public string whichLevel = "Village Demo";
 
      void Start()
     {
