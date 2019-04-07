@@ -5,6 +5,7 @@ using UnityEngine;
 public class MenuButton : MonoBehaviour
 {
     [SerializeField] MenuButtonController menuButtonController;
+    [SerializeField] SatchelController satchelController;
     [SerializeField] Animator animator;
     [SerializeField] AnimatorSound animatorSound;
     [SerializeField] int thisIndex;
@@ -15,22 +16,50 @@ public class MenuButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(menuButtonController.index == thisIndex)
+        if(menuButtonController != null)
         {
-            animator.SetBool("selected", true);
-            if(Input.GetKey(KeyCode.X))
+            if (menuButtonController.index == thisIndex)
             {
-                animator.SetBool("pressed", true);
+                animator.SetBool("selected", true);
+                if (Input.GetKey(KeyCode.X))
+                {
+                    animator.SetBool("pressed", true);
+                }
+                else if (animator.GetBool("pressed"))
+                {
+                    animator.SetBool("pressed", false);
+                    animatorSound.disableOnce = true;
+                }
             }
-            else if (animator.GetBool("pressed")){
-                animator.SetBool("pressed", false);
-                animatorSound.disableOnce = true;
+            else
+            {
+                animator.SetBool("selected", false);
             }
         }
-        else
+
+        if (satchelController != null)
         {
-            animator.SetBool("selected", false);
+            if (satchelController.index == thisIndex)
+            {
+                //animator.SetBool("selected", true);
+                transform.GetChild(0).gameObject.SetActive(true);
+                //if (Input.GetKey(KeyCode.X))
+                //{
+                //    animator.SetBool("pressed", true);
+                //}
+                //else if (animator.GetBool("pressed"))
+                //{
+                //    animator.SetBool("pressed", false);
+                //    animatorSound.disableOnce = true;
+                //}
+            }
+            else
+            {
+                //animator.SetBool("selected", false);              
+                    transform.GetChild(0).gameObject.SetActive(false);               
+            }
         }
-        
+
+
     }
 }
