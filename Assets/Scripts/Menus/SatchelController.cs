@@ -158,12 +158,12 @@ public class SatchelController : MonoBehaviour
 
         }
 
-        if (Input.GetAxis("Horizontal") != 0)
+        if (Input.GetAxisRaw("Horizontal") != 0)
         {
             if (!keyDown)
             {
-                if (Input.GetAxis("Horizontal") > 0)
-                {
+                if (Input.GetAxisRaw("Horizontal") > 0)
+                {              
                     if (index < maxIndex)
                     {
                         index++;
@@ -173,7 +173,7 @@ public class SatchelController : MonoBehaviour
                         index = 0;
                     }
                 }
-                else if (Input.GetAxis("Horizontal") < 0)
+                else if (Input.GetAxisRaw("Horizontal") < 0)
                 {
                     if (index > 0)
                     {
