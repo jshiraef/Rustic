@@ -371,4 +371,9 @@ public class GruntRoot : Entity
     {
         return whipAttack;
     }
+
+    public float getAngleToPlayer()
+    {
+        return angleToPlayer;
+    }
 }

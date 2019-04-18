@@ -21,6 +21,13 @@ public class PlayerControl : Entity
     private float rollingCoolDown;
     private float afterRollCoolDown;
 
+    // stats
+    public int maxHealth;
+    public int currentHealth = 9;
+
+    public int maxStamina;
+    public float currentStamina;
+
     // items
     public bool swinging = false;
     private float swingCoolDown;
@@ -114,6 +121,9 @@ public class PlayerControl : Entity
         maxVelocity = 77f;
 
         moveSpeed = 4f;
+        currentHealth = 9;
+        maxStamina = 7;
+        currentStamina = maxStamina;
 
         anim = GetComponent<Animator>();
         
@@ -443,6 +453,11 @@ public class PlayerControl : Entity
             knockBackCoolDown -= Time.deltaTime;
         }
 
+        if(currentStamina < maxStamina)
+        {
+            currentStamina += Time.deltaTime * 1f;
+        }
+
 
         if (restoreBlobShadowToNormal)
         {
@@ -586,6 +601,7 @@ public class PlayerControl : Entity
             if (!rolling)
             {
                 rollingCoolDown = .6f;
+                currentStamina = maxStamina - 4;
             }
             if (afterRollCoolDown <= 0 && !knockBack && !throwing)
             {
@@ -1130,20 +1146,21 @@ public class PlayerControl : Entity
             pushing = true;
         }
         else pushing = false;
-            
-           
 
-       // Debug.Log("the animator is playing" + anim.runtimeAnimatorController.animationClips[24]);
 
-                //Debug.Log("the normalized time of the current animation is " + getAnimatorNormalizedTime());
+        
 
-                //             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
-                //Debug.Log("the rolling bool is" + rolling);
-                //Debug.Log("the rolling cooldown is " + rollingCoolDown);     
+        // Debug.Log("the animator is playing" + anim.runtimeAnimatorController.animationClips[24]);
+
+        //Debug.Log("the normalized time of the current animation is " + getAnimatorNormalizedTime());
+
+        //             Debug.Log("the afterRoll cooldown is " + afterRollCoolDown);
+        //Debug.Log("the rolling bool is" + rolling);
+        //Debug.Log("the rolling cooldown is " + rollingCoolDown);     
     }
 
           
-
+            
     //		Debug.Log("the run direction is: " + this.runDirection);
     //		Debug.Log("the direction is: " + this.direction);
     //		Debug.Log ("the animator's direction float is: " + anim.GetFloat ("direction(float)"));
@@ -1589,8 +1606,16 @@ public class PlayerControl : Entity
         if(coll.gameObject.tag == "weapon")
         {
             rolling = false;
-            knockBack = true;
-            knockBackCoolDown = knockBackTimeLength;
+            if (!knockBack)
+            {
+                currentHealth -= 3;
+                knockBack = true;
+                knockBackCoolDown = knockBackTimeLength;
+            }
+           
+            
+            
+            
         }
 
     }
@@ -1904,6 +1929,21 @@ public class PlayerControl : Entity
     public float getSwingCoolDown()
     {
         return swingCoolDown;
+    }
+
+    public int getCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public float getCurrentStamina()
+    {
+        return currentStamina;
+    }
+
+    public int getMaxStamina()
+    {
+        return maxStamina;
     }
 	
 }
