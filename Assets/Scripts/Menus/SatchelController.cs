@@ -98,20 +98,20 @@ public class SatchelController : MonoBehaviour
 
         {
 
-            if (vendor.GetComponent<VendorController>().getEndOfDialogue() && vendor.GetComponent<VendorController>().getWithinTalkingRange())
+            //if (vendor.GetComponent<VendorController>().getEndOfDialogue() && vendor.GetComponent<VendorController>().getWithinTalkingRange())
 
-            {
+            //{
 
-                // show Vendor Inventory
+            //    // show Vendor Inventory
 
-            }
-            else
+            //}
+            //else
 
-            {
+            //{
 
-                // turn off Inventory
+            //    // turn off Inventory
 
-            }
+            //}
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
