@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Blur
   m_Shader: {fileID: 4800000, guid: 0b7aa465e0bc9044385e131f5ed3f3bc, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA _OUTLINEQUALITY_SIMPLE
@@ -59,6 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - PixelSnap: 0
     - _BumpAmt: 10
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -84,7 +86,7 @@ Material:
     - _ZWrite: 1
     - hstep: 0.5
     - radius: 3.3
-    - resolution: 800
+    - resolution: 2000
     - vstep: 0.5
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -92,4 +94,5 @@ Material:
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _PivotCorrection: {r: 0, g: 0, b: 0, a: 0}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpriteUVs: {r: 0, g: 0, b: 0, a: 0}

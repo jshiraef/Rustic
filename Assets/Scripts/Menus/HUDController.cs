@@ -67,7 +67,7 @@ public class HUDController : MonoBehaviour
                 GameObject.Destroy(child.gameObject);
             }
 
-            Debug.Log("this shouldn't be happening but it is");
+            Debug.Log("you're health is low! Do you have any potions?");
 
             if(health.transform.childCount <= 0)
             {

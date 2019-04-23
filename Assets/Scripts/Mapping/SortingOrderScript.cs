@@ -131,47 +131,63 @@ public class SortingOrderScript : MonoBehaviour
 
 
         //checks to see if moving object are within a 100 unit radius
-        foreach (GameObject movableObject in allMovableObjects)
-        {
-            float dst = Vector3.Distance(movableObject.transform.position, this.transform.position);
+        //foreach (GameObject movableObject in allMovableObjects)
+        //{
+        //    float dst = Vector3.Distance(movableObject.transform.position, this.transform.position);
 
-            if (dst < 10 && !allMovableObjectsWithinProximity.Contains(movableObject))
-            {
-                allMovableObjectsWithinProximity.Add(movableObject);
-            }
-            else
-            {
-                if (allMovableObjectsWithinProximity.Contains(movableObject) && dst > 10)
-                {
-                    allMovableObjectsWithinProximity.Remove(movableObject);
-                }
-            }
+        //    if (dst < 10 && !allMovableObjectsWithinProximity.Contains(movableObject))
+        //    {
+        //        allMovableObjectsWithinProximity.Add(movableObject);
+        //    }
+        //    else
+        //    {
+        //        if (allMovableObjectsWithinProximity.Contains(movableObject) && dst > 10)
+        //        {
+        //            allMovableObjectsWithinProximity.Remove(movableObject);
+        //        }
+        //    }
+        //}
+
+
+        //foreach (GameObject movableObject in allMovableObjectsWithinProximity)
+        //{
+        //    if (movableObject.transform.position.y > threshold)// && movableObject.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && movableObject.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
+        //    {
+        //        //			sprite.sortingOrder = sortingOrder;
+
+        //        Overlap();
+
+        //    }
+        //    else if (movableObject.transform.position.y > (slope * movableObject.transform.position.x) + yintercept || 
+        //                                                   movableObject.transform.position.y > (slope2 * movableObject.transform.position.x) + yintercept2)// && movableObject.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && movableObject.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
+        //    {
+
+        //        Overlap();            
+        //    }
+        //    else
+        //    {
+        //        sprite.sortingLayerName = currentLayerName;
+        //        sprite.sortingOrder = currentSortingOrderNumber;
+        //    }
+        //}
+
+        if(player.transform.position.y > threshold)
+        {
+            Overlap();
         }
-
-
-        foreach (GameObject movableObject in allMovableObjectsWithinProximity)
+        else if(player.transform.position.y > (slope * player.transform.position.x) + yintercept ||
+                                                           player.transform.position.y > (slope2 * player.transform.position.x) + yintercept2)
         {
-            if (movableObject.transform.position.y > threshold)// && movableObject.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && movableObject.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
-            {
-                //			sprite.sortingOrder = sortingOrder;
-
-                Overlap();
-
-            }
-            else if (movableObject.transform.position.y > (slope * movableObject.transform.position.x) + yintercept || movableObject.transform.position.y > (slope2 * movableObject.transform.position.x) + yintercept2)// && movableObject.transform.position.x > (this.transform.position.x - this.sprite.size.x / 2) && movableObject.transform.position.x < (this.transform.position.x + this.sprite.size.x / 2))
-            {
-
-                Overlap();            
-            }
-            else
-            {
-                sprite.sortingLayerName = currentLayerName;
-                sprite.sortingOrder = currentSortingOrderNumber;
-            }
+            Overlap();
+        }
+        else
+        {
+            sprite.sortingLayerName = currentLayerName;
+            sprite.sortingOrder = currentSortingOrderNumber;
         }
 
         //Debug.Log("the number of object with the list is " + allMovableObjectsWithinProximity.Count);
-            
+
 
         if (copyParentSortingLayer)
         {

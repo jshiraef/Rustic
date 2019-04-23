@@ -1,12 +1,14 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-Shader "Sprites/Default2"
+Shader "Sprites/Default"
 {
 	Properties
 	{
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
+		radius ("Radius", Range(0,30)) = 15
+        resolution ("Resolution", float) = 2000  
+        hstep("HorizontalStep", Range(0,1)) = 0.5
+        vstep("VerticalStep", Range(0,1)) = 0.5  
 	}
 
 	SubShader
@@ -31,7 +33,6 @@ Shader "Sprites/Default2"
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma multi_compile _ PIXELSNAP_ON
-			#pragma shader_feature ETC1_EXTERNAL_ALPHA
 			#include "UnityCG.cginc"
 			
 			struct appdata_t
@@ -49,6 +50,11 @@ Shader "Sprites/Default2"
 			};
 			
 			fixed4 _Color;
+			float radius;
+            float resolution;
+
+			 float hstep;
+            float vstep;
 
 			v2f vert(appdata_t IN)
 			{
@@ -58,31 +64,32 @@ Shader "Sprites/Default2"
 				OUT.color = IN.color * _Color;
 				#ifdef PIXELSNAP_ON
 				OUT.vertex = UnityPixelSnap (OUT.vertex);
-
 				#endif
+
 				return OUT;
 			}
 
 			sampler2D _MainTex;
 			sampler2D _AlphaTex;
+			float _AlphaSplitEnabled;
 
 			fixed4 SampleSpriteTexture (float2 uv)
 			{
 				fixed4 color = tex2D (_MainTex, uv);
 
-#if ETC1_EXTERNAL_ALPHA
-				// get the color from an external texture (usecase: Alpha support for ETC1 on android)
-				color.a = tex2D (_AlphaTex, uv).r;
-#endif //ETC1_EXTERNAL_ALPHA
+#if UNITY_TEXTURE_ALPHASPLIT_ALLOWED
+				if (_AlphaSplitEnabled)
+					color.a = tex2D (_AlphaTex, uv).r;
+#endif //UNITY_TEXTURE_ALPHASPLIT_ALLOWED
 
 				return color;
 			}
 
-			fixed4 frag(v2f IN) : SV_Target
+			fixed4 frag(v2f i) : SV_Target
 			{
-				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
+				fixed4 c = SampleSpriteTexture (i.texcoord) * i.color;
 				c.rgb *= c.a;
-				return c;       
+				return c;
 			}
 		ENDCG
 		}
