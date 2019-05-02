@@ -101,8 +101,8 @@ namespace Cinemachine.Editor
             if (ortho)
             {
                 Vector3 size = new Vector3(
-                        aspect * lens.OrthographicSize * 2, 
-                        lens.OrthographicSize * 2, 
+                        aspect * lens.OrthographicSize * 3, 
+                        lens.OrthographicSize * 3, 
                         lens.NearClipPlane + lens.FarClipPlane);
                 Gizmos.DrawWireCube(
                     new Vector3(0, 0, (size.z / 2) + lens.NearClipPlane), size);
