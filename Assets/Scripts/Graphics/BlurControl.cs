@@ -9,6 +9,7 @@ public class BlurControl : MonoBehaviour {
 
     public float blurThreshold = -50f;
     GameObject player;
+    GameObject bigTree;
     SpriteRenderer sprite;
     Material currentMaterial;
     public Material blurMaterial;
@@ -21,6 +22,7 @@ public class BlurControl : MonoBehaviour {
 
     private Vector3 camLastPosition;
     private Vector3 camNextPosition;
+    private Vector3 camLeftPosition;
 
 
     float v, h;
@@ -30,13 +32,15 @@ public class BlurControl : MonoBehaviour {
     void Start () {
 
         player = GameObject.Find("player");
-        sprite = GetComponent<SpriteRenderer>();
+        bigTree = GameObject.Find("giantTree_VillageTopLeft").gameObject;
+        sprite = bigTree.GetComponent<SpriteRenderer>();
         currentMaterial = sprite.material;
 
         value = 800f;
-		transform.GetComponent<Renderer>().material.SetFloat("resolution",value);
+        bigTree.transform.GetComponent<Renderer>().material.SetFloat("resolution",value);
 
-        originalPosition = this.transform.position;
+        originalPosition = bigTree.transform.position;
+        camLeftPosition = new Vector3(bigTree.transform.position.x - 6.5f, bigTree.transform.position.y, bigTree.transform.position.z);
 
         Camera = GameObject.Find("Main Camera");
 
@@ -64,17 +68,17 @@ public class BlurControl : MonoBehaviour {
         {
             sprite.material = blurMaterial;
             value = 2000 - ((player.transform.position.y + 50) * 50);
-            transform.GetComponent<Renderer>().material.SetFloat("resolution", value);
+            bigTree.transform.GetComponent<Renderer>().material.SetFloat("resolution", value);
 
         }
         else
         {
             value = 2000;
-            transform.GetComponent<Renderer>().material.SetFloat("resolution", value);
+            bigTree.transform.GetComponent<Renderer>().material.SetFloat("resolution", value);
             sprite.material = currentMaterial;
         }
 
-        if(player.transform.position.y > -25)
+        if(player.transform.position.y > -25 && player.transform.position.y < -10)
         {
             if(player.transform.position.x > 28)
             {
@@ -82,25 +86,27 @@ public class BlurControl : MonoBehaviour {
                 {
                     if((double) camLastPosition.x > (double)camNextPosition.x || (double) camLastPosition.x < (double) camNextPosition.x )
                     {
-                        if(this.transform.position.x > originalPosition.x - 10)
+                        if(bigTree.transform.position.x > originalPosition.x - 10)
                         {
-                            transform.Translate(-(player.transform.position.x - 28) * .0012f, 0, 0);
+                            bigTree.transform.Translate(-(player.transform.position.x - 28) * .0012f, 0, 0);
                         }
                     }
 
                 }
-                else if(Input.GetAxisRaw("Horizontal") < 0 && !(this.transform.position == originalPosition))
+                else if(Input.GetAxisRaw("Horizontal") < 0 && !(bigTree.transform.position == originalPosition))
                 {
                     if ((double)camLastPosition.x > (double)camNextPosition.x || (double)camLastPosition.x < (double)camNextPosition.x)
                     {
-                        if(this.transform.position.x < originalPosition.x + 10)
+                        if(bigTree.transform.position.x < originalPosition.x + 10)
                         {
-                            transform.Translate((player.transform.position.x - 28) * .0015f, 0, 0);
+                            bigTree.transform.Translate((player.transform.position.x - 28) * .0015f, 0, 0);
                         }
                     }
 
                     
                 }
+
+                
 
                 //if (Input.GetAxisRaw("Horizontal") < 0)
                 //{
@@ -124,12 +130,38 @@ public class BlurControl : MonoBehaviour {
             }        
             
         }
+        else if(player.transform.position.y > -10 || player.transform.position.x > 50)
+        {
+            bigTree.transform.position = Vector3.Lerp(bigTree.transform.position, camLeftPosition, Time.deltaTime);
+          
+        }
         else
         {
-            this.transform.position = Vector3.Lerp(this.transform.position, originalPosition, Time.deltaTime);
+
+            bigTree.transform.position = Vector3.Lerp(bigTree.transform.position, originalPosition, Time.deltaTime);
         }
 
-       
+
+        if (player.transform.position.y > -25 && player.transform.position.x < 37 && bigTree.transform.position.x < camLeftPosition.x + 1)
+        {
+            Color tmpColor = sprite.color;
+            sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, 0f);
+
+            bigTree.SetActive(false);
+        }
+
+        if (!bigTree.activeSelf && player.transform.position.x > 37)
+        {
+            bigTree.SetActive(true);
+
+            if (sprite.color.a < 1f)
+            {
+                Color tmpColor = sprite.color;
+                sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(sprite.color.a, 1f, Time.deltaTime));
+            }
+        }
+        
+
 
         //      if (Input.GetButton("PS4_R1"))
         //{

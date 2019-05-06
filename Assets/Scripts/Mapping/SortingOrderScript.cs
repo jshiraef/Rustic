@@ -14,12 +14,14 @@ public class SortingOrderScript : MonoBehaviour
 
 
     public GameObject neverRenderBehindThisObject;
+    public GameObject checkObjectForOverlap;
 	protected SpriteRenderer sprite;
 	protected GameObject player;
 
     public bool copyParentSortingLayer;
 
     protected bool bruteForceRender;
+    protected bool bruteForceOverlap;
 
 
 	// This is the threshhold at which the player's position 
@@ -104,6 +106,11 @@ public class SortingOrderScript : MonoBehaviour
             bruteForceRender = true;
         }
 
+        if(checkObjectForOverlap != null) 
+        {
+            bruteForceOverlap = true;
+        }
+
 
         allMovableObjects = GameObject.FindGameObjectsWithTag("movable");
         allMovableObjectsWithinProximity = new List<GameObject>();
@@ -129,6 +136,15 @@ public class SortingOrderScript : MonoBehaviour
             threshold = this.transform.position.y + 1;
         }
 
+
+        if(checkObjectForOverlap != null)
+        {
+            if (checkObjectForOverlap.GetComponent<SpriteRenderer>().sortingLayerName == "Overlap")
+            {
+                bruteForceOverlap = true;
+            }
+            else bruteForceOverlap = false;
+        }
 
         //checks to see if moving object are within a 100 unit radius
         //foreach (GameObject movableObject in allMovableObjects)
@@ -197,12 +213,22 @@ public class SortingOrderScript : MonoBehaviour
 
         if(bruteForceRender)
         {
-            if(neverRenderBehindThisObject.GetComponent<SpriteRenderer>().sortingLayerID != 0)
-            {
+         //  if(neverRenderBehindThisObject.GetComponent<SpriteRenderer>().sortingLayerID != 0)
+         //   {
+              
                 sprite.sortingLayerID = neverRenderBehindThisObject.GetComponent<SpriteRenderer>().sortingLayerID;
                 sprite.sortingOrder = neverRenderBehindThisObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
-            }
+         //   }
+
         }
+
+        if(bruteForceOverlap)
+        {
+            sprite.sortingLayerID = checkObjectForOverlap.GetComponent<SpriteRenderer>().sortingLayerID;
+            sprite.sortingOrder = checkObjectForOverlap.GetComponent<SpriteRenderer>().sortingOrder + 1;
+        }
+
+       
 
         //if(Mathf.Abs((float) threshold - this.transform.position.y) > sprite.size.y)
         //{
