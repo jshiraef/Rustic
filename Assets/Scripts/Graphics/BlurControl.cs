@@ -40,7 +40,7 @@ public class BlurControl : MonoBehaviour {
         bigTree.transform.GetComponent<Renderer>().material.SetFloat("resolution",value);
 
         originalPosition = bigTree.transform.position;
-        camLeftPosition = new Vector3(bigTree.transform.position.x - 6.5f, bigTree.transform.position.y, bigTree.transform.position.z);
+        camLeftPosition = new Vector3(bigTree.transform.position.x - 8.5f, bigTree.transform.position.y, bigTree.transform.position.z);
 
         Camera = GameObject.Find("Main Camera");
 
@@ -150,7 +150,7 @@ public class BlurControl : MonoBehaviour {
             bigTree.SetActive(false);
         }
 
-        if (!bigTree.activeSelf && player.transform.position.x > 37)
+        if (!bigTree.activeSelf && player.transform.position.x > 37.5f)
         {
             bigTree.SetActive(true);
 
