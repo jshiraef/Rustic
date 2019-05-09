@@ -1695,6 +1695,11 @@ public class PlayerControl : Entity
             parallaxTrigger = true;
         }
 
+        if (other.tag == "transparentTrigger")
+        {
+            other.gameObject.transform.parent.SendMessage("setTempBool", true);
+        }
+
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -1726,6 +1731,11 @@ public class PlayerControl : Entity
         if (other.name == "parallaxTrigger")
         {
             parallaxTrigger = false;
+        }
+
+        if (other.tag == "transparentTrigger")
+        {
+            other.gameObject.transform.parent.SendMessage("setTempBool", false);
         }
 
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SortingWithTransparency : SortingOrderScript {
 
+    bool transparentTrigger;
+
 	// Use this for initialization
 	void Start () {
         sprite = GetComponent<SpriteRenderer>();
@@ -37,7 +39,7 @@ public class SortingWithTransparency : SortingOrderScript {
         if (player.transform.position.y > threshold)
         {
 
-            if (player.transform.position.y - this.transform.position.y < sprite.size.y / 2)
+            if (transparentTrigger)
             {
                 FadeOut();
             }
@@ -90,6 +92,10 @@ public class SortingWithTransparency : SortingOrderScript {
             sprite.sortingLayerName = transform.parent.GetComponent<SpriteRenderer>().sortingLayerName;
         }
 
+        if(this.name == "willowTrunk" && transparentTrigger)
+        {
+            Debug.Log("we have communication happening!!");
+        }
 
     }
 
@@ -104,4 +110,10 @@ public class SortingWithTransparency : SortingOrderScript {
         Color tmpColor = sprite.color;
         sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(tmpColor.a, 1f, Time.deltaTime));
     }
+
+    void setTempBool(bool b)
+    {
+        transparentTrigger = b;
+    }
+
 }
