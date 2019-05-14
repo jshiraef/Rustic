@@ -14,6 +14,8 @@ public class AnimatorSound : MonoBehaviour
         {
             if(menuButtonController != null)
             {
+                Debug.Log("the sound should be playing");
+
                 menuButtonController.audioSource.PlayOneShot(whichSound);
             }
 
@@ -22,10 +24,11 @@ public class AnimatorSound : MonoBehaviour
                 satchelController.audioSource.PlayOneShot(whichSound);
             }
 
-        }
+        }      
         else
         {
             disableOnce = false;
         }
+
     }
 }

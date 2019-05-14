@@ -365,6 +365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 1083372834}
+  satchelController: {fileID: 0}
   disableOnce: 0
 --- !u!95 &101415041
 Animator:
@@ -398,6 +399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 1083372834}
+  satchelController: {fileID: 0}
   animator: {fileID: 101415041}
   animatorSound: {fileID: 101415040}
   thisIndex: 1
@@ -721,6 +723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 1083372834}
+  satchelController: {fileID: 0}
   disableOnce: 0
 --- !u!95 &566941000
 Animator:
@@ -754,6 +757,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 1083372834}
+  satchelController: {fileID: 0}
   animator: {fileID: 566941000}
   animatorSound: {fileID: 566940999}
   thisIndex: 2
@@ -1244,6 +1248,7 @@ GameObject:
   - component: {fileID: 1083372830}
   - component: {fileID: 1083372834}
   - component: {fileID: 1083372833}
+  - component: {fileID: 1083372835}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1427,6 +1432,14 @@ MonoBehaviour:
   maxIndex: 2
   audioSource: {fileID: 0}
   whichLevel: HubTown
+--- !u!81 &1083372835
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083372829}
+  m_Enabled: 1
 --- !u!1 &1130344068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,6 +1666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 1083372834}
+  satchelController: {fileID: 0}
   animator: {fileID: 1355038503}
   animatorSound: {fileID: 1355038506}
   thisIndex: 0
@@ -1677,6 +1691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 1083372834}
+  satchelController: {fileID: 0}
   disableOnce: 1
 --- !u!1 &1445033195
 GameObject:
@@ -2536,7 +2551,6 @@ GameObject:
   - component: {fileID: 1993076966}
   - component: {fileID: 1993076965}
   - component: {fileID: 1993076964}
-  - component: {fileID: 1993076963}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2544,14 +2558,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1993076963
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1993076962}
-  m_Enabled: 1
 --- !u!124 &1993076964
 Behaviour:
   m_ObjectHideFlags: 0

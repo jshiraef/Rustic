@@ -596,7 +596,7 @@ public class PlayerControl : Entity
         
 
         //only temporary, this should be Input.GetButton("PS4_Triangle");
-        if (Input.GetButton("PS4_Triangle"))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             if (!rolling)
             {

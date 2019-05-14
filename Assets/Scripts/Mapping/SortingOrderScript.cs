@@ -190,12 +190,36 @@ public class SortingOrderScript : MonoBehaviour
         if(player.transform.position.y > threshold)
         {
             Overlap();
+
+            if(this.name == "topLeftCaveEntrance")
+            {
+                Debug.Log("it's door # 1!");
+            }
+            
+
         }
-        else if(player.transform.position.y > (slope * player.transform.position.x) + yintercept ||
-                                                           player.transform.position.y > (slope2 * player.transform.position.x) + yintercept2)
+        else if(player.transform.position.y > (slope * player.transform.position.x) + yintercept && thresholdPoint1 != null )
         {
             Overlap();
+
+            if (this.name == "topLeftCaveEntrance")
+            {
+                Debug.Log("it's door # 2!");
+            }
+
+
         }
+        else if(player.transform.position.y > (slope2 * player.transform.position.x) + yintercept2 && thresholdPoint3 != null)
+        {
+            
+                Overlap();
+
+                if (this.name == "topLeftCaveEntrance")
+                {
+                    Debug.Log("it's door # 3!");
+                }
+
+        }  
         else
         {
             sprite.sortingLayerName = currentLayerName;

@@ -2,30 +2,30 @@ fileFormatVersion: 2
 guid: 41c051bc1dd7cf441a9bb19577bd56c6
 ScriptedImporter:
   fileIDToRecycleName:
-    100000: Layer 0 copy_GO/Layer 0 copy_GO/bone_1
-    100002: Layer 0 copy_GO/Layer 0 copy_GO/bone_1/bone_2
-    100004: Layer 0 copy_GO/Layer 0 copy_GO
-    100006: Layer 0 copy_GO/Layer 0 copy_GO/Layer 0
-    100008: Layer 0 copy_GO/Layer 0 copy_GO/Layer 0 copy
-    100010: Layer 0 copy_GO/Layer 0 copy_GO/bone_1/bone_2/bone_3
-    100012: Layer 0 copy_GO/Layer 0 copy_GO/bone_1/bone_2/bone_3/bone_4
-    100014: Layer 0 copy_GO/Layer 0 copy_GO/bone_1/bone_2/bone_3/bone_4/bone_5
-    400000: Layer 0 copy_GO/Layer 0 copy_GO/bone_1/Transform
-    400002: Layer 0 copy_GO/Layer 0 copy_GO/bone_1/bone_2/Transform
-    400004: Layer 0 copy_GO/Layer 0 copy_GO/Transform
-    400006: Layer 0 copy_GO/Layer 0 copy_GO/Layer 0/Transform
-    400008: Layer 0 copy_GO/Layer 0 copy_GO/Layer 0 copy/Transform
-    400010: Layer 0 copy_GO/Layer 0 copy_GO/bone_1/bone_2/bone_3/Transform
-    400012: Layer 0 copy_GO/Layer 0 copy_GO/bone_1/bone_2/bone_3/bone_4/Transform
-    400014: Layer 0 copy_GO/Layer 0 copy_GO/bone_1/bone_2/bone_3/bone_4/bone_5/Transform
+    100000: runeHouseLantern_GO/runeHouseLantern_GO
+    100002: runeHouseLantern_GO/runeHouseLantern_GO/bone_1
+    100004: runeHouseLantern_GO/runeHouseLantern_GO/bone_1/bone_2
+    100006: runeHouseLantern_GO/runeHouseLantern_GO/bone_1/bone_2/bone_3
+    100008: runeHouseLantern_GO/runeHouseLantern_GO/bone_1/bone_2/bone_3/bone_4
+    100010: runeHouseLantern_GO/runeHouseLantern_GO/bone_1/bone_2/bone_3/bone_4/bone_5
+    100012: runeHouseLantern_GO/runeHouseLantern_GO/Layer 0
+    100014: runeHouseLantern_GO/runeHouseLantern_GO/Layer 0 copy
+    400000: runeHouseLantern_GO/runeHouseLantern_GO/Transform
+    400002: runeHouseLantern_GO/runeHouseLantern_GO/bone_1/Transform
+    400004: runeHouseLantern_GO/runeHouseLantern_GO/bone_1/bone_2/Transform
+    400006: runeHouseLantern_GO/runeHouseLantern_GO/bone_1/bone_2/bone_3/Transform
+    400008: runeHouseLantern_GO/runeHouseLantern_GO/bone_1/bone_2/bone_3/bone_4/Transform
+    400010: runeHouseLantern_GO/runeHouseLantern_GO/bone_1/bone_2/bone_3/bone_4/bone_5/Transform
+    400012: runeHouseLantern_GO/runeHouseLantern_GO/Layer 0/Transform
+    400014: runeHouseLantern_GO/runeHouseLantern_GO/Layer 0 copy/Transform
     2800000: runeHouseLantern
-    11400000: Layer 0 copy_GO/Layer 0 copy_GO/Layer 0/MonoBehaviour-UnityEngine.Experimental.U2D.Animation.SpriteSkin
-    11400002: Layer 0 copy_GO/Layer 0 copy_GO/Layer 0 copy/MonoBehaviour-UnityEngine.Experimental.U2D.Animation.SpriteSkin
-    21200002: Layer 0 copy_GO/Layer 0 copy_GO/Layer 0/SpriteRenderer
-    21200004: Layer 0 copy_GO/Layer 0 copy_GO/Layer 0 copy/SpriteRenderer
-    21300000: Layer 0
-    21300002: Layer 0 copy
-    100100002: Layer 0 copy_GO
+    11400000: runeHouseLantern_GO/runeHouseLantern_GO/Layer 0/MonoBehaviour-UnityEngine.Experimental.U2D.Animation.SpriteSkin
+    11400002: runeHouseLantern_GO/runeHouseLantern_GO/Layer 0 copy/MonoBehaviour-UnityEngine.Experimental.U2D.Animation.SpriteSkin
+    21200000: runeHouseLantern_GO/runeHouseLantern_GO/Layer 0/SpriteRenderer
+    21200002: runeHouseLantern_GO/runeHouseLantern_GO/Layer 0 copy/SpriteRenderer
+    21300000: 7f56a3fb8d8a8a04ba2074230ff0b88c
+    21300002: acefbb6109f5d694cb1d51c1383436f6
+    100100000: runeHouseLantern_GO
   externalObjects: {}
   userData: 
   assetBundleName: 
@@ -877,14 +877,16 @@ ScriptedImporter:
       bones: 00000000040000000300000002000000
     dimension: {x: 0, y: 0}
   boneGOs:
-  - go: {fileID: 100000, guid: 41c051bc1dd7cf441a9bb19577bd56c6, type: 3}
-    index: 0
   - go: {fileID: 100002, guid: 41c051bc1dd7cf441a9bb19577bd56c6, type: 3}
+    index: 0
+  - go: {fileID: 100004, guid: 41c051bc1dd7cf441a9bb19577bd56c6, type: 3}
     index: 1
-  - go: {fileID: 100010, guid: 41c051bc1dd7cf441a9bb19577bd56c6, type: 3}
+  - go: {fileID: 100006, guid: 41c051bc1dd7cf441a9bb19577bd56c6, type: 3}
     index: 2
-  - go: {fileID: 100012, guid: 41c051bc1dd7cf441a9bb19577bd56c6, type: 3}
+  - go: {fileID: 100008, guid: 41c051bc1dd7cf441a9bb19577bd56c6, type: 3}
     index: 3
-  - go: {fileID: 100014, guid: 41c051bc1dd7cf441a9bb19577bd56c6, type: 3}
+  - go: {fileID: 100010, guid: 41c051bc1dd7cf441a9bb19577bd56c6, type: 3}
     index: 4
   generateGOHierarchy: 0
+  textureAssetName: runeHouseLantern
+  prefabAssetName: runeHouseLantern_GO
