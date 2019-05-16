@@ -40,10 +40,12 @@ public class PlayerControl : Entity
     public int throwTimer;
     public bool hatAndCoat;
 
+
     private AnimatorClipInfo animInfo;
 
     // elements
     public bool inWater = false;
+    private bool shortGrass = false;
 
     private CinemachineCameraShaker screenShake;
     public bool parallaxTrigger;
@@ -82,6 +84,8 @@ public class PlayerControl : Entity
     private GameObject renderMaskOutliner;
     private GameObject throwableItem;
     private GameObject sickleSwipe;
+    private GameObject grassSquiggle;
+    private Sprite[] squiggleSprites;
     private FieldOfView vision;
 
     private int toggleTimer;
@@ -139,6 +143,8 @@ public class PlayerControl : Entity
         player.GetComponent<SpriteRenderer>().receiveShadows = true;
         screenShake = GameObject.Find("CM vcam1").GetComponent<CinemachineCameraShaker>();
         sickleSwipe = GameObject.Find("sickleSwipe");
+        grassSquiggle = transform.Find("grassSquiggle").gameObject;
+        squiggleSprites = Resources.LoadAll<Sprite>("grassSquiggle");
         vision = GetComponent<FieldOfView>();
         inventory = GameObject.Find("inventory").GetComponent<SatchelController>();
 
@@ -400,6 +406,19 @@ public class PlayerControl : Entity
             }
             else isIdle = false;
         }
+
+
+        if (isIdle && shortGrass)
+        {
+            //Debug.Log("this should be happening");
+            grassSquiggle.SetActive(true);
+
+            
+                grassSquiggle.GetComponent<SpriteRenderer>().sprite = squiggleLoad();
+            
+
+        }
+        else grassSquiggle.SetActive(false);
 
 
         // allows the player to pause the game
@@ -1685,8 +1704,9 @@ public class PlayerControl : Entity
 
         if (other.name == "shortGrassEdge")
         {
-            renderMask.transform.localPosition = new Vector3(.05f, -2.23f, 0f);
-            renderMaskOutliner.transform.localScale = new Vector3(0, 0, 0);
+            //renderMask.transform.localPosition = new Vector3(.05f, -2.23f, 0f);
+            //renderMaskOutliner.transform.localScale = new Vector3(0, 0, 0);
+            shortGrass = true;
 
         }
 
@@ -1725,7 +1745,8 @@ public class PlayerControl : Entity
 
         if (other.name == "shortGrassEdge")
         {
-            renderMaskOutliner.transform.localScale = new Vector3(0.76f, 1.09f, 1.09f);
+            //renderMaskOutliner.transform.localScale = new Vector3(0.76f, 1.09f, 1.09f);
+            shortGrass = false;
         }
 
         if (other.name == "parallaxTrigger")
@@ -1772,11 +1793,14 @@ public class PlayerControl : Entity
         {
             restoreBlobShadowToNormal = false;
 
-            renderMask.GetComponent<RenderMask>().setPlayerMaskType(RenderMask.MaskType.GRASS);
+            playerBlobShadow.farClipPlane = Mathf.Lerp(playerBlobShadow.farClipPlane, 45f, Time.deltaTime * 2);
 
-            setBlobShadowForGrass();
+
+            //renderMask.GetComponent<RenderMask>().setPlayerMaskType(RenderMask.MaskType.GRASS);
+
+            //setBlobShadowForGrass();
         }
-     
+
 
     }
 
@@ -1858,12 +1882,82 @@ public class PlayerControl : Entity
 
     public float getDirectionAngle360()
     {
-        return  analogAxesAngle360;
+        return analogAxesAngle360;
     }
 
     public int getDirectionAngle180()
     {
-        return (int) analogAxesAngle;
+        return (int)analogAxesAngle;
+    }
+
+
+    public Sprite squiggleLoad()
+    {
+        if (analogAxesAngle360 < 45 && analogAxesAngle360 > 15)
+        {
+            grassSquiggle.transform.localPosition = new Vector3(-.113f, -1.564f, 0);
+            return squiggleSprites[2];
+        }
+        else if (analogAxesAngle360 < 75 && analogAxesAngle360 > 45)
+        {
+            grassSquiggle.transform.localPosition = new Vector3(-.049f, -1.532f, 0);
+            return squiggleSprites[3];
+        }
+        else if (analogAxesAngle360 < 100 && analogAxesAngle360 > 75)
+        {
+            grassSquiggle.transform.localPosition = new Vector3(-.072f, -1.638f, 0);
+            return squiggleSprites[1];
+        }
+        else if (analogAxesAngle360 < 135 && analogAxesAngle360 > 100)
+        {
+            grassSquiggle.transform.localPosition = new Vector3(-.218f, -1.623f, 0);
+            return squiggleSprites[4];
+        }
+        else if (analogAxesAngle360 < 170 && analogAxesAngle360 > 135)
+        {
+            grassSquiggle.transform.localPosition = new Vector3(-.129f, -1.734f, 0);
+            return squiggleSprites[5];
+        }
+        else if (analogAxesAngle360 < 190 && analogAxesAngle360 > 170)
+        {
+            grassSquiggle.transform.localPosition = new Vector3(-.005f, -1.702f, 0);
+            return squiggleSprites[11];
+        }
+        else if (analogAxesAngle360 < 225 && analogAxesAngle360 > 190)
+        {
+            grassSquiggle.transform.localPosition = new Vector3(-.052f, -1.591f, 0);
+            return squiggleSprites[9];
+        }
+        else if (analogAxesAngle360 < 260 && analogAxesAngle360 > 225)
+        {
+            grassSquiggle.transform.localPosition = new Vector3(.086f, -1.606f, 0);
+            return squiggleSprites[10];
+        }
+        else if (analogAxesAngle360 < 280 && analogAxesAngle360 > 260)
+        {
+            grassSquiggle.transform.localPosition = new Vector3(.073f, -1.552f, 0);
+            return squiggleSprites[6];
+        }
+        else if (analogAxesAngle360 < 305 && analogAxesAngle360 > 280)
+        {
+            grassSquiggle.transform.localPosition = new Vector3(.07f, -1.533f, 0);
+            return squiggleSprites[7];
+        }
+        else if (analogAxesAngle360 < 340 && analogAxesAngle360 > 305)
+        {
+            grassSquiggle.transform.localPosition = new Vector3(.053f, -1.537f, 0);
+            return squiggleSprites[8];
+        }
+        else if (analogAxesAngle360 < 15 && analogAxesAngle360 > 340)
+        {
+            grassSquiggle.transform.localPosition = new Vector3(.074f, -1.483f, 0);
+            return squiggleSprites[0];
+        }
+        else
+        {
+            grassSquiggle.transform.localPosition = new Vector3(.074f, -1.483f, 0);
+            return squiggleSprites[0];
+        }
     }
 
     public Direction getDirection8fromAngle()
