@@ -35,8 +35,8 @@ public class TestAxes : MonoBehaviour {
 //		         + "PS4 Triangle Button: " + Input.GetButton ("PS4_Triangle") + "\n"
 //		         + "PS4 Sqr Button: " + Input.GetButton ("PS4_Square") + "\n\n"
 //
-//		         + "PS4 Dpad Horizontal: " + Input.GetAxis ("PS4_DPadHorizontal") + "\n"
-//		         + "PS4 Dpad Vertical: " + Input.GetAxis ("PS4_DPadVertical") + "\n\n"
+		         + "PS4 Dpad Horizontal: " + Input.GetAxis ("PS4_DPadHorizontal") + "\n"
+		         + "PS4 Dpad Vertical: " + Input.GetAxis ("PS4_DPadVertical") + "\n\n"
 //
 //		         + "PS4 Share Button: " + Input.GetButton ("PS4_Share") + "\n"
 //		         + "PS4 Options Button: " + Input.GetButton ("PS4_Options") + "\n"

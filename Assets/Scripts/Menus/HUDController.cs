@@ -7,6 +7,8 @@ public class HUDController : MonoBehaviour
     private GameObject fullHealthPie, halfHealthPie, quarterPie, threeQuarterPie;
     private GameObject stamina;
     private GameObject health;
+    private GameObject itemCompass;
+    private GameObject selectShine;
     private PlayerControl player;
     private int playerHealth;
 
@@ -23,6 +25,8 @@ public class HUDController : MonoBehaviour
 
         stamina = transform.Find("staminaVial").gameObject.transform.Find("staminaMeter").gameObject;
         health = transform.Find("health").gameObject;
+        itemCompass = transform.FindChild("itemCompass").gameObject;
+        selectShine = itemCompass.transform.GetChild(0).gameObject;
 
         
     }
@@ -73,6 +77,37 @@ public class HUDController : MonoBehaviour
             {
                 playerHealth = player.getCurrentHealth();
             }
+        }
+
+        if(Input.GetAxis("PS4_DPadHorizontal") != 0 || Input.GetAxis("PS4_DPadVertical") != 0)
+        {
+            selectShine.SetActive(true);
+        }
+
+
+        if(Input.GetAxis("PS4_DPadHorizontal") > 0)
+        {
+            selectShine.transform.localPosition = new Vector3(2.23f, -.4f, 0);
+            selectShine.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (Input.GetAxis("PS4_DPadHorizontal") < 0)
+        {
+            selectShine.transform.localPosition = new Vector3(-2.54f, -.65f, 0);
+            selectShine.transform.localRotation = Quaternion.Euler(0, 0, -180f);
+        }
+        else if (Input.GetAxis("PS4_DPadVertical") > 0)
+        {
+            selectShine.transform.localPosition = new Vector3(-.3f, 2.19f, 0);
+            selectShine.transform.localRotation = Quaternion.Euler(0, 0, 90f);
+        }
+        else if (Input.GetAxis("PS4_DPadVertical") < 0)
+        {
+            selectShine.transform.localPosition = new Vector3(0f, -3.12f, 0);
+            selectShine.transform.localRotation = Quaternion.Euler(0, 0, -90f);
+        }
+        else
+        {
+            selectShine.SetActive(false);
         }
 
         //Debug.Log("the playerHealth is " + playerHealth);
