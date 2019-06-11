@@ -62,7 +62,7 @@ public class HUDController : MonoBehaviour
                 newPie.SetActive(true);
             }
             playerHealth = player.getCurrentHealth();
-        }
+        }       
 
         if (player.getCurrentHealth() != playerHealth)
         {
