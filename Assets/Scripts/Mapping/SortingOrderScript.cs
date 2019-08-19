@@ -59,7 +59,7 @@ public class SortingOrderScript : MonoBehaviour
         currentSortingOrderNumber = sprite.sortingOrder;
         zPosOriginal = this.transform.position.z;
 
-        if(threshold == 0 && thresholdPoint1 == null)
+        if(threshold == 0 && thresholdPoint1 == null && thresholdPoint3 == null)
         {
             threshold = this.transform.position.y;
         }
@@ -127,7 +127,7 @@ public class SortingOrderScript : MonoBehaviour
 	void Update () 
 	{
 
-        if (threshold == 0 && thresholdPoint1 == null)
+        if (threshold == 0 && thresholdPoint1 == null && thresholdPoint3 == null)
         {
             threshold = this.transform.position.y;
         }
@@ -191,10 +191,7 @@ public class SortingOrderScript : MonoBehaviour
         {
             Overlap();
 
-            if(this.name == "topLeftCaveEntrance")
-            {
-                Debug.Log("it's door # 1!");
-            }
+            
             
 
         }
@@ -202,10 +199,7 @@ public class SortingOrderScript : MonoBehaviour
         {
             Overlap();
 
-            if (this.name == "topLeftCaveEntrance")
-            {
-                Debug.Log("it's door # 2!");
-            }
+          
 
 
         }
@@ -214,10 +208,6 @@ public class SortingOrderScript : MonoBehaviour
             
                 Overlap();
 
-                if (this.name == "topLeftCaveEntrance")
-                {
-                    Debug.Log("it's door # 3!");
-                }
 
         }  
         else

@@ -586,7 +586,7 @@ public class PlayerControl : Entity
 
             body.MovePosition(Vector2.up * 200f);
             body.isKinematic = true;
-            body.gravityScale = -1f;
+            //body.gravityScale = -1f;
         }
 
         if (shortFall)
@@ -620,7 +620,7 @@ public class PlayerControl : Entity
         
 
         //only temporary, this should be Input.GetButton("PS4_Triangle");
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetButton("PS4_Triangle"))
         {
             if (!rolling)
             {

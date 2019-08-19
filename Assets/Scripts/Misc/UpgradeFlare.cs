@@ -7,11 +7,13 @@ public class UpgradeFlare : MonoBehaviour
 
     public bool flareTrigger;
     public float flareSpeed;
+    GameObject upgradeFlare;
     // Start is called before the first frame update
     void Start()
     {
+        upgradeFlare = transform.GetChild(0).gameObject;
         flareSpeed = .1f;
-        this.transform.localPosition = new Vector3(0, 0, -12f);
+        upgradeFlare.transform.localPosition = new Vector3(0, 0, -12f);
     }
 
     // Update is called once per frame
@@ -24,13 +26,19 @@ public class UpgradeFlare : MonoBehaviour
 
         if (flareTrigger)
         {
-            this.transform.Translate(0, 0, flareSpeed);
+            upgradeFlare.transform.Translate(0, 0, flareSpeed);
         }
 
-        if(this.transform.position.z >= 10)
+        if(upgradeFlare.transform.position.z >= 10)
         {
             flareTrigger = false;
-            this.transform.localPosition = new Vector3(0, 0, -12f);
+            upgradeFlare.transform.localPosition = new Vector3(0, 0, -12f);
         }
+
+        if (flareTrigger)
+        {
+            upgradeFlare.SetActive(true);
+        }
+        else upgradeFlare.SetActive(false);
     }
 }
