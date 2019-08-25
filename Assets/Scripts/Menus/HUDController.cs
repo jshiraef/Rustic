@@ -25,7 +25,7 @@ public class HUDController : MonoBehaviour
 
         stamina = transform.Find("staminaVial").gameObject.transform.Find("staminaMeter").gameObject;
         health = transform.Find("health").gameObject;
-        itemCompass = transform.FindChild("itemCompass").gameObject;
+        itemCompass = transform.Find("itemCompass").gameObject;
         selectShine = itemCompass.transform.GetChild(0).gameObject;
 
         
