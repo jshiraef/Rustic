@@ -120,6 +120,15 @@ public class GruntRoot : Entity
                 down = true;
                 up = false;
             }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                body.AddForce(Vector2.up * 200f);
+                GetComponent<Rigidbody2D>().isKinematic = true;
+                Debug.Log("this is happening");
+                //body.MovePosition(Vector2.up * 200f);
+               
+            }
         }
 
 

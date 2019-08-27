@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 //using XInputDotNetPure;
-using UnityEngine.PS4;
+//using UnityEngine.PS4;
 
 
 public class ButtonNextLevel : MonoBehaviour
@@ -28,7 +28,7 @@ public class ButtonNextLevel : MonoBehaviour
         if (rumble && rumbleCoolDown <= 0)
         {
             //GamePad.SetVibration(playerIndex, 0, 0);
-            PS4Input.PadSetVibration(1, 0, 0);
+            //PS4Input.PadSetVibration(1, 0, 0);
         }
 
         if (rumbleCoolDown > 0)

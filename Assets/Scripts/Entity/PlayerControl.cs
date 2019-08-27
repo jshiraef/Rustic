@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 //using XInputDotNetPure;
-using UnityEngine.PS4;
+//using UnityEngine.PS4;
 
 
 
@@ -581,7 +581,12 @@ public class PlayerControl : Entity
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //body.AddForce(Vector2.up * 200f);
+            //GetComponent<Rigidbody2D>().isKinematic = true;
+            //Debug.Log("this is happening");
+
             body.MovePosition(Vector2.up * 200f);
+            body.isKinematic = true;
+            //body.gravityScale = -1f;
         }
 
         if (shortFall)
@@ -615,7 +620,7 @@ public class PlayerControl : Entity
         
 
         //only temporary, this should be Input.GetButton("PS4_Triangle");
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetButton("PS4_Triangle"))
         {
             if (!rolling)
             {
