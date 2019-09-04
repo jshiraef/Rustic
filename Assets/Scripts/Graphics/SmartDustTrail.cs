@@ -12,6 +12,7 @@ public class SmartDustTrail : MonoBehaviour {
     private Vector2 playerAngle;
 
     private ParticleSystem dustEmitter;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +21,7 @@ public class SmartDustTrail : MonoBehaviour {
         iconicPosition = dustTrail.transform.localPosition;
         dustTrail = GameObject.Find("dustTrail");
         dustEmitter = dustTrail.GetComponent<ParticleSystem>();
+        
     }
 	
 	// Update is called once per frame

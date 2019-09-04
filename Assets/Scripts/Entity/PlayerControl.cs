@@ -86,6 +86,7 @@ public class PlayerControl : Entity
     private GameObject sickleSwipe;
     private GameObject grassSquiggle;
     private Sprite[] squiggleSprites;
+    private Sprite[] runningSquiggleSprites;
     private FieldOfView vision;
 
     private int toggleTimer;
@@ -145,6 +146,7 @@ public class PlayerControl : Entity
         sickleSwipe = GameObject.Find("sickleSwipe");
         grassSquiggle = transform.Find("grassSquiggle").gameObject;
         squiggleSprites = Resources.LoadAll<Sprite>("grassSquiggle");
+        runningSquiggleSprites = Resources.LoadAll<Sprite>("runningFootTrail");
         vision = GetComponent<FieldOfView>();
         inventory = GameObject.Find("inventory").GetComponent<SatchelController>();
 
@@ -408,7 +410,7 @@ public class PlayerControl : Entity
         }
 
 
-        if (isIdle && shortGrass)
+        if ((isIdle || isRunning) && shortGrass)
         {
             //Debug.Log("this should be happening");
             grassSquiggle.SetActive(true);
@@ -1898,71 +1900,83 @@ public class PlayerControl : Entity
 
     public Sprite squiggleLoad()
     {
-        if (analogAxesAngle360 < 34 && analogAxesAngle360 > 11.25)
+        if (isIdle)
         {
-            grassSquiggle.transform.localPosition = new Vector3(-.113f, -1.564f, 0);
-            return squiggleSprites[2];
+            if (analogAxesAngle360 < 34 && analogAxesAngle360 > 11.25)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.113f, -1.564f, 0);
+                return squiggleSprites[2];
+            }
+            else if (analogAxesAngle360 < 79 && analogAxesAngle360 > 34)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.049f, -1.532f, 0);
+                return squiggleSprites[3];
+            }
+            else if (analogAxesAngle360 < 101 && analogAxesAngle360 > 79)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.072f, -1.638f, 0);
+                return squiggleSprites[1];
+            }
+            else if (analogAxesAngle360 < 124 && analogAxesAngle360 > 101)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.218f, -1.623f, 0);
+                return squiggleSprites[4];
+            }
+            else if (analogAxesAngle360 < 169 && analogAxesAngle360 > 124)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.129f, -1.734f, 0);
+                return squiggleSprites[5];
+            }
+            else if (analogAxesAngle360 < 191 && analogAxesAngle360 > 169)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.005f, -1.702f, 0);
+                return squiggleSprites[11];
+            }
+            else if (analogAxesAngle360 < 214 && analogAxesAngle360 > 191)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.052f, -1.591f, 0);
+                return squiggleSprites[9];
+            }
+            else if (analogAxesAngle360 < 259 && analogAxesAngle360 > 214)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(.086f, -1.606f, 0);
+                return squiggleSprites[10];
+            }
+            else if (analogAxesAngle360 < 281 && analogAxesAngle360 > 259)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(.073f, -1.552f, 0);
+                return squiggleSprites[6];
+            }
+            else if (analogAxesAngle360 < 304 && analogAxesAngle360 > 281)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(.07f, -1.533f, 0);
+                return squiggleSprites[7];
+            }
+            else if (analogAxesAngle360 < 340 && analogAxesAngle360 > 304)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(.053f, -1.537f, 0);
+                return squiggleSprites[8];
+            }
+            else if (analogAxesAngle360 < 11.25 && analogAxesAngle360 > 349)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(.074f, -1.48f, 0);
+                return squiggleSprites[0];
+            }
+            else
+            {
+                grassSquiggle.transform.localPosition = new Vector3(.074f, -1.48f, 0);
+                return squiggleSprites[0];
+            }
         }
-        else if (analogAxesAngle360 < 79 && analogAxesAngle360 > 34)
+        else if (isRunning)
         {
-            grassSquiggle.transform.localPosition = new Vector3(-.049f, -1.532f, 0);
-            return squiggleSprites[3];
-        }
-        else if (analogAxesAngle360 < 101 && analogAxesAngle360 > 79)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(-.072f, -1.638f, 0);
-            return squiggleSprites[1];
-        }
-        else if (analogAxesAngle360 < 124 && analogAxesAngle360 > 101)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(-.218f, -1.623f, 0);
-            return squiggleSprites[4];
-        }
-        else if (analogAxesAngle360 < 169 && analogAxesAngle360 > 124)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(-.129f, -1.734f, 0);
-            return squiggleSprites[5];
-        }
-        else if (analogAxesAngle360 < 191 && analogAxesAngle360 > 169)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(-.005f, -1.702f, 0);
-            return squiggleSprites[11];
-        }
-        else if (analogAxesAngle360 < 214 && analogAxesAngle360 > 191)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(-.052f, -1.591f, 0);
-            return squiggleSprites[9];
-        }
-        else if (analogAxesAngle360 < 259 && analogAxesAngle360 > 214)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(.086f, -1.606f, 0);
-            return squiggleSprites[10];
-        }
-        else if (analogAxesAngle360 < 281 && analogAxesAngle360 > 259)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(.073f, -1.552f, 0);
-            return squiggleSprites[6];
-        }
-        else if (analogAxesAngle360 < 304 && analogAxesAngle360 > 281)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(.07f, -1.533f, 0);
-            return squiggleSprites[7];
-        }
-        else if (analogAxesAngle360 < 340 && analogAxesAngle360 > 304)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(.053f, -1.537f, 0);
-            return squiggleSprites[8];
-        }
-        else if (analogAxesAngle360 < 11.25 && analogAxesAngle360 > 349)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(.074f, -1.48f, 0);
-            return squiggleSprites[0];
+            return runningSquiggleSprites[0];
         }
         else
         {
-            grassSquiggle.transform.localPosition = new Vector3(.074f, -1.48f, 0);
-            return squiggleSprites[0];
+            return runningSquiggleSprites[1];
         }
+        
     }
 
     public Direction getDirection8fromAngle()
