@@ -7,12 +7,13 @@ public class SmartDustTrail : MonoBehaviour {
     private Vector3 iconicPosition;
     public Direction playersDirection;
     public GameObject dustTrail;
+    public Material grassPrint;
 
     private string angleString;
     private Vector2 playerAngle;
 
     private ParticleSystem dustEmitter;
-    
+
 
 	// Use this for initialization
 	void Start () {
@@ -21,9 +22,8 @@ public class SmartDustTrail : MonoBehaviour {
         iconicPosition = dustTrail.transform.localPosition;
         dustTrail = GameObject.Find("dustTrail");
         dustEmitter = dustTrail.GetComponent<ParticleSystem>();
-        
     }
-	
+
 	// Update is called once per frame
 	void Update () {
 
@@ -40,6 +40,12 @@ public class SmartDustTrail : MonoBehaviour {
             if(!dustEmitter.isPlaying)
             {
                 dustEmitter.Play();
+
+                //if (GetComponentInParent<PlayerControl>().getShortGrass())
+                //{
+                //    dustEmitter.GetComponent<ParticleSystemRenderer>().material = grassPrint;
+                //}
+
             }
         }
         else
@@ -48,7 +54,7 @@ public class SmartDustTrail : MonoBehaviour {
             {
                 dustEmitter.Stop();
             }
-            
+
         }
 
         //}

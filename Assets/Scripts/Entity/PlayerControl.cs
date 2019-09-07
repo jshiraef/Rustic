@@ -415,8 +415,48 @@ public class PlayerControl : Entity
             //Debug.Log("this should be happening");
             grassSquiggle.SetActive(true);
 
-            
+            if (isIdle)
+            {
                 grassSquiggle.GetComponent<SpriteRenderer>().sprite = squiggleLoad();
+            }
+            else if (isRunning)
+            {
+                if ((getAnimatorNormalizedTime() < .5f && getAnimatorNormalizedTime() > .47f) || (getAnimatorNormalizedTime() < .89f && getAnimatorNormalizedTime() > .86f))
+                {
+                    //Debug.Log("the animator time info is " + getAnimatorNormalizedTime());
+                    GameObject newSquiggle = Instantiate(grassSquiggle);
+
+                    if(getDirection8() == Direction.NORTH)
+                    {
+                        if (getAnimatorNormalizedTime() < .5f && getAnimatorNormalizedTime() > .47f)
+                        {
+                            newSquiggle.transform.position = new Vector3(player.transform.position.x, player.transform.position.y - 1.5f, player.transform.position.z);
+                        }
+                        else newSquiggle.transform.position = new Vector3(player.transform.position.x - .5f, player.transform.position.y - 1.5f, player.transform.position.z);
+                    }
+                    else if(getDirection8() == Direction.SOUTH)
+                    {
+                        if (getAnimatorNormalizedTime() < .5f && getAnimatorNormalizedTime() > .47f)
+                        {
+                            newSquiggle.transform.position = new Vector3(player.transform.position.x, player.transform.position.y - 1.5f, player.transform.position.z);
+                        }
+                        else newSquiggle.transform.position = new Vector3(player.transform.position.x + .5f, player.transform.position.y - 1.5f, player.transform.position.z);
+                    }
+                    else newSquiggle.transform.position = new Vector3(player.transform.position.x, player.transform.position.y - 1.5f, player.transform.position.z);
+
+
+                    newSquiggle.GetComponent<SpriteRenderer>().sortingOrder -= 2;
+                    newSquiggle.GetComponent<SpriteRenderer>().sprite = squiggleLoad();
+                    newSquiggle.transform.SendMessage("setFadeOut", true);
+
+
+                    //grassSquiggle.GetComponent<SpriteRenderer>().sprite = squiggleLoad();
+                }
+
+                grassSquiggle.GetComponent<SpriteRenderer>().sprite = null;
+            }
+
+                
             
 
         }
@@ -1804,7 +1844,7 @@ public class PlayerControl : Entity
 
 
             //renderMask.GetComponent<RenderMask>().setPlayerMaskType(RenderMask.MaskType.GRASS);
-
+            
             //setBlobShadowForGrass();
         }
 
@@ -1970,11 +2010,44 @@ public class PlayerControl : Entity
         }
         else if (isRunning)
         {
-            return runningSquiggleSprites[0];
+            if (getDirection8() == Direction.EAST)
+            {
+                return runningSquiggleSprites[0];
+            }
+            else if (getDirection8() == Direction.NORTHEAST50)
+            {
+                return runningSquiggleSprites[2];
+            }
+            else if (getDirection8() == Direction.NORTH)
+            {
+                return runningSquiggleSprites[1];
+            }
+            else if (getDirection8() == Direction.NORTHWEST130)
+            {
+                return runningSquiggleSprites[3];
+            }
+            else if (getDirection8() == Direction.WEST)
+            {
+                return runningSquiggleSprites[7];
+            }
+            else if (getDirection8() == Direction.SOUTHWEST230)
+            {
+                return runningSquiggleSprites[6];
+            }
+            else if (getDirection8() == Direction.SOUTH)
+            {
+                return runningSquiggleSprites[4];
+            }
+            else if (getDirection8() == Direction.SOUTHEAST310)
+            {
+                return runningSquiggleSprites[5];
+            }
+            else return null;
+            
         }
         else
         {
-            return runningSquiggleSprites[1];
+            return null;
         }
         
     }
@@ -2029,6 +2102,28 @@ public class PlayerControl : Entity
        
     }
 
+    // fading out the alpha of the sprite
+    //void fadeOut(GameObject disappearingObject)
+    //{
+
+    //    if (faded)
+    //        return;
+
+    //    if (!faded)
+    //    {
+    //        disappearingObject.GetComponent<SpriteRenderer>().alpha -= .005f * Time.deltaTime * 60;
+    //        // Debug.Log("it is fading");
+    //    }
+
+    //    if (playerInventory.GetComponent<CanvasGroup>().alpha <= .001f)
+    //    {
+    //        faded = true;
+
+    //    }
+
+
+    //}
+
     public bool getIsRunning()
     {
         return isRunning;
@@ -2042,6 +2137,11 @@ public class PlayerControl : Entity
     public bool getSwinging()
     {
         return swinging;
+    }
+
+    public bool getShortGrass()
+    {
+        return shortGrass;
     }
 
     public void setSwinging(bool b)
