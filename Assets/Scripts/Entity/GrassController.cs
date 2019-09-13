@@ -47,6 +47,7 @@ public class GrassController : MonoBehaviour {
         if(chopped)
         {
             anim.Play("smallWindyGoldWheatGrass");
+            Destroy(this.transform.gameObject);
         }
 
         //Debug.Log("the speed of the animator is " + anim.speed);

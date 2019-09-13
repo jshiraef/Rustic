@@ -53,8 +53,8 @@ public class animationDelay : MonoBehaviour {
 
 
 
-        Debug.Log("the animation timer is " + animationTimer);
-        Debug.Log("the animation playtime is " + getAnimatorNormalizedTime());
+        //Debug.Log("the animation timer is " + animationTimer);
+        //Debug.Log("the animation playtime is " + getAnimatorNormalizedTime());
     }
 
 	IEnumerator waitForSeconds(){
