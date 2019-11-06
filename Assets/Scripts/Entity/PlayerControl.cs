@@ -71,6 +71,10 @@ public class PlayerControl : Entity
     public bool leaning;
     public bool wallInteract;
 
+    // hopping over things
+    private int hopTimer;
+    public bool hopping;
+
     private bool pushing;
 
     private bool shortFall = false;
@@ -87,10 +91,14 @@ public class PlayerControl : Entity
     private GameObject grassSquiggle;
     private Sprite[] squiggleSprites;
     private Sprite[] runningSquiggleSprites;
+    private SpriteRenderer sprite;
     private FieldOfView vision;
 
     private int toggleTimer;
     private bool flipflopToggle;
+
+    public string originalLayerName;
+    public int originalSortingOrderNumber;
 
     // barrel variables (variables similar to these can help keep track of relations between player and world objects)
     public GameObject[] barrels;
@@ -103,6 +111,8 @@ public class PlayerControl : Entity
     private bool freezeForAnimation;
 
     private SatchelController inventory;
+
+    public const string OverlapLayer = "Overlap";
 
 
 
@@ -117,6 +127,7 @@ public class PlayerControl : Entity
     private static readonly int THROWING = 8;
     private static readonly int LEANAGAINST = 9;
     private static readonly int PUSHING = 10;
+    private static readonly int HOPPING = 11;
 
 
     // Use this for initialization
@@ -137,6 +148,7 @@ public class PlayerControl : Entity
         this.direction = Direction.NULL;
 
         player = GameObject.Find("player");
+        sprite = GetComponent<SpriteRenderer>();
         boxCollider2D = player.GetComponent<BoxCollider2D>();
         renderMask = transform.Find("renderMask").gameObject;
         renderMaskOutliner = renderMask.transform.Find("renderMaskOutliner").gameObject; 
@@ -149,6 +161,9 @@ public class PlayerControl : Entity
         runningSquiggleSprites = Resources.LoadAll<Sprite>("runningFootTrail");
         vision = GetComponent<FieldOfView>();
         inventory = GameObject.Find("inventory").GetComponent<SatchelController>();
+
+        originalLayerName = sprite.sortingLayerName.ToString();
+        originalSortingOrderNumber = sprite.sortingOrder;
 
         hatAndCoat = true;
 
@@ -214,8 +229,15 @@ public class PlayerControl : Entity
         }
 
         // setAction
-
-        if (leaning)
+        if (hopping)
+        {
+            if(currentAction != HOPPING)
+            {
+                currentAction = HOPPING;
+                moveSpeed = 0;
+            }
+        }
+        else if (leaning)
         {
             if(currentAction != LEANAGAINST)
             {
@@ -454,10 +476,7 @@ public class PlayerControl : Entity
                 }
 
                 grassSquiggle.GetComponent<SpriteRenderer>().sprite = null;
-            }
-
-                
-            
+            }          
 
         }
         else grassSquiggle.SetActive(false);
@@ -494,7 +513,7 @@ public class PlayerControl : Entity
         else
         {
             shortFall = false;
-            //           lockPosition = false;
+            //lockPosition = false;
             anim.SetBool("shortFall", shortFall);
             setNonKinematic();
         }
@@ -523,6 +542,11 @@ public class PlayerControl : Entity
         if (restoreBlobShadowToNormal)
         {
             setBlobShadowToNorm();
+        }
+
+        if (!player.GetComponent<SpriteRenderer>().isVisible)
+        {
+            Debug.Log("the player is hidden!!");
         }
 
         //	Debug.Log ("shortFall is: " + shortFall);
@@ -1129,6 +1153,13 @@ public class PlayerControl : Entity
             anim.Play("LeanToPush");
         }
 
+        if (hopping)
+        {
+            isRunning = false;
+            anim.Play("ShortHopUpSouthWest");
+            moveSpeed = 4;
+        }
+
         if (pushing)
         {
             if(getDirectionNSEW() == Direction.NORTH)
@@ -1190,6 +1221,31 @@ public class PlayerControl : Entity
             throwTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
         }
 
+        if(hopTimer > 0)
+        {
+            hopTimer -= Mathf.RoundToInt(Time.deltaTime * 100);           
+
+            if(hopTimer < 50)
+            {
+                GetComponent<BoxCollider2D>().enabled = false;
+            }
+
+            // move the player slighty up
+            if(hopTimer > 70)
+            {
+                transform.Translate(0, .3f, 0);
+            }
+
+            hopping = true;
+        }
+        else if(hopTimer <= 0)
+        {
+            GetComponent<BoxCollider2D>().enabled = true;
+            returSpriteToOriginLayer();
+            hopping = false;
+            hopTimer = 0;
+        }
+
         if(lastDirection8 != getDirection8fromAngle())
         {
             leanTimer = 0;
@@ -1214,8 +1270,8 @@ public class PlayerControl : Entity
         else pushing = false;
 
 
-        
 
+        Debug.Log("the hopTimer is " + hopTimer);
         // Debug.Log("the animator is playing" + anim.runtimeAnimatorController.animationClips[24]);
 
         //Debug.Log("the normalized time of the current animation is " + getAnimatorNormalizedTime());
@@ -1715,6 +1771,23 @@ public class PlayerControl : Entity
             leanTimer = 0;
             anim.SetFloat("animationSpeed", 1f); 
         }
+
+        if(coll.gameObject.tag == "hoppableBarrier" && Input.GetKey(KeyCode.X))
+        {
+            if (!hopping)
+            {
+                hopTimer = 100;
+            }         
+            Debug.Log("we are hopping!");
+        }
+
+        if (hopping)
+        {
+            if(hopTimer < 60)
+            {
+                Overlap(coll.gameObject);
+            }
+        }
         
     }
 
@@ -1935,6 +2008,22 @@ public class PlayerControl : Entity
     public int getDirectionAngle180()
     {
         return (int)analogAxesAngle;
+    }
+
+    // this will make the player Sprite overlap another object
+    public void Overlap(GameObject thingToOverlap)
+    {
+
+        GetComponent<SpriteRenderer>().sortingLayerName = OverlapLayer;
+        this.GetComponent<SpriteRenderer>().sortingOrder = thingToOverlap.GetComponentInParent<SpriteRenderer>().sortingOrder + 1;
+
+    }
+
+    // this will return the player Sprite back to its original sorting Layer & sortingOrder #
+    public void returSpriteToOriginLayer()
+    {
+        this.GetComponent<SpriteRenderer>().sortingLayerName = originalLayerName;
+        this.GetComponent<SpriteRenderer>().sortingOrder = originalSortingOrderNumber;
     }
 
 
