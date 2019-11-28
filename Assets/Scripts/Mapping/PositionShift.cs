@@ -15,6 +15,7 @@ public class PositionShift : MonoBehaviour
     public Vector3 newPosition;
     public int thresholdToInvokePositionChange;
     public int disappearingThreshold;
+    public int fadingOutThreshold;
     public bool positionTrigger;
     public bool colorTrigger = false;
     private GameObject player;
@@ -53,6 +54,18 @@ public class PositionShift : MonoBehaviour
             Color tmpColor = sprite.color;
             sprite.color = originalColor;
             colorTrigger = false;
+        }
+
+        //changes the object's alpha dependent on the player or the camera's position
+        if(player.transform.position.y > fadingOutThreshold)
+        {
+            Color tmpColor = sprite.color;
+            sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(sprite.color.a, 0f, Time.deltaTime));
+        }
+        else if (player.transform.position.y < fadingOutThreshold)
+        {
+            Color tmpColor = sprite.color;
+            sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(sprite.color.a, 1f, Time.deltaTime));
         }
     }
 }
