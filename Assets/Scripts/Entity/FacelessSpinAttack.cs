@@ -59,6 +59,7 @@ public class FacelessSpinAttack : MonoBehaviour {
         this.transform.localPosition = spinAttackPointPosition;
         spinAttack2.transform.localPosition = spinAttackPointPosition2;
 
+        
 
 	}
 }

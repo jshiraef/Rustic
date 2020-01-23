@@ -71,7 +71,15 @@ public class PlayerControl : Entity
     public bool leaning;
     public bool wallInteract;
 
+    // hopping over things
+    private int hopTimer;
+    public bool hopping;
+
     private bool pushing;
+
+    public bool stumbling = false;
+    private float stumbleCoolDown;
+    private float stumbleTimeLength = 1f;
 
     private bool shortFall = false;
     private float shortFallCoolDown;
@@ -86,10 +94,15 @@ public class PlayerControl : Entity
     private GameObject sickleSwipe;
     private GameObject grassSquiggle;
     private Sprite[] squiggleSprites;
+    private Sprite[] runningSquiggleSprites;
+    private SpriteRenderer sprite;
     private FieldOfView vision;
 
     private int toggleTimer;
     private bool flipflopToggle;
+
+    public string originalLayerName;
+    public int originalSortingOrderNumber;
 
     // barrel variables (variables similar to these can help keep track of relations between player and world objects)
     public GameObject[] barrels;
@@ -102,6 +115,8 @@ public class PlayerControl : Entity
     private bool freezeForAnimation;
 
     private SatchelController inventory;
+
+    public const string OverlapLayer = "Overlap";
 
 
 
@@ -116,6 +131,8 @@ public class PlayerControl : Entity
     private static readonly int THROWING = 8;
     private static readonly int LEANAGAINST = 9;
     private static readonly int PUSHING = 10;
+    private static readonly int HOPPING = 11;
+    private static readonly int STUMBLING = 12;
 
 
     // Use this for initialization
@@ -136,6 +153,7 @@ public class PlayerControl : Entity
         this.direction = Direction.NULL;
 
         player = GameObject.Find("player");
+        sprite = GetComponent<SpriteRenderer>();
         boxCollider2D = player.GetComponent<BoxCollider2D>();
         renderMask = transform.Find("renderMask").gameObject;
         renderMaskOutliner = renderMask.transform.Find("renderMaskOutliner").gameObject; 
@@ -145,8 +163,12 @@ public class PlayerControl : Entity
         sickleSwipe = GameObject.Find("sickleSwipe");
         grassSquiggle = transform.Find("grassSquiggle").gameObject;
         squiggleSprites = Resources.LoadAll<Sprite>("grassSquiggle");
+        runningSquiggleSprites = Resources.LoadAll<Sprite>("runningFootTrail");
         vision = GetComponent<FieldOfView>();
         inventory = GameObject.Find("inventory").GetComponent<SatchelController>();
+
+        originalLayerName = sprite.sortingLayerName.ToString();
+        originalSortingOrderNumber = sprite.sortingOrder;
 
         hatAndCoat = true;
 
@@ -164,9 +186,6 @@ public class PlayerControl : Entity
             toggleTimer = 0;
 
         toggleTimer += Mathf.RoundToInt(Time.deltaTime * 100);
-        
-
-         
 
         //if (lastDirection8 != getDirection8fromAngle())
         //{
@@ -212,8 +231,23 @@ public class PlayerControl : Entity
         }
 
         // setAction
-
-        if (leaning)
+        if (stumbling)
+        {
+            if(currentAction != STUMBLING)
+            {
+                currentAction = STUMBLING;
+                moveSpeed = 0;
+            }
+        }
+        if (hopping)
+        {
+            if(currentAction != HOPPING)
+            {
+                currentAction = HOPPING;
+                moveSpeed = 0;
+            }
+        }
+        else if (leaning)
         {
             if(currentAction != LEANAGAINST)
             {
@@ -338,26 +372,31 @@ public class PlayerControl : Entity
         // checks to see if analog is only slightly tilted for walk animation
         else if (Input.GetAxisRaw("Vertical") > -.4f && Input.GetAxisRaw("Vertical") < .4f && Input.GetAxisRaw("Horizontal") > -.4f && Input.GetAxisRaw("Horizontal") < .4f && !((h == 0) && (v == 0)))
         {
-
-            isWalking = true;
-            moveSpeed = 4f;
-
-            if (currentAction != WALKING)
+            if (!stumbling)
             {
-                currentAction = WALKING;
-            }
+                isWalking = true;
+                moveSpeed = 4f;
+            
+            
 
-            if (!hatAndCoat)
-            {
-                anim.Play("WalkingNoHat");
+                if (currentAction != WALKING)
+                {
+                    currentAction = WALKING;
+                }
+
+                if (!hatAndCoat)
+                {
+                    anim.Play("WalkingNoHat");
+                }
+                else anim.Play("Walking");
+
             }
-            else anim.Play("Walking");
 
         }
         else if (Input.GetAxisRaw("Horizontal") > 0 || Input.GetAxisRaw("Horizontal") < 0 || Input.GetAxisRaw("Vertical") > 0 || Input.GetAxisRaw("Vertical") < 0)
         {
 
-            if (!lockPosition && !swinging && !rolling && !knockBack)
+            if (!lockPosition && !swinging && !rolling && !knockBack && !stumbling)
             {
                 isRunning = true;
                 moveSpeed = 4f;
@@ -384,7 +423,7 @@ public class PlayerControl : Entity
             //This sets the isIdle variable
             if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
             {
-                if (!swinging && !rolling && !knockBack)
+                if (!swinging && !rolling && !knockBack && !stumbling)
                 {
                     if (!isIdle)
                     {
@@ -407,24 +446,60 @@ public class PlayerControl : Entity
             else isIdle = false;
         }
 
-
-        if (isIdle && shortGrass)
-        {
-            //Debug.Log("this should be happening");
+        // setting the footprint in the short grass for running and idle states
+        if ((isIdle || isRunning) && shortGrass)
+        {           
             grassSquiggle.SetActive(true);
 
-            
+            if (isIdle)
+            {
                 grassSquiggle.GetComponent<SpriteRenderer>().sprite = squiggleLoad();
-            
+            }
+            else if (isRunning)
+            {
+                if ((getAnimatorNormalizedTime() < .5f && getAnimatorNormalizedTime() > .47f) || (getAnimatorNormalizedTime() < .89f && getAnimatorNormalizedTime() > .86f))
+                {
+                    //Debug.Log("the animator time info is " + getAnimatorNormalizedTime());
+                    GameObject newSquiggle = Instantiate(grassSquiggle);
+
+                    if(getDirection8() == Direction.NORTH)
+                    {
+                        if (getAnimatorNormalizedTime() < .5f && getAnimatorNormalizedTime() > .47f)
+                        {
+                            newSquiggle.transform.position = new Vector3(player.transform.position.x, player.transform.position.y - 1.5f, player.transform.position.z);
+                        }
+                        else newSquiggle.transform.position = new Vector3(player.transform.position.x - .5f, player.transform.position.y - 1.5f, player.transform.position.z);
+                    }
+                    else if(getDirection8() == Direction.SOUTH)
+                    {
+                        if (getAnimatorNormalizedTime() < .5f && getAnimatorNormalizedTime() > .47f)
+                        {
+                            newSquiggle.transform.position = new Vector3(player.transform.position.x, player.transform.position.y - 1.5f, player.transform.position.z);
+                        }
+                        else newSquiggle.transform.position = new Vector3(player.transform.position.x + .5f, player.transform.position.y - 1.5f, player.transform.position.z);
+                    }
+                    else newSquiggle.transform.position = new Vector3(player.transform.position.x, player.transform.position.y - 1.5f, player.transform.position.z);
+
+
+                    newSquiggle.GetComponent<SpriteRenderer>().sortingOrder -= 2;
+                    newSquiggle.GetComponent<SpriteRenderer>().sprite = squiggleLoad();
+                    newSquiggle.transform.SendMessage("setFadeOut", true);
+
+
+                    //grassSquiggle.GetComponent<SpriteRenderer>().sprite = squiggleLoad();
+                }
+
+                grassSquiggle.GetComponent<SpriteRenderer>().sprite = null;
+            }          
 
         }
         else grassSquiggle.SetActive(false);
 
 
-        // allows the player to pause the game
-        //if(Input.GetKeyDown(KeyCode.Escape))
+        //allows the player to pause the game
+        //if (Input.GetKeyDown(KeyCode.Escape))
         //{
-        //    if(!inventory.enabled)
+        //    if (!inventory.enabled)
         //    {
         //        inventory.enabled = true;
         //    }
@@ -432,7 +507,7 @@ public class PlayerControl : Entity
         //    {
         //        inventory.enabled = false;
         //    }
-            
+
         //}
 
         // sets runReleased parameter in Animator
@@ -452,7 +527,7 @@ public class PlayerControl : Entity
         else
         {
             shortFall = false;
-            //           lockPosition = false;
+            //lockPosition = false;
             anim.SetBool("shortFall", shortFall);
             setNonKinematic();
         }
@@ -472,6 +547,11 @@ public class PlayerControl : Entity
             knockBackCoolDown -= Time.deltaTime;
         }
 
+        if(stumbleCoolDown > 0)
+        {
+            stumbleCoolDown -= Time.deltaTime;
+        }
+
         if(currentStamina < maxStamina)
         {
             currentStamina += Time.deltaTime * 1f;
@@ -481,6 +561,11 @@ public class PlayerControl : Entity
         if (restoreBlobShadowToNormal)
         {
             setBlobShadowToNorm();
+        }
+
+        if (!player.GetComponent<SpriteRenderer>().isVisible)
+        {
+            Debug.Log("the player is hidden!!");
         }
 
         //	Debug.Log ("shortFall is: " + shortFall);
@@ -609,7 +694,7 @@ public class PlayerControl : Entity
         if (Input.GetKeyDown(KeyCode.Q) )
         {
 
-            if (!knockBack && !rolling && !throwing && !swinging && !leaning)
+            if (!knockBack && !rolling && !throwing && !swinging && !leaning && !stumbling)
             {
                 releaseItem();
                 swinging = true;
@@ -627,7 +712,7 @@ public class PlayerControl : Entity
                 rollingCoolDown = .6f;
                 currentStamina = maxStamina - 4;
             }
-            if (afterRollCoolDown <= 0 && !knockBack && !throwing)
+            if (afterRollCoolDown <= 0 && !knockBack && !throwing && !stumbling)
             {
                 releaseItem();
                 leanTimer = 0;
@@ -660,6 +745,7 @@ public class PlayerControl : Entity
         {
             anim.Play("Rolling");
 
+            // alters the player's collider during a roll
             if (getDirectionNSEW() == Direction.NORTH || getDirectionNSEW() == Direction.SOUTH)
             {
                 boxCollider2D.size = new Vector2(.8f, 1.4f);
@@ -775,111 +861,202 @@ public class PlayerControl : Entity
         }
 
 
-        if (knockBack)
+        if (knockBack || stumbling)
         {
-            if (knockBackCoolDown == knockBackTimeLength)
+            if(knockBack)
+            {
+                if (knockBackCoolDown == knockBackTimeLength)
+                {
+                    if (getDirectionNSEW() == Direction.NORTH)
+                    {
+                        anim.Play("blowBackSouth");
+                    }
+                    else if (getDirectionNSEW() == Direction.SOUTH)
+                    {
+                        anim.Play("blowBackNorth");
+                    }
+                    else if (getDirectionNSEW() == Direction.EAST)
+                    {
+                        anim.Play("blowBackWest");
+                    }
+                    else if (getDirectionNSEW() == Direction.WEST)
+                    {
+                        setSpriteFlipX(true);
+                        anim.Play("blowBackWest");
+                    }
+                }
+            }
+
+            if (stumbleCoolDown == stumbleTimeLength)
             {
                 if (getDirectionNSEW() == Direction.NORTH)
                 {
-                    anim.Play("blowBackSouth");
+                    anim.Play("stumbleNorth");
                 }
                 else if (getDirectionNSEW() == Direction.SOUTH)
                 {
-                    anim.Play("blowBackNorth");
+                    anim.Play("stumbleSouth");
                 }
                 else if (getDirectionNSEW() == Direction.EAST)
                 {
-                    anim.Play("blowBackWest");
+                    anim.Play("stumbleWest");
+                    setSpriteFlipX(true);
                 }
                 else if (getDirectionNSEW() == Direction.WEST)
-                {
-                    setSpriteFlipX(true);
-                    anim.Play("blowBackWest");
+                {  
+                    anim.Play("stumbleWest");
                 }
             }
+
+            
 
             lockPosition = true;
 
             // knockBack position change
-            if (knockBackCoolDown > (knockBackTimeLength - .5f))
+            if (knockBackCoolDown > (knockBackTimeLength - .5f) || stumbleCoolDown > (stumbleTimeLength - .5f))
             {
                 if (this.direction == Direction.EAST)
                 {
-                    transform.Translate(-2f * Time.deltaTime, 0, 0);
+                    if (knockBack){
+                        transform.Translate(-2f * Time.deltaTime, 0, 0);
+                    }else if (stumbling) {
+                        transform.Translate(-1f * Time.deltaTime, 0, 0);
+                    }
+                    
                 }
                 else if (this.direction == Direction.NORTHEAST30)
                 {
-                    transform.Translate(-2f * Time.deltaTime, -1f * Time.deltaTime, 0);
+                    if (knockBack){
+                        transform.Translate(-2f * Time.deltaTime, -1f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(-1f * Time.deltaTime, -.5f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.NORTHEAST50)
                 {
-                    transform.Translate(-1.5f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
+                     if (knockBack){
+                        transform.Translate(-1.5f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(-.75f * Time.deltaTime, -.75f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.NORTHEAST70)
                 {
-                    transform.Translate(-1f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
+                     if (knockBack){
+                        transform.Translate(-1f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(-.5f * Time.deltaTime, -.75f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.NORTH)
                 {
-                    transform.Translate(0, -1.5f * Time.deltaTime, 0);
+                     if (knockBack){
+                        transform.Translate(0, -1.5f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(0, -.75f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.NORTHWEST110)
                 {
-                    transform.Translate(1f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
+                     if (knockBack){
+                        transform.Translate(1f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(.5f * Time.deltaTime, -.75f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.NORTHWEST130)
                 {
-                    transform.Translate(1f * Time.deltaTime, -1f * Time.deltaTime, 0);
+                     if (knockBack){
+                        transform.Translate(1f * Time.deltaTime, -1f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(.5f * Time.deltaTime, -.5f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.NORTHWEST150)
                 {
-                    transform.Translate(2f * Time.deltaTime, -1f * Time.deltaTime, 0);
+                     if (knockBack){
+                        transform.Translate(2f * Time.deltaTime, -1f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(1f * Time.deltaTime, -.5f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.WEST)
                 {
-                    transform.Translate(2f * Time.deltaTime, 0, 0);
+                     if (knockBack){
+                        transform.Translate(2f * Time.deltaTime, 0, 0);
+                    }else if (stumbling) {
+                        transform.Translate(1f * Time.deltaTime, 0, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.SOUTHWEST210)
                 {
-                    transform.Translate(2f * Time.deltaTime, .5f * Time.deltaTime, 0);
+                     if (knockBack){
+                        transform.Translate(2f * Time.deltaTime, .5f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(1f * Time.deltaTime, .25f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.SOUTHWEST230)
                 {
-                    transform.Translate(1.5f * Time.deltaTime, 1f * Time.deltaTime, 0);
+                     if (knockBack){
+                        transform.Translate(1.5f * Time.deltaTime, 1f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(.75f * Time.deltaTime, .5f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.SOUTHWEST250)
                 {
-                    transform.Translate(1.5f * Time.deltaTime, 1.5f * Time.deltaTime, 0);
+                     if (knockBack){
+                        transform.Translate(1.5f * Time.deltaTime, 1.5f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(.75f * Time.deltaTime, .75f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.SOUTH)
                 {
-                    transform.Translate(0, 1.5f * Time.deltaTime, 0);
+                     if (knockBack){
+                        transform.Translate(0, 1.5f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(0, .75f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.SOUTHEAST290)
                 {
-                    transform.Translate(-.5f * Time.deltaTime, 2f * Time.deltaTime, 0);
+                     if (knockBack){
+                        transform.Translate(-.5f * Time.deltaTime, 2f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(-.25f * Time.deltaTime, 1f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.SOUTHEAST310)
                 {
-                    transform.Translate(-1f * Time.deltaTime, 1f * Time.deltaTime, 0);
+                     if (knockBack){
+                        transform.Translate(-1f * Time.deltaTime, 1f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(-.5f * Time.deltaTime, .5f * Time.deltaTime, 0);
+                    }
                 }
 
                 else if (this.direction == Direction.SOUTHEAST330)
                 {
-                    transform.Translate(-2f * Time.deltaTime, 1f * Time.deltaTime, 0);
+                    if (knockBack){
+                        transform.Translate(-2f * Time.deltaTime, 1f * Time.deltaTime, 0);
+                    }else if (stumbling) {
+                        transform.Translate(-1f * Time.deltaTime, .5f * Time.deltaTime, 0);
+                    }
                 }
 
             }
@@ -907,13 +1084,21 @@ public class PlayerControl : Entity
             lockPosition = false;
         }
 
+        if(stumbling && stumbleCoolDown > 0f && stumbleCoolDown < .2f)
+        {
+            setSpriteFlipX(false);
+            stumbling = false;
+
+            lockPosition = false;
+        }
+
         if (grabItem)
         {
             moveSpeed = 0;
             //anim.SetFloat("animationOffset", 0);
 
             if (getDirectionNSEW() == Direction.NORTH)
-            {
+            {              
 
                 if (setItemDown)
                 {
@@ -1055,9 +1240,7 @@ public class PlayerControl : Entity
                 holdingThrowableItem = false;
                 throwTimer = 100;
             }
-        }
-
-        if (throwing)
+        } else if (throwing)
         {          
             throwableItem.transform.parent = null;
 
@@ -1080,14 +1263,23 @@ public class PlayerControl : Entity
                     freezeForAnimation = false;
                 }
             }
-        }
-
-        if(leaning && !pushing)
+        }else if(leaning && !pushing)
         {
             anim.Play("LeanToPush");
         }
-
-        if (pushing)
+        else if (hopping)
+        {
+            isRunning = false;
+            anim.Play("ShortHopUpSouthWest");
+            moveSpeed = 4;
+        }
+        else if (stumbling)
+        {
+            isRunning = false;
+            isWalking = false;
+            moveSpeed = 2;
+        }
+        else if (pushing)
         {
             if(getDirectionNSEW() == Direction.NORTH)
             {
@@ -1148,6 +1340,31 @@ public class PlayerControl : Entity
             throwTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
         }
 
+        if(hopTimer > 0)
+        {
+            hopTimer -= Mathf.RoundToInt(Time.deltaTime * 100);           
+
+            if(hopTimer < 50)
+            {
+                GetComponent<BoxCollider2D>().enabled = false;
+            }
+
+            // move the player slighty up
+            if(hopTimer > 70)
+            {
+                transform.Translate(0, .3f, 0);
+            }
+
+            hopping = true;
+        }
+        else if(hopTimer <= 0)
+        {
+            GetComponent<BoxCollider2D>().enabled = true;
+            returSpriteToOriginLayer();
+            hopping = false;
+            hopTimer = 0;
+        }
+
         if(lastDirection8 != getDirection8fromAngle())
         {
             leanTimer = 0;
@@ -1172,8 +1389,8 @@ public class PlayerControl : Entity
         else pushing = false;
 
 
-        
-
+        //Debug.Log("the lock position " + lockPosition);
+        //Debug.Log("the hopTimer is " + hopTimer);
         // Debug.Log("the animator is playing" + anim.runtimeAnimatorController.animationClips[24]);
 
         //Debug.Log("the normalized time of the current animation is " + getAnimatorNormalizedTime());
@@ -1192,6 +1409,7 @@ public class PlayerControl : Entity
 
     void setRunDirection()
     {
+
         // North, South, East, West
         if (analogAxesAngle > 85 && analogAxesAngle < 95)
         {
@@ -1446,7 +1664,7 @@ public class PlayerControl : Entity
 
 
         // Set the direction by using the RunDirection
-        if (!swinging && !grabItem)
+        if (!swinging && !grabItem && !knockBack && !stumbling)
         {
             switch ((int)lastRecordedRunDirection)
             {
@@ -1673,6 +1891,23 @@ public class PlayerControl : Entity
             leanTimer = 0;
             anim.SetFloat("animationSpeed", 1f); 
         }
+
+        if(coll.gameObject.tag == "hoppableBarrier" && Input.GetKey(KeyCode.X))
+        {
+            if (!hopping)
+            {
+                hopTimer = 100;
+            }         
+            Debug.Log("we are hopping!");
+        }
+
+        if (hopping)
+        {
+            if(hopTimer < 60)
+            {
+                Overlap(coll.gameObject);
+            }
+        }
         
     }
 
@@ -1802,11 +2037,15 @@ public class PlayerControl : Entity
 
 
             //renderMask.GetComponent<RenderMask>().setPlayerMaskType(RenderMask.MaskType.GRASS);
-
+            
             //setBlobShadowForGrass();
         }
 
-
+        if(other.name == "stairs")
+        {
+            stumbling = true;
+            stumbleCoolDown = stumbleTimeLength;
+        }
     }
 
     public void releaseItem()
@@ -1895,74 +2134,135 @@ public class PlayerControl : Entity
         return (int)analogAxesAngle;
     }
 
+    // this will make the player Sprite overlap another object
+    public void Overlap(GameObject thingToOverlap)
+    {
+
+        GetComponent<SpriteRenderer>().sortingLayerName = OverlapLayer;
+        this.GetComponent<SpriteRenderer>().sortingOrder = thingToOverlap.GetComponentInParent<SpriteRenderer>().sortingOrder + 1;
+
+    }
+
+    // this will return the player Sprite back to its original sorting Layer & sortingOrder #
+    public void returSpriteToOriginLayer()
+    {
+        this.GetComponent<SpriteRenderer>().sortingLayerName = originalLayerName;
+        this.GetComponent<SpriteRenderer>().sortingOrder = originalSortingOrderNumber;
+    }
+
 
     public Sprite squiggleLoad()
     {
-        if (analogAxesAngle360 < 34 && analogAxesAngle360 > 11.25)
+        if (isIdle)
         {
-            grassSquiggle.transform.localPosition = new Vector3(-.113f, -1.564f, 0);
-            return squiggleSprites[2];
+            if (analogAxesAngle360 < 34 && analogAxesAngle360 > 11.25)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.113f, -1.564f, 0);
+                return squiggleSprites[2];
+            }
+            else if (analogAxesAngle360 < 79 && analogAxesAngle360 > 34)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.049f, -1.532f, 0);
+                return squiggleSprites[3];
+            }
+            else if (analogAxesAngle360 < 101 && analogAxesAngle360 > 79)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.072f, -1.638f, 0);
+                return squiggleSprites[1];
+            }
+            else if (analogAxesAngle360 < 124 && analogAxesAngle360 > 101)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.218f, -1.623f, 0);
+                return squiggleSprites[4];
+            }
+            else if (analogAxesAngle360 < 169 && analogAxesAngle360 > 124)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.129f, -1.734f, 0);
+                return squiggleSprites[5];
+            }
+            else if (analogAxesAngle360 < 191 && analogAxesAngle360 > 169)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.005f, -1.702f, 0);
+                return squiggleSprites[11];
+            }
+            else if (analogAxesAngle360 < 214 && analogAxesAngle360 > 191)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(-.052f, -1.591f, 0);
+                return squiggleSprites[9];
+            }
+            else if (analogAxesAngle360 < 259 && analogAxesAngle360 > 214)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(.086f, -1.606f, 0);
+                return squiggleSprites[10];
+            }
+            else if (analogAxesAngle360 < 281 && analogAxesAngle360 > 259)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(.073f, -1.552f, 0);
+                return squiggleSprites[6];
+            }
+            else if (analogAxesAngle360 < 304 && analogAxesAngle360 > 281)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(.07f, -1.533f, 0);
+                return squiggleSprites[7];
+            }
+            else if (analogAxesAngle360 < 340 && analogAxesAngle360 > 304)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(.053f, -1.537f, 0);
+                return squiggleSprites[8];
+            }
+            else if (analogAxesAngle360 < 11.25 && analogAxesAngle360 > 349)
+            {
+                grassSquiggle.transform.localPosition = new Vector3(.074f, -1.48f, 0);
+                return squiggleSprites[0];
+            }
+            else
+            {
+                grassSquiggle.transform.localPosition = new Vector3(.074f, -1.48f, 0);
+                return squiggleSprites[0];
+            }
         }
-        else if (analogAxesAngle360 < 79 && analogAxesAngle360 > 34)
+        else if (isRunning)
         {
-            grassSquiggle.transform.localPosition = new Vector3(-.049f, -1.532f, 0);
-            return squiggleSprites[3];
-        }
-        else if (analogAxesAngle360 < 101 && analogAxesAngle360 > 79)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(-.072f, -1.638f, 0);
-            return squiggleSprites[1];
-        }
-        else if (analogAxesAngle360 < 124 && analogAxesAngle360 > 101)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(-.218f, -1.623f, 0);
-            return squiggleSprites[4];
-        }
-        else if (analogAxesAngle360 < 169 && analogAxesAngle360 > 124)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(-.129f, -1.734f, 0);
-            return squiggleSprites[5];
-        }
-        else if (analogAxesAngle360 < 191 && analogAxesAngle360 > 169)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(-.005f, -1.702f, 0);
-            return squiggleSprites[11];
-        }
-        else if (analogAxesAngle360 < 214 && analogAxesAngle360 > 191)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(-.052f, -1.591f, 0);
-            return squiggleSprites[9];
-        }
-        else if (analogAxesAngle360 < 259 && analogAxesAngle360 > 214)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(.086f, -1.606f, 0);
-            return squiggleSprites[10];
-        }
-        else if (analogAxesAngle360 < 281 && analogAxesAngle360 > 259)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(.073f, -1.552f, 0);
-            return squiggleSprites[6];
-        }
-        else if (analogAxesAngle360 < 304 && analogAxesAngle360 > 281)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(.07f, -1.533f, 0);
-            return squiggleSprites[7];
-        }
-        else if (analogAxesAngle360 < 340 && analogAxesAngle360 > 304)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(.053f, -1.537f, 0);
-            return squiggleSprites[8];
-        }
-        else if (analogAxesAngle360 < 11.25 && analogAxesAngle360 > 349)
-        {
-            grassSquiggle.transform.localPosition = new Vector3(.074f, -1.48f, 0);
-            return squiggleSprites[0];
+            if (getDirection8() == Direction.EAST)
+            {
+                return runningSquiggleSprites[0];
+            }
+            else if (getDirection8() == Direction.NORTHEAST50)
+            {
+                return runningSquiggleSprites[2];
+            }
+            else if (getDirection8() == Direction.NORTH)
+            {
+                return runningSquiggleSprites[1];
+            }
+            else if (getDirection8() == Direction.NORTHWEST130)
+            {
+                return runningSquiggleSprites[3];
+            }
+            else if (getDirection8() == Direction.WEST)
+            {
+                return runningSquiggleSprites[7];
+            }
+            else if (getDirection8() == Direction.SOUTHWEST230)
+            {
+                return runningSquiggleSprites[6];
+            }
+            else if (getDirection8() == Direction.SOUTH)
+            {
+                return runningSquiggleSprites[4];
+            }
+            else if (getDirection8() == Direction.SOUTHEAST310)
+            {
+                return runningSquiggleSprites[5];
+            }
+            else return null;
+            
         }
         else
         {
-            grassSquiggle.transform.localPosition = new Vector3(.074f, -1.48f, 0);
-            return squiggleSprites[0];
+            return null;
         }
+        
     }
 
     public Direction getDirection8fromAngle()
@@ -2015,6 +2315,28 @@ public class PlayerControl : Entity
        
     }
 
+    // fading out the alpha of the sprite
+    //void fadeOut(GameObject disappearingObject)
+    //{
+
+    //    if (faded)
+    //        return;
+
+    //    if (!faded)
+    //    {
+    //        disappearingObject.GetComponent<SpriteRenderer>().alpha -= .005f * Time.deltaTime * 60;
+    //        // Debug.Log("it is fading");
+    //    }
+
+    //    if (playerInventory.GetComponent<CanvasGroup>().alpha <= .001f)
+    //    {
+    //        faded = true;
+
+    //    }
+
+
+    //}
+
     public bool getIsRunning()
     {
         return isRunning;
@@ -2028,6 +2350,11 @@ public class PlayerControl : Entity
     public bool getSwinging()
     {
         return swinging;
+    }
+
+    public bool getShortGrass()
+    {
+        return shortGrass;
     }
 
     public void setSwinging(bool b)

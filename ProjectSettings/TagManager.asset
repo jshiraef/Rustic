@@ -16,6 +16,8 @@ TagManager:
   - foregroundParallaxTrigger
   - movable
   - transparentTrigger
+  - hoppableBarrier
+  - landMask
   layers:
   - Default
   - TransparentFX
