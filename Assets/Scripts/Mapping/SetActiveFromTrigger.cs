@@ -74,8 +74,8 @@ public class SetActiveFromTrigger : MonoBehaviour
         }
         else landMaskCollider.enabled = true;
 
-        Debug.Log("the player's angle is " + playerController.getDirectionAngle360());
-        Debug.Log("the maskSwitch is " + maskSwitch);
+        //Debug.Log("the player's angle is " + playerController.getDirectionAngle360());
+        //Debug.Log("the maskSwitch is " + maskSwitch);
     }
 
     void OnTriggerStay2D(Collider2D other)
