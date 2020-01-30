@@ -31,6 +31,7 @@ public class CopyParentAlpha : MonoBehaviour
         Color tmpColor = sprite.color;
         Color parentTmpColor = parentSprite.color;
         sprite.color = parentSprite.color;
+        sprite.sortingLayerName = parentSprite.sortingLayerName;
 
     }
 }

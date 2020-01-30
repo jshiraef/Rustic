@@ -83,7 +83,7 @@ public class SetActiveFromTrigger : MonoBehaviour
         if(other.tag == "movable")
         {
             landMask.SetActive(false);
-            Debug.Log("this is happening");
+            //Debug.Log("this is happening");
 
             positionChanger1.SetActive(true);
             positionChanger2.SetActive(false);
