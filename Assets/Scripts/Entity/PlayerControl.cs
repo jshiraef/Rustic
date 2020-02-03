@@ -1999,6 +1999,11 @@ public class PlayerControl : Entity
             other.gameObject.transform.parent.SendMessage("setTempBool", false);
         }
 
+        if (other.name == "shadowGone")
+        {
+            playerBlobShadow.enabled = true;
+        }
+
 
         restoreBlobShadowToNormal = true;
 
@@ -2045,6 +2050,11 @@ public class PlayerControl : Entity
         {
             stumbling = true;
             stumbleCoolDown = stumbleTimeLength;
+        }
+
+        if(other.name == "shadowGone")
+        {
+            playerBlobShadow.enabled = false;
         }
     }
 

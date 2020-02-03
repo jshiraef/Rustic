@@ -14,6 +14,9 @@ public class SetActiveFromTrigger : MonoBehaviour
     public GameObject positionChangerA;
     public GameObject positionChangerB;
 
+    public GameObject pointA;
+    public GameObject pointB;
+
     private GameObject player;
     private PlayerControl playerController;
     private PolygonCollider2D landMaskCollider;
@@ -27,7 +30,7 @@ public class SetActiveFromTrigger : MonoBehaviour
         playerController = player.GetComponent<PlayerControl>();
         
         originalPosition = this.transform.position;
-        landMask = GameObject.Find("landMask").transform.GetChild(0).gameObject;
+        landMask = transform.GetChild(0).gameObject;
         landMaskCollider = landMask.GetComponentInParent<PolygonCollider2D>();
     }
 
@@ -36,7 +39,7 @@ public class SetActiveFromTrigger : MonoBehaviour
     {
         //these next four conditional statements check to see if the player is crossing a particular threshold
         // on both the east and west sides of the elevated veggie house and yard in order to alternate colliders and rendermasks
-        if(player.transform.position.x > 82 && player.transform.position.y > -13 && !maskSwitch)
+        if(player.transform.position.x > pointA.transform.position.x && player.transform.position.y > pointA.transform.position.y && !maskSwitch)
         {
             if (playerController.getDirectionAngle360() < 180)
             {
@@ -44,7 +47,7 @@ public class SetActiveFromTrigger : MonoBehaviour
             }
         }
 
-        if (player.transform.position.x < 42 && player.transform.position.y > -13 && !maskSwitch)
+        if (player.transform.position.x < pointB.transform.position.x && player.transform.position.y > pointB.transform.position.y && !maskSwitch)
         {
             if (playerController.getDirectionAngle360() < 180)
             {
@@ -52,7 +55,7 @@ public class SetActiveFromTrigger : MonoBehaviour
             }
         }
 
-        if (player.transform.position.x > 82 && player.transform.position.y < -13 && maskSwitch)
+        if (player.transform.position.x > pointA.transform.position.x && player.transform.position.y < pointA.transform.position.y && maskSwitch)
         {
             if(playerController.getDirectionAngle360() > 180)
             {
@@ -60,7 +63,7 @@ public class SetActiveFromTrigger : MonoBehaviour
             }
         }
 
-        if (player.transform.position.x < 42 && player.transform.position.y < -13 && maskSwitch)
+        if (player.transform.position.x < pointB.transform.position.x && player.transform.position.y < pointB.transform.position.y && maskSwitch)
         {
             if (playerController.getDirectionAngle360() > 180)
             {
