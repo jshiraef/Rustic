@@ -11,6 +11,8 @@ public class CopyParentAlpha : MonoBehaviour
     //public Color parentColor;
     private PositionShift posShift;
 
+    public bool copySortingLayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +33,11 @@ public class CopyParentAlpha : MonoBehaviour
         Color tmpColor = sprite.color;
         Color parentTmpColor = parentSprite.color;
         sprite.color = parentSprite.color;
-        sprite.sortingLayerName = parentSprite.sortingLayerName;
+
+        if (copySortingLayer)
+        {
+            sprite.sortingLayerName = parentSprite.sortingLayerName;
+        }
 
     }
 }

@@ -19,7 +19,11 @@ public class PositionShift : MonoBehaviour
     public bool positionTrigger;
     public bool colorTrigger = false;
     private GameObject player;
+    
+
     private SpriteRenderer sprite;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +32,7 @@ public class PositionShift : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         originalColor = sprite.color;
         player = GameObject.Find("player");
+
     }
 
     // Update is called once per frame
@@ -67,5 +72,10 @@ public class PositionShift : MonoBehaviour
             Color tmpColor = sprite.color;
             sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(sprite.color.a, 1f, Time.deltaTime));
         }
+
+
+        
     }
+
+    
 }

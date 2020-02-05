@@ -17,9 +17,18 @@ public class RenderMask : MonoBehaviour {
     {
 
         MovingMask = GetComponent<Animator>();
-        renderMask = GameObject.Find("player").gameObject.transform.Find("renderMask").gameObject; 
-        renderMaskOutliner = renderMask.transform.Find("renderMaskOutliner").gameObject;
-        renderMaskOutliner2 = renderMaskOutliner.transform.Find("renderMaskOutliner2").gameObject;
+        renderMask = transform.root.Find("renderMask").gameObject; 
+        if(transform.childCount > 0)
+        {
+            renderMaskOutliner = renderMask.transform.Find("renderMaskOutliner").gameObject;
+            renderMaskOutliner2 = renderMaskOutliner.transform.Find("renderMaskOutliner2").gameObject;
+        }
+        else
+        {
+            renderMaskOutliner = null;
+            renderMaskOutliner2 = null;
+        }
+        
         renderMaskSprite = renderMask.GetComponent<SpriteRenderer>();
 
         playerMaskType = MaskType.NULL;
@@ -51,8 +60,12 @@ public class RenderMask : MonoBehaviour {
             }
         }
 
-        renderMaskOutliner.GetComponent<RenderMask>().playerMaskType = renderMask.GetComponent<RenderMask>().playerMaskType;
-        renderMaskOutliner2.GetComponent<RenderMask>().playerMaskType = renderMask.GetComponent<RenderMask>().playerMaskType;
+        if(transform.childCount > 0)
+        {
+            renderMaskOutliner.GetComponent<RenderMask>().playerMaskType = renderMask.GetComponent<RenderMask>().playerMaskType;
+            renderMaskOutliner2.GetComponent<RenderMask>().playerMaskType = renderMask.GetComponent<RenderMask>().playerMaskType;
+        }
+        
 
         if (transform.root.name == "player")
         {
@@ -78,6 +91,7 @@ public class RenderMask : MonoBehaviour {
         {
             switch ((int)vendorMaskType)
             {
+                
                 case 0:
                     MovingMask.Play("waterFlowMask");
                     //renderMask.GetComponent<RenderMask>().setWaterFlowLayer();
@@ -92,6 +106,8 @@ public class RenderMask : MonoBehaviour {
                     break;
             }
         }
+
+
         
 
         //if (playerMaskType == MaskType.NULL || vendorMaskType == MaskType.NULL)
@@ -124,6 +140,11 @@ public class RenderMask : MonoBehaviour {
     public enum MaskType
     {
         WATER, GRASS, NULL
+    }
+
+    public MaskType getVendorMaskType()
+    {
+        return this.vendorMaskType;
     }
 
 
