@@ -50,12 +50,12 @@ public class TonicRoofController : MonoBehaviour
             roofContingency2.GetComponent<SortingOrderScript>().enabled = true;
         }
 
-        Debug.Log("the roof trigger is " + roofTrigger);
+        //Debug.Log("the roof trigger is " + roofTrigger);
     }
 
     public void setRoofTrigger(bool b)
     {
         roofTrigger = b;
-        Debug.Log("this happened");
+        //Debug.Log("this happened");
     }
 }

@@ -12,11 +12,16 @@ public class SortingOrderScript : MonoBehaviour
     public int currentSortingOrderNumber;
 	public int sortingOrder = 0;
 
+    // these will be used in special case brute force fixing. 
+    //This will only work if you manually check the box for "SortLayerBruteForce" 
+    //in the Unity Inspector
+    public bool sortLayerBruteForce, bruteForcing;
 
     public GameObject neverRenderBehindThisObject;
     public GameObject checkObjectForOverlap;
 	protected SpriteRenderer sprite;
 	protected GameObject player;
+    
 
     public bool copyParentSortingLayer;
 
@@ -116,6 +121,7 @@ public class SortingOrderScript : MonoBehaviour
         allMovableObjectsWithinProximity = new List<GameObject>();
 
 
+
         //foreach (GameObject movableObject in allMovableObjects)
         //{
         //    allMovableEntities.Add(movableObject.GetComponent<Entity>());
@@ -187,6 +193,11 @@ public class SortingOrderScript : MonoBehaviour
         //    }
         //}
 
+        if (bruteForcing)
+        {
+            return;
+        }
+
         if(player.transform.position.y > threshold)
         {
             Overlap();
@@ -256,7 +267,6 @@ public class SortingOrderScript : MonoBehaviour
             //Debug.Log("the first yintercept is " + yintercept2);
         }
 
-        
     }
 
     void Overlap()
@@ -264,5 +274,36 @@ public class SortingOrderScript : MonoBehaviour
         sprite.sortingLayerName = OverlapLayer;
     }
 
-   
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        
+
+        if (sortLayerBruteForce)
+        {
+            Debug.Log("brute forcing");
+            bruteForcing = true;
+            sprite.sortingLayerName = currentLayerName;
+            sprite.sortingOrder = currentSortingOrderNumber;
+        }
+        
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (sortLayerBruteForce)
+        {
+            sprite.sortingLayerName = currentLayerName;
+            sprite.sortingOrder = currentSortingOrderNumber;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (sortLayerBruteForce)
+        {
+            bruteForcing = false;
+        }
+    }
+
+
 }
