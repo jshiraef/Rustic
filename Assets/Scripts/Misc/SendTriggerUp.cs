@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SendTriggerUp : MonoBehaviour
 {
+
+    public bool reverse;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +26,15 @@ public class SendTriggerUp : MonoBehaviour
 
      void OnTriggerExit2D(Collider2D other)
     {
-        transform.parent.SendMessage("switchExit", other);
+        if (reverse)
+        {
+            transform.parent.SendMessage("ExitSouthSwitch", other);
+        }
+
+        if (!reverse)
+        {
+            transform.parent.SendMessage("ExitNorthSwitch", other);
+        }
     }
 
     void OnTriggerStay2D(Collider2D other)
