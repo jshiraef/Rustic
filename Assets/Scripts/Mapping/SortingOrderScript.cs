@@ -240,9 +240,16 @@ public class SortingOrderScript : MonoBehaviour
         {
          //  if(neverRenderBehindThisObject.GetComponent<SpriteRenderer>().sortingLayerID != 0)
          //   {
-              
+                if(neverRenderBehindThisObject.GetComponent<SpriteRenderer>().sortingLayerName == "Default")
+            {
+
+            }
+            else
+            {
                 sprite.sortingLayerID = neverRenderBehindThisObject.GetComponent<SpriteRenderer>().sortingLayerID;
                 sprite.sortingOrder = neverRenderBehindThisObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
+            }
+                
          //   }
 
         }

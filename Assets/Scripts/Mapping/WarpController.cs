@@ -26,8 +26,7 @@ public class WarpController : MonoBehaviour
         coll.gameObject.transform.position = newPosition.transform.position;
 
         // this changes the alpha of the Tonic House sprite in the "Position Shift" script
-        if(this.transform.parent.transform.name == "Tonic House")
-        {
+       
             Debug.Log("this happened");
             if(this.transform.name == "warpToRoof")
             {
@@ -39,10 +38,11 @@ public class WarpController : MonoBehaviour
             }
             else if(this.transform.name == "warpToGround")
             {
-                this.transform.parent.gameObject.GetComponent<TonicRoofController>().setRoofTrigger(false);
-                this.transform.parent.gameObject.GetComponent<SortingOrderScript>().enabled = true;
+                //this.transform.SendMessageUpwards("setRoofTrigger", false);
+                this.transform.parent.transform.parent.gameObject.GetComponent<TonicRoofController>().setRoofTrigger(false);
+                this.transform.parent.transform.parent.gameObject.GetComponent<SortingOrderScript>().enabled = true;
             }
-        }
+        
     }
 
 }
