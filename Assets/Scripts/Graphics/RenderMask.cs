@@ -11,14 +11,20 @@ public class RenderMask : MonoBehaviour {
     private SpriteRenderer renderMaskSprite;
     public MaskType playerMaskType;
     public MaskType vendorMaskType;
+    private GameObject grassRustle;
 
     // Use this for initialization
     void Start ()
     {
 
         MovingMask = GetComponent<Animator>();
-        renderMask = transform.root.Find("renderMask").gameObject; 
-        if(transform.childCount > 0)
+        renderMask = transform.root.Find("renderMask").gameObject;
+        if(transform.root.name == "player")
+        {
+            grassRustle = transform.root.Find("grassRustle").gameObject;
+        }
+
+        if (transform.childCount > 0)
         {
             renderMaskOutliner = renderMask.transform.Find("renderMaskOutliner").gameObject;
             renderMaskOutliner2 = renderMaskOutliner.transform.Find("renderMaskOutliner2").gameObject;
@@ -84,6 +90,15 @@ public class RenderMask : MonoBehaviour {
                     MovingMask.Play("nullAnimation");
                     break;
             }
+
+            if (playerMaskType == MaskType.GRASS)
+            {
+                grassRustle.SetActive(true);
+            }
+            else
+            {
+                grassRustle.SetActive(false);
+            }
         }
 
         
@@ -106,6 +121,7 @@ public class RenderMask : MonoBehaviour {
                     break;
             }
         }
+        
 
 
         
