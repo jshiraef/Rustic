@@ -312,5 +312,18 @@ public class SortingOrderScript : MonoBehaviour
         }
     }
 
+     void OnDrawGizmos()
+    {
+        if(thresholdPoint1 != null && thresholdPoint2 != null)
+        {
+            Gizmos.DrawLine(thresholdPoint1.transform.position, thresholdPoint2.transform.position);
+        }
+
+        if (thresholdPoint3 != null && thresholdPoint4 != null)
+        {
+            Gizmos.DrawLine(thresholdPoint3.transform.position, thresholdPoint4.transform.position);
+        }
+    }
+
 
 }
