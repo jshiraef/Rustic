@@ -5,26 +5,42 @@ public class Hover : MonoBehaviour {
 
     public GameObject AlertIcon;
     private bool scaleDown;
+    public float scaleRange;
+    public float scaleFactor;
 
-    public Vector3 IconScale = new Vector3(.41f, .41f, .41f);
+    public Vector3 IconScale;
 
 	// Use this for initialization
 	void Start ()
     {
-        AlertIcon.transform.localScale = IconScale;
+        if(scaleRange == 0)
+        {
+            scaleRange = .1f;
+        }
+
+        if(scaleFactor == 0)
+        {
+            scaleFactor = .003f;
+        }
+
+        IconScale = new Vector3((1 - scaleRange) + .01f, (1 - scaleRange) + .01f, 1f);
+
+        this.transform.localScale = IconScale;
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+
+        // this makes the gameObject grow and shrink slightly as if it is breathing
 	    if(scaleDown == false)
         {
-            if(transform.localScale.x > .4f && transform.localScale.x < .6f)
+            if(transform.localScale.x > (1 - scaleRange) && transform.localScale.x < 1f)
             {
-                AlertIcon.transform.localScale += new Vector3(0.003f, 0.003f, 0);
+                this.transform.localScale += new Vector3(scaleFactor, scaleFactor, 0);
             }
 
-            if(transform.localScale.x > .6f)
+            if(transform.localScale.x > 1f)
             {
                 scaleDown = true;
             }
@@ -33,9 +49,9 @@ public class Hover : MonoBehaviour {
         if(scaleDown)
         {
 
-            AlertIcon.transform.localScale -= new Vector3(0.003f, 0.003f, 0);
+            this.transform.localScale -= new Vector3(scaleFactor, scaleFactor, 0);
 
-            if(transform.localScale.x < 0.42f)
+            if(transform.localScale.x < (1 - scaleRange) + .01f)
             {
                 scaleDown = false;
             }
