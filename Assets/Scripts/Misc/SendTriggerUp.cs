@@ -7,6 +7,9 @@ public class SendTriggerUp : MonoBehaviour
 
     public bool reverse;
 
+    public bool screenFadeToBlack;
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +37,11 @@ public class SendTriggerUp : MonoBehaviour
         if (!reverse)
         {
             transform.parent.SendMessage("ExitNorthSwitch", other);
+        }
+
+        if (screenFadeToBlack)
+        {
+            transform.parent.SendMessage("setFadeToBlack", true);
         }
     }
 

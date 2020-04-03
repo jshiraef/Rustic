@@ -284,6 +284,11 @@ public abstract class Entity : MonoBehaviour {
         else return Direction.NULL;
     }
 
+    public int getCurrentAction()
+    {
+        return currentAction;
+    }
+
    
 
     public void LookAt(Vector3 position)

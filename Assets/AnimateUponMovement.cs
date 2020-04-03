@@ -24,7 +24,7 @@ public class AnimateUponMovement : MonoBehaviour
             }
             else if (GetComponentInParent<PlayerControl>().isWalking)
             {
-                //MovingMask.enabled = true;   
+                //MovingMask.enabled = true;
                 Movement.speed = .3f;
             }
             else

@@ -18,6 +18,8 @@ TagManager:
   - transparentTrigger
   - hoppableBarrier
   - landMask
+  - stumbleBarrier
+  - skipHop
   layers:
   - Default
   - TransparentFX

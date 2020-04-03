@@ -42,6 +42,7 @@ public class PlayerControl : Entity
 
 
     private AnimatorClipInfo animInfo;
+    private int inverseFactor = 1;
 
     // elements
     public bool inWater = false;
@@ -56,6 +57,10 @@ public class PlayerControl : Entity
 
     public float rollSpeed = 8f;
     public float v, h;
+
+    private bool forcePlayer;
+    private float forcePlayerV, forcePlayerH;
+    private int forcePlayerTimer;
 
     //private PlayerIndex playerIndex;
     private Projector playerBlobShadow;
@@ -83,6 +88,9 @@ public class PlayerControl : Entity
 
     private bool shortFall = false;
     private float shortFallCoolDown;
+
+    public bool skipHop;
+    private int skipHopTimer;
 
     private bool rumble = false;
     private float rumbleCoolDown;
@@ -399,6 +407,7 @@ public class PlayerControl : Entity
             if (!lockPosition && !swinging && !rolling && !knockBack && !stumbling)
             {
                 isRunning = true;
+
                 moveSpeed = 4f;
 
                 if (currentAction != RUNNING)
@@ -406,11 +415,30 @@ public class PlayerControl : Entity
                     currentAction = RUNNING;
                 }
 
-                if(!hatAndCoat)
+
+                if (!skipHop)
                 {
-                    anim.Play("RunningNoHat");
+                    if (!hatAndCoat)
+                    {
+                        anim.Play("RunningNoHat");
+                    }
+                    else anim.Play("Running");
                 }
-                else anim.Play("Running");
+
+                if (skipHop)
+                {
+                    if(skipHopTimer > 25 && skipHopTimer < 50)
+                    {
+                        moveSpeed = .2f;
+                        Debug.Log("it slowed for a sec");
+                    }
+                    else
+                    {
+                        moveSpeed = 4f;
+                    }
+                    anim.Play("skipHopSouthWest");
+                }
+
 
                 //transform.Translate(h * .018f, 0, 0);
                 //transform.Translate (Vector2.right * speed * Time.deltaTime);
@@ -518,6 +546,7 @@ public class PlayerControl : Entity
         else anim.SetBool("runReleased", false);
 
 
+
         // cool down timers
 
         if (shortFallCoolDown > 0)
@@ -565,11 +594,26 @@ public class PlayerControl : Entity
 
         if (!player.GetComponent<SpriteRenderer>().isVisible)
         {
-            Debug.Log("the player is hidden!!");
+            //Debug.Log("the player is hidden!!");
+        }
+
+
+        if (isRunning && skipHop)
+        {
+            if (animatorIsPlaying("skipHopSouthWest"))
+            {
+                if (animationHasPlayedOnce())
+                {
+                    skipHop = false;
+                }
+            }
+
         }
 
         //	Debug.Log ("shortFall is: " + shortFall);
         // Debug.Log ("the shortFallCoolDown is: " + shortFallCoolDown);
+        //Debug.Log("the player's stumbleCoolDown is " + stumbleCoolDown);
+        //Debug.Log("the stumbling bool is " + stumbling);
 
     }
 
@@ -615,6 +659,12 @@ public class PlayerControl : Entity
         v = Input.GetAxis("Vertical");
         h = Input.GetAxis("Horizontal");
 
+        if (forcePlayer)
+        {
+            v = forcePlayerV;
+            h = forcePlayerH;
+        }
+
         //Debug.Log("the getClosestTarget() position is returning " + getClosestTarget().position);
 
         // gets the angle of the left analog stick axes vector
@@ -650,12 +700,21 @@ public class PlayerControl : Entity
 
         //        Debug.Log(body.velocity.magnitude);
 
+
         isRunning = false;
         isWalking = false;
         isIdle = false;
 
+
+        // this is what changes the players animations
         anim.SetFloat("VerticalAnalogAxis", (Input.GetAxis("Vertical")));
         anim.SetFloat("HorizontalAnalogAxis", (Input.GetAxis("Horizontal")));
+
+        if (forcePlayer)
+        {
+            anim.SetFloat("VerticalAnalogAxis",forcePlayerV);
+            anim.SetFloat("HorizontalAnalogAxis", forcePlayerH);
+        }
 
 
         // set animation parameters for transitions
@@ -887,7 +946,7 @@ public class PlayerControl : Entity
                 }
             }
 
-            if (stumbleCoolDown == stumbleTimeLength)
+            if (stumbleCoolDown >= stumbleTimeLength)
             {
                 if (getDirectionNSEW() == Direction.NORTH)
                 {
@@ -920,7 +979,7 @@ public class PlayerControl : Entity
                     if (knockBack){
                         transform.Translate(-2f * Time.deltaTime, 0, 0);
                     }else if (stumbling) {
-                        transform.Translate(-1f * Time.deltaTime, 0, 0);
+                        transform.Translate(-1f * Time.deltaTime * inverseFactor, 0, 0);
                     }
                     
                 }
@@ -929,7 +988,7 @@ public class PlayerControl : Entity
                     if (knockBack){
                         transform.Translate(-2f * Time.deltaTime, -1f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(-1f * Time.deltaTime, -.5f * Time.deltaTime, 0);
+                        transform.Translate(-1f * Time.deltaTime * inverseFactor, -.5f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -938,7 +997,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(-1.5f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(-.75f * Time.deltaTime, -.75f * Time.deltaTime, 0);
+                        transform.Translate(-.75f * Time.deltaTime * inverseFactor, -.75f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -947,7 +1006,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(-1f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(-.5f * Time.deltaTime, -.75f * Time.deltaTime, 0);
+                        transform.Translate(-.5f * Time.deltaTime * inverseFactor, -.75f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -956,7 +1015,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(0, -1.5f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(0, -.75f * Time.deltaTime, 0);
+                        transform.Translate(0, -.75f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -965,7 +1024,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(1f * Time.deltaTime, -1.5f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(.5f * Time.deltaTime, -.75f * Time.deltaTime, 0);
+                        transform.Translate(.5f * Time.deltaTime * inverseFactor, -.75f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -974,7 +1033,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(1f * Time.deltaTime, -1f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(.5f * Time.deltaTime, -.5f * Time.deltaTime, 0);
+                        transform.Translate(.5f * Time.deltaTime * inverseFactor, -.5f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -983,7 +1042,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(2f * Time.deltaTime, -1f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(1f * Time.deltaTime, -.5f * Time.deltaTime, 0);
+                        transform.Translate(1f * Time.deltaTime * inverseFactor, -.5f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -992,7 +1051,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(2f * Time.deltaTime, 0, 0);
                     }else if (stumbling) {
-                        transform.Translate(1f * Time.deltaTime, 0, 0);
+                        transform.Translate(1f * Time.deltaTime * inverseFactor, 0, 0);
                     }
                 }
 
@@ -1001,7 +1060,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(2f * Time.deltaTime, .5f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(1f * Time.deltaTime, .25f * Time.deltaTime, 0);
+                        transform.Translate(1f * Time.deltaTime * inverseFactor, .25f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -1010,7 +1069,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(1.5f * Time.deltaTime, 1f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(.75f * Time.deltaTime, .5f * Time.deltaTime, 0);
+                        transform.Translate(.75f * Time.deltaTime * inverseFactor, .5f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -1019,7 +1078,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(1.5f * Time.deltaTime, 1.5f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(.75f * Time.deltaTime, .75f * Time.deltaTime, 0);
+                        transform.Translate(.75f * Time.deltaTime * inverseFactor, .75f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -1028,7 +1087,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(0, 1.5f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(0, .75f * Time.deltaTime, 0);
+                        transform.Translate(0, .75f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -1037,7 +1096,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(-.5f * Time.deltaTime, 2f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(-.25f * Time.deltaTime, 1f * Time.deltaTime, 0);
+                        transform.Translate(-.25f * Time.deltaTime * inverseFactor, 1f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -1046,7 +1105,7 @@ public class PlayerControl : Entity
                      if (knockBack){
                         transform.Translate(-1f * Time.deltaTime, 1f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(-.5f * Time.deltaTime, .5f * Time.deltaTime, 0);
+                        transform.Translate(-.5f * Time.deltaTime * inverseFactor, .5f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -1055,7 +1114,7 @@ public class PlayerControl : Entity
                     if (knockBack){
                         transform.Translate(-2f * Time.deltaTime, 1f * Time.deltaTime, 0);
                     }else if (stumbling) {
-                        transform.Translate(-1f * Time.deltaTime, .5f * Time.deltaTime, 0);
+                        transform.Translate(-1f * Time.deltaTime * inverseFactor, .5f * Time.deltaTime * inverseFactor, 0);
                     }
                 }
 
@@ -1088,6 +1147,10 @@ public class PlayerControl : Entity
         {
             setSpriteFlipX(false);
             stumbling = false;
+            inverseFactor = 1;
+
+            GetComponent<BoxCollider2D>().enabled = true;
+
 
             lockPosition = false;
         }
@@ -1270,14 +1333,35 @@ public class PlayerControl : Entity
         else if (hopping)
         {
             isRunning = false;
-            anim.Play("ShortHopUpSouthWest");
-            moveSpeed = 4;
+            skipHop = false;
+            anim.Play("shortHop");
+            moveSpeed = 3;
+
+            if (animatorIsPlaying("shortHop"))
+            {
+                if (animationHasPlayedOnce())
+                {
+                    hopping = false;
+                    GetComponent<BoxCollider2D>().enabled = true;
+                    returSpriteToOriginLayer();
+                    hopTimer = 0;
+                }
+            }
+           
         }
         else if (stumbling)
         {
             isRunning = false;
+            skipHop = false;
             isWalking = false;
             moveSpeed = 2;
+
+           
+
+            if (stumbleCoolDown > .3f)
+            {
+                GetComponent<BoxCollider2D>().enabled = false;
+            }
         }
         else if (pushing)
         {
@@ -1340,11 +1424,16 @@ public class PlayerControl : Entity
             throwTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
         }
 
+        if(stumbleCoolDown > .3f && GetComponent<BoxCollider2D>().enabled)
+        {
+            GetComponent<BoxCollider2D>().enabled = false;
+        }
+
         if(hopTimer > 0)
         {
             hopTimer -= Mathf.RoundToInt(Time.deltaTime * 100);           
 
-            if(hopTimer < 50)
+            if(hopTimer < 55 && GetComponent<BoxCollider2D>().enabled)
             {
                 GetComponent<BoxCollider2D>().enabled = false;
             }
@@ -1352,12 +1441,12 @@ public class PlayerControl : Entity
             // move the player slighty up
             if(hopTimer > 70)
             {
-                transform.Translate(0, .3f, 0);
+                transform.Translate(0, .1f, 0);
             }
 
             hopping = true;
         }
-        else if(hopTimer <= 0)
+        else if(hopTimer <= 0 && hopping)
         {
             GetComponent<BoxCollider2D>().enabled = true;
             returSpriteToOriginLayer();
@@ -1365,7 +1454,33 @@ public class PlayerControl : Entity
             hopTimer = 0;
         }
 
-        if(lastDirection8 != getDirection8fromAngle())
+
+        if (skipHopTimer > 0)
+        {
+            skipHopTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
+        }
+        else if(skipHopTimer <= 0 && skipHop)
+        {
+            skipHop = false;
+            skipHopTimer = 0;
+        }
+
+        if(forcePlayerTimer > 200)
+        {
+            transform.Translate(Time.deltaTime * -5f,Time.deltaTime * -25f, 0f);
+        }
+
+        if(forcePlayerTimer > 0)
+        {
+            forcePlayerTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
+        }
+        else if(forcePlayerTimer <= 0 && forcePlayer)
+        {
+            forcePlayer = false;
+            forcePlayerTimer = 0;
+        }
+
+            if (lastDirection8 != getDirection8fromAngle())
         {
             leanTimer = 0;
             leaning = false;
@@ -1390,7 +1505,7 @@ public class PlayerControl : Entity
 
 
         //Debug.Log("the lock position " + lockPosition);
-        //Debug.Log("the hopTimer is " + hopTimer);
+        //Debug.Log("the hoptimer is " + hopTimer);
         // Debug.Log("the animator is playing" + anim.runtimeAnimatorController.animationClips[24]);
 
         //Debug.Log("the normalized time of the current animation is " + getAnimatorNormalizedTime());
@@ -1898,12 +2013,24 @@ public class PlayerControl : Entity
             {
                 hopTimer = 100;
             }         
-            Debug.Log("we are hopping!");
+            //Debug.Log("we are hopping!");
+        }
+
+        if (coll.gameObject.tag == "stumbleBarrier")
+        {
+            if (!stumbling)
+            {
+                stumbling = true;
+                stumbleCoolDown = stumbleTimeLength + 1;
+                inverseFactor = -1;
+            }
+            //Debug.Log("we are stumbling!");
         }
 
         if (hopping)
         {
-            if(hopTimer < 60)
+
+            if (hopTimer < 70)
             {
                 Overlap(coll.gameObject);
             }
@@ -1981,6 +2108,12 @@ public class PlayerControl : Entity
 
             renderMask.transform.localScale = new Vector3(1.225f, 1.225f, 1.225f);
             renderMask.transform.localPosition = new Vector3(.05f, -2f, 0f);
+        }
+
+        if (other.name == "skipHop")
+        {
+            skipHop = true;
+            skipHopTimer = 100;
         }
 
         if (other.name == "shortGrassEdge")
@@ -2149,7 +2282,7 @@ public class PlayerControl : Entity
     {
 
         GetComponent<SpriteRenderer>().sortingLayerName = OverlapLayer;
-        this.GetComponent<SpriteRenderer>().sortingOrder = thingToOverlap.GetComponentInParent<SpriteRenderer>().sortingOrder + 1;
+        GetComponent<SpriteRenderer>().sortingOrder = thingToOverlap.GetComponentInParent<SpriteRenderer>().sortingOrder + 1;
 
     }
 
@@ -2377,6 +2510,11 @@ public class PlayerControl : Entity
         return swingCoolDown;
     }
 
+    public float getShortHopCoolDown()
+    {
+        return hopTimer;
+    }
+
     public int getCurrentHealth()
     {
         return currentHealth;
@@ -2391,6 +2529,16 @@ public class PlayerControl : Entity
     {
         return maxStamina;
     }
-	
+
+    public void setForcePlayer(bool b)
+    {
+        forcePlayer = b;
+        forcePlayerTimer = 220;
+        forcePlayerV = -.225f;
+        forcePlayerH = -.08f;
+    }
+
+
+
 }
 
