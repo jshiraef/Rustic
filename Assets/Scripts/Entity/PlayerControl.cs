@@ -79,6 +79,7 @@ public class PlayerControl : Entity
     // hopping over things
     private int hopTimer;
     public bool hopping;
+    private GameObject jumpOverIcon;
 
     private bool pushing;
 
@@ -174,6 +175,7 @@ public class PlayerControl : Entity
         runningSquiggleSprites = Resources.LoadAll<Sprite>("runningFootTrail");
         vision = GetComponent<FieldOfView>();
         inventory = GameObject.Find("inventory").GetComponent<SatchelController>();
+        jumpOverIcon = transform.Find("jumpOverIcon").gameObject;
 
         originalLayerName = sprite.sortingLayerName.ToString();
         originalSortingOrderNumber = sprite.sortingOrder;
@@ -429,14 +431,14 @@ public class PlayerControl : Entity
                 {
                     if(skipHopTimer > 25 && skipHopTimer < 50)
                     {
-                        moveSpeed = .2f;
+                        moveSpeed = .4f;
                         Debug.Log("it slowed for a sec");
                     }
                     else
                     {
-                        moveSpeed = 4f;
+                        moveSpeed = 6f;
                     }
-                    anim.Play("skipHopSouthWest");
+                    anim.Play("skipHop");
                 }
 
 
@@ -1503,6 +1505,7 @@ public class PlayerControl : Entity
         }
         else pushing = false;
 
+        //Debug.Log("the forceTimer is " + forcePlayerTimer); 
 
         //Debug.Log("the lock position " + lockPosition);
         //Debug.Log("the hoptimer is " + hopTimer);
@@ -2007,12 +2010,22 @@ public class PlayerControl : Entity
             anim.SetFloat("animationSpeed", 1f); 
         }
 
-        if(coll.gameObject.tag == "hoppableBarrier" && Input.GetKey(KeyCode.X))
+        if(coll.gameObject.tag == "hoppableBarrier")
         {
-            if (!hopping)
+            if(hopTimer <= 0)
             {
-                hopTimer = 100;
-            }         
+                jumpOverIcon.SetActive(true);
+            }
+
+            if (Input.GetKey(KeyCode.X))
+            {
+                if (!hopping)
+                {
+                    hopTimer = 100;
+                }
+            }
+
+            
             //Debug.Log("we are hopping!");
         }
 
@@ -2046,6 +2059,12 @@ public class PlayerControl : Entity
         {
             leanTimer = 0;
         }
+
+        if (coll.gameObject.tag == "hoppableBarrier")
+        {
+            jumpOverIcon.SetActive(false);
+        }
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -2530,12 +2549,12 @@ public class PlayerControl : Entity
         return maxStamina;
     }
 
-    public void setForcePlayer(bool b)
+    public void setForcePlayer(bool b, float v, float h, int forceTimer)
     {
         forcePlayer = b;
-        forcePlayerTimer = 220;
-        forcePlayerV = -.225f;
-        forcePlayerH = -.08f;
+        forcePlayerTimer = forceTimer;
+        forcePlayerV = v;
+        forcePlayerH = h;
     }
 
 

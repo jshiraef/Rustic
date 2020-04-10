@@ -28,7 +28,7 @@ public class PositionShift : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        originalPosition = this.transform.position;
+        originalPosition = this.transform.localPosition;
         sprite = GetComponent<SpriteRenderer>();
         originalColor = sprite.color;
         player = GameObject.Find("player");
@@ -44,7 +44,7 @@ public class PositionShift : MonoBehaviour
         {
             this.transform.localPosition = newPosition;
         }
-        else this.transform.position = originalPosition;
+        else this.transform.localPosition = originalPosition;
 
 
         // changes the sprite's alpha (makes the object disappear) dependent on the player or the camera's position

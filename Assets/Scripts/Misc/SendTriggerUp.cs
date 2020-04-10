@@ -8,6 +8,8 @@ public class SendTriggerUp : MonoBehaviour
     public bool reverse;
 
     public bool screenFadeToBlack;
+
+    public bool wellTrigger;
     
 
     // Start is called before the first frame update
@@ -27,8 +29,32 @@ public class SendTriggerUp : MonoBehaviour
         //transform.parent.SendMessage("OnTriggerEnter2D", other);
     }
 
-     void OnTriggerExit2D(Collider2D other)
+    
+
+    void OnTriggerStay2D(Collider2D other)
     {
+        if (wellTrigger)
+        {
+            transform.parent.SendMessage("personSensor", other);
+            return;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (screenFadeToBlack)
+        {
+            transform.parent.SendMessage("setFadeToBlack", true);
+            return;
+        }
+
+        if (wellTrigger)
+        {
+            transform.parent.SendMessage("personGoneSensor", other);
+            return;
+        }
+
+
         if (reverse)
         {
             transform.parent.SendMessage("ExitSouthSwitch", other);
@@ -38,15 +64,5 @@ public class SendTriggerUp : MonoBehaviour
         {
             transform.parent.SendMessage("ExitNorthSwitch", other);
         }
-
-        if (screenFadeToBlack)
-        {
-            transform.parent.SendMessage("setFadeToBlack", true);
-        }
-    }
-
-    void OnTriggerStay2D(Collider2D other)
-    {
-        //transform.parent.SendMessage("OnTriggerStay2D", other);
     }
 }

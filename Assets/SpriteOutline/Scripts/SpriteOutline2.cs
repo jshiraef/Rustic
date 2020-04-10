@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 // TODO: UI.Image sorting (to ensure the outline appears below an image, it must *not* be a child of the game object, but instead be positioned just above the game object in the hierarchy).
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 [DisallowMultipleComponent]
 public class SpriteOutline2 : MonoBehaviour {
 
@@ -163,6 +163,7 @@ public class SpriteOutline2 : MonoBehaviour {
 
 	void LateUpdate() {
 		SortOutline ();
+        Regenerate();
 
 		if (!Application.isPlaying || !isAnimated)
 			return;

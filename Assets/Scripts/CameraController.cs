@@ -17,35 +17,51 @@ public class CameraController : MonoBehaviour {
 
 	public Transform targetPosition;
 
-	Camera camera;
+    protected Cinemachine.CinemachineVirtualCamera _virtualCamera;
 
-	// Use this for initialization
-	void Start () 
+    // Use this for initialization
+    void Start () 
 	{
 //		player = GameObject.Find ("HorseCart");
         player = GameObject.Find("player");
 
-		camera = GetComponent<Camera> ();
+        _virtualCamera = GameObject.FindObjectOfType<Cinemachine.CinemachineVirtualCamera>();
 
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		transform.position = new Vector3 (player.transform.position.x, player.transform.position.y, -300f);
+		//transform.position = new Vector3 (player.transform.position.x, player.transform.position.y, -300f);
 
 		if(Input.GetButton ("PS4_R1"))
 		{
-			camera.orthographicSize += .222f;
+            if(_virtualCamera.m_Lens.OrthographicSize < 9)
+            {
+                _virtualCamera.m_Lens.OrthographicSize += .2f;
+            }        
+            
 		}
+        else
+        {
+            if(_virtualCamera.m_Lens.OrthographicSize > 7)
+            {
+                _virtualCamera.m_Lens.OrthographicSize -= .5f;
+            }
+            
+            if(_virtualCamera.m_Lens.OrthographicSize < 7)
+            {
+                _virtualCamera.m_Lens.OrthographicSize = 7;
+            }
+        }
 
-		//if (Input.GetAxis ("PS4_R2") > 0) {
-		//	camera.orthographicSize -= .001f;
-		//}
+        //if (Input.GetAxis ("PS4_R2") > 0) {
+        //	camera.orthographicSize -= .001f;
+        //}
 
-		if(Input.GetButton ("PS4_L1"))
+        if (Input.GetButton ("PS4_L1"))
 		{
-			camera.orthographicSize -= .015f;
+			//camera.orthographicSize -= .015f;
 		}
 
 

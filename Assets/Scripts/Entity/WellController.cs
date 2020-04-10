@@ -1,0 +1,117 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class WellController : MonoBehaviour
+{
+    private GameObject wellCrank;
+    private GameObject wellCrankOutline;
+    private bool glowUp;
+    private Animator wellCrankAnim;
+    private int wellCrankTimer;
+    private bool wellCranked, wellCrankReleased;
+    private GameObject wellRope;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        wellCrank = transform.Find("Well_Crank").gameObject;
+        wellRope = transform.Find("ropeTemp").GetChild(0).gameObject;
+        wellCrankOutline = wellCrank.transform.Find("Outline").gameObject;
+        wellCrankOutline.GetComponent<SpriteRenderer>().enabled = false;
+        wellCrankAnim = wellCrank.GetComponent<Animator>();
+        wellCrankAnim.enabled = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // this makes the outline around the wellCrank glow or appear to be glowing
+        if (wellCrankOutline.GetComponent<SpriteRenderer>().enabled)
+        {
+            if (!glowUp)
+            {
+                if (wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier > .2f)
+                {
+                    wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier -= .1f;
+                }
+
+                if(wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier < .2f)
+                {
+                    glowUp = true;
+                }
+            }
+
+
+            if (glowUp)
+            {
+                wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier += .1f;
+
+                if(wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier > .98f)
+                {
+                    glowUp = false;
+                }
+
+            }
+        }
+
+        if (wellCranked)
+        {
+            wellCrankTimer += Mathf.RoundToInt(Time.deltaTime * 100);
+            wellRope.transform.Translate(-.1f, 0f * Time.deltaTime, 0);
+        }
+
+        if(wellCrankTimer > 0 && !wellCranked)
+        {
+            wellCrankTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
+            wellRope.transform.Translate(+.1f, 0f * Time.deltaTime, 0);
+        }
+
+        if (wellCrankTimer <= 0)
+        {
+            wellCrankTimer = 0;
+        }
+
+        //Debug.Log("the well crank Timer is " + wellCrankTimer);
+
+        
+
+    }
+
+    void personSensor(Collider2D other)
+    {
+        if (!Input.GetKey(KeyCode.X))
+        {
+                wellCrankOutline.GetComponent<SpriteRenderer>().enabled = true;
+        }
+
+        if (other.gameObject.name == "player")
+        {
+            //other.GetComponent<PlayerControl>().setForcePlayer(true, .2f, .2f, 200);
+
+            //Vector3 distanceToPlayer
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            wellCrankAnim.enabled = true;
+            wellCranked = true;
+            wellCrankOutline.GetComponent<SpriteRenderer>().enabled = false;           
+
+        }
+       
+        if (Input.GetKeyUp(KeyCode.X))
+        {
+            wellCrankAnim.enabled = false;
+            wellCranked = false;
+        }
+
+    }
+
+    void personGoneSensor(Collider2D other)
+    {
+        wellCrankOutline.GetComponent<SpriteRenderer>().enabled = false;
+
+        wellCrankAnim.enabled = false;
+    }
+}

@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// this entire class basically turned into a program for a trigger
+// for the when the player reaches the end of a path and needs to be turned back, the screen will fade to black
+// and then send the player back in the same direction
 public class ScreenFade : MonoBehaviour
 {
     SpriteRenderer spriteRend;
@@ -64,7 +68,7 @@ public class ScreenFade : MonoBehaviour
         if (completelyFaded && fadeToBlack)
         {
             fadeToBlack = false;
-            player.GetComponent<PlayerControl>().setForcePlayer(true);
+            player.GetComponent<PlayerControl>().setForcePlayer(true, -.225f, -.08f, 220);
         }
 
         // triggers the blackout to subsided once the Timer is almost done
