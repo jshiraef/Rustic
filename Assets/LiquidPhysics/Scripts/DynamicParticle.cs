@@ -50,9 +50,11 @@ public class DynamicParticle : MonoBehaviour {
 				currentImage.SetActive(false);
 				currentImage=particleImages[(int)currentState];
 				currentImage.SetActive(true);
+                currentImage.GetComponent<Renderer>().sortingLayerName = "Overlap";
 			}
 		}		
 	}
+
 	void Update () {
 		switch(currentState){
 			case STATES.WATER: //Water and lava got the same behaviour
@@ -72,6 +74,7 @@ public class DynamicParticle : MonoBehaviour {
 
 		}	
 	}
+
 	// This scales the particle image acording to its velocity, so it looks like its deformable... but its not ;)
 	void MovementAnimation(){
 		Vector3 movementScale=new Vector3(1.0f,1.0f,1.0f);//TamaÃ±o de textura no de metaball			

@@ -29,6 +29,7 @@ public class ParticleGenerator : MonoBehaviour {
 			particleScript.SetLifeTime(PARTICLE_LIFETIME); //Set each particle lifetime
 			particleScript.SetState(particlesState); //Set the particle State
 			newLiquidParticle.transform.position=transform.position;// Relocate to the spawner position
+            newLiquidParticle.transform.localScale = transform.localScale * .5f;// this sets the scale
 			newLiquidParticle.transform.parent=particlesParent;// Add the particle to the parent container			
 			lastSpawnTime=Time.time; // Register the last spawnTime			
 		}		

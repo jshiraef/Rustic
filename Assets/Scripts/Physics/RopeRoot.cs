@@ -62,6 +62,7 @@ public class RopeRoot : MonoBehaviour
             CopyDestination.Add(child);
 
             AddChildren(child);
+            
         }
     }
 

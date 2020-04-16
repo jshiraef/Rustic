@@ -9,18 +9,31 @@ public class WellController : MonoBehaviour
     private bool glowUp;
     private Animator wellCrankAnim;
     private int wellCrankTimer;
-    private bool wellCranked, wellCrankReleased;
+    private bool wellCranking, wellFullyCranked;
     private GameObject wellRope;
+    private GameObject wellCollider1, wellCollider2;
+    private Vector3 wellRopeOriginalPosition;
+
+    private waterBob waterBob;
 
     // Start is called before the first frame update
     void Start()
     {
         wellCrank = transform.Find("Well_Crank").gameObject;
         wellRope = transform.Find("ropeTemp").GetChild(0).gameObject;
+        wellCollider1 = transform.Find("collider1").gameObject;
+        wellCollider2 = transform.Find("collider2").gameObject;
+        wellCollider2.SetActive(false);
+        wellRopeOriginalPosition = wellRope.transform.position;
         wellCrankOutline = wellCrank.transform.Find("Outline").gameObject;
         wellCrankOutline.GetComponent<SpriteRenderer>().enabled = false;
         wellCrankAnim = wellCrank.GetComponent<Animator>();
         wellCrankAnim.enabled = false;
+
+        // for some reason the waterbob script must be turned off then back on in order for it to work
+        waterBob = GetComponentInChildren<waterBob>();
+        waterBob.enabled = false;
+        waterBob.enabled = true;
     }
 
     // Update is called once per frame
@@ -33,7 +46,7 @@ public class WellController : MonoBehaviour
             {
                 if (wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier > .2f)
                 {
-                    wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier -= .1f;
+                    wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier -= .05f;
                 }
 
                 if(wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier < .2f)
@@ -45,7 +58,7 @@ public class WellController : MonoBehaviour
 
             if (glowUp)
             {
-                wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier += .1f;
+                wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier += .05f;
 
                 if(wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier > .98f)
                 {
@@ -55,25 +68,47 @@ public class WellController : MonoBehaviour
             }
         }
 
-        if (wellCranked)
+        if (wellCranking)
         {
-            wellCrankTimer += Mathf.RoundToInt(Time.deltaTime * 100);
-            wellRope.transform.Translate(-.1f, 0f * Time.deltaTime, 0);
+            if(wellRope.transform.GetChild(0).transform.position.y <= -35)
+            {
+                wellCrankTimer += Mathf.RoundToInt(Time.deltaTime * 100);
+                wellRope.transform.Translate(-.1f, 0f * Time.deltaTime, 0);
+            } 
+            
+            if(wellRope.transform.GetChild(0).transform.position.y > -35)
+            {
+                Debug.Log("the rope reached the choke point");
+                wellFullyCranked = true;
+                wellCranking = false;
+            }
         }
 
-        if(wellCrankTimer > 0 && !wellCranked)
+        if(wellCrankTimer > 0)
+        {
+            wellCollider1.SetActive(false);
+            wellCollider2.SetActive(true);
+        }
+
+        if(wellCrankTimer > 0 && !wellCranking && !wellFullyCranked)
         {
             wellCrankTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
-            wellRope.transform.Translate(+.1f, 0f * Time.deltaTime, 0);
+
+            if(wellRope.transform.position.x < wellRopeOriginalPosition.x)
+            {
+                wellRope.transform.Translate(+.1f, 0f * Time.deltaTime, 0);
+            }
         }
 
         if (wellCrankTimer <= 0)
         {
             wellCrankTimer = 0;
+
+            wellCollider1.SetActive(true);
+            wellCollider2.SetActive(false);
         }
 
         //Debug.Log("the well crank Timer is " + wellCrankTimer);
-
         
 
     }
@@ -95,7 +130,7 @@ public class WellController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             wellCrankAnim.enabled = true;
-            wellCranked = true;
+            wellCranking = true;
             wellCrankOutline.GetComponent<SpriteRenderer>().enabled = false;           
 
         }
@@ -103,7 +138,8 @@ public class WellController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.X))
         {
             wellCrankAnim.enabled = false;
-            wellCranked = false;
+            wellCranking = false;
+            wellFullyCranked = false;
         }
 
     }
