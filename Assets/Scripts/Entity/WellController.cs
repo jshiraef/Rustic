@@ -12,6 +12,8 @@ public class WellController : MonoBehaviour
     private bool wellCranking, wellFullyCranked;
     private GameObject wellRope;
     private GameObject wellCollider1, wellCollider2;
+    private GameObject wellLogRoll;
+    private GameObject wellRopeClump;
     private Vector3 wellRopeOriginalPosition;
 
     private waterBob waterBob;
@@ -21,9 +23,16 @@ public class WellController : MonoBehaviour
     {
         wellCrank = transform.Find("Well_Crank").gameObject;
         wellRope = transform.Find("ropeTemp").GetChild(0).gameObject;
+
+        wellRopeClump = transform.Find("ropeClump").gameObject;
+        wellRopeClump.GetComponent<Animator>().Play("wellRopeClump");
+        wellRopeClump.GetComponent<Animator>().enabled = false;
+
         wellCollider1 = transform.Find("collider1").gameObject;
         wellCollider2 = transform.Find("collider2").gameObject;
         wellCollider2.SetActive(false);
+        wellLogRoll = transform.Find("wellLogRoll").gameObject;
+        wellLogRoll.SetActive(false);
         wellRopeOriginalPosition = wellRope.transform.position;
         wellCrankOutline = wellCrank.transform.Find("Outline").gameObject;
         wellCrankOutline.GetComponent<SpriteRenderer>().enabled = false;
@@ -74,29 +83,52 @@ public class WellController : MonoBehaviour
             {
                 wellCrankTimer += Mathf.RoundToInt(Time.deltaTime * 100);
                 wellRope.transform.Translate(-.1f, 0f * Time.deltaTime, 0);
+
+                wellRopeClump.GetComponent<Animator>().SetFloat("reverseAnimationMultiplier", 1f);
+                wellRopeClump.GetComponent<Animator>().Play("wellRopeClump");
+
             } 
             
             if(wellRope.transform.GetChild(0).transform.position.y > -35)
             {
-                Debug.Log("the rope reached the choke point");
+                //Debug.Log("the rope reached the choke point");
                 wellFullyCranked = true;
                 wellCranking = false;
             }
+
+            wellRopeClump.GetComponent<Animator>().enabled = true;
         }
 
         if(wellCrankTimer > 0)
         {
             wellCollider1.SetActive(false);
             wellCollider2.SetActive(true);
+
+            if (!wellFullyCranked)
+            {
+                wellLogRoll.SetActive(true);
+            }
+            else wellLogRoll.SetActive(false);
         }
 
         if(wellCrankTimer > 0 && !wellCranking && !wellFullyCranked)
         {
             wellCrankTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
 
+            
+
             if(wellRope.transform.position.x < wellRopeOriginalPosition.x)
             {
                 wellRope.transform.Translate(+.1f, 0f * Time.deltaTime, 0);
+
+                wellRopeClump.GetComponent<Animator>().SetFloat("reverseAnimationMultiplier", -1);
+
+                if(wellRopeClump.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime > 1f)
+                {
+                    wellRopeClump.GetComponent<Animator>().Play("wellRopeClump", 0, 1f);
+                }
+
+                wellRopeClump.GetComponent<Animator>().Play("wellRopeClump");
             }
         }
 
@@ -106,9 +138,13 @@ public class WellController : MonoBehaviour
 
             wellCollider1.SetActive(true);
             wellCollider2.SetActive(false);
+
+            wellLogRoll.SetActive(false);
+            wellRopeClump.GetComponent<Animator>().enabled = false;
         }
 
         //Debug.Log("the well crank Timer is " + wellCrankTimer);
+        //Debug.Log("the well rope clump animator time is " + wellRopeClump.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
         
 
     }
