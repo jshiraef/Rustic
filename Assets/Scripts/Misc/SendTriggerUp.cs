@@ -10,12 +10,14 @@ public class SendTriggerUp : MonoBehaviour
     public bool screenFadeToBlack;
 
     public bool wellTrigger;
+
+    private GameObject player;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.Find("player");
     }
 
     // Update is called once per frame
@@ -52,6 +54,7 @@ public class SendTriggerUp : MonoBehaviour
         {
             transform.parent.SendMessage("personGoneSensor", other);
             return;
+
         }
 
 

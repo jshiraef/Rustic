@@ -602,7 +602,7 @@ public class PlayerControl : Entity
 
         if (isRunning && skipHop)
         {
-            if (animatorIsPlaying("skipHopSouthWest"))
+            if (animatorIsPlaying("skipHop"))
             {
                 if (animationHasPlayedOnce())
                 {
@@ -2045,7 +2045,7 @@ public class PlayerControl : Entity
 
             if (hopTimer < 70)
             {
-                Overlap(coll.gameObject);
+                Overlap(coll.gameObject, 1);
             }
         }
         
@@ -2297,11 +2297,11 @@ public class PlayerControl : Entity
     }
 
     // this will make the player Sprite overlap another object
-    public void Overlap(GameObject thingToOverlap)
+    public void Overlap(GameObject thingToOverlap, int LayerOrderNumber)
     {
 
         GetComponent<SpriteRenderer>().sortingLayerName = OverlapLayer;
-        GetComponent<SpriteRenderer>().sortingOrder = thingToOverlap.GetComponentInParent<SpriteRenderer>().sortingOrder + 1;
+        GetComponent<SpriteRenderer>().sortingOrder = thingToOverlap.GetComponentInParent<SpriteRenderer>().sortingOrder + 1 + LayerOrderNumber;
 
     }
 
@@ -2524,6 +2524,13 @@ public class PlayerControl : Entity
         swinging = b;
     }
 
+    public void setSkipHop(bool b)
+    {
+        skipHop = b;
+        skipHopTimer = 100;
+    }
+
+
     public float getSwingCoolDown()
     {
         return swingCoolDown;
@@ -2556,6 +2563,17 @@ public class PlayerControl : Entity
         forcePlayerV = v;
         forcePlayerH = h;
     }
+
+    public void setLockPosition(bool b)
+    {
+        lockPosition = b;
+    }
+
+    public void setMoveSpeed(float speed)
+    {
+        moveSpeed = speed;
+    }
+    
 
 
 
