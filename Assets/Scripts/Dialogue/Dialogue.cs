@@ -222,9 +222,9 @@ public class Dialogue : MonoBehaviour
         {
             string[] commands = stringToDisplay.Substring(1, stringToDisplay.IndexOf("]") - 1).Split(',');
 
-            if (GameObject.Find("RawImage") != null)
+            if (transform.parent.transform.parent.transform.Find("RawImage") != null)
             {
-                RawImage avatar = GameObject.Find("RawImage").GetComponent<RawImage>();
+                RawImage avatar = transform.parent.transform.parent.transform.Find("RawImage").GetComponent<RawImage>();
 
                 // this next line loads an image (found in Assets/Resources) with the same name given within the text file
                 avatar.texture = Resources.Load(commands[0]) as Texture;

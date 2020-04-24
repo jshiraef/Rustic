@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WellController : MonoBehaviour
+public class WellController : Entity
 {
     private GameObject wellCrank;
     private GameObject wellCrankOutline;
@@ -16,10 +16,24 @@ public class WellController : MonoBehaviour
     private GameObject wellLogRoll;
     private GameObject wellRopeClump;
     private GameObject innerWellCollider;
+    private GameObject wellBucket, wellBucketOutline;
     private PlayerControl playerControl;
     private Vector3 wellRopeOriginalPosition, wellCrankPosition, wellCrankPosition2;
 
+    private float distanceToPlayer;
+
+    private GameObject AlertIcon;
+
     private waterBob waterBob;
+
+    private bool _withinTalkingRange;
+
+    public TextAsset dialogue;
+    private Dialogue dialogueUI;
+
+    public bool dialogueIsShowing;
+
+    private CircleCollider2D dialogueCollider;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +55,8 @@ public class WellController : MonoBehaviour
         innerWellCollider = transform.Find("innerWellCollider").gameObject;
         innerWellCollider.SetActive(false);
 
+        AlertIcon = GameObject.Find("AlertIcon");
+
         wellCrankOutline = wellCrank.transform.Find("Outline").gameObject;
         wellCrankOutline.GetComponent<SpriteRenderer>().enabled = false;
         wellCrankAnim = wellCrank.GetComponent<Animator>();
@@ -49,7 +65,22 @@ public class WellController : MonoBehaviour
         wellCrankPosition = transform.Find("wellCrankPosition").transform.position;
         wellCrankPosition2 = transform.Find("wellCrankPosition").gameObject.transform.GetChild(0).transform.position;
 
+
+        // find the well bucket deep in the hierarchy
+        Transform[] children = GetComponentsInChildren<Transform>();
+        
+        foreach(Transform child in children)
+        {
+            if(child.transform.name == "tempBucket")
+            {
+                wellBucket = child.transform.gameObject;
+            }
+        }
+
         playerControl = GameObject.Find("player").GetComponent<PlayerControl>();
+
+        dialogueUI = GameObject.Find("Well Dialogue Text").gameObject.GetComponent<Dialogue>();
+        dialogueCollider = GetComponent<CircleCollider2D>();
 
         // for some reason the waterbob script must be turned off then back on in order for it to work
         waterBob = GetComponentInChildren<waterBob>();
@@ -76,7 +107,6 @@ public class WellController : MonoBehaviour
                 }
             }
 
-
             if (glowUp)
             {
                 wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier += .05f;
@@ -88,6 +118,7 @@ public class WellController : MonoBehaviour
             }
         }
 
+        // makes the rope come up when the crank is turning
         if (wellCranking)
         {
             if (wellRope.transform.GetChild(0).transform.position.y <= -35)
@@ -122,12 +153,15 @@ public class WellController : MonoBehaviour
             else wellLogRoll.SetActive(false);
         }
 
-        if (wellCrankTimer > 0 && !wellCranking && !wellFullyCranked)
+        // this is what makes the rope and bucket go back down into the well
+        if (wellCrankTimer > 0 && !wellCranking)
         {
-            wellCrankTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
+            if (!wellFullyCranked)
+            {
+                wellCrankTimer -= Mathf.RoundToInt(Time.deltaTime * 100);
+            }
 
-
-            if (wellRope.transform.position.x < wellRopeOriginalPosition.x)
+            if (wellRope.transform.position.x < wellRopeOriginalPosition.x && !wellFullyCranked)
             {
                 wellRope.transform.Translate(+.075f, 0f * Time.deltaTime, 0);
 
@@ -166,14 +200,17 @@ public class WellController : MonoBehaviour
         playerControl.GetComponent<BoxCollider2D>().IsTouching(innerWellCollider.GetComponent<PolygonCollider2D>()))
         {
             crankReleased = true;
+            wellCollider2.SetActive(true);
         }
 
         // this detects if the player has chosen to move away from the well crank instead of continuing cranking
+        // this also invokes the player jumpdown animation from the well ledge
         if (crankReleased &&
         !playerControl.GetComponent<BoxCollider2D>().IsTouching(innerWellCollider.GetComponent<PolygonCollider2D>()))
         {
             playerSkippedOff = true;
             crankReleased = false;
+            wellCollider2.SetActive(false);
             playerControl.GetComponent<Animator>().runtimeAnimatorController = extraPlayerController;
             playerControl.GetComponent<Animator>().Play("wellDismount");
             playerControl.setLockPosition(true);
@@ -181,8 +218,8 @@ public class WellController : MonoBehaviour
         }
 
 
-        // this invokes the player jumpdown animation from the well ledge.
-        // It also reinitializes and resumes the player back to its regular Animator Controller.
+        
+        // this reinitializes and resumes the player back to its regular Animator Controller.
         if (playerSkippedOff && playerControl.animatorIsPlaying("wellDismount"))
         {
             if (playerControl.v == 0 && playerControl.h == 0)
@@ -202,6 +239,22 @@ public class WellController : MonoBehaviour
             }
         }
 
+        if (wellBucketOutline == null && wellBucket.transform.childCount > 0)
+        {
+            wellBucketOutline = wellBucket.transform.GetChild(0).gameObject;
+        }
+
+        if (Vector3.Distance(wellBucket.transform.position, playerControl.transform.position) < 2)
+        {
+            wellBucketOutline.SetActive(true);
+
+            if (Input.GetKey(KeyCode.X) && playerControl.currentAncientWater < playerControl.maxWater)
+            {
+                playerControl.setCurrentAncientWater(.05f);
+            }
+        }
+        else wellBucketOutline.SetActive(false);
+
         // this uses the animation to trigger the wellCranking bool
         if (playerControl.animatorIsPlaying("wellCrank"))
         {
@@ -217,10 +270,75 @@ public class WellController : MonoBehaviour
             wellRopeClump.GetComponent<Animator>().enabled = false;
         }
 
+
+
+        //Dialogue Practice pay no attention to the next 50 lines of code here
+        if (_withinTalkingRange && !dialogueUI.getIsDialoguePlaying())
+        {
+            AlertIcon.SetActive(true);
+        }
+        else
+        {
+            AlertIcon.SetActive(false);
+        }
+
+        if (!_withinTalkingRange || !wellFullyCranked)
+        {
+            
+            dialogueUI.transform.parent.transform.parent.GetComponent<CanvasGroup>().alpha = 0;
+        }
+
+        if (!dialogueUI.getIsDialoguePlaying())
+        {
+
+        }
+        else if (dialogueUI.getIsDialoguePlaying())
+        {
+            //anim.Play("showInventorySouth");
+        }
+
+
+        distanceToPlayer = Vector3.Distance(transform.position, playerControl.transform.position);
+
+        // dialogue text box display
+
+        if (wellFullyCranked)
+        {
+            if (distanceToPlayer < 10)
+            {
+                if (!dialogueIsShowing)
+                {
+                    dialogueUI.LoadDialogueAsset(dialogue);
+                    dialogueUI.setIsDialoguePlaying(false);
+
+                    _withinTalkingRange = true;
+                    dialogueIsShowing = true;
+
+                }
+            }
+            else
+            {
+                if (dialogueIsShowing)
+                {
+
+                    dialogueUI.UnloadDialogueAsset();
+
+                    dialogueIsShowing = false;
+                    _withinTalkingRange = false;
+
+                }
+
+            }
+        }
+        
+
+
         //Debug.Log("the well crank Timer is " + wellCrankTimer);
         //Debug.Log("the well rope clump animator time is " + wellRopeClump.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);      
 
     }
+
+
 
     void personSensor(Collider2D other)
     {
@@ -234,18 +352,31 @@ public class WellController : MonoBehaviour
             if (other.gameObject.name == "player")
             {
                 //other.GetComponent<PlayerControl>().setForcePlayer(true, .2f, .2f, 200);
-             
+                if (!wellFullyCranked)
+                {
                     wellCollider1.GetComponent<PolygonCollider2D>().isTrigger = true;
                     other.transform.position = Vector3.MoveTowards(other.transform.position, wellCrankPosition2, Time.deltaTime * 2.5f);
                     other.GetComponent<Animator>().runtimeAnimatorController = extraPlayerController;
                     playerControl.setLockPosition(true);
                     playerControl.Overlap(this.transform.gameObject, 2);
-               
+                }
+                    
                 //}              
                 //Debug.Log("the distance between the player and the wellCrankPosition1 is " + Vector3.Distance(other.transform.position, wellCrankPosition));
 
             }
-           
+
+            // the animation will pause mid-playback if the bucket has reached the top
+            if (wellFullyCranked 
+                && playerControl.animatorIsPlaying("wellCrank") 
+                && (playerControl.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime % 1 > .9f
+                || playerControl.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime % 1 < .2f))
+            {
+                playerControl.GetComponent<Animator>().SetFloat("reverseAnimationMultiplier", 0f);
+                //wellRopeClump.GetComponent<Animator>().Play("wellCrank");
+            }
+            else playerControl.GetComponent<Animator>().SetFloat("reverseAnimationMultiplier", 1f);
+
         }
 
         if(other.name == "player")
@@ -282,12 +413,23 @@ public class WellController : MonoBehaviour
                 playerControl.GetComponent<Animator>().Play("wellCrank");
                 crankReleased = false;
             }
+
+            
         }
        
         if (Input.GetKeyUp(KeyCode.X))
         {
             wellCranking = false;
-            wellFullyCranked = false;
+
+            if(wellRope.transform.GetChild(0).transform.position.y <= -36)
+            {
+                wellFullyCranked = false;
+            }
+
+            if (wellFullyCranked && !crankReleased && !wellCollider1.GetComponent<PolygonCollider2D>().isTrigger)
+            {
+                wellFullyCranked = false;
+            }
 
         }
 
@@ -311,5 +453,16 @@ public class WellController : MonoBehaviour
     void setPlayerSkippedOff(bool b)
     {
         playerSkippedOff = b;
+    }
+
+
+    public bool getEndOfDialogue()
+    {
+        return dialogueUI.getIsEndOfDialogue();
+    }
+
+    public bool getWithinTalkingRange()
+    {
+        return _withinTalkingRange;
     }
 }

@@ -9,6 +9,7 @@ public class HUDController : MonoBehaviour
     private GameObject health;
     private GameObject itemCompass;
     private GameObject selectShine;
+    private GameObject blueAncientWaterWheel;
     private PlayerControl player;
     private int playerHealth;
 
@@ -27,6 +28,8 @@ public class HUDController : MonoBehaviour
         health = transform.Find("health").gameObject;
         itemCompass = transform.Find("itemCompass").gameObject;
         selectShine = itemCompass.transform.GetChild(0).gameObject;
+
+        blueAncientWaterWheel = transform.Find("blueWaterWheelMask").gameObject;
 
         
     }
@@ -124,6 +127,27 @@ public class HUDController : MonoBehaviour
         {
             stamina.GetComponent<SpriteRenderer>().size = new Vector2(Mathf.Lerp(stamina.GetComponent<SpriteRenderer>().size.x, player.getCurrentStamina(), Time.deltaTime * 2), 2);
         }
+
+        if (player.getCurrentAncientWater() > 0 && player.getCurrentAncientWater() < player.getMaxAncientWater())
+        {           
+                blueAncientWaterWheel.transform.localEulerAngles = new Vector3(0f, 0f, player.getCurrentAncientWater() * 18);
+            
+            if(blueAncientWaterWheel.transform.localEulerAngles.z > 90)
+            {
+                blueAncientWaterWheel.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
+            }
+            else blueAncientWaterWheel.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);
+
+
+            if (blueAncientWaterWheel.transform.localEulerAngles.z > 180)
+            {
+                blueAncientWaterWheel.transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
+            }
+            else blueAncientWaterWheel.transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);
+
+        }
+
+        //Debug.Log("the water wheel rotation is " + blueAncientWaterWheel.transform.rotation.z);
 
     }
 

@@ -28,6 +28,9 @@ public class PlayerControl : Entity
     public int maxStamina;
     public float currentStamina;
 
+    public int maxWater;
+    public float currentAncientWater;
+
     // items
     public bool swinging = false;
     private float swingCoolDown;
@@ -154,6 +157,8 @@ public class PlayerControl : Entity
         currentHealth = 9;
         maxStamina = 7;
         currentStamina = maxStamina;
+        currentAncientWater = 0;
+        maxWater = 15;
 
         anim = GetComponent<Animator>();
         
@@ -1506,6 +1511,7 @@ public class PlayerControl : Entity
         else pushing = false;
 
         //Debug.Log("the forceTimer is " + forcePlayerTimer); 
+        Debug.Log("the current ancient water float is at " + currentAncientWater);
 
         //Debug.Log("the lock position " + lockPosition);
         //Debug.Log("the hoptimer is " + hopTimer);
@@ -2554,6 +2560,21 @@ public class PlayerControl : Entity
     public int getMaxStamina()
     {
         return maxStamina;
+    }
+
+    public float getCurrentAncientWater()
+    {
+        return currentAncientWater;
+    }
+
+    public float getMaxAncientWater()
+    {
+        return maxWater;
+    }
+
+    public void setCurrentAncientWater(float waterIncrement)
+    {
+        currentAncientWater += waterIncrement;
     }
 
     public void setForcePlayer(bool b, float v, float h, int forceTimer)
