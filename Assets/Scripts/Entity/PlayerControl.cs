@@ -1511,7 +1511,6 @@ public class PlayerControl : Entity
         else pushing = false;
 
         //Debug.Log("the forceTimer is " + forcePlayerTimer); 
-        Debug.Log("the current ancient water float is at " + currentAncientWater);
 
         //Debug.Log("the lock position " + lockPosition);
         //Debug.Log("the hoptimer is " + hopTimer);

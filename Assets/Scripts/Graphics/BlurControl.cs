@@ -142,7 +142,7 @@ public class BlurControl : MonoBehaviour {
         }
 
 
-        if (player.transform.position.y > -25 && player.transform.position.x < 37 && bigTree.transform.position.x < camLeftPosition.x + 1)
+        if (player.transform.position.y > -25 && player.transform.position.x < 33 && bigTree.transform.position.x < camLeftPosition.x + 1)
         {
             Color tmpColor = sprite.color;
             sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, 0f);

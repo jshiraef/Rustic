@@ -251,7 +251,23 @@ public class WellController : Entity
             if (Input.GetKey(KeyCode.X) && playerControl.currentAncientWater < playerControl.maxWater)
             {
                 playerControl.setCurrentAncientWater(.05f);
+
+                if(playerControl.transform.position.y > wellBucket.transform.position.y)
+                {
+                    playerControl.GetComponent<Animator>().Play("pushingSouth");
+                }
+                else
+                {
+                    playerControl.GetComponent<Animator>().Play("pushingNorth");
+                }             
+                
             }
+
+            if (Input.GetKeyUp(KeyCode.X))
+            {
+                playerControl.GetComponent<Animator>().Play("Idle");
+            }
+
         }
         else wellBucketOutline.SetActive(false);
 
@@ -367,15 +383,20 @@ public class WellController : Entity
             }
 
             // the animation will pause mid-playback if the bucket has reached the top
-            if (wellFullyCranked 
-                && playerControl.animatorIsPlaying("wellCrank") 
+            if (wellFullyCranked
+                && playerControl.animatorIsPlaying("wellCrank")
                 && (playerControl.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime % 1 > .9f
                 || playerControl.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime % 1 < .2f))
             {
                 playerControl.GetComponent<Animator>().SetFloat("reverseAnimationMultiplier", 0f);
+                playerControl.setLockPosition(true);
                 //wellRopeClump.GetComponent<Animator>().Play("wellCrank");
             }
-            else playerControl.GetComponent<Animator>().SetFloat("reverseAnimationMultiplier", 1f);
+            else
+            {
+                playerControl.setLockPosition(false);
+                playerControl.GetComponent<Animator>().SetFloat("reverseAnimationMultiplier", 1f);
+            }
 
         }
 

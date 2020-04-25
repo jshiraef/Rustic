@@ -47,7 +47,18 @@ public class SetActiveOrNotActive : MonoBehaviour
         }
         else 
         {
-            objectToTurnOff.SetActive(true);
+            if (!objectToTurnOff.activeSelf)
+            {
+                objectToTurnOff.SetActive(true);
+
+                foreach (waterBob wb in allWillowWaterBobs)
+                {
+                    wb.enabled = false;
+                    wb.enabled = true;
+                }
+            }
+            
+
         }
 
 

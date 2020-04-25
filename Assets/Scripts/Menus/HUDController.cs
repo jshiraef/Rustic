@@ -12,6 +12,7 @@ public class HUDController : MonoBehaviour
     private GameObject blueAncientWaterWheel;
     private PlayerControl player;
     private int playerHealth;
+    private bool faded;
 
     // Start is called before the first frame update
     void Start()
@@ -84,27 +85,32 @@ public class HUDController : MonoBehaviour
 
         if(Input.GetAxis("PS4_DPadHorizontal") != 0 || Input.GetAxis("PS4_DPadVertical") != 0)
         {
+            showCompass();
             selectShine.SetActive(true);
         }
 
 
         if(Input.GetAxis("PS4_DPadHorizontal") > 0)
         {
+            showCompass();
             selectShine.transform.localPosition = new Vector3(2.23f, -.4f, 0);
             selectShine.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
         else if (Input.GetAxis("PS4_DPadHorizontal") < 0)
         {
+            showCompass();
             selectShine.transform.localPosition = new Vector3(-2.54f, -.65f, 0);
             selectShine.transform.localRotation = Quaternion.Euler(0, 0, -180f);
         }
         else if (Input.GetAxis("PS4_DPadVertical") > 0)
         {
+            showCompass();
             selectShine.transform.localPosition = new Vector3(-.3f, 2.19f, 0);
             selectShine.transform.localRotation = Quaternion.Euler(0, 0, 90f);
         }
         else if (Input.GetAxis("PS4_DPadVertical") < 0)
         {
+            showCompass();
             selectShine.transform.localPosition = new Vector3(0f, -3.12f, 0);
             selectShine.transform.localRotation = Quaternion.Euler(0, 0, -90f);
         }
@@ -129,10 +135,18 @@ public class HUDController : MonoBehaviour
         }
 
         if (player.getCurrentAncientWater() > 0 && player.getCurrentAncientWater() < player.getMaxAncientWater())
-        {           
-                blueAncientWaterWheel.transform.localEulerAngles = new Vector3(0f, 0f, player.getCurrentAncientWater() * 18);
-            
-            if(blueAncientWaterWheel.transform.localEulerAngles.z > 90)
+        {
+            if (blueAncientWaterWheel.transform.localEulerAngles.z <= player.getCurrentAncientWater() * 18 - 5)
+            {
+                showCompass();
+            }
+
+            if(blueAncientWaterWheel.transform.localEulerAngles.z < player.getCurrentAncientWater() * 18)
+            {
+                blueAncientWaterWheel.transform.localEulerAngles += new Vector3(0f, 0f, .6f + Time.deltaTime);
+            }
+
+            if (blueAncientWaterWheel.transform.localEulerAngles.z > 90)
             {
                 blueAncientWaterWheel.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
             }
@@ -141,11 +155,15 @@ public class HUDController : MonoBehaviour
 
             if (blueAncientWaterWheel.transform.localEulerAngles.z > 180)
             {
+
                 blueAncientWaterWheel.transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
             }
             else blueAncientWaterWheel.transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);
 
         }
+
+
+        compassFadeOut();
 
         //Debug.Log("the water wheel rotation is " + blueAncientWaterWheel.transform.rotation.z);
 
@@ -154,5 +172,34 @@ public class HUDController : MonoBehaviour
     private void generatePlayerHealth()
     {
        
+    }
+
+
+    void compassFadeOut()
+    {
+        if (faded)
+            return;
+
+        if(!faded)
+        {
+            itemCompass.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, .005f * Time.deltaTime * 60);
+        }
+
+        if(itemCompass.GetComponent<SpriteRenderer>().color.a <= .005f)
+        {
+            faded = true;
+        }
+    }
+
+    void showCompass()
+    {
+        
+        itemCompass.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        faded = false;
+    }
+
+    void setFadeOut(bool b)
+    {
+        faded = b;
     }
 }
