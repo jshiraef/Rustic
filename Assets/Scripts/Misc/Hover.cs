@@ -20,7 +20,7 @@ public class Hover : MonoBehaviour {
 
         if(scaleFactor == 0)
         {
-            scaleFactor = .003f;
+            scaleFactor = .002f;
         }
 
         IconScale = new Vector3((1 - scaleRange) + .01f, (1 - scaleRange) + .01f, 1f);

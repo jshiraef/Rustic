@@ -24,7 +24,10 @@ public class GlowingOutline : MonoBehaviour
     {
         if (actualOutline == null)
         {
-            actualOutline = transform.Find("Outline").gameObject;
+            if(transform.childCount > 0)
+            {
+                actualOutline = transform.Find("Outline").gameObject;
+            }
         }
 
         //actualOutline.GetComponent<SpriteRenderer>().enabled = false;
@@ -35,37 +38,45 @@ public class GlowingOutline : MonoBehaviour
     {
         if (actualOutline == null)
         {
-            actualOutline = transform.Find("Outline").gameObject;
+            if (transform.childCount > 0)
+            {
+                actualOutline = transform.Find("Outline").gameObject;
+            }
         }
 
         // this will make the outline around the object glow or appear to be glowing
-        if (actualOutline.GetComponent<SpriteRenderer>().enabled)
+
+        if(actualOutline != null)
         {
-            if (!glowUp)
+            if (actualOutline.GetComponent<SpriteRenderer>().enabled)
             {
-                if(objectToOutline.GetComponent<SpriteOutline2>().blurAlphaMultiplier > .2f)
+                if (!glowUp)
                 {
-                    objectToOutline.GetComponent<SpriteOutline2>().blurAlphaMultiplier -= .05f;
+                    if (objectToOutline.GetComponent<SpriteOutline2>().blurAlphaMultiplier > .2f)
+                    {
+                        objectToOutline.GetComponent<SpriteOutline2>().blurAlphaMultiplier -= .05f;
+                    }
+
+                    if (objectToOutline.GetComponent<SpriteOutline2>().blurAlphaMultiplier < .2f)
+                    {
+                        glowUp = true;
+                    }
+
                 }
 
-                if (objectToOutline.GetComponent<SpriteOutline2>().blurAlphaMultiplier < .2f)
+                if (glowUp)
                 {
-                    glowUp = true;
+                    objectToOutline.GetComponent<SpriteOutline2>().blurAlphaMultiplier += .05f;
+
+                    if (objectToOutline.GetComponent<SpriteOutline2>().blurAlphaMultiplier > .98f)
+                    {
+                        glowUp = false;
+                    }
                 }
 
             }
-
-            if (glowUp)
-            {
-                objectToOutline.GetComponent<SpriteOutline2>().blurAlphaMultiplier += .05f;
-
-                if (objectToOutline.GetComponent<SpriteOutline2>().blurAlphaMultiplier > .98f)
-                {
-                    glowUp = false;
-                }
-            }
-
         }
+       
 
     }
 }

@@ -18,6 +18,7 @@ public class RenderMask : MonoBehaviour {
     {
 
         MovingMask = GetComponent<Animator>();
+
         renderMask = transform.root.Find("renderMask").gameObject;
         if(transform.root.name == "player")
         {
