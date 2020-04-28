@@ -35,6 +35,10 @@ public class WellController : Entity
 
     private CircleCollider2D dialogueCollider;
 
+    public AudioSource audioSource;
+
+    [SerializeField] AnimatorSound animatorSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +69,7 @@ public class WellController : Entity
         wellCrankPosition = transform.Find("wellCrankPosition").transform.position;
         wellCrankPosition2 = transform.Find("wellCrankPosition").gameObject.transform.GetChild(0).transform.position;
 
+        audioSource = GetComponent<AudioSource>();
 
         // find the well bucket deep in the hierarchy
         Transform[] children = GetComponentsInChildren<Transform>();

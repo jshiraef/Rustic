@@ -6,6 +6,8 @@ public class AnimatorSound : MonoBehaviour
 {
     [SerializeField] MenuButtonController menuButtonController;
     [SerializeField] SatchelController satchelController;
+    [SerializeField] WellController wellController;
+
     public bool disableOnce;
 
     void PlaySound(AudioClip whichSound)
@@ -22,6 +24,14 @@ public class AnimatorSound : MonoBehaviour
             if(satchelController != null)
             {
                 satchelController.audioSource.PlayOneShot(whichSound);
+            }
+
+            if(wellController != null)
+            {
+                wellController.audioSource.PlayOneShot(whichSound);
+
+                Debug.Log("the sound should be playing");
+
             }
 
         }      

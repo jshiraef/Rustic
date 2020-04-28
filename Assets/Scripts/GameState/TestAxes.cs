@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TestAxes : MonoBehaviour {
 
-	public GUIText controllerDebugGui;
+	//public GUIText controllerDebugGui;
 	public bool checkL2;
 
 
