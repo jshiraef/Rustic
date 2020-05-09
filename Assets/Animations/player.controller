@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1102 &-8639927045358392567
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PluckingEast
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 1
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 970f9ec98dd748e4d86bf98cb1b64db6, type: 2}
+  m_Tag: 
+  m_SpeedParameter: animationSpeed
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -4087,7 +4113,7 @@ AnimatorStateMachine:
     m_Position: {x: 12, y: 264, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110280816}
-    m_Position: {x: 0, y: 36, z: 0}
+    m_Position: {x: 0, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110294822}
     m_Position: {x: 420, y: 132, z: 0}
@@ -4096,7 +4122,7 @@ AnimatorStateMachine:
     m_Position: {x: 396, y: 276, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110245394}
-    m_Position: {x: 276, y: -96, z: 0}
+    m_Position: {x: 280, y: -100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110277466}
     m_Position: {x: 251, y: 17, z: 0}
@@ -4201,7 +4227,7 @@ AnimatorStateMachine:
     m_Position: {x: -120, y: 1272, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102436346085547266}
-    m_Position: {x: -85, y: 1337, z: 0}
+    m_Position: {x: -80, y: 1340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102188871512685518}
     m_Position: {x: -50, y: 1402, z: 0}
@@ -4247,6 +4273,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 1102200788520902220}
     m_Position: {x: -111, y: 1779, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -8639927045358392567}
+    m_Position: {x: -90, y: 1840, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 110121196}

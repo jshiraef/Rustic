@@ -43,6 +43,8 @@ public class PlayerControl : Entity
     public int throwTimer;
     public bool hatAndCoat;
 
+    public bool plucking;
+
 
     private AnimatorClipInfo animInfo;
     private int inverseFactor = 1;
@@ -145,6 +147,7 @@ public class PlayerControl : Entity
     private static readonly int PUSHING = 10;
     private static readonly int HOPPING = 11;
     private static readonly int STUMBLING = 12;
+    private static readonly int PLUCKING = 13;
 
 
     // Use this for initialization
@@ -366,6 +369,18 @@ public class PlayerControl : Entity
                 //PS4Input.PadSetVibration(1, 65, 65);
                 rumbleCoolDown = .2f;
             }
+        }
+        else if (plucking)
+        {
+            if(currentAction != PLUCKING) 
+            {
+                currentAction = PLUCKING;
+            }
+
+            lockPosition = true;
+
+            anim.Play("PluckingEast");
+
         }
         else if (knockBack)
         {
@@ -2592,6 +2607,12 @@ public class PlayerControl : Entity
     public void setMoveSpeed(float speed)
     {
         moveSpeed = speed;
+    }
+
+    public void setPlucking(bool b, float reverseAnimationMultiplier)
+    {
+        plucking = b;
+        anim.SetFloat("animationSpeed", reverseAnimationMultiplier);
     }
     
 
