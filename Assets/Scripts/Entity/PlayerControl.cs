@@ -621,7 +621,7 @@ public class PlayerControl : Entity
         // Debug.Log ("the shortFallCoolDown is: " + shortFallCoolDown);
         //Debug.Log("the player's stumbleCoolDown is " + stumbleCoolDown);
         //Debug.Log("the stumbling bool is " + stumbling);
-
+        //Debug.Log("the after roll cooldown is " + afterRollCoolDown);
     }
 
     void Raycasting()
@@ -1409,12 +1409,12 @@ public class PlayerControl : Entity
 
         if (rolling && rollingCoolDown <= 0 && afterRollCoolDown <= 0)
         {
-            afterRollCoolDown = .4f;
+            afterRollCoolDown = .6f;
             //lockPosition = true;
             //rolling = false;
         }
 
-        if (afterRollCoolDown > 0f && afterRollCoolDown < .05f)
+        if (afterRollCoolDown > 0f && afterRollCoolDown < .2f)
         {
             rolling = false;
             //lockPosition = false;
@@ -2593,9 +2593,6 @@ public class PlayerControl : Entity
     {
         moveSpeed = speed;
     }
-    
-
-
 
 }
 

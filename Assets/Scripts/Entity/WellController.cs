@@ -8,6 +8,7 @@ public class WellController : Entity
     private GameObject wellCrankOutline;
     private bool glowUp;
     private Animator wellCrankAnim;
+    private Animator wellBucketAnim;
     public RuntimeAnimatorController mainAnimatorController, extraPlayerController;
     private int wellCrankTimer;
     private bool wellCranking, wellFullyCranked, crankReleased, playerSkippedOff;
@@ -79,6 +80,7 @@ public class WellController : Entity
             if(child.transform.name == "tempBucket")
             {
                 wellBucket = child.transform.gameObject;
+                wellBucketAnim = wellBucket.GetComponent<Animator>();
             }
         }
 
@@ -129,7 +131,7 @@ public class WellController : Entity
             if (wellRope.transform.GetChild(0).transform.position.y <= -35)
             {
                 wellCrankTimer += Mathf.RoundToInt(Time.deltaTime * 100);
-                wellRope.transform.Translate(-.075f, 0f * Time.deltaTime, 0);
+                wellRope.transform.Translate(-.6f *Time.deltaTime, 0, 0);
 
                 wellRopeClump.GetComponent<Animator>().SetFloat("reverseAnimationMultiplier", 1f);
                 wellRopeClump.GetComponent<Animator>().Play("wellRopeClump");
@@ -168,7 +170,7 @@ public class WellController : Entity
 
             if (wellRope.transform.position.x < wellRopeOriginalPosition.x && !wellFullyCranked)
             {
-                wellRope.transform.Translate(+.075f, 0f * Time.deltaTime, 0);
+                wellRope.transform.Translate(+.6f * Time.deltaTime, 0f , 0);
 
                 wellRopeClump.GetComponent<Animator>().SetFloat("reverseAnimationMultiplier", -1);
 
@@ -351,9 +353,16 @@ public class WellController : Entity
 
             }
         }
-        
 
 
+        if (wellFullyCranked || wellRope.transform.GetChild(0).transform.position.y > -38)
+        {
+            wellBucketAnim.enabled = true;
+        }
+        else wellBucketAnim.enabled = false;
+
+
+        //Debug.Log("the wellRope position is " + wellRope.transform.GetChild(0).transform.position.y);
         //Debug.Log("the well crank Timer is " + wellCrankTimer);
         //Debug.Log("the well rope clump animator time is " + wellRopeClump.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);      
 
