@@ -8,6 +8,9 @@ public class AutomaticFade : MonoBehaviour
     private GameObject player;
     public float fadeInTriggerDistance;
 
+    public bool blinkFade;
+    private int blinkFadeTimer;
+
     private bool faded;
 
     // Start is called before the first frame update
@@ -18,14 +21,38 @@ public class AutomaticFade : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if(Vector3.Distance(player.transform.position, this.transform.position) < fadeInTriggerDistance)
+    {       
+
+        if (blinkFade)
         {
-            fadeIn();
+            if(blinkFadeTimer > 50)
+            {
+                fadeIn();
+            }
+
+            if(blinkFadeTimer < 50)
+            {
+                fadeOut();
+            }
+
+            if (blinkFadeTimer <= 0)
+            {
+                blinkFadeTimer = 100;
+            }
+
+            blinkFadeTimer -= 1;
+        }
+        else
+        {
+            if (Vector3.Distance(player.transform.position, this.transform.position) < fadeInTriggerDistance)
+            {
+                fadeIn();
+            }
+
+            fadeOut();
         }
 
 
-        fadeOut();
     }
 
     void fadeOut()
