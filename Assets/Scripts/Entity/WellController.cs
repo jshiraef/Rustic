@@ -70,6 +70,8 @@ public class WellController : Entity
         wellCrankPosition = transform.Find("wellCrankPosition").transform.position;
         wellCrankPosition2 = transform.Find("wellCrankPosition").gameObject.transform.GetChild(0).transform.position;
 
+        wellBucketOutline = transform.Find("bucketOutline").gameObject;
+
         audioSource = GetComponent<AudioSource>();
 
         // find the well bucket deep in the hierarchy
@@ -104,32 +106,32 @@ public class WellController : Entity
         {
             if (!glowUp)
             {
-                if (wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier > .2f)
-                {
-                    wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier -= .05f;
-                }
+            //    if (wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier > .2f)
+            //    {
+            //        wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier -= .05f;
+            //    }
 
-                if (wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier < .2f)
-                {
-                    glowUp = true;
-                }
+            //    if (wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier < .2f)
+            //    {
+            //        glowUp = true;
+            //    }
             }
 
             if (glowUp)
             {
-                wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier += .05f;
+                //wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier += .05f;
 
-                if (wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier > .98f)
-                {
-                    glowUp = false;
-                }
+                //if (wellCrank.GetComponent<SpriteOutline2>().blurAlphaMultiplier > .98f)
+                //{
+                //    glowUp = false;
+                //}
             }
         }
 
         // makes the rope come up when the crank is turning
         if (wellCranking)
         {
-            if (wellRope.transform.GetChild(0).transform.position.y <= -36)
+            if (wellRope.transform.GetChild(0).transform.position.y <= -35)
             {
                 wellCrankTimer += Mathf.RoundToInt(Time.deltaTime * 100);
                 wellRope.transform.Translate(-.075f, 0f * Time.deltaTime, 0);
@@ -139,7 +141,7 @@ public class WellController : Entity
 
             }
 
-            if (wellRope.transform.GetChild(0).transform.position.y > -36)
+            if (wellRope.transform.GetChild(0).transform.position.y > -35)
             {
                 //Debug.Log("the rope reached the choke point");
                 wellFullyCranked = true;
@@ -186,7 +188,7 @@ public class WellController : Entity
 
         // turns the bucket animation on or off depending on how deep it is inside the well
         // this will also activate the well bucket sound effect
-        if (wellRope.transform.GetChild(0).transform.position.y > -39)
+        if (wellRope.transform.GetChild(0).transform.position.y > -35)
         {
             wellBucket.GetComponent<Animator>().enabled = true;
         }
@@ -202,12 +204,12 @@ public class WellController : Entity
         if (playerControl.animatorIsPlaying("wellCrank"))
         {
             wellCrank.GetComponent<SpriteRenderer>().enabled = false;
-            wellCrank.GetComponent<SpriteOutline2>().enabled = false;
+            //wellCrank.GetComponent<SpriteOutline2>().enabled = false;
         }
         else
         {
             wellCrank.GetComponent<SpriteRenderer>().enabled = true;
-            wellCrank.GetComponent<SpriteOutline2>().enabled = true;
+            //wellCrank.GetComponent<SpriteOutline2>().enabled = true;
             playerControl.setLockPosition(false);
         }
 
@@ -255,15 +257,14 @@ public class WellController : Entity
             }
         }
 
-        if (wellBucketOutline == null && wellBucket.transform.childCount > 0)
-        {
-            wellBucketOutline = wellBucket.transform.GetChild(0).gameObject;
-        }
+        //if (wellBucketOutline == null && wellBucket.transform.childCount > 0)
+        //{
+        //    wellBucketOutline = wellBucket.transform.GetChild(0).gameObject;
+        //}
 
-        if (Vector3.Distance(wellBucket.transform.position, playerControl.transform.position) < 2)
+        if (Vector3.Distance(wellBucket.transform.position, playerControl.transform.position) < 2.5f)
         {
             wellBucketOutline.SetActive(true);
-
 
             if (Input.GetKey(KeyCode.X) && playerControl.currentAncientWater < playerControl.maxWater)
             {
@@ -466,7 +467,7 @@ public class WellController : Entity
         {
             wellCranking = false;
 
-            if(wellRope.transform.GetChild(0).transform.position.y <= -36)
+            if(wellRope.transform.GetChild(0).transform.position.y <= -35)
             {
                 wellFullyCranked = false;
             }

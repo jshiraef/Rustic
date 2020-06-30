@@ -97,6 +97,11 @@ public class SortingWithTransparency : SortingOrderScript {
             Debug.Log("we have communication happening!!");
         }
 
+        if(this.name == "giantTree_VillageTopLeft")
+        {
+            //Debug.Log("the transparent trigger is " + transparentTrigger);
+        }
+
     }
 
     void FadeOut()
@@ -114,6 +119,7 @@ public class SortingWithTransparency : SortingOrderScript {
     void setTempBool(bool b)
     {
         transparentTrigger = b;
+        Debug.Log("the setTempBool method was called");
     }
 
 }

@@ -40,7 +40,7 @@ public class PositionShift : MonoBehaviour
     {
 
         //changes the objects position dependent on the player or the camera's position
-        if (player.transform.position.y > thresholdToInvokePositionChange)
+        if (player.transform.position.y > thresholdToInvokePositionChange && thresholdToInvokePositionChange != 0)
         {
             this.transform.localPosition = newPosition;
         }
@@ -48,7 +48,7 @@ public class PositionShift : MonoBehaviour
 
 
         // changes the sprite's alpha (makes the object disappear) dependent on the player or the camera's position
-        if (player.transform.position.y > disappearingThreshold)
+        if (player.transform.position.y > disappearingThreshold && disappearingThreshold != 0)
         {
             colorTrigger = true;
             Color tmpColor = sprite.color;
@@ -64,11 +64,30 @@ public class PositionShift : MonoBehaviour
         //changes the object's alpha dependent on the player or the camera's position
         if(player.transform.position.y > fadingOutThreshold)
         {
+
+            // checks to see if it has the sorting transparency script attached
+            if(GetComponent<SortingWithTransparency>() != null)
+            {
+                if (GetComponent<SortingWithTransparency>().enabled)
+                {
+                    GetComponent<SortingWithTransparency>().enabled = false;
+                }
+            }
+
             Color tmpColor = sprite.color;
             sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(sprite.color.a, 0f, Time.deltaTime));
         }
         else if (player.transform.position.y < fadingOutThreshold)
         {
+
+            if(GetComponent<SortingWithTransparency>() != null)
+            {
+                if (!GetComponent<SortingWithTransparency>().enabled)
+                {
+                    GetComponent<SortingWithTransparency>().enabled = true;
+                }              
+            }
+
             Color tmpColor = sprite.color;
             sprite.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(sprite.color.a, 1f, Time.deltaTime));
         }

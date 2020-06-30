@@ -8,6 +8,7 @@ public class CheckPlucked : MonoBehaviour
     private GameObject flowerOutline;
     private bool plucked;
     private int pluckedTimer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +19,7 @@ public class CheckPlucked : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Vector3.Distance(playerControl.transform.position, this.transform.position) < 2)
+        if (Vector3.Distance(playerControl.transform.position, this.transform.position) < 1)
         {
             flowerOutline.SetActive(true);
 
@@ -29,7 +30,7 @@ public class CheckPlucked : MonoBehaviour
 
             }
 
-            if(Input.GetKey(KeyCode.X) && playerControl.plucking && playerControl.animatorIsPlaying("PluckingEast") && playerControl.getAnimatorNormalizedTime() > .5f  && !plucked)
+            if (Input.GetKey(KeyCode.X) && playerControl.plucking && playerControl.animatorIsPlaying("PluckingEast") && playerControl.getAnimatorNormalizedTime() > .5f && !plucked)
             {
                 playerControl.setPlucking(true, 0f);
                 pluckedTimer += Mathf.RoundToInt(Time.deltaTime * 100);
@@ -61,8 +62,8 @@ public class CheckPlucked : MonoBehaviour
                 if (transform.GetChild(1).name == "groundCheck")
                 {
                     transform.GetChild(1).gameObject.SetActive(true);
-                    Debug.Log("Oh! It happened!");
-                    GetComponent<SpriteOutline2>().enabled = false;
+                    //Debug.Log("Oh! It happened!");
+                    //GetComponent<SpriteOutline2>().enabled = false;
                     flowerOutline.GetComponent<SpriteRenderer>().enabled = false;
                     GetComponent<SpriteRenderer>().enabled = false;
                 }
@@ -84,6 +85,7 @@ public class CheckPlucked : MonoBehaviour
             flowerOutline.SetActive(false);
         }
 
+        //Debug.Log("the plucked Timer is at " + pluckedTimer);
 
     }
 }

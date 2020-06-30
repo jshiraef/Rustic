@@ -66,6 +66,7 @@ public class BlurControl : MonoBehaviour {
 
         if (player.transform.position.y > blurThreshold && (player.transform.position.x < 24 || player.transform.position.x > 31 ))
         {
+            Destroy(sprite.material);
             sprite.material = blurMaterial;
             value = 2000 - ((player.transform.position.y + 50) * 50);
             bigTree.transform.GetComponent<Renderer>().material.SetFloat("resolution", value);
@@ -73,6 +74,7 @@ public class BlurControl : MonoBehaviour {
         }
         else
         {
+            Destroy(sprite.material);
             value = 2000;
             bigTree.transform.GetComponent<Renderer>().material.SetFloat("resolution", value);
             sprite.material = currentMaterial;
