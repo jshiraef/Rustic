@@ -93,6 +93,7 @@ public class WellController : Entity
         waterBob = GetComponentInChildren<waterBob>();
         waterBob.enabled = false;
         waterBob.enabled = true;
+
     }
 
     // Update is called once per frame
@@ -128,17 +129,17 @@ public class WellController : Entity
         // makes the rope come up when the crank is turning
         if (wellCranking)
         {
-            if (wellRope.transform.GetChild(0).transform.position.y <= -35)
+            if (wellRope.transform.GetChild(0).transform.position.y <= -36)
             {
                 wellCrankTimer += Mathf.RoundToInt(Time.deltaTime * 100);
-                wellRope.transform.Translate(-.6f *Time.deltaTime, 0, 0);
+                wellRope.transform.Translate(-.075f, 0f * Time.deltaTime, 0);
 
                 wellRopeClump.GetComponent<Animator>().SetFloat("reverseAnimationMultiplier", 1f);
                 wellRopeClump.GetComponent<Animator>().Play("wellRopeClump");
 
             }
 
-            if (wellRope.transform.GetChild(0).transform.position.y > -35)
+            if (wellRope.transform.GetChild(0).transform.position.y > -36)
             {
                 //Debug.Log("the rope reached the choke point");
                 wellFullyCranked = true;
@@ -170,7 +171,7 @@ public class WellController : Entity
 
             if (wellRope.transform.position.x < wellRopeOriginalPosition.x && !wellFullyCranked)
             {
-                wellRope.transform.Translate(+.6f * Time.deltaTime, 0f , 0);
+                wellRope.transform.Translate(+.075f, 0f * Time.deltaTime, 0);
 
                 wellRopeClump.GetComponent<Animator>().SetFloat("reverseAnimationMultiplier", -1);
 
@@ -182,6 +183,14 @@ public class WellController : Entity
                 wellRopeClump.GetComponent<Animator>().Play("wellRopeClump");
             }
         }
+
+        // turns the bucket animation on or off depending on how deep it is inside the well
+        // this will also activate the well bucket sound effect
+        if (wellRope.transform.GetChild(0).transform.position.y > -39)
+        {
+            wellBucket.GetComponent<Animator>().enabled = true;
+        }
+        else wellBucket.GetComponent<Animator>().enabled = false;
 
         // forces the animation to the begginning if the rope is completely let all the way down
         if(wellCrankTimer <= 0 && wellRope.transform.position.x >= wellRopeOriginalPosition.x)
@@ -255,6 +264,7 @@ public class WellController : Entity
         {
             wellBucketOutline.SetActive(true);
 
+
             if (Input.GetKey(KeyCode.X) && playerControl.currentAncientWater < playerControl.maxWater)
             {
                 playerControl.setCurrentAncientWater(.05f);
@@ -277,6 +287,7 @@ public class WellController : Entity
 
         }
         else wellBucketOutline.SetActive(false);
+
 
         // this uses the animation to trigger the wellCranking bool
         if (playerControl.animatorIsPlaying("wellCrank"))
@@ -353,7 +364,6 @@ public class WellController : Entity
 
             }
         }
-
 
         if (wellFullyCranked || wellRope.transform.GetChild(0).transform.position.y > -38)
         {
