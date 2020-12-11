@@ -11,6 +11,8 @@ public class ObjectShake : MonoBehaviour
     private float _timer;
     private Vector3 _randomPos;
 
+    public bool onlyActiveOnButtonPress;
+
     [Header("Settings")]
     [Range(0f, 2f)]
     public float _time = 0.2f;
@@ -32,12 +34,30 @@ public class ObjectShake : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Begin();
+        if (!onlyActiveOnButtonPress)
+        {
+            Begin();
+        }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    void OnTriggerExit2D(Collider2D collision)
     {
-        Begin();
+        if (!onlyActiveOnButtonPress)
+        {
+            Begin();
+        }
+        
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (onlyActiveOnButtonPress)
+        {
+            if (Input.GetKey(KeyCode.X))
+            {
+                Begin();
+            }
+        }
     }
 
     public void Begin()

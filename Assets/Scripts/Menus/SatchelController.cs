@@ -141,9 +141,11 @@ public class SatchelController : MonoBehaviour
 
             }
 
+
+
             if (index == 0)
             {
-                selectorArrow.transform.localPosition = Vector3.Lerp(selectorArrow.transform.localPosition, vialPosition, .2f);
+                selectorArrow.transform.localPosition = Vector3.Lerp(selectorArrow.transform.localPosition, vialPosition, .2f);               
             }
             else if (index == 1)
             {
@@ -162,6 +164,12 @@ public class SatchelController : MonoBehaviour
         {
             if (!keyDown)
             {
+
+                if(satchel != null)
+                {
+                    selectorArrow.GetComponent<AudioSource>().Play();
+                }
+
                 if (Input.GetAxisRaw("Horizontal") > 0)
                 {              
                     if (index < maxIndex)
@@ -178,6 +186,7 @@ public class SatchelController : MonoBehaviour
                     if (index > 0)
                     {
                         index--;
+                        
                     }
                     else
                     {

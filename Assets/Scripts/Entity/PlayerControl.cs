@@ -45,6 +45,8 @@ public class PlayerControl : Entity
 
     public bool plucking;
 
+    private bool noRunningAllowed;
+
 
     private AnimatorClipInfo animInfo;
     private int inverseFactor = 1;
@@ -405,7 +407,7 @@ public class PlayerControl : Entity
             if (!stumbling)
             {
                 isWalking = true;
-                moveSpeed = 4f;
+                moveSpeed = 2f;
             
             
 
@@ -426,7 +428,7 @@ public class PlayerControl : Entity
         else if (Input.GetAxisRaw("Horizontal") > 0 || Input.GetAxisRaw("Horizontal") < 0 || Input.GetAxisRaw("Vertical") > 0 || Input.GetAxisRaw("Vertical") < 0)
         {
 
-            if (!lockPosition && !swinging && !rolling && !knockBack && !stumbling)
+            if (!lockPosition && !swinging && !rolling && !knockBack && !stumbling && !noRunningAllowed)
             {
                 isRunning = true;
 
@@ -2176,6 +2178,11 @@ public class PlayerControl : Entity
             playerBlobShadow.enabled = true;
         }
 
+        if (other.tag == "tooDeepToRun")
+        {
+            noRunningAllowed = false;
+        }
+
 
         restoreBlobShadowToNormal = true;
 
@@ -2186,6 +2193,14 @@ public class PlayerControl : Entity
         if (other.tag == "environment")
         {
 
+        }
+
+        if (other.tag == "tooDeepToRun")
+        {           
+                noRunningAllowed = true;
+                isRunning = false;
+                setForceWalking();
+            
         }
 
         if (other.name == "waterEdge")
@@ -2614,6 +2629,29 @@ public class PlayerControl : Entity
     {
         plucking = b;
         anim.SetFloat("animationSpeed", reverseAnimationMultiplier);
+    }
+
+    public void setForceWalking()
+    {
+        if(v > 0 || h > 0 || v < 0 || h < 0)
+        {
+            isWalking = true;
+            moveSpeed = 1f;
+
+
+
+            if (currentAction != WALKING)
+            {
+                currentAction = WALKING;
+            }
+
+            if (!hatAndCoat)
+            {
+                anim.Play("WalkingNoHat");
+            }
+            else anim.Play("ForcedWalking");
+        }
+        
     }
 
 }

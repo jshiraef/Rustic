@@ -27,7 +27,6 @@ public class ObjectOutline : MonoBehaviour
         {
             objectOutline.SetActive(true);
 
-            Debug.Log("this should be happening!");
             // if the object itself is not being rendered, the outline shouldn't be either
             if (!GetComponent<SpriteRenderer>().enabled)
             {

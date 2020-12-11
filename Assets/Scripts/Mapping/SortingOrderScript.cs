@@ -287,7 +287,7 @@ public class SortingOrderScript : MonoBehaviour
 
         if (sortLayerBruteForce)
         {
-            Debug.Log("brute forcing");
+            Debug.Log("brute forcing & the object is " + this.name);
             bruteForcing = true;
             sprite.sortingLayerName = currentLayerName;
             sprite.sortingOrder = currentSortingOrderNumber;
