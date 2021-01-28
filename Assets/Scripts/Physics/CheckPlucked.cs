@@ -40,7 +40,7 @@ public class CheckPlucked : MonoBehaviour
             {
                 plucked = true;
                 playerControl.setPlucking(true, 1f);
-                Debug.Log("POP sound effect!");
+                GetComponent<AudioSource>().Play();
 
             }
 
@@ -50,7 +50,7 @@ public class CheckPlucked : MonoBehaviour
                 if (!plucked)
                 {
                     plucked = true;
-                    Debug.Log("POP sound effect!");
+                    GetComponent<AudioSource>().Play();
                     playerControl.setPlucking(true, 1f);
                     pluckedTimer = 0;
                 }

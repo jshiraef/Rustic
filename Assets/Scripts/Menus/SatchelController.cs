@@ -165,7 +165,7 @@ public class SatchelController : MonoBehaviour
             if (!keyDown)
             {
 
-                if(satchel != null)
+                if(satchel != null && satchel.gameObject.activeSelf)
                 {
                     selectorArrow.GetComponent<AudioSource>().Play();
                 }

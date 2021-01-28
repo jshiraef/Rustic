@@ -1,0 +1,260 @@
+fileFormatVersion: 2
+guid: c159250548eb6ed4995fff90dd7ca74f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7960013709689581657
+    second: agates_0
+  - first:
+      213: -1198504548423118122
+    second: agates_1
+  - first:
+      213: 2382817155065914549
+    second: agates_2
+  - first:
+      213: -8854132968119292123
+    second: agates_3
+  - first:
+      213: 3706884771093133263
+    second: agates_4
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: 0
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: agates_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 408
+        width: 417
+        height: 352
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7af86ba74b9588190800000000000000
+      internalID: -7960013709689581657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agates_1
+      rect:
+        serializedVersion: 2
+        x: 459
+        y: 404
+        width: 285
+        height: 389
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d2dc81967e0e5fe0800000000000000
+      internalID: -1198504548423118122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agates_2
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 405
+        width: 232
+        height: 363
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b4296ce397711120800000000000000
+      internalID: 2382817155065914549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agates_3
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 29
+        width: 374
+        height: 343
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52fac290afccf1580800000000000000
+      internalID: -8854132968119292123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agates_4
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 54
+        width: 391
+        height: 319
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc7bf443f00817330800000000000000
+      internalID: 3706884771093133263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline:
+    - - {x: -169, y: -34.5}
+      - {x: -369, y: -8.5}
+      - {x: -391, y: 117.5}
+      - {x: -373, y: 229.5}
+      - {x: -214, y: 257.5}
+      - {x: -80, y: 205.5}
+      - {x: -27, y: 136.5}
+      - {x: -48, y: 24.5}
+    - - {x: 39, y: -77.5}
+      - {x: -66, y: -56.5}
+      - {x: -30, y: 144.5}
+      - {x: 20, y: 239.5}
+      - {x: 83, y: 279.5}
+      - {x: 163, y: 271.5}
+      - {x: 204, y: 131.5}
+      - {x: 185, y: -48.5}
+    - - {x: 289, y: -68.5}
+      - {x: 209, y: -51.5}
+      - {x: 190, y: -27.5}
+      - {x: 223, y: 256.5}
+      - {x: 295, y: 279.5}
+      - {x: 378, y: 259.5}
+      - {x: 394, y: -37.5}
+    - - {x: -326, y: -335.5}
+      - {x: -361, y: -104.5}
+      - {x: -193, y: -63.5}
+      - {x: -32, y: -78.5}
+      - {x: -2, y: -197.5}
+      - {x: -9, y: -286.5}
+    - - {x: 284, y: -343.5}
+      - {x: 189, y: -321.5}
+      - {x: 11, y: -301.5}
+      - {x: 29, y: -115.5}
+      - {x: 190, y: -49.5}
+      - {x: 333, y: -97.5}
+      - {x: 380, y: -224.5}
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
