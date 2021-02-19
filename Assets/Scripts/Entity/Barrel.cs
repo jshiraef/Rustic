@@ -377,5 +377,6 @@ public class Barrel : Entity {
         hit = b;
         GetComponent<CircleCollider2D>().enabled = false;
         barrelSprite.sortingLayerName = "background"    ;
+        GetComponent<ScatterAgates>().SendMessage("Scatter");
     }
 }

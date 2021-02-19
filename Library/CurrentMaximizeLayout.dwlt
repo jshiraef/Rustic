@@ -21,8 +21,8 @@ MonoBehaviour:
     y: 30
     width: 2560
     height: 1308
-  m_MinSize: {x: 880, y: 342}
-  m_MaxSize: {x: 16005, y: 8042}
+  m_MinSize: {x: 881, y: 342}
+  m_MaxSize: {x: 16006, y: 8042}
   vertical: 0
   controlID: -1
 --- !u!114 &2
@@ -222,9 +222,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: b2ecffff82ecffff54ecffff26ecfffff8ebffff
-      m_LastClickedID: -5128
-      m_ExpandedIDs: a818ffff00f7ffff64f8ffff7af8ffff34fbffff965b00008a710000f873000082760000867a0000f87e0000b8890000
+      m_SelectedIDs: de64000094780000c8490000187e0000
+      m_LastClickedID: 32280
+      m_ExpandedIDs: 34fbffff54530000dc710000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -311,9 +311,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 164.93024, y: 318.51938, z: -19844.375}
+    m_Target: {x: 103.34085, y: -67.79059, z: -279.05078}
     speed: 2
-    m_Value: {x: 164.93024, y: 318.51938, z: -19844.375}
+    m_Value: {x: 103.34085, y: -67.79059, z: -279.05078}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -363,9 +363,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 709.2105
+    m_Target: 16.728027
     speed: 2
-    m_Value: 709.2105
+    m_Value: 16.728027
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -429,6 +429,7 @@ MonoBehaviour:
     - {fileID: 2873163208345202801, guid: c649dc42675069f4c916227a45e1bf42, type: 2}
     - {fileID: 1102650135151758728, guid: c649dc42675069f4c916227a45e1bf42, type: 2}
     - {fileID: 1107778559729402942, guid: 81b30ffa4134457489114fe0766161fe, type: 2}
+    - {fileID: 110780406, guid: d4528686a362a9443a816e1e9578bfc3, type: 2}
     m_ValueSerializationHelper:
     - e00: 1
       e01: 0
@@ -606,12 +607,27 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
+    - e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
   m_PreviewAnimator: {fileID: 0}
-  m_AnimatorController: {fileID: 9100000, guid: 81b30ffa4134457489114fe0766161fe,
+  m_AnimatorController: {fileID: 9100000, guid: d4528686a362a9443a816e1e9578bfc3,
     type: 2}
   m_BreadCrumbs:
-  - m_Target: {fileID: 1107778559729402942, guid: 81b30ffa4134457489114fe0766161fe,
-      type: 2}
+  - m_Target: {fileID: 110780406, guid: d4528686a362a9443a816e1e9578bfc3, type: 2}
     m_ScrollPosition: {x: 0, y: 0}
   stateMachineGraph: {fileID: 0}
   stateMachineGraphGUI: {fileID: 0}
@@ -690,20 +706,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Menus
+    - Assets/Prefabs/agates
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts/Menus
+  - Assets/Prefabs/agates
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\Shiraef\git\rustic\rustic
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 4ce40000
-    m_LastClickedID: 58444
-    m_ExpandedIDs: 0000000076e3000078e300007ae300007ee3000000ca9a3b
+    m_SelectedIDs: 2aac0700
+    m_LastClickedID: 502826
+    m_ExpandedIDs: 000000000ae400000ce400000ee4000010e4000012e40000843c010000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -731,7 +747,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000076e3000078e300007ee3000000ca9a3b
+    m_ExpandedIDs: 000000000ae400000ce400000ee4000010e4000012e40000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -756,21 +772,21 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: b2ecffff82ecffff54ecffff26ecfffff8ebffff
-    m_LastClickedInstanceID: -4942
-    m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: 00000000860002007a400000dc410000
+    m_SelectedInstanceIDs: de64000094780000c8490000187e0000
+    m_LastClickedInstanceID: 25822
+    m_HadKeyboardFocusLastEvent: 0
+    m_ExpandedInstanceIDs: 00000000860002007a400000dc41000066400000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: CollectAgate
-      m_OriginalName: CollectAgate
+      m_Name: agates
+      m_OriginalName: agates
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 482060
+      m_UserData: 502826
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
       m_OriginalEventType: 0
@@ -868,7 +884,7 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -58348
+  m_LastSelectedObjectID: 21332
 --- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -888,8 +904,8 @@ MonoBehaviour:
     y: 0
     width: 651
     height: 1308
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
